@@ -69,6 +69,10 @@ We will now elaborate on each step.
 	).
 
 \subsubsection{Heuristic Line-Wall determination}
+% 	method below is very nice but it is outperformed by my ultragenius other
+% 	method, so I could use it in the thesis but only as different test
+% 	methods
+%
 % 	It would be straightforward to use the method of chapter %TODO
 % 	Instead of a skyline pixel we could take the line segments endpoints and project it onto the building walls. The wall with the shortest distance will be assigned to the line segment.
 % 
@@ -83,7 +87,6 @@ We will now elaborate on each step.
 % 
 % 	%TODO example image
 
-	
 	The Hough transform returned a set of 2D line segments. We assume this set
 	represent (parts of) the building contour. To be more precise we assume
 	that every line segment in the set represents (a part of) the upper side of
@@ -113,25 +116,22 @@ We will now elaborate on each step.
 	If $l$ comes from the contour of wall $w$, then $l_{proj_w}$ should have
 	a large overlap with $w$, and have small overlap with the other walls.
 	%see figure%TODO.
-	This overlap assumption is used as a Heuristic to search for the most
-	likely wall. 
+	To be more precice, we asume that a line segment always represents a building contour and
+	that this line segment is originated from the wall where the projected
+	line segment has the largest overlap with.
+	%TODO (disadvantage unique wall asumption: line loopt door verschillende walls)
 
-	A line segment is projected to all walls and the overlap is
+	The algorithm can be described broadly as follows:
+	A line segment is projected to all walls and the amount of line-wall overlap is
 	calculated. The wall with the largest overlap with the specific line
 segment is classified as the most likely wall for that line segment.
 	Next the line segments are projected to their most likely wall, the
-	algorithm outputs this set of lines in $R3$.
-
-	The line-wall overlap is normalised by the line segments length:\\
-	$\alhpa_{l} = \fac{lwo}{|l|} 
-	$\alpha_{l}$ is the normalised line-wall overlap, 
-	$lwo$ is the unnormalised amount of line-wall overlap, 
-	and ($|l|$) is the total length of the line sement.\\
-
-	The intuition behind this is that line segments that are likely to
-	present a wall not only have a large overlap but also have a small part
-	that has no overlap. By calculating the relative overlap, both amount of overlap
-	and -missing overlap is taken into account.\\
+	algorithm outputs this set of lines in $R3$. 
+	
+	The line-wall overlap is calculated in different steps.
+	First the type of overlap is determined, next the amount of overlap is
+	determined and last the overlap is normalised. These steps are now
+	explained.
 
 	Next is explained how $lwo$ is calculated.
 	The first step in calculating $lwo$ a specific \emph{overlaptype} is
@@ -163,8 +163,6 @@ segment is classified as the most likely wall for that line segment.
 	represents the types of overlap with the corresponding number of points
 	that pass the \emph{in polygon} test with their line-wall overlap value (interval).
 
-
-%--------------------------------------------------------------------------------
 	If the point in polygon test returns 0 the line-wall overlap calculation
 	is skipped and 0 is returned. The remaining overlap types (partial- and full
 	line-wall) overlap are calculated differently.
@@ -193,50 +191,79 @@ segment is classified as the most likely wall for that line segment.
 	If $\angle cd, cw$ is obtuse, the right vertical wallside $cb$, is
 	crossed. \\
 	The line-wall overlap is now easily calculated by cutting of the
-	point where $l$ intersects the determined vertical wallside.
+	point where $l$ intersects the determined vertical wallside ($da$ or
+	$cb$) and measuring its remaining length.
 
-------------------------------------------------------------------------------------------------------------------------------------
-	Now lets consider the overlap type where no points are in the polygon.
-	according to figure %todo
-	this could be either a full or a zero overlap.
-	Both angles above method is also applied.
-	If both (dv, dc) and (dw,dc) are obtuse or acute the linesegment lies outside the wall so zero overlap is returned.
-	If (dv, dc) and (dw,dc) differ in obtuse or accuteness e.g. (dv, dc) is acute and (dw, dc) is obtuse then 
-	both endpoints lie on another side of the wall, full overlap can be concluded.
-	The overlap is calculated by measuring the length of the linesegment defined by the intersections with (d,a) and (c,b) and the line (v,w).
+
+	Now lets consider the overlap type where the \emp{in polygon} test
+	returned 0.
+	As you can see in Figure %todo
+	this could be either full or none overlap.
+
+	This is determined again by analysing the vector angles.
+	Lets consider 
+	figure %TODO
+	and figure %TODO
+	, both angles $\angle dv, dc$ and $\angle dw,dc$ are obtuse or acute
+	because the linesegment lies outside the wall. An overlap value of zero
+	is returned.\\
+	Otherwise, if $\angle dv, dc$ and $\angle dw,dc$ differ in obtuse or accuteness
+	(e.g. $\angle dv, dc$ is acute but $\angle dw, dc$ is obtuse), 
+	both endpoints lie on a different side of the wall and full overlap is
+	concluded. This amount of overlap is calculated by measuring the length
+	of the line segment defined by the intersections with $da$ and $cb$ and
+	the line segment $vw$.
 	
-	NEE NEE dit is dus eigenlijk partial overlap
-
-
-	
-	The angles are acute or obtuse if the dot product of the vectors involved are
-	respectively positive or negative.
-	
-	the bottompart as a vector with his origin either at the left vertical corner (dc) or the right vertical corner (
+	To summarize the overlap type is defined by calculating orthogonality
+	from some angles 
+	Remark that the angles are acute or obtuse if the dot product of the vectors involved are
+	respectively positive or negative. The advantage of this method is that
+	its simple and computational cheap.
 	
 
-
-	 of a line always 
-	With partial overlap we want to calculate the intersection with one of the vertical lines of the polygon
-	check
-	doel
-	% TODO describe situation with full overlap but no in polygon points
-
-
-
-	TODO:
-	make schema with 3 methods, and in one regel the summary of its technique
 	
-	test with different techniques
-	make different dataset
-	hand anotated (pleonastisch zeg hehe) for ground truth
-	1) project endpoints (and sometimes end up not agreeing wall)
-	2) use midpoint of line
-	3) use tjs algo (line wall overlap)
+	%chain the mofo!
+	Finally the line-wall overlap is normalised by the line segments length:\\
+	$\alhpa_{l} = \fac{lwo}{|l|}$
+	$\alpha_{l}$ is the normalised line-wall overlap, 
+	$lwo$ is the unnormalised amount of line-wall overlap, 
+	and ($|l|$) is the total length of the line sement.\\
 
+	The intuition behind this is that line segments that are likely to
+	present a wall not only have a large overlap but also have a small part
+	that has no overlap. By calculating the relative overlap, both amount of overlap
+	and -missing overlap is taken into account.\\
+
+
+	The maximum of the normalised line-wall overlap is used to associate a
+	line segment with his most likely wall.
+	%TODO formula?
+	\textemph{should I place a formula here? and if yes what kind of
+	notation do I use, and which subscripts?}
+
+	Next the line segments are projected to these most likely walls. This
+	set of lines ($R3$), indexed on their associated walls, are used for the
+	next step.
+
+
+	% TODO:
+	% make schema with 3 methods, and in one regel the summary of its technique
+	
+	% test with different techniques
+	% make different dataset
+	% hand anotated (pleonastisch zeg hehe) for ground truth
+	% 1) project endpoints (and sometimes end up not agreeing wall)
+	% 2) use midpoint of line
+	% 3) use tjs algo (line wall overlap)
 
 \subsubsection{Wall height estimation}
-	In the previous section we addressed the problem that the endpoints of a line segment may not agree on the wall.  We also introduced a method to associate a line segment with the right wall. In this section this information is used to estimate the height of the wall which is in the next section used to update the 3D model.\\
+	%TODO CHAINING AGAIN
+%	In the previous section we addressed the problem that the endpoints of a line segment may not agree on the wall.  We also introduced a method to associate a line segment with the right wall. 
+  	In the previous section we associated the line segments with their most
+	likely wall.
+	In this section this information is used to estimate the height of the
+	wall which is finally used to update the 3D model in section %TODO
+	\\
 	Now all line segments are associated with a certain wall we re-project the line segment from the different views on the wall. The re-projection is done by intersecting both endpoints of the line segment to the plane that is spanned by associated wall.
 	Next the 3D intersection points are collected and averaged, this gives us an average of the midpoints of the projected line segments. We do this for every wall separately returning the average height of the line segments.
 	These averages are then used as the new heights of the walls of the building.
