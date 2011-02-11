@@ -9,7 +9,7 @@
 
 \author{T. Kostelijk\\mailtjerk@gmail.com}
 
-\date{December 16, 2010}
+%\date{December 16, 2010}
 
 \begin{document}
 
@@ -44,9 +44,14 @@ Here comes the abstract
 \section{Skyline detection}
  \subsection{Introduction}
 
-\textit{ TODO MOTIVATION}
-This section describes how the skyline of an image is detected. A skyline
-separates a building from the sky and is used as an indicator of the building contour.
+The sky and the earth are separated by a skyline in images. The detection of this skyline
+has proven to be very succesful computer vision application in a wide range of
+domains. In this domain it is used to provide a countour of a building. This
+contour is in a next step used to refine a 3D model of this building.\\
+The organisation of this chapter is as follows.  First related work on skyline
+detection is discussed, then a new algorithm of the skyline algorithm is
+described and finally some results are presented.
+
 \\
 % It is interesting to denote that the skyline detector a stand alone method and
 % can be optimized individually without any knowledge of the other parts of the
@@ -54,7 +59,7 @@ separates a building from the sky and is used as an indicator of the building co
  \subsection{Related work}
 A lot of related work on skyline detection is done and it is used in a wide
 range of domains. $[1]$ yields a good introduction of different skyline
-detection techniques which are listed below.
+detection techniques, these are listed below.
 
 \subsubsection{Cloud detection for Mars Exploration Rovers (MER)}
 Mars Exploration Rovers (MER) are used to detect clouds and dust devils on Mars.
@@ -67,41 +72,38 @@ In this domain, the horizon detector for UAVs can take advantage of the high
 altitude of the vehicle and therefor the horizon can be approximated to be a
 straigt line.  This turns the detection problem into a line-fitting problem.
 Ofcourse this work is not applicable for detecting a building countour as the
-straight line assumption doesn't work. There has to be mentioned that from this
+straight line assumption doesn't work. But it needs to be mentioned that from this
 idea some inspiration on line fitting is done because the building countour has
 straight line segments.
 
 \subsubsection{Planetary Rover localisation}
 In [9] they use the skyline detection in planetary rovers, their approach is to
 combine the detected skyline with a given map of the landscape (hills, roads) to
-detect the current location. 
-The advantage of their technique is the simplicity and effectiveness which make
-it suitable for this project.  As it is part of an interactive system where an
-operator refines the skyline, the system is geared toward speed over extremely
-high accuracy which is a drawback. 
+detect its current location. 
+The advantage of their technique is the simplicity and effectiveness of the
+algorithm which makes it suitable for this project.  A big drawback is that it
+is geared toward speed over extremely high accuracy because it is 
+interactive system where an operator refines the skyline.
 
+As mentioned in the introduction, in this project we use the skyline to extract
+the building contour to eventually update a 3D model which is a brand new
+purpose of skyline detection.  There is no user interaction present, and the
+accuracy is a matter of high importance.  This makes it different from existing
+skyline techniques and caution should be taken by using existing algorithms.
+From the related work the Planetary Rover localisation [9] seemed to fit most on
+this project.  Therefor method [9] is used, but as a basis, and a custom
+algorithm with higher accuracy is developed. This is explained in the next
+section.
 
-
-%So far there is no skyline detection used to optimize 3D models.
-In this project we use the skyline to extract the building contour to eventually
-update a 3D model which is a brand new purpose of skyline detection.  There is
-no user interaction present, and the accuracy is a matter of high importance.
-This makes it different from existing skyline techniques and caution should be
-taken by using existing algorithms.
-From the related work the Planetary Rover localisation [9] seemed to fit most on this project.
-The method [9] is used as a basis but a custom algorithm with higher accuracy is
-made. This is explained in the next section.
-% talk about assumptions
+%talk about assumptions
 %there are always this assumptions??
 %but what can we (not) assume?
 %Furthermore we can assume that some straight lines 
 
 \textit{todo why?}
-
-
  \subsection{The Algorithm}
+ \subsubsection{The original algorithm}
  %TODO lezen: Map-based localization using the panoramic horizon
-
 The skyline detection algorithm as described in $[9]$ works as follows:
 The frames are first preprocessed by converting them to Gaussian smoothed images.
 The skyline of a frame is then detected by analysing the the image columns
@@ -113,45 +115,59 @@ classified as a skyline element.  This is done for every column in the image.
 The result is a set of coordinates of length $W$,
 where $W$ is the width of the image, that represent the skyline.
 
-Taking the smoothed intensity gradient is the most basic method of edge detection
-and has a disadvantage. The method will not be robust to more vague edges.
-Instead of the smoothed intensity gradient in this thesis a smoothed edge intensity image is
-used.  
+Taking the smoothed intensity gradient is the most basic method of edge
+detection and has the disadvantage that is is not robust to more vague
+edges. This is not surprising as it its purpose was a interactive system where the
+user refines the result. It is clear that an optimization is needed.
+
+  \subsubsection{The optimization}
  % page 15/16
- % new idea: adaptive thresholding wrt average intensity!
+ % idea for future work:
+ % adaptive thresholding wrt average intensity!
+The column based approach seem te be very useful and is therefor unchanged. 
+The effectiveness of the algorithm is totally depended of the method of edge
+detection and the preprocessing of the images. 
+The original algorithm uses the smoothed intensity gradient as a way of
+detecting edges. This is a very basic method and more sophisticated edge
+detection algorithms are present.\\
 
-%bullshit:
-A practical study is done on the different Matlab build in edge
-detection techniques. The Sobel edge detector came with the most promising
-results.  Details on this study lie without the bound of this thesis.\\
+A practical study is done on the different Matlab build in edge detection
+techniques. The output of the different edge detection techniques was studied
+and the Sobel edge detector came with the most promising results.\\ 
 
-As a purpose of making the algorithm more precise, two other preprocessing
+To make the algorithm even more precise, two preprocessing
 steps are introduced. First the contrast of the image is increased, this makes
 sharp edges stand out more.  Secondly the image undertakes a Gaussian blur,
 this removes a large part of the noise.
 
 The system has several parameters which has to be set manually by the user:
 \begin{itemize}
-\item contrast parameter, 
+\item contrast,
 \item intensity (window size) of Gaussian blur,
-\item Sobel edge detector threshold
-\item column based inlier threshold
+\item Sobel edge detector threshold,
+\item column based inlier threshold.
 \end{itemize}
 \textit{Should I write down what parameter values I used or is this of too much
 detail}
 
-(Automatic parameter estimation based on the image would be interesting future
-work but lies without the scope of this research.)
+If the user introduces a new dataset these parameters needs to be changed
+as the image quality and lightning condition could be different.
+%(Automatic parameter estimation based on the image would be interesting future
+%work but lies without the scope of this research.)
 
 The column based approach from $[1]$ seem to be very useful and is therefor
 used as described above but on the preprocessed image.
 
+
+
+
+ \subsection{Results}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The system assumes that the first sharp edge (seen from top to bottom) is
 always a skyline/building edge. This gives raise to some outliers, these are
 for example a streetlight or a tree. The outliers are removed as described in
 the next section.  
 
- \subsection{Results}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 The Skyline detector without outlier removal has an
 accuracy of (ABOUT) 90 \% (TODO CHECK THIS PERCENTAGE) 
 % this is not true, i do not do outtlier removal yet!
