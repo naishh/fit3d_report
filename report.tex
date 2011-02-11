@@ -1,4 +1,5 @@
 \documentclass[10pt]{article}
+\usepackage{graphicx, subfigure}
 
 %functions
 \setlength{\parindent}{0in}
@@ -50,9 +51,7 @@ domains. In this domain it is used to provide a countour of a building. This
 contour is in a next step used to refine a 3D model of this building.\\
 The organisation of this chapter is as follows.  First related work on skyline
 detection is discussed, then a new algorithm of the skyline algorithm is
-described and finally some results are presented.
-
-\\
+described and finally some results are presented.\\
 % It is interesting to denote that the skyline detector a stand alone method and
 % can be optimized individually without any knowledge of the other parts of the
 % project.
@@ -130,49 +129,53 @@ detection and the preprocessing of the images.
 The original algorithm uses the smoothed intensity gradient as a way of
 detecting edges. This is a very basic method and more sophisticated edge
 detection algorithms are present.\\
-
-A practical study is done on the different Matlab build in edge detection
-techniques. The output of the different edge detection techniques was studied
-and the Sobel edge detector came with the most promising results.\\ 
-
-To make the algorithm even more precise, two preprocessing
+To select a proper edge detector, a practical study is done on the different
+Matlab build in edge detection techniques. The output of the different edge
+detection techniques was studied and the Sobel edge detector came with the most
+promising results. The Sobel edge detector outputs a binary image, therefor the column inlier
+threshold method is replaced by finding the first white pixel. This is as the
+original algorithm done from top to bottom for every column in the image.
+\\ 
+To make the algorithm more precise, two preprocessing
 steps are introduced. First the contrast of the image is increased, this makes
 sharp edges stand out more.  Secondly the image undertakes a Gaussian blur,
 this removes a large part of the noise.
 
-The system has several parameters which has to be set manually by the user:
+The system now has several parameters which has to be set manually by the user:
 \begin{itemize}
 \item contrast,
+% officialy i don't do this contrast thing
 \item intensity (window size) of Gaussian blur,
 \item Sobel edge detector threshold,
-\item column based inlier threshold.
 \end{itemize}
 \textit{Should I write down what parameter values I used or is this of too much
 detail}
 
 If the user introduces a new dataset these parameters needs to be changed
-as the image quality and lightning condition could be different.
+as the image quality and lightning condition are probably different.
 %(Automatic parameter estimation based on the image would be interesting future
 %work but lies without the scope of this research.)
 
-The column based approach from $[1]$ seem to be very useful and is therefor
-used as described above but on the preprocessed image.
-
-
-
-
  \subsection{Results}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The system assumes that the first sharp edge (seen from top to bottom) is
-always a skyline/building edge. This gives raise to some outliers, these are
-for example a streetlight or a tree. The outliers are removed as described in
+always the skyline/building edge. This gives raise to some outliers, for 
+for example a streetlight or a tree. These outliers are removed as described in
 the next section.  
 
-
-The Skyline detector without outlier removal has an
-accuracy of (ABOUT) 90 \% (TODO CHECK THIS PERCENTAGE) 
-% this is not true, i do not do outtlier removal yet!
+The Skyline detector without outlier removal has an accuracy of 80 \% 
 
 Some results from the Floriande dataset:
+%TODO quote Isaac here
+%\fig{outputSkylineIm3\_1.jpg}{this is a test}{this is an other test}
+
+
+%TODO results uitleggen wat is wat, whuut whuuut whuuut (southpark stijl)
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=0.5]{img/outputSkylineIm3-1.eps}
+\caption{abc}
+\end{figure}
+
 \textit{ TODO Results images}
 \textit{ TODO make UML scheme skyline -> 3d -> etc.}
 \\
@@ -299,7 +302,8 @@ To determine whether the $isp_{proj}$ lies on or next to a wallsegment the
 projection calculation is skipped and $isp$ is used instead together with a
 computational cheap trick.\\
 
-\fig{shortestProjection.gif}{TODO caption}{1}
+%todo
+%\fig{shortestProjection.gif}{TODO caption}{1}
 
 \textit{ todo insert http://softsurfer.com/Archive/algorithm\_0102/Pic\_segment.gif here}\\
 First consider Figure ?? , the angles between the segment P0P1 and the vectors P0P and P1P
