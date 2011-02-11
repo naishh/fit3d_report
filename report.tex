@@ -10,11 +10,9 @@
 
 \author{T. Kostelijk\\mailtjerk@gmail.com}
 
-%\date{December 16, 2010}
-
 \begin{document}
-
 \maketitle
+
 \begin{abstract}
 Here comes the abstract
 \end{abstract}
@@ -29,6 +27,7 @@ Here comes the abstract
 % explain motivation behind decisions
 % explain what is new or what is unique
 % todo background section?
+% in de applicatie dia een uml schema maken van iets
 
 
 
@@ -143,10 +142,10 @@ this removes a large part of the noise.
 
 The system now has several parameters which has to be set manually by the user:
 \begin{itemize}
-\item contrast,
-% officialy i don't do this contrast thing
-\item intensity (window size) of Gaussian blur,
-\item Sobel edge detector threshold,
+	\item contrast,
+	% officialy i don't do this contrast thing
+	\item intensity (window size) of Gaussian blur,
+	\item Sobel edge detector threshold,
 \end{itemize}
 \textit{Should I write down what parameter values I used or is this of too much
 detail}
@@ -170,11 +169,12 @@ Some results from the Floriande dataset:
 
 
 %TODO results uitleggen wat is wat, whuut whuuut whuuut (southpark stijl)
-\begin{figure}[!ht]
-\centering
-\includegraphics[scale=0.5]{img/outputSkylineIm3-1.eps}
-\caption{abc}
-\end{figure}
+
+% \fig{outputSkylineIm3-1.eps}{caption}{0.5}
+% \fig{outputSkylineIm3-2.eps}{caption}{0.5}
+% \fig{outputSkylineIm3-3.eps}{caption}{0.5}
+
+\figs{maincaption}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{caption1}{caption2}{0.5}
 
 \textit{ TODO Results images}
 \textit{ TODO make UML scheme skyline -> 3d -> etc.}
