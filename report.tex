@@ -1,10 +1,20 @@
 \documentclass[10pt]{article}
 \usepackage{graphicx, subfigure}
 
+\usepackage{amsmath} % for the argmin
+%\DeclareMathOperator*{\argmax}{arg\,max}
+% \newcommand{\argmax}{\operatornamewithlimits{argmax}}
+% \underset{x}{\operatorname{argmax}}
+%\newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
+%\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
+
 %functions
 \setlength{\parindent}{0in}
 
 \include{commands}
+
+
 
 \title{\sc Optimizing 3D models from 2D images}
 
@@ -177,7 +187,8 @@ Some results from the Floriande dataset:
 % \fig{outputSkylineIm3-2.eps}{caption}{0.5}
 % \fig{outputSkylineIm3-3.eps}{caption}{0.5}
 
-\figs{maincaption}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{caption1}{caption2}{1}
+% todo aanzetten
+%\figs{maincaption}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{caption1}{caption2}{1}
 
 \textit{ TODO Results images}
 \textit{ TODO make UML scheme skyline -> 3d -> etc.}
@@ -268,9 +279,13 @@ algorithm. If this test succeeds we consider $d$ to be 0.\\
 the building is estimated. It is calculated as follows: \\
 First the distances from $isp$ to four wall sides are calculated.
 For every wall the minimum distance is stored.\\
-$min_{w\in W} d(isp, w)$\\
+$\min_{w\in W} d(isp, w)$\\
 This is done for every wall. The wall with the smallest distance is the one that most likely presents the pixel.\\
-$arg min_{W \in Walls} ( min_{w\in W} d(isp, w) )$\\
+%$\textrm{argmin}_{W \in Walls} ( min_{w\in W} d(isp, w) )$\\
+%$\argmin_{W \in Walls} ( min_{w\in W} d(isp, w) )$\\
+$\argmax{W \in Walls} ( min_{w\in W} d(isp, w) )$\\
+
+
 \textit{ do I write this down correctly?}
 
 %threshold..
