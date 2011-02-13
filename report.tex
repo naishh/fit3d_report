@@ -17,7 +17,7 @@
 Here comes the abstract
 \end{abstract}
 
-% todo
+% TODO
 % new structure of paper
 % explain food nodde
 % explain algo's
@@ -26,10 +26,10 @@ Here comes the abstract
 % write introductions
 % explain motivation behind decisions
 % explain what is new or what is unique
-% todo background section?
+% TODO background section?
 % in de applicatie dia een uml schema maken van iets
 
-% todo: documentclass anders zodat alles breder is en plaatjes ook breder kunnen
+% TODO: documentclass anders zodat alles breder is en plaatjes ook breder kunnen
 % en niet bij 7cm al afbreken
 
 
@@ -66,7 +66,7 @@ detection techniques, these are listed below.
 Mars Exploration Rovers (MER) are used to detect clouds and dust devils on Mars.
 In [1] their approach is to first identify the sky (equivalentl, the skyline)
 and then determine if there are clouds in the region segmented as sky.
-%todo why or why not interesting for this thesis?
+%TODO why or why not interesting for this thesis?
 
 \subsubsection{Horizon detection for Unmaned Air Vehicles (UAV)}
 In this domain, the horizon detector for UAVs can take advantage of the high
@@ -101,7 +101,7 @@ section.
 %but what can we (not) assume?
 %Furthermore we can assume that some straight lines 
 
-\textit{todo why?}
+\textit{TODO why?}
  \subsection{The Algorithm}
  \subsubsection{The original algorithm}
  %TODO lezen: Map-based localization using the panoramic horizon
@@ -185,16 +185,38 @@ Some results from the Floriande dataset:
 
 \section{Skyline projection}
  \subsection{Introduction}
-The retrieved skyline is used to update a sparse 3D model of the building.
-This section describes how the skyline of the 2D images are used to get the 3D contour of the building. 
+The final product of this research is an accurate 3D model of an urban
+landscape. This is accomplished in several steps, so far the first step: skyline detection is
+explained. The next step is to create a basic 3D model of the urban landscape.
+Then the retrieved skyline of section %TODO
+is used to update the basice 3D model of the building. How these steps are done is
+explained next.
 
+
+   \subsection{3D modelling}
+First a basic 3D model of the urban landscape has to be generated. This is done
+by taking a top view Google maps image of the scene and extract the contour of
+the building, this is done manually. 
+The height of the building is estimated, also manually, and from a basic 3D model is
+generated. 
+An example can be seen in fig
+%TODO fig
+
+%TODO: disadvantage: height of building everywhere the same
+
+
+% TODO how do I combine the results of the different angles
 \textit{TODO convert to algorithm or method }
- 
 \subsection{Project to 3D space}
-\textit{ TODO situation scheme}
-Every 2D pixel of an input image presents a 3D point in space. No
-information is known about the distance from the 3D point to the camera. What
-is known is de 2D location of the pixel, this reduces the possible points in 3D
+When the skylines of the 2D images are projected to 3D it can give 
+accurate information about the contour of the building(s). This is used to
+augment the basic 3D model.  Next is explained how the skylines are projected to
+3D.\\
+
+\textit{TODO situation scheme}
+A skyline consist of different skylinepixels. Every 2D skyline pixel presents a 3D point in space. No
+information is known about the distance from the 3D point to the camera that
+took the picture. What is known is de 2D location of the pixel which reduces the possible points in 3D
 space to an infinite line.  This line is known and spanned by two 
 coordinates:\\ 
 \begin{itemize}
@@ -205,6 +227,7 @@ coordinates:\\
 \textit{ TODO why K'p,I don't remember the theory behind it and can't find it in Isaac's paper }
 For every skyline pixel a line spanned by the above two coordinates is derived.
 
+%--------------------------------------------------------------------------------------------------------------
 \subsection{Intersect with building}
 The line is reduced to a point in 3D by intersecting it with a rough indication
 of the building. This point is used to update the 3D model.\\
@@ -268,8 +291,8 @@ line segments span infinite lines.\\
 
 The intersection point ($isp$) is projected orthogonally on these four lines, a
 projected $isp$ is called $isp_{proj}$.
-\textit{ todo image?}
-\textit{ todo projection formula?}
+\textit{ TODO image?}
+\textit{ TODO projection formula?}
 
 If $isp$ is close to a wallside, $e(isp, isp_{proj})$ (where $e$ is defined as
 the Euclidean distance) is small.  But this doesn't mean that if
@@ -298,17 +321,17 @@ $d = min_{c \in Cornerpoints} e(isp, c)$\\
 \subsubsection{Appendix?: Determine whether $isp_{proj}$ lies on or next to a wallsegment}
 
 
-% todo ref: http://softsurfer.com/Archive/algorithm_0102/algorithm_0102.htm
+% TODO ref: http://softsurfer.com/Archive/algorithm_0102/algorithm_0102.htm
 
-% todo P -> $P$
+% TODO P -> $P$
 To determine whether the $isp_{proj}$ lies on or next to a wallsegment the
 projection calculation is skipped and $isp$ is used instead together with a
 computational cheap trick.\\
 
-%todo
+%TODO
 %\fig{shortestProjection.gif}{TODO caption}{1}
 
-\textit{ todo insert http://softsurfer.com/Archive/algorithm\_0102/Pic\_segment.gif here}\\
+\textit{ TODO insert http://softsurfer.com/Archive/algorithm\_0102/Pic\_segment.gif here}\\
 First consider Figure ?? , the angles between the segment P0P1 and the vectors P0P and P1P
 from the segment endpoints to P. If both angles are equal to or less than
 $90^{\circ}$ then the $isp_{proj}$ wil be on the line segment P0 P1.  If not,
