@@ -2,13 +2,10 @@
 \usepackage{graphicx, subfigure}
 
 \usepackage{amsmath} % for the argmin
-%\DeclareMathOperator*{\argmax}{arg\,max}
-% \newcommand{\argmax}{\operatornamewithlimits{argmax}}
-% \underset{x}{\operatorname{argmax}}
-%\newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
-%\newcommand{\argmax}{\operatornamewithlimits{argmax}}
 \newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
+\newcommand{\argmin}[1]{\underset{#1}{\operatorname{arg\ min}}}
 
+%\newcommand{\min}{\textrm{min}}
 %functions
 \setlength{\parindent}{0in}
 
@@ -283,7 +280,7 @@ $\min_{w\in W} d(isp, w)$\\
 This is done for every wall. The wall with the smallest distance is the one that most likely presents the pixel.\\
 %$\textrm{argmin}_{W \in Walls} ( min_{w\in W} d(isp, w) )$\\
 %$\argmin_{W \in Walls} ( min_{w\in W} d(isp, w) )$\\
-$\argmax{W \in Walls} ( min_{w\in W} d(isp, w) )$\\
+$\argmin{W \in Walls} ( \textnormal{min}_{w\in W}\ d(isp, w) )$\\
 
 
 \textit{ do I write this down correctly?}
