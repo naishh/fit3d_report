@@ -1,13 +1,13 @@
 REPORT = report
-TEMPFILES = *.aux *.ps *.log *.bak *.bbl *.blg *.toc
+TEMPFILES = *.aux *.ps *.log *.bak *.bbl *.blg *.toc *.dvi
 TEMPDIR = .tmp
 
 all:
 	latex $(REPORT)
 	dvipdf $(REPORT).dvi
-	cp report.pdf ~/public_html/
+	#cp report.pdf ~/public_html/
 	#evince report.dvi &
-	rm -f $(TEMPFILES) *.dvi
+	rm -f $(TEMPFILES)
 
 pdf:
 	latex $(REPORT)
