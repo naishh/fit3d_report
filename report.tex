@@ -202,11 +202,12 @@ explained next.
 
 
    \subsection{3D modelling}
-First a basic 3D model of the urban landscape has to be generated. This is done
-by taking a top view Google maps image of the scene and extract the contour of
+First a rough 3D model of the urban landscape has to be generated. This is done
+by taking a top-view Google maps image of the scene and extract the contour of
 the building, this is done manually. 
-The height of the building is estimated, also manually, and from a basic 3D model is
-generated. 
+The height of the building is estimated, also manually, and together with the
+contour a rough 3D model is generated. 
+
 An example can be seen in fig
 %TODO fig
 
@@ -232,36 +233,45 @@ coordinates:\\
 	\item $K'p$, where $K$ is the Calibration matrix of the camera and $p$ is the homogeneous pixel coordinate.
 \end{itemize}
 
-\textit{ TODO why K'p,I don't remember the theory behind it and can't find it in Isaac's paper }
+\textit{ TODO Do I have to explain why it is K'p? I don't remember the theory behind it and can't find it in
+Isaac's paper. Isaac? }
+
+%---
+% TODO write in algorithm style?
 For every skyline pixel a line spanned by the above two coordinates is derived.
 
-%--------------------------------------------------------------------------------------------------------------
+
 \subsection{Intersect with building}
-The line is reduced to a point in 3D by intersecting it with a rough indication
-of the building. This point is used to update the 3D model.\\
-To create a rough indication of the building a top-view photograph of the
-building is used together with an estimate of the height of the building.\\ 
-In order to refine this sparse 3D model we need to know which skyline part belongs to which part of
-the 3D model. This is done as follows.\\
+The lines derived as described by the previous section are not enough to refine
+the 3D model because it is still unknown which skyline part belongs to which
+part of the 3D model.
+
+Therefor these lines of possibel pixel locations need to
+be reduced to the actual 3D location of the pixel.  This is done by intersecting
+them with the walls of the rough 3D model.  This is done as follows.
+
 The building is first divided into different walls.  Every wall of the building spans a plane. 
-As described in the previous section every part (pixel) of the skyline presents an infinite line in 3D.
-Intersections are calculated between these infinite lines and the planes of the building walls.\\
-\textit{ Isaac, should I put a intersection formula down here or is this trivial?}\\
-Because the lines and the planes are both infinite and they have a very low change
-of being exactly parallel, the algorithm returns $w$ intersections for every
-skylinepixel (where $w$ is the number of walls).\\
+Intersections are calculated between the lines and the planes of the building walls.\\
+\textit{Isaac, should I put a intersection formula down here or is this trivial?}\\
+
+The algorithm returns $w$ intersections for every skylinepixel (where $w$ is the number of walls).
+This is because both the lines and planes infinite and have a very low change of
+being parallel.
+
 Next challenge is to reduce the number of intersection for every skylinepixel
-to one. In other words, to determine the wall that has the largest probability of
-being responsible for that pixel. This is ofcourse needed to update the 3D
-model at the right place.
+to one. In other words, to determine the wall that is responsible for that pixel. 
+This is used to update the 3D model at the right place.
+
+The details of this process is explained next:
+%has the largest probability of being 
 
 \subsection{Find most likely wall}
 \subsubsection{When is a wall responsible?}
 Lets define the intersection between the projected skylinepixel line and the
 plane of the wall as intersection point $isp$. And the wall sides as ${w1, w2,
-w3, w4 \in W}$. And $d$ as a distance measure which is explained later on.\\ If
-we assume that a certain wall was responsible for that pixel, the intersection
-(i.e. projected pixel) must lie either\\
+w3, w4 \in W}$. And $d$ as a distance measure which is explained later.\\ 
+If a certain wall is responsible for a pixel, the intersection (i.e. projected
+pixel) must lie either\\
 
 \textbf{(1)} Somewhere on the wall 
 \\
@@ -269,15 +279,19 @@ or
 \\
 \textbf{(2)} On a small distance $d$ from that wall
 (1) is calculated by testing if the pixel lies inside the polygonal
-representation of the wall. This is done using the Matlabs buildin in-polygon
-algorithm. If this test succeeds we consider $d$ to be 0.\\
+representation of the wall. This is done using the Matlabs in-polygon
+algorithm. If the in-polygon test succeeds $d$ is considered to be 0.\\
 
-(2) Note that this is treated as an inlier because the 3D model is sparse and the height of
-the building is estimated. It is calculated as follows: \\
+(2) Note that in this case the pixel is treated as an inlier because the 3D
+model is sparse and the height of the building is estimated. It is 
+calculated as follows: \\
 First the distances from $isp$ to four wall sides are calculated.
 For every wall the minimum distance is stored.\\
 $\min_{w\in W} d(isp, w)$\\
-This is done for every wall. The wall with the smallest distance is the one that most likely presents the pixel.\\
+This is done for every wall. The wall with the smallest distance is the one that
+most likely presents the pixel.\\
+%--------------------------------------------------------------------------------------------------------------
+
 %$\textrm{argmin}_{W \in Walls} ( min_{w\in W} d(isp, w) )$\\
 %$\argmin_{W \in Walls} ( min_{w\in W} d(isp, w) )$\\
 $\argmin{W \in Walls} ( \textnormal{min}_{w\in W}\ d(isp, w) )$\\
