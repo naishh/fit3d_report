@@ -108,7 +108,6 @@ section.
 %but what can we (not) assume?
 %Furthermore we can assume that some straight lines 
 
-\textit{TODO why?}
  \subsection{The Algorithm}
  \subsubsection{The original algorithm}
  %TODO lezen: Map-based localization using the panoramic horizon
@@ -180,25 +179,25 @@ Some results from the Floriande dataset:
 
 %TODO results uitleggen wat is wat, whuut whuuut whuuut (southpark stijl)
 
-% \fig{outputSkylineIm3-1.eps}{caption}{0.5}
-% \fig{outputSkylineIm3-2.eps}{caption}{0.5}
-% \fig{outputSkylineIm3-3.eps}{caption}{0.5}
+\fig{outputSkylineIm3-1.eps}{caption}{0.5}
+\fig{outputSkylineIm3-2.eps}{caption}{0.5}
+\fig{outputSkylineIm3-3.eps}{caption}{0.5}
 
 % todo aanzetten
 %\figs{maincaption}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{caption1}{caption2}{1}
 
-\textit{ TODO Results images}
-\textit{ TODO make UML scheme skyline -> 3d -> etc.}
-\\
+%\textit{ TODO make UML scheme skyline -> 3d -> etc.}
 
 \section{Skyline projection}
  \subsection{Introduction}
 The final product of this research is an accurate 3D model of an urban
 landscape. This is accomplished in several steps, so far the first step: skyline detection is
 explained. The next step is to create a basic 3D model of the urban landscape.
-Then the retrieved skyline of section %TODO
-is used to update the basice 3D model of the building. How these steps are done is
-explained next.
+Then the retrieved skyline of section %TODO\\
+is used to update the basic 3D model of the building. This is illustrated in
+figure 
+\fig{uml1.eps}{Situation scheme}{0.5}
+
 
 
    \subsection{3D modelling}
@@ -218,10 +217,9 @@ contour a rough 3D model is generated.
 \subsection{Project to 3D space}
 When the skylines of the 2D images are projected to 3D it can give 
 accurate information about the contour of the building(s). This is used to
-augment the basic 3D model.  Next is explained how the skylines are projected to
+refine the basic 3D model.  Next is explained how the skylines are projected to
 3D.\\
 
-\textit{TODO situation scheme}
 A skyline consist of different skylinepixels. Every 2D skyline pixel presents a 3D point in space. No
 information is known about the distance from the 3D point to the camera that
 took the picture. What is known is de 2D location of the pixel which reduces the possible points in 3D
@@ -351,12 +349,12 @@ computational cheap trick.\\
 %TODO
 %\fig{shortestProjection.gif}{TODO caption}{1}
 
-% TODO dia , endpoints w labelen met w_l w_r
+% TODO dia , endpoints w labelen met w0 w1
 Take a look at figure \\
 %TODO figure
 again, consider the angles between the wallsegment and the
 the wallsegments endpoints to $p$,$q$ and $r$.
-For $q$ this is $w$, $w_l q$, and $w$, $w_r q$, note that both angles are acute.
+For $q$ this is $w$, $w0 q$, and $w$, $w1 q$, note that both angles are acute.
 This is not true for $p$ and $r$ where one of the angles is always obtuse.
 What can be concluded is that if both angles are equal to or less than
 $90^{\circ}$ then the $isp_{proj}$ will be located on the wallsegment $w$. If not,
@@ -376,6 +374,7 @@ calculation can be skipped.
 \subsection{Results}
 
 \section{Update 3D model}
+This module is not finished yet.
 
 
 \section{References}
