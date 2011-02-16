@@ -208,7 +208,6 @@ the building, this is done manually.
 The height of the building is estimated, also manually, and together with the
 contour a rough 3D model is generated. 
 
-An example can be seen in fig
 %TODO fig
 
 %TODO: disadvantage: height of building everywhere the same
@@ -285,86 +284,86 @@ algorithm. If the in-polygon test succeeds $d$ is considered to be 0.\\
 (2) Note that in this case the pixel is treated as an inlier because the 3D
 model is sparse and the height of the building is estimated. It is 
 calculated as follows: \\
-First the distances from $isp$ to four wall sides are calculated.
+First the distances from $isp$ to the four wall sides are calculated.
 For every wall the minimum distance is stored.\\
-$\min_{w\in W} d(isp, w)$\\
+$$\min_{w\in W} d(isp, w)$$\\
 This is done for every wall. The wall with the smallest distance is the one that
-most likely presents the pixel.\\
+most likely presents the pixel:\\
 %--------------------------------------------------------------------------------------------------------------
-
 %$\textrm{argmin}_{W \in Walls} ( min_{w\in W} d(isp, w) )$\\
 %$\argmin_{W \in Walls} ( min_{w\in W} d(isp, w) )$\\
-$\argmin{W \in Walls} ( \textnormal{min}_{w\in W}\ d(isp, w) )$\\
-
-
-\textit{ do I write this down correctly?}
+$$\argmin{W \in Walls} ( min_{w\in W}\ d(isp, w) )$$\\
 
 %threshold..
 
 If there are two (or even more) walls that are classified equally well to
-present the pixel (that is if they succeed the in-polygon or have exactly the
+present the pixel (that is if they both succeed the in-polygon or have exactly the
 same $d$ value) then the nearest wall is selected. The nearest wall is
-calculated by taking the wall with the smallest distance from the $isp$ to the
+calculated by taking the wall with the smallest Euclidean distance from the $isp$ to the
 camera center.
-\textit{ formula here? or: trivial?}\\
-How this intersection point - wall distance $d$ is calculated is explained in
-the next section.
+The main algorithm is explained. In the next section the intersection point -
+wall distance $d$ is explained.
 
 \subsubsection{Calculate the intersection point - wall distance}
-A wall consists of four corner points. The corner-point pairs that are on a
-side of the wall connect line segments, there are four line segments. These
-line segments span infinite lines.\\
-
-The intersection point ($isp$) is projected orthogonally on these four lines, a
-projected $isp$ is called $isp_{proj}$.
+Every wall is rectangular and consist four wallsides, a wallside spans an
+infinite line.\\
+The intersection point ($isp$) is projected orthogonally on these four lines.
+The projected $isp$ is denoted as $isp_{proj}$.
 \textit{ TODO image?}
 \textit{ TODO projection formula?}
 
 If $isp$ is close to a wallside, $e(isp, isp_{proj})$ (where $e$ is defined as
-the Euclidean distance) is small.  But this doesn't mean that if
-$e(isp,isp_{proj})$ is small $isp$ is always close to the wall. In fact there are
-some candidates that happen to have a very small $d(isp, isp_{proj})$ but in fact
-lie far away from the wall. This is because $isp$ is projected to an infinite
-line spanned by the wallside and could be projected far next to the wallside.
-\textit{ An example can be seen in figure:}
+the Euclidean distance) is small.  Note that this doesn't mean that if
+$e(isp,isp_{proj})$ is small $isp$ is always close to the wall. 
+In figure $d(isp, isp_{proj})$ is very small but $isp$ lies far away from the
+wall.  This is ofcourse because $isp$ is projected to an infinite line spanned
+by the wallside and if not lucky it could be projected far next to the wallside.
 \textit{ TODO Figure}
 Because of this artefact, it is not robust to calculate the perpendicular
-projection distance.  Instead $d$ is calculated differently if $isp_{proj}$
-doesn't lie on the wallside.  In this case the Euclidean distance between
-$isp_{proj}$ and the closest corner-point of the wallside is returned.
+projection distance.  To make the distant measure more robust $d$ is calculated
+differently if $isp_{proj}$ lies outside the wallside segment of the line. In
+this case the Euclidean distance between $isp_{proj}$ and the closest
+corner-point of the wallside is returned.
+This is illustrated in figure
+%TODO Label
+\fig{d.eps}{The behavior of the distance measure $d$. For $p$ and $q$ the euclidean distance to the closest corner point is
+taken. For $q$ the perpendicular projection distance is taken}{0.2}
 
-Formally:
-Let $c1,c2,c3,c4 \in Cornerpoints$ be the corners of a wall.\\
-Let $between(a,b,c)$ be a function that returns true if a lies between b and c.\\
-if $between(isp_{proj}, c1, c2)$\\
-$d = e(isp, isp_{proj})$\\
-otherwise\\
-$d = min_{c \in Cornerpoints} e(isp, c)$\\
-\\
-\textit{TODO nice latex code with large \} sign}\\
+% Formally:
+% Let $c1,c2,c3,c4 \in Cornerpoints$ be the corners of a wall.\\
+% Let $between(a,b,c)$ be a function that returns true if a lies between b and c.\\
+% if $between(isp_{proj}, c1, c2)$\\
+% $d = e(isp, isp_{proj})$\\
+% otherwise\\
+% $d = min_{c \in Cornerpoints} e(isp, c)$\\
+% \\
+% \textit{TODO nice latex code with large \} sign}\\
 
 
-\subsubsection{Appendix?: Determine whether $isp_{proj}$ lies on or next to a wallsegment}
-
-
+\subsubsection{Determine whether $isp_{proj}$ lies on, to the left or to the
+right of a wallsegment}
 % TODO ref: http://softsurfer.com/Archive/algorithm_0102/algorithm_0102.htm
-
-% TODO P -> $P$
-To determine whether the $isp_{proj}$ lies on or next to a wallsegment the
-projection calculation is skipped and $isp$ is used instead together with a
+To determine whether the $isp_{proj}$ lies on, to the left or to the right of a
+wallsegment a efficient algorithm is designed. As will be clear in a few moments
+the projection calculation can be skipped, $isp$ is used instead together with a
 computational cheap trick.\\
 
 %TODO
 %\fig{shortestProjection.gif}{TODO caption}{1}
 
-\textit{ TODO insert http://softsurfer.com/Archive/algorithm\_0102/Pic\_segment.gif here}\\
-First consider Figure ?? , the angles between the segment P0P1 and the vectors P0P and P1P
-from the segment endpoints to P. If both angles are equal to or less than
-$90^{\circ}$ then the $isp_{proj}$ wil be on the line segment P0 P1.  If not,
-the $isp_{proj}$ lies to the left or to the right of segment P according to
-whether one of the angles is acute or obtuse.  The angles are acute or obtuse
-if the dot product of the vectors involved are respectively positive or
-	negative.\\
+% TODO dia , endpoints w labelen met w_l w_r
+Take a look at figure \\
+%TODO figure
+again, consider the angles between the wallsegment and the
+the wallsegments endpoints to $p$,$q$ and $r$.
+For $q$ this is $w$, $w_l q$, and $w$, $w_r q$, note that both angles are acute.
+This is not true for $p$ and $r$ where one of the angles is always obtuse.
+What can be concluded is that if both angles are equal to or less than
+$90^{\circ}$ then the $isp_{proj}$ will be located on the wallsegment $w$. If not,
+the $isp_{proj}$ lies to the left or to the right of the wallsegment $w$ according to
+whether one of the angles is acute or obtuse.  
+The angles are acute or obtuse if the dot product of the vectors involved are
+respectively positive or negative.\\
 To summarize: determining in which region the $isp_{proj}$ lies is boiled down to
 two dot product calculations with the advantage that the actual projection
 calculation can be skipped.
