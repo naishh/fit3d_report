@@ -25,20 +25,15 @@ Here comes the abstract
 \end{abstract}
 
 % TODO
-% new structure of paper
-% explain food nodde
-% explain algo's
-% smooth intensity gradient
 % pictures
-% write introductions
 % explain motivation behind decisions
 % explain what is new or what is unique
 % TODO background section?
-% in de applicatie dia een uml schema maken van iets
+% image captions
+% read whole report
 
 % TODO: documentclass anders zodat alles breder is en plaatjes ook breder kunnen
 % en niet bij 7cm al afbreken
-
 
 
 \section{Introduction}
@@ -66,14 +61,13 @@ described and finally some results are presented.\\
 % project.
  \subsection{Related work}
 A lot of related work on skyline detection is done and it is used in a wide
-range of domains. $[1]$ yields a good introduction of different skyline
+range of domains. $[8]$ yields a good introduction of different skyline
 detection techniques, these are listed below.
 
 \subsubsection{Cloud detection for Mars Exploration Rovers (MER)}
 Mars Exploration Rovers (MER) are used to detect clouds and dust devils on Mars.
 In [1] their approach is to first identify the sky (equivalentl, the skyline)
 and then determine if there are clouds in the region segmented as sky.
-%TODO why or why not interesting for this thesis?
 
 \subsubsection{Horizon detection for Unmaned Air Vehicles (UAV)}
 In this domain, the horizon detector for UAVs can take advantage of the high
@@ -171,23 +165,11 @@ for example a streetlight or a tree. These outliers are removed as described in
 the next section.  
 
 The Skyline detector without outlier removal has an accuracy of 80 \% 
+Some results on the Floriande dataset $[1]$ can be seen in Figure \ref{fig:outputskyline}.
 
-Some results on the Floriande dataset can be seen in Figure \ref{fig:outputskyline}.
-\textit{TODO quote Isaac here}
-%\fig{outputSkylineIm3\_1.jpg}{this is a test}{this is an other test}
+\figs{outputskyline}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The output
+of the edge detector}{The output of the skyline detector. The skyline elements are marked red}{1}
 
-
-%TODO results uitleggen wat is wat, whuut whuuut whuuut (southpark stijl)
-\label{labeltest}
-
-dit is een reftest a~\ref{labeltest}
-
-
-
-% todo aanzetten
-\figs{outputskyline}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{caption1}{caption2}{1}
-
-%\textit{ TODO make UML scheme skyline -> 3d -> etc.}
 
 \section{Skyline projection}
  \subsection{Introduction}
@@ -206,10 +188,8 @@ First a rough 3D model of the urban landscape has to be generated. This is done
 by taking a top-view Google maps image of the scene and extract the contour of
 the building, this is done manually. 
 The height of the building is estimated, also manually, and together with the
-contour a rough 3D model is generated. 
-
-%TODO fig
-
+contour a rough 3D model is generated, see Figure \ref{building.png}. 
+\fig{building.png}{A rough 3D model of the building}{1}
 %TODO: disadvantage: height of building everywhere the same
 
 
@@ -308,14 +288,12 @@ Every wall is rectangular and consist four wallsides, a wallside spans an
 infinite line.\\
 The intersection point ($isp$) is projected orthogonally on these four lines.
 The projected $isp$ is denoted as $isp_{proj}$.
-\textit{ TODO image?}
-\textit{ TODO projection formula?}
+\textit{Should I place a projection formula here?}
 
+% TODO dia project the points on the axis
 If $isp$ is close to a wallside, $e(isp, isp_{proj})$ (where $e$ is defined as
 the Euclidean distance) is small.  Note that this doesn't mean that if
 $e(isp,isp_{proj})$ is small $isp$ is always close to the wall. 
-
-% todo dia project the points on the axis
 In Figure \ref{fig:d.eps} the distance between $p$ and $p_{proj}$ is very small
 but $p$ lies far away from the wall.  This is ofcourse because $p$ is projected
 to the infinite line spanned by the wallside $w$ and in this case it got
@@ -344,16 +322,12 @@ perpendicular projection distance is taken}{0.2}
 
 \subsubsection{Determine whether $isp_{proj}$ lies on, to the left or to the
 right of a wallsegment}
-% TODO ref: http://softsurfer.com/Archive/algorithm_0102/algorithm_0102.htm
 To determine whether the $isp_{proj}$ lies on, to the left or to the right of a
 wallsegment a efficient algorithm is designed. As will be clear in a few moments
 the projection calculation can be skipped, $isp$ is used instead together with a
 computational cheap trick.\\
 
-%TODO
-%\fig{shortestProjection.gif}{TODO caption}{1}
-
-% todo dia new image with red arrows?
+% TODO dia new image with red arrows?
 Take a look at Figure \ref{d.eps} again, consider the angles between the wallsegment and the
 the wallsegments endpoints to $p$,$q$ and $r$.
 For $q$ this is $w$, $w0 q$, and $w$, $w1 q$, note that both angles are acute.
@@ -381,7 +355,11 @@ This module is not finished yet.
 
 \section{References}
 \begin{itemize}
-\item $[1]$ Castano, Automatic detection of dust devils and clouds on Mars.
+\item $[1]$ 
+Esteban, I., Dijk, J. Groen, F.C.A. FIT3D toolbox: multiple view geometry and
+3D reconstruction for matlab. International Symposium on Security. Defence
+Europe (SPIE), \[2010\].
+\item $[8]$ Castano, Automatic detection of dust devils and clouds on Mars.
 \item $[9]$ Cozman, Outdoor visual position estimation for planetary rovers.
 \end{itemize}
 
