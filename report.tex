@@ -172,19 +172,20 @@ the next section.
 
 The Skyline detector without outlier removal has an accuracy of 80 \% 
 
-Some results from the Floriande dataset:
-%TODO quote Isaac here
+Some results on the Floriande dataset can be seen in Figure \ref{fig:outputskyline}.
+\textit{TODO quote Isaac here}
 %\fig{outputSkylineIm3\_1.jpg}{this is a test}{this is an other test}
 
 
 %TODO results uitleggen wat is wat, whuut whuuut whuuut (southpark stijl)
+\label{labeltest}
 
-\fig{outputSkylineIm3-1.eps}{caption}{0.5}
-\fig{outputSkylineIm3-2.eps}{caption}{0.5}
-\fig{outputSkylineIm3-3.eps}{caption}{0.5}
+dit is een reftest a~\ref{labeltest}
+
+
 
 % todo aanzetten
-%\figs{maincaption}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{caption1}{caption2}{1}
+\figs{outputskyline}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{caption1}{caption2}{1}
 
 %\textit{ TODO make UML scheme skyline -> 3d -> etc.}
 
@@ -193,9 +194,9 @@ Some results from the Floriande dataset:
 The final product of this research is an accurate 3D model of an urban
 landscape. This is accomplished in several steps, so far the first step: skyline detection is
 explained. The next step is to create a basic 3D model of the urban landscape.
-Then the retrieved skyline of section %TODO\\
-is used to update the basic 3D model of the building. This is illustrated in
-figure 
+Then the retrieved skyline of the previous section is used to update the basic
+3D model of the building. This is illustrated in Figure \ref{fig:uml1.eps}
+
 \fig{uml1.eps}{Situation scheme}{0.5}
 
 
@@ -230,8 +231,8 @@ coordinates:\\
 	\item $K'p$, where $K$ is the Calibration matrix of the camera and $p$ is the homogeneous pixel coordinate.
 \end{itemize}
 
-\textit{ TODO Do I have to explain why it is K'p? I don't remember the theory behind it and can't find it in
-Isaac's paper. Isaac? }
+\textit{I don't remember the theory behind it and can't find it in
+Isaac's paper. Would you explain this Isaac?}
 
 %---
 % TODO write in algorithm style?
@@ -274,12 +275,12 @@ pixel) must lie either\\
 \\
 or
 \\
-\textbf{(2)} On a small distance $d$ from that wall
-(1) is calculated by testing if the pixel lies inside the polygonal
+\textbf{(2)} On a small distance $d$ from that wall\\
+\textbf{(1)} is calculated by testing if the pixel lies inside the polygonal
 representation of the wall. This is done using the Matlabs in-polygon
 algorithm. If the in-polygon test succeeds $d$ is considered to be 0.\\
 
-(2) Note that in this case the pixel is treated as an inlier because the 3D
+\textbf{(2)} Note that in this case the pixel is treated as an inlier because the 3D
 model is sparse and the height of the building is estimated. It is 
 calculated as follows: \\
 First the distances from $isp$ to the four wall sides are calculated.
@@ -299,7 +300,7 @@ present the pixel (that is if they both succeed the in-polygon or have exactly t
 same $d$ value) then the nearest wall is selected. The nearest wall is
 calculated by taking the wall with the smallest Euclidean distance from the $isp$ to the
 camera center.
-The main algorithm is explained. In the next section the intersection point -
+The main algorithm is now explained. In the next section the intersection point -
 wall distance $d$ is explained.
 
 \subsubsection{Calculate the intersection point - wall distance}
@@ -313,19 +314,22 @@ The projected $isp$ is denoted as $isp_{proj}$.
 If $isp$ is close to a wallside, $e(isp, isp_{proj})$ (where $e$ is defined as
 the Euclidean distance) is small.  Note that this doesn't mean that if
 $e(isp,isp_{proj})$ is small $isp$ is always close to the wall. 
-In figure $d(isp, isp_{proj})$ is very small but $isp$ lies far away from the
-wall.  This is ofcourse because $isp$ is projected to an infinite line spanned
-by the wallside and if not lucky it could be projected far next to the wallside.
-\textit{ TODO Figure}
+
+% todo dia project the points on the axis
+In Figure \ref{fig:d.eps} the distance between $p$ and $p_{proj}$ is very small
+but $p$ lies far away from the wall.  This is ofcourse because $p$ is projected
+to the infinite line spanned by the wallside $w$ and in this case it got
+unfortunatelly projected far next to the wallside.
 Because of this artefact, it is not robust to calculate the perpendicular
 projection distance.  To make the distant measure more robust $d$ is calculated
 differently if $isp_{proj}$ lies outside the wallside segment of the line. In
 this case the Euclidean distance between $isp_{proj}$ and the closest
-corner-point of the wallside is returned.
-This is illustrated in figure
-%TODO Label
-\fig{d.eps}{The behavior of the distance measure $d$. For $p$ and $q$ the euclidean distance to the closest corner point is
-taken. For $q$ the perpendicular projection distance is taken}{0.2}
+corner-point of the wallside is returned. This is illustrated in Figure
+\ref{fig:d.eps}.
+
+\fig{d.eps}{The behavior of the distance measure $d$. For $p$ and $q$ the
+euclidean distance to the closest corner point is taken. For $q$ the
+perpendicular projection distance is taken}{0.2}
 
 % Formally:
 % Let $c1,c2,c3,c4 \in Cornerpoints$ be the corners of a wall.\\
@@ -349,10 +353,8 @@ computational cheap trick.\\
 %TODO
 %\fig{shortestProjection.gif}{TODO caption}{1}
 
-% TODO dia , endpoints w labelen met w0 w1
-Take a look at figure \\
-%TODO figure
-again, consider the angles between the wallsegment and the
+% todo dia new image with red arrows?
+Take a look at Figure \ref{d.eps} again, consider the angles between the wallsegment and the
 the wallsegments endpoints to $p$,$q$ and $r$.
 For $q$ this is $w$, $w0 q$, and $w$, $w1 q$, note that both angles are acute.
 This is not true for $p$ and $r$ where one of the angles is always obtuse.

@@ -4,8 +4,9 @@ TEMPDIR = .tmp
 
 all:
 	latex $(REPORT)
+	latex $(REPORT)
 	dvipdf $(REPORT).dvi
-	#cp report.pdf ~/public_html/
+	cp report.pdf ~/public_html/
 	#evince report.dvi &
 	rm -f $(TEMPFILES)
 
