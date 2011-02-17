@@ -188,20 +188,19 @@ First a rough 3D model of the urban landscape has to be generated. This is done
 by taking a top-view Google maps image of the scene and extract the contour of
 the building, this is done manually. 
 The height of the building is estimated, also manually, and together with the
-contour a rough 3D model is generated, see Figure \ref{building.png}. 
-\fig{building.png}{A rough 3D model of the building}{1}
+contour a rough 3D model is generated, see Figure \ref{fig:building.eps}. 
+\fig{building.eps}{A rough 3D model of the building}{1}
 %TODO: disadvantage: height of building everywhere the same
 
 
 % TODO how do I combine the results of the different angles
-\textit{TODO convert to algorithm or method }
 \subsection{Project to 3D space}
 When the skylines of the 2D images are projected to 3D it can give 
 accurate information about the contour of the building(s). This is used to
 refine the basic 3D model.  Next is explained how the skylines are projected to
 3D.\\
 
-A skyline consist of different skylinepixels. Every 2D skyline pixel presents a 3D point in space. No
+A skyline consist of different skyline pixels. Every 2D skyline pixel presents a 3D point in space. No
 information is known about the distance from the 3D point to the camera that
 took the picture. What is known is de 2D location of the pixel which reduces the possible points in 3D
 space to an infinite line.  This line is known and spanned by two 
@@ -209,10 +208,9 @@ coordinates:\\
 \begin{itemize}
 	\item The camera center %(camera centers are annotated for every image)
 	\item $K'p$, where $K$ is the Calibration matrix of the camera and $p$ is the homogeneous pixel coordinate.
+	\textit{Why K'p, I don't remember the theory behind it and can't find it in your paper. Would you explain this Isaac?}
 \end{itemize}
 
-\textit{I don't remember the theory behind it and can't find it in
-Isaac's paper. Would you explain this Isaac?}
 
 %---
 % TODO write in algorithm style?
@@ -220,25 +218,23 @@ For every skyline pixel a line spanned by the above two coordinates is derived.
 
 
 \subsection{Intersect with building}
-The lines derived as described by the previous section are not enough to refine
+The lines derived as described in the previous section are not enough to refine
 the 3D model because it is still unknown which skyline part belongs to which
 part of the 3D model.
 
 Therefor these lines of possibel pixel locations need to
-be reduced to the actual 3D location of the pixel.  This is done by intersecting
-them with the walls of the rough 3D model.  This is done as follows.
+be reduced to the actual 3D locations of the pixels.  This is done by intersecting
+them with the walls of the rough 3D model and is done as follows.
 
 The building is first divided into different walls.  Every wall of the building spans a plane. 
-Intersections are calculated between the lines and the planes of the building walls.\\
+Intersections are then calculated between the lines and the planes of the building walls.\\
 \textit{Isaac, should I put a intersection formula down here or is this trivial?}\\
 
-The algorithm returns $w$ intersections for every skylinepixel (where $w$ is the number of walls).
-This is because both the lines and planes infinite and have a very low change of
-being parallel.
-
-Next challenge is to reduce the number of intersection for every skylinepixel
+A skyline pixel intersects with every wall as both the lines and planes are
+infinite and have a very low change of being parallel.
+The next challenge is to reduce the number of intersection for every skylinepixel
 to one. In other words, to determine the wall that is responsible for that pixel. 
-This is used to update the 3D model at the right place.
+This is later on used to update the 3D model at the right place.
 
 The details of this process is explained next:
 %has the largest probability of being 
@@ -246,7 +242,7 @@ The details of this process is explained next:
 \subsection{Find most likely wall}
 \subsubsection{When is a wall responsible?}
 Lets define the intersection between the projected skylinepixel line and the
-plane of the wall as intersection point $isp$. And the wall sides as ${w1, w2,
+plane of the wall as the intersection point called $isp$. And the wall sides as ${w1, w2,
 w3, w4 \in W}$. And $d$ as a distance measure which is explained later.\\ 
 If a certain wall is responsible for a pixel, the intersection (i.e. projected
 pixel) must lie either\\
@@ -263,7 +259,7 @@ algorithm. If the in-polygon test succeeds $d$ is considered to be 0.\\
 \textbf{(2)} Note that in this case the pixel is treated as an inlier because the 3D
 model is sparse and the height of the building is estimated. It is 
 calculated as follows: \\
-First the distances from $isp$ to the four wall sides are calculated.
+First the distances from $isp$ to all four wall sides are calculated.
 For every wall the minimum distance is stored.\\
 $$\min_{w\in W} d(isp, w)$$\\
 This is done for every wall. The wall with the smallest distance is the one that
@@ -280,29 +276,30 @@ present the pixel (that is if they both succeed the in-polygon or have exactly t
 same $d$ value) then the nearest wall is selected. The nearest wall is
 calculated by taking the wall with the smallest Euclidean distance from the $isp$ to the
 camera center.
-The main algorithm is now explained. In the next section the intersection point -
-wall distance $d$ is explained.
+In the next section the intersection point - wall distance, $d$, is explained.
 
-\subsubsection{Calculate the intersection point - wall distance}
-Every wall is rectangular and consist four wallsides, a wallside spans an
-infinite line.\\
-The intersection point ($isp$) is projected orthogonally on these four lines.
+\subsubsection{Calculate the intersection point - wall distance, $d$}
+Every wall is rectangular and consist of four wallsides, a wallside spans an
+infinite line. As can be seen in Figure TODO, a intersection point ($isp$) is projected orthogonally on these four lines.
 The projected $isp$ is denoted as $isp_{proj}$.
+
 \textit{Should I place a projection formula here?}
 
 % TODO dia project the points on the axis
-If $isp$ is close to a wallside, $e(isp, isp_{proj})$ (where $e$ is defined as
+If $isp$ is close to a wallside then $e(isp, isp_{proj})$ (where $e$ is defined as
 the Euclidean distance) is small.  Note that this doesn't mean that if
 $e(isp,isp_{proj})$ is small $isp$ is always close to the wall. 
 In Figure \ref{fig:d.eps} the distance between $p$ and $p_{proj}$ is very small
 but $p$ lies far away from the wall.  This is ofcourse because $p$ is projected
 to the infinite line spanned by the wallside $w$ and in this case it got
 unfortunatelly projected far next to the wallside.
-Because of this artefact, it is not robust to calculate the perpendicular
+
+Because of this artefact, it is not robust to define $d$ as the the perpendicular
 projection distance.  To make the distant measure more robust $d$ is calculated
 differently if $isp_{proj}$ lies outside the wallside segment of the line. In
 this case the Euclidean distance between $isp_{proj}$ and the closest
-corner-point of the wallside is returned. This is illustrated in Figure
+corner-point of the wallside is returned. In the other cases the perpendicular
+projection distance is used. This is illustrated in Figure
 \ref{fig:d.eps}.
 
 \fig{d.eps}{The behavior of the distance measure $d$. For $p$ and $q$ the
@@ -328,14 +325,14 @@ the projection calculation can be skipped, $isp$ is used instead together with a
 computational cheap trick.\\
 
 % TODO dia new image with red arrows?
-Take a look at Figure \ref{d.eps} again, consider the angles between the wallsegment and the
+Take a look at Figure \ref{fig:d.eps} again, consider the angles between the wallsegment and the
 the wallsegments endpoints to $p$,$q$ and $r$.
-For $q$ this is $w$, $w0 q$, and $w$, $w1 q$, note that both angles are acute.
+For $q$ this is ($w$, $w0 q$), and ($w$, $w1 q$), note that both angles are acute (equal to or less than
+$90^{\circ}$).
 This is not true for $p$ and $r$ where one of the angles is always obtuse.
-What can be concluded is that if both angles are equal to or less than
-$90^{\circ}$ then the $isp_{proj}$ will be located on the wallsegment $w$. If not,
-the $isp_{proj}$ lies to the left or to the right of the wallsegment $w$ according to
-whether one of the angles is acute or obtuse.  
+What can be concluded is that if both angles are acute then $isp_{proj}$ will be located on the wallsegment $w$. If not,
+$isp_{proj}$ lies to the left or to the right of the wallsegment $w$ according to
+which one of the angles is obtuse.\\
 The angles are acute or obtuse if the dot product of the vectors involved are
 respectively positive or negative.\\
 To summarize: determining in which region the $isp_{proj}$ lies is boiled down to
@@ -346,7 +343,7 @@ calculation can be skipped.
 %wallside) itself.
 
 
-\textit{Todo come back on outlier removal}
+\textit{TODO come back on outlier removal}
 \subsection{Results}
 
 \section{Update 3D model}
