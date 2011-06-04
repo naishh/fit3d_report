@@ -1,0 +1,74 @@
+Introduction (What did I and why) (WRITE AFTER CONCLUSION)
+	Introduction (soft launch reader into field)
+	Related work
+	Aim (clear out hypothesis here)
+	Organization of thesis 
+
+3D Building detection? (Skyline detection and projection)
+	Introduction
+	Method (or The algorithm)
+	Results (What did I find)
+	Discussion (What do my results mean to me and why)
+	Conclusion and Future work
+Augmenting the 3D building estimate
+	Introduction
+	Method (or The algorithm)
+	Results (What did I find)
+	Discussion (What do my results mean to me and why)
+	Conclusion and Future work
+Door/window detection
+	Introduction
+	Method (or The algorithm)
+	Results (What did I find)
+	Discussion (What do my results mean to me and why)
+	Conclusion and Future work
+
+ALTERNATIVEs:
+
+	Introduction
+	..
+	Experimental setup
+	..
+	Method (or The algorithm)
+	Results (What did I find)
+	Discussion (What do my results mean to me and why)
+	Conclusion and Future work
+
+
+Overal Results (What did I find)
+Overal Discussion (What do my results mean to me and why)
+Overal Conclusions (What new knowledge have I extracted from my experiment)
+Overal Future work (What new knowledge have I extracted from my experiment)
+Appendix
+
+
+MISC:
+introduce every topic
+whats the plan (in linear/logic story)
+Preliminaries on (good title here, 3D reconstruction?) ??
+
+
+ORDER OF WRITING:
+inside out
+Introduction AFTER conclusion
+
+
+TO THINK OF:
+Skip preliminaries and keep good appendix??
+ask leo whether to put the preliminaries as appendix or not
+read thesis isaac
+
+
+TODO:
+write something about houghlines
+
+think of good hypothesis
+that fits well with second part thesis:
+extract semantics from buildings
+where is the building  (part 1)
+what is a door/window?
+how many stories does it has
+
+
+Planning:
+see next.txt
