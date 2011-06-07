@@ -1,0 +1,88 @@
+% thinks to bear in mind
+% reader must be able to reproduce it
+
+\section{Augmenting the 3D building estimate}
+\subsection{Introduction}
+
+
+From the previous... 
+
+So we have a bunch 
+segments of the skyline 
+because the are straight
+building outline
+
+This section describes how bla bla
+
+% chaining
+The input of the algo comes from the previous step
+a bunch of line segments in 3d
+The output is an updated 3d model 
+
+
+
+
+\subsection{The algorithm}
+\subsubsection{Houghlines}
+	chainging / motivation:
+
+
+	%houghlines on edge detection
+	% write this chapter as last because
+	% use wikipedia and my previous research for it 
+\subsubsection{Houghline wall recognition}
+	%decide which line segment represents which wall (heuristic)
+\subsubsection{Wall height estimation}
+	%calc average height of lines for each wall
+	% update belonging wall
+
+
+
+
+endpoints of houghlines belong to certain wall
+example images!
+
+
+Plan:
+write thesis thing without the heuristic part
+
+IDEAS:
+heuristic 1:
+take a point in the middle and let it decide
+
+heuristic 2:
+the endpoint that lies more in the middle decides which wall we take
+this can be calculated using the difference of distances to the wall corner points
+
+heuristic 3:
+take points on a houghline
+make a rating that the more in a middle a point is the more evidence there is
+this is because it is more away from a corner so lower change of other wall
+
+idea:
+program and test different heuristics?
+do analytic test (compare 1 and 3 analyticly)
+	to much detail for something like this? or not?
+
+
+KLAD
+every wall of building specific height
+
+
+wat is the input
+output
+
+found houghlines transformed in to 3d
+a bunch of lines in 3d where some
+projected houghlines
+
+
+% TODO
+talk about
+what to do with outliers
+
+\subsection{Results (What did I find)}
+\subsection{Discussion (What do my results mean to me and why)}
+\subsection{Conclusion and Future work}
+
+

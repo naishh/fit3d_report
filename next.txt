@@ -1,6 +1,6 @@
 next to do in writing thesis:
 
-BESEFFEN DAT HET EST LEUK IS NU IK ZO GOED BEZIG BEN
+BESEFFEN DAT HET BEST LEUK IS NU IK ZO GOED BEZIG BEN
 
 write new topic augmented the 3d building estimate in new file
 name it augment3d.tex or so
@@ -16,6 +16,13 @@ no facebook :)
 
 think of good hypothesis
 bare in mind big picture
+
+% TODO
+make new organogram
+	edge detection
+	houghlines
+	houghlines 3d
+	update building
 
 
 also read parts and rehearse
