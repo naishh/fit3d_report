@@ -1,5 +1,6 @@
 next to do in writing thesis:
 
+BESEFFEN DAT HET EST LEUK IS NU IK ZO GOED BEZIG BEN
 
 write new topic augmented the 3d building estimate in new file
 name it augment3d.tex or so
