@@ -21,14 +21,13 @@ In the last step this height is used to augment the rough 3d model.
 %TODO cons pros of this assumption
 %TODO vet goed dat ik dus mijn algo different wallheights aan kan, promoten!
 
-
 %why fit lines on 2d and not in 3d
 %cheaper easyer?
 %we take a step back into the process (skyline detection)
 
-
+ 
 \subsection{The algorithm}
-\subsubsection{Houghlines}
+\subsubsection{Extracting line segments} % Houghlines
 	chainging / motivation:
 	% details in appendix
 
@@ -40,12 +39,34 @@ In the last step this height is used to augment the rough 3d model.
 	% write someting about the happy little DAMNED trees that we need to remove hehehe
 
 
-\subsubsection{Houghline wall recognition}
+\subsubsection{Heuristic Line-Wall determination}
+	Now we have line segments which represent parts of the building contours. To be more precise a line segment presents a significant part of the upper side of a wall of the building.
+	To determine which wall the linesegment presents it would be straightforward to use bouth linesegments endpoints and project it onto the building as in section %todo.
+	%As can be seen in the previous section determining on which part of the building a skyline pixel belongs quite succesfull.
+	But this introduces a little problem: some of the line segments have endpoints of the corner of the building.
+	The linesegments endpoint on this corner could easily be classified as the ascending wall.
+	The wall is now undetermined because both endpoints do not agree on the same wall.  
+	To solve this problem some heuristic methods are developed and tested.
+	% todo explain?
+	%A heuristic is succesfull if it is simple and effective.
+	The middle point of the line segment has a low change of being on a buildingcorner and a big change of being on the wall we are looking for.
+	Therefor instead of the endpoints we use the middlepoint to determine the right wall.
+	When the wall is known both endpoints are intersected to the plane that is spanned by the wall we just determined.
+	%This gives the following result?
+
+	%The middle point is used as a third candidate for voting oh yeah i love to vote men i love
+	% I LOVE NIG GERNS I LOVE NIG RS
+	
+	% chaining
+	%example image
+
+
 	%decide which line segment represents which wall (heuristic)
 \subsubsection{Wall height estimation}
 	%calc average height of lines for each wall
 	% update belonging wall
 
+\subsubsection{Augmenting the 3D model} %todo other word then augment?
 
 
 

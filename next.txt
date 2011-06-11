@@ -18,12 +18,13 @@ think of good hypothesis
 bare in mind big picture
 
 % TODO
+todos onderaan ch6_augment3dmodel.tex
+when tired make images
 make new organogram
 	edge detection
 	houghlines
 	houghlines 3d
 	update building
-
 install matlab for windows on ext hd
 put matlab install file ext hd
 
