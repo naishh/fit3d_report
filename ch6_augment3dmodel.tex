@@ -3,9 +3,40 @@
 
 \section{Augmenting the 3D building estimate}
 \subsection{Introduction}
+From the previous we saw how every point on the skyline was projected on its most likely wall. (what does this mean in general)
+We would like to use this information to augment the basic 3d model.
+
+What is the input
+what are the assumptions and heuristics
+what is the output
+
+To do this there are several steps:
+(ch abstract)
+First of all the individual pixels are grouped into line segments using an approach of (TODO DAVID??OFZO) Hough.
+This introduces (TODO our first?) assumption 
+Every line segment in 3D belongs to a specific wall which is heuristicly determined in the second step.
+The third step is to combine the projected houghlines which produces and estimate of the height of each wall.
+In the last step this height is used to augment the rough 3d model.
 
 
-From the previous... 
+For simplicity reasons we assume that building consist of a flat roof, note that the walls may have different heights but the roof should be flat.
+%TODO cons pros of this assumption
+%TODO vet goed dat ik dus mijn algo different wallheights aan kan, promoten!
+
+%this method can be seen as some sort of outlier removal?
+% write someting about the happy little DAMNED trees that we need to remove hehehe
+
+%TODO what are the mathematics
+
+The next step 
+check if we can fit lines 
+%why fit lines on 2d and not in 3d
+%cheaper easyer?
+
+
+skyline was projected on the building 
+[TODO img]
+can use 
 
 So we have a bunch 
 segments of the skyline 
@@ -84,5 +115,8 @@ what to do with outliers
 \subsection{Results (What did I find)}
 \subsection{Discussion (What do my results mean to me and why)}
 \subsection{Conclusion and Future work}
+The flat roof assumption could be stretched to a roof consist of two planes
+%TODO write something about complications and wat je er aan hebt
+
 
 

@@ -10,7 +10,7 @@ make the includes work and write a spine bone with includes
 finish it in a few days
 and let Isaac read it
 only program if i am realy tired
-spend hours hours on it!!
+spend hours HOURS on it!!
 no facebook :)
 
 
@@ -29,4 +29,9 @@ put matlab install file ext hd
 
 read parts and rehearse "how to write a thesis"
 THINK PLAN WRITE REVISE
+
+
+is the rough model introduced yet? explain how it is retrieved  (googlemaps?), what the specs are, how rough is it compare to the real 3d model, etc.
+
+make nice picture of skyline with projection and the projection lines
 
