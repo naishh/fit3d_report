@@ -24,9 +24,9 @@ make new organogram
 	houghlines 3d
 	update building
 
+install matlab for windows on ext hd
+put matlab install file ext hd
 
-also read parts and rehearse
-how to write a thesis
-
+read parts and rehearse "how to write a thesis"
 THINK PLAN WRITE REVISE
 
