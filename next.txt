@@ -1,6 +1,6 @@
 next to do in writing thesis:
 
-BESEFFEN DAT HET EST LEUK IS NU IK ZO GOED BEZIG BEN
+BESEFFEN DAT HET BEST LEUK IS NU IK ZO GOED BEZIG BEN
 
 write new topic augmented the 3d building estimate in new file
 name it augment3d.tex or so
@@ -10,16 +10,29 @@ make the includes work and write a spine bone with includes
 finish it in a few days
 and let Isaac read it
 only program if i am realy tired
-spend hours hours on it!!
+spend hours HOURS on it!!
 no facebook :)
 
 
 think of good hypothesis
 bare in mind big picture
 
+% TODO
+todos onderaan ch6_augment3dmodel.tex
+when tired make images
+make new organogram
+	edge detection
+	houghlines
+	houghlines 3d
+	update building
+install matlab for windows on ext hd
+put matlab install file ext hd
 
-also read parts and rehearse
-how to write a thesis
-
+read parts and rehearse "how to write a thesis"
 THINK PLAN WRITE REVISE
+
+
+is the rough model introduced yet? explain how it is retrieved  (googlemaps?), what the specs are, how rough is it compare to the real 3d model, etc.
+
+make nice picture of skyline with projection and the projection lines
 
