@@ -4,78 +4,66 @@
 \section{Augmenting the 3D building estimate}
 \subsection{Introduction}
 % write THIS AT LAST
-From the previous section we saw how the skyline was detected and how every point on this skyline was projected on its most likely wall. (what does this mean in general)
+In the previous section we saw the equivalence between the skyline and the building contour, we also saw how this skyline was detected and how every point on this skyline was projected on the buildingwall it most likely presents. 
+This 3D pointcloud may give an interesting first impressive but it is not enough for our aim, to augment the basic 3D model.
+First of all this pointcloud included a lot of noise caused mostly by occluding objects like tree's. How do we detect those outliers?
+% why not ransac?
+And if we know which data belongs to the building contour and which not how can we use our developed projection techniques to obtain parts of the building contour.
+The next question arises is, given this building contour parts, how do we augment the 3D model in a clean way?
+To adress these questions an sophisticated algorithm is developed.
 
-	In section %TODO
-	we saw that the skyline detector outputs a binary image where a white pixel is considered as highly from the skyline and therefor the building contour.
-	We also saw that this data included a lot of noise caused by for example trees. 
+%before we take these next steps we take one step back and go to the 2d images.
+	%we saw that the skyline detector outputs a binary image where a white pixel is considered as highly from the skyline and therefor the building contour.
 	%todo
-	we make an assumption that a building contour is appears to be as a bunch of skylinepixel on a straight line.
-
-%TODO move the intersection part to this chapter
-
-This chapter is about how we use this information to augment the basic 3D model.
-% why?
-
-%we take a step back into the process (skyline detection)
-
- 
 \subsection{The algorithm}
-Because this is done using an algorithm, let us first define the input:
+Let us first define the input of the algorithm:
 \begin{itemize}
 \item a set of calibrated binary 2D images where white indicates a skyline pixel which has a high proability of being the building contour
 \item a rough 3D model
 \end{itemize}
 The output will be an updated 3D model, this output is developed in several steps.\\
 First some operation are done in 2D, the individual skyline pixels are grouped into line segments using an approach called the Hough transform. In the next step every line is heuristicly associated to and projected on a specific wall in 3D. The third step is to combine the projected line segments, which produces and estimate of the height of each buildingwall. In the last step these heights are used to augment the walls of the rough 3D model.
-We will now elaberato on each step.
+We will now elaborato on each step.
 
 %why fit lines on 2d and not in 3d
 %cheaper easyer?
 \subsubsection{Extracting line segments, Hough transform} % Houghlines
-	I first explain why 
+	%The aim of this step is to use the output of the skyline detector to extract line segments. These line segments can be used to update to indicate the building contour and update the 3D model.
 
-	%We extract straight parts (line segments )
+	%chaining my ass of here :)
+	% full motivation 
+	The main aim of this part is to take the output of the skyline detector and to remove its outliers caused by for example tree's. To remove the outliers we put the process upside down: we detect the inliers.
+	But how do we know wat an inlier is?
+	If we take the contour of an average building it is mostly formed by straight lines.
+	% todo example images
+	So if a bunch of skyline pixels lie on the same line it is probably a building countour.
+	% TODO what if a plain flys by? note in drawbacks of method
+	The problem of finding the building contour is now boiled down to finding skyline pixels that form a straight line.
 
-For simplicity reasons we assume that a building consists of a flat roof (note that the walls may have different heights but the roof should be flat).
-%TODO cons pros of this assumption
-%TODO vet goed dat ik dus mijn algo different wallheights aan kan, promoten!
-
-	% motivation
-
-	%This is not enough to update the 3D model because a
-	The aim of this step is to use the output of the skyline detector to extract line segments. These line segments can be used to update to indicate the building contour and update the 3D model.
-
-
+	%Note that this is based on a flat roof assumption which will be elaborated in the update 3D model part.
+	\\
 	A famous method for extracting line segments is the the Hough transform invented by Paul Hough.
-	We will explain this method in short, details regarding this method are found in the Appendix.
-	In the Hough transform, a main idea is to consider the characteristics of a straight line not as its image points (x1, y1), (x2, y2), etc., but in terms of the parameters of the straight line formula $y = mx + b$.i.e., the slope parameter $m$ and the intercept parameter $b$.
+	We will explain this method in short, details regarding this method are found in the Appendix.A??%TODO
+	In the Hough transform, a main idea is to consider the characteristics of a straight line not as its image points $(x1, y1)$, $(x2, y2)$, etc., but in terms of the parameters of the straight line formula $y = mx + b$. i.e., the slope parameter $m$ and the intercept parameter $b$.
 	If a skylinepixel is found the Hough transform increases a vote value for every line ($m$,$b$ pair) that crosses this point.
-	Some lines ($m$, $b$ pairs) receive a lot votes and are likely to reperesent a line segment.
-
-	The parameters that can be tweaked are:
-	\begin{itemize}
-	\item FillGab, this is the maximum number of pixels %TODO uit help matlab halen
-	\item MinLength,
-	\end{itemize}
-	%TODO uit de praktijk blijkt, paragonistisch?
-	that a FillGab of 25 and a MinLength of 40 gives the most promissing results.
-
-	%chainging / motivation:
+	The lines ($m$, $b$ pairs) that receive a large amount of votes and are likely to represent a line segment and therefor a part of the building contour.
+	\\
+	The Houghtransform is done on the 2D output of the skyline detector. Results are displayed and evaluated in the result section.
 	% details in appendix
-
-	%houghlines on edge detection
-	% write this chapter as last because
-	% use wikipedia and my previous research for it 
-
-	%this method can be seen as some sort of outlier removal?
-	% write someting about the happy little DAMNED trees that we need to remove hehehe
-
 
 \subsubsection{Heuristic Line-Wall determination}
 	% what do we have what is the input
-	Now we have 2D line segments which represent parts of the building contours. To be more precise a line segment presents a significant part of the upper side of a wall of the building.
-	To determine which wall the linesegment belongs to it would be straightforward to use bouth linesegments endpoints and project it onto the building as in section %todo.
+	Now we have a bunch of 2D line segments which represent parts of the building contour. 
+	As we agreed in our assumption every line segment is originated from a upperside of a wall of the building.
+	It looks like its time to augment these walls but in fact we don't know which linesegments is associated with which wall.
+
+%------------------------------------------------------------------------------------------------
+
+	To determine which wall the linesegment belongs to it would be straightforward to use the method of section %TODO
+	but take instead of of a skyline pixel only the linesegments endpoints and project it onto the building.
+
+	And to update the specific wall we first need to know with a high probability of being correct which wall the line segment presents
+	
 	%As can be seen in the previous section determining on which part of the building a skyline pixel belongs quite succesfull.
 	But this introduces a little problem: some of the line segments have endpoints of the corner of the building.
 	The linesegments endpoint on this corner could easily be classified as the ascending wall.
@@ -103,7 +91,6 @@ For simplicity reasons we assume that a building consists of a flat roof (note t
 
 	%decide which line segment represents which wall (heuristic)
 \subsubsection{Wall height estimation}
-	% straight wall assumption!!
 
 	%calc average height of lines for each wall
 	% update belonging wall
@@ -121,6 +108,15 @@ For simplicity reasons we assume that a building consists of a flat roof (note t
 	%TODO image
 
 \subsubsection{Augmenting the 3D model} %todo other word then augment?
+	%We make a flatroof assumption assuming that a building consists of a flat roof (note that the walls may have different heights but the roof should be flat).
+
+%flatroofassumption
+	%we make an assumption that a building contour is appears to be as a bunch of skylinepixel on a straight line.
+%flatroofassumption
+%TODO cons pros of this assumption
+%TODO vet goed dat ik dus mijn algo different wallheights aan kan, promoten!
+
+
 	% check in code how this is done?
 	The rough 3d model is divided in different walls. A wall exist of four corner points. In the previous section we calculated the new heights of the walls the building. This is propagated by adjusting the upper cornerpoints of walls.
 	This is done by coping the bottomleft and right cornerpoints and adding the estimated height from the previous section to the y-value.
