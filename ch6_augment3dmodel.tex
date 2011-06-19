@@ -3,32 +3,65 @@
 
 \section{Augmenting the 3D building estimate}
 \subsection{Introduction}
+% write THIS AT LAST
 From the previous section we saw how the skyline was detected and how every point on this skyline was projected on its most likely wall. (what does this mean in general)
-We would like to use this information to augment the basic 3d model.
 
-So we have as input a
-- set of calibrated 2D images with a binary skyline indication
-- a rough 3d model
-The output is an updated 3d model.
+	In section %TODO
+	we saw that the skyline detector outputs a binary image where a white pixel is considered as highly from the skyline and therefor the building contour.
+	We also saw that this data included a lot of noise caused by for example trees. 
+	%todo
+	we make an assumption that a building contour is appears to be as a bunch of skylinepixel on a straight line.
 
-For this an algoritm is designed which consist of several steps. 
-First of all the individual skyline pixels are grouped into line segments using an approach of (TODO DAVID??OFZO) Hough.
-Every line segment in 3D belongs to a specific wall which is heuristicly determined in the second step.
-The third step is to combine the projected houghlinesegments which produces and estimate of the height of each wall.
-In the last step this height is used to augment the rough 3d model.
+%TODO move the intersection part to this chapter
 
-%For simplicity reasons we assume that a building consists of a flat roof, note that the walls may have different heights but the roof should be flat.
-%TODO cons pros of this assumption
-%TODO vet goed dat ik dus mijn algo different wallheights aan kan, promoten!
+This chapter is about how we use this information to augment the basic 3D model.
+% why?
 
-%why fit lines on 2d and not in 3d
-%cheaper easyer?
 %we take a step back into the process (skyline detection)
 
  
 \subsection{The algorithm}
-\subsubsection{Extracting line segments} % Houghlines
-	chainging / motivation:
+Because this is done using an algorithm, let us first define the input:
+\begin{itemize}
+\item a set of calibrated binary 2D images where white indicates a skyline pixel which has a high proability of being the building contour
+\item a rough 3D model
+\end{itemize}
+The output will be an updated 3D model, this output is developed in several steps.\\
+First some operation are done in 2D, the individual skyline pixels are grouped into line segments using an approach called the Hough transform. In the next step every line is heuristicly associated to and projected on a specific wall in 3D. The third step is to combine the projected line segments, which produces and estimate of the height of each buildingwall. In the last step these heights are used to augment the walls of the rough 3D model.
+We will now elaberato on each step.
+
+%why fit lines on 2d and not in 3d
+%cheaper easyer?
+\subsubsection{Extracting line segments, Hough transform} % Houghlines
+	I first explain why 
+
+	%We extract straight parts (line segments )
+
+For simplicity reasons we assume that a building consists of a flat roof (note that the walls may have different heights but the roof should be flat).
+%TODO cons pros of this assumption
+%TODO vet goed dat ik dus mijn algo different wallheights aan kan, promoten!
+
+	% motivation
+
+	%This is not enough to update the 3D model because a
+	The aim of this step is to use the output of the skyline detector to extract line segments. These line segments can be used to update to indicate the building contour and update the 3D model.
+
+
+	A famous method for extracting line segments is the the Hough transform invented by Paul Hough.
+	We will explain this method in short, details regarding this method are found in the Appendix.
+	In the Hough transform, a main idea is to consider the characteristics of a straight line not as its image points (x1, y1), (x2, y2), etc., but in terms of the parameters of the straight line formula $y = mx + b$.i.e., the slope parameter $m$ and the intercept parameter $b$.
+	If a skylinepixel is found the Hough transform increases a vote value for every line ($m$,$b$ pair) that crosses this point.
+	Some lines ($m$, $b$ pairs) receive a lot votes and are likely to reperesent a line segment.
+
+	The parameters that can be tweaked are:
+	\begin{itemize}
+	\item FillGab, this is the maximum number of pixels %TODO uit help matlab halen
+	\item MinLength,
+	\end{itemize}
+	%TODO uit de praktijk blijkt, paragonistisch?
+	that a FillGab of 25 and a MinLength of 40 gives the most promissing results.
+
+	%chainging / motivation:
 	% details in appendix
 
 	%houghlines on edge detection
@@ -70,27 +103,28 @@ In the last step this height is used to augment the rough 3d model.
 
 	%decide which line segment represents which wall (heuristic)
 \subsubsection{Wall height estimation}
+	% straight wall assumption!!
+
 	%calc average height of lines for each wall
 	% update belonging wall
-	In the previous section we saw that the line segments endpoints may be classified as differing walls. 
-	Therefor we reproject the line segment endpoints to the calculated wall.
-
-	The reprojection is done by intersecting both endpoints of the linesegment to the plane that is spanned by the wall that was found in the 
-previous section.
-	This is done for every linesegment. 
-	All 3D intersection points are collected and averaged, this gives us an average of all midpoints of the projected lines.
+	In the previous section we adressed the problem that the endpoints of a line segment may not agree on the wall.
+	We also introduced a method to determine the right wall.  
+	Next we reproject the line segment to that wall.
+	The reprojection is done by intersecting both endpoints of the linesegment to the plane that is spanned by this wall.
+	This is done for every linesegment belonging to the wall we process. 
+	Next the 3D intersection points are collected and averaged, this gives us an average of the midpoints of the projected linesegments.
 	This value is used as the new height of the wall of the building.
-	And this is done for every wall.
+	Above process is done for every wall.
 	
 	%The coordinates of the projected endpoints are stored with the corresponding wall.
 	%This gives the following result?
+	%TODO image
 
 \subsubsection{Augmenting the 3D model} %todo other word then augment?
 	% check in code how this is done?
-	A wall exist of four corner points. The upper cornerpoints are adjusted
-	by coping the bottomleft and right cornerpoints and adding the estimated height from the previous section to the y-value.
-	Note that this method assumes that the walls are alligned on the y-axis. Which is in our dataset the case.
-
+	The rough 3d model is divided in different walls. A wall exist of four corner points. In the previous section we calculated the new heights of the walls the building. This is propagated by adjusting the upper cornerpoints of walls.
+	This is done by coping the bottomleft and right cornerpoints and adding the estimated height from the previous section to the y-value.
+	Note that this method assumes that the walls are alligned on the y-axis, which is in our dataset the case.
 	%TODO iets zeggen over het ground plain, zie ook costins werk
 
 
@@ -99,7 +133,7 @@ previous section.
 \subsection{Conclusion and Future work}
 The flat roof assumption could be stretched to a roof consist of two planes
 \\
-The middle point of the line is projected to all walls, it could be a significant speedup to reduce the set of walls to the walls found at the endpoints. This is not done because both endpoints could lie on a cornerpoint making none of the endpoints refering to the correct wall.
+The middle point of the line is projected to all walls, it could be a significant speedup to reduce the set of walls to only the walls that are found at the endpoints. This is not done because both endpoints could lie on a cornerpoint making it possible that none of the endpoints refer to the correct wall.
 
 
 %idea to think of (to detailed or not):

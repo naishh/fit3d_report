@@ -11,3 +11,6 @@ Cozman, Outdoor visual position estimation for planetary rovers.
 
 http://en.wikipedia.org/wiki/Line-plane_intersection
 sectie parametric form
+
+wikipedia houghlines
+	http://en.wikipedia.org/wiki/Hough_transform
