@@ -5,25 +5,27 @@
 \subsection{Introduction}
 % write THIS AT LAST
 In the previous section we saw the equivalence between the skyline and the building contour, we also saw how this skyline was detected and how every point on this skyline was projected on the buildingwall it most likely presents. 
-This 3D pointcloud may give an interesting first impressive but it is not enough for our aim, to augment the basic 3D model.
+This 3D pointcloud is an interesting result but it is not enough for our aim, to augment the basic 3D model.
 First of all this pointcloud included a lot of noise caused mostly by occluding objects like tree's. How do we detect those outliers?
 % why not ransac?
-And if we know which data belongs to the building contour and which not how can we use our developed projection techniques to obtain parts of the building contour.
+And if we know which data belongs to the building contour we could use the developed projection techniques from section %TODO
+to obtain parts of the building contour.
 The next question arises is, given this building contour parts, how do we augment the 3D model in a clean way?
-To adress these questions an sophisticated algorithm is developed.
-
+We developed an algorithm that adresses these questions.
 %before we take these next steps we take one step back and go to the 2d images.
 	%we saw that the skyline detector outputs a binary image where a white pixel is considered as highly from the skyline and therefor the building contour.
 	%todo
 \subsection{The algorithm}
 Let us first define the input of the algorithm:
 \begin{itemize}
-\item a set of calibrated binary 2D images where white indicates a skyline pixel which has a high proability of being the building contour
-\item a rough 3D model
+	\item a set of calibrated binary 2D images where white indicates a skyline pixel which has a high proability of being the building contour
+	%TODO explain calirated somewhere eerder in het report
+	\item a rough 3D model extracted from an open streetview database
+	%TODO introduce the 3D model somewhere eerder in report
 \end{itemize}
-The output will be an updated 3D model, this output is developed in several steps.\\
-First some operation are done in 2D, the individual skyline pixels are grouped into line segments using an approach called the Hough transform. In the next step every line is heuristicly associated to and projected on a specific wall in 3D. The third step is to combine the projected line segments, which produces and estimate of the height of each buildingwall. In the last step these heights are used to augment the walls of the rough 3D model.
-We will now elaborato on each step.
+The output will be an updated 3D model, this output is developed in several steps:\\
+First some operation are done in 2D, the individual skyline pixels are grouped into line segments using an approach called the Hough transform. In the next step every line is heuristicly associated to (and projected on) a specific wall in 3D. The third step is to combine the projected line segments, which produces and estimate of the height of each buildingwall. In the last step these heights are used to augment the walls of the rough 3D model.
+We will now elaborate on each step.
 
 %why fit lines on 2d and not in 3d
 %cheaper easyer?
@@ -32,24 +34,24 @@ We will now elaborato on each step.
 
 	%chaining my ass of here :)
 	% full motivation 
-	The main aim of this part is to take the output of the skyline detector and to remove its outliers caused by for example tree's. To remove the outliers we put the process upside down: we detect the inliers.
-	But how do we know wat an inlier is?
-	If we take the contour of an average building it is mostly formed by straight lines.
+	The main aim of this part is to take the output of the skyline detector and to remove its outliers caused by for example tree's. To remove the outliers we put the process upside down: we are detecting the inliers and consider the rest as outliers.\\
+	But do we define an inlier? If we take the contour of an average building it is mostly formed by straight lines, assuming the roof is flat.
 	% todo example images
-	So if a bunch of skyline pixels lie on the same line it is probably a building countour.
+	If a bunch of skyline pixels lie on the same line they probably represent a building countour.
 	% TODO what if a plain flys by? note in drawbacks of method
-	The problem of finding the building contour is now boiled down to finding skyline pixels that form a straight line.
-
-	%Note that this is based on a flat roof assumption which will be elaborated in the update 3D model part.
+	The problem of finding the building contour is now boiled down to finding skyline pixels that lie on a straight line.
 	\\
-	A famous method for extracting line segments is the the Hough transform invented by Paul Hough.
+	A famous method for extracting line segments is the the Hough transform (invented by Paul Hough).
 	We will explain this method in short, details regarding this method are found in the Appendix.A??%TODO
 	In the Hough transform, a main idea is to consider the characteristics of a straight line not as its image points $(x1, y1)$, $(x2, y2)$, etc., but in terms of the parameters of the straight line formula $y = mx + b$. i.e., the slope parameter $m$ and the intercept parameter $b$.
-	If a skylinepixel is found the Hough transform increases a vote value for every line ($m$,$b$ pair) that crosses this point.
-	The lines ($m$, $b$ pairs) that receive a large amount of votes and are likely to represent a line segment and therefor a part of the building contour.
+	If a skylinepixel is found the Hough transform increases a vote value for every valid line ($m$,$b$ pair) that crosses this particular point. This is done in a very efficient way, see Appendix A?? %TODO 
+	for details.
+	The lines ($m$, $b$ pairs) that receive a large amount of votes contain a large amount of skyline pixels. Because it is a straight line it most likely represents a part of the building contour. 
+	Optional the Houghtransform returns the start- and endpoint of the lines which is in our case useful. 
+	%Because of oclusion the houghlines could return two seperate line segments which is originaly one line which is %onderroken.
 	\\
-	The Houghtransform is done on the 2D output of the skyline detector. Results are displayed and evaluated in the result section.
-	% details in appendix
+	Results of the Hough transform on the 2D output of the skyline detector are displayed and evaluated in the result section (section %TODO
+	).
 
 \subsubsection{Heuristic Line-Wall determination}
 	% what do we have what is the input
@@ -82,24 +84,20 @@ We will now elaborato on each step.
 	%TODO image
 
 \subsubsection{Augmenting the 3D model} %todo other word then augment?
-	%We make a flatroof assumption assuming that a building consists of a flat roof (note that the walls may have different heights but the roof should be flat).
-
-%flatroofassumption
-	%we make an assumption that a building contour is appears to be as a bunch of skylinepixel on a straight line.
-%flatroofassumption
-%TODO cons pros of this assumption
-%TODO vet goed dat ik dus mijn algo different wallheights aan kan, promoten!
-
-	In the previous section we calculated the new heights of the walls the building. 
-	This is propagated by adjusting the upper cornerpoints of the walls.
-	This is done by copying the bottomleft and -right cornerpoints and adding the estimated height from the previous section to its y-value.
+	We made an assumption that a building consists of a flat roof (note that the walls may have different heights but the roof should be flat).
+	In the previous section we calculated this new individual heights of the walls the building. 
+	This is propagated to the 3D model by adjusting the existing upper cornerpoints of the walls. We copy the bottomleft and -right cornerpoints and add the estimated height from the previous section to its y-value.
 	% TODO footnote:
-	Note that this method assumes that the walls are alligned on the y-axis, which is in our dataset the case.
+	FOODNOTE:Note that this method assumes that the walls are alligned on the y-axis, which is in our dataset the case.
 	%TODO iets zeggen over het ground plain, zie ook costins werk
 
 
 \subsection{Results (What did I find)}
 \subsection{Discussion (What do my results mean to me and why)}
+%TODO cons pros of the flat roof assumption
+%TODO vet goed dat ik dus mijn algo different wallheights aan kan, promoten!
+
+% midpoint heuristic
 \subsection{Conclusion and Future work}
 The flat roof assumption could be stretched to a roof consist of two planes
 \\
@@ -129,14 +127,9 @@ this is because it is more away from a corner so lower change of other wall
 
 
 % TODO
-what to do with outliers
-where to put the intersection algorithm part
-for now i let it in skyline detection and refer to it
-maybe later move it!
 %TODO what are the mathematics
 %TODO write something about complications and wat je er aan hebt
-%what are the assumptions and heuristics
 %use power of illustration, lots of example images! ask myself is there stil something left where I can add an illustration??
 
-
+%TODO spell check!!
 
