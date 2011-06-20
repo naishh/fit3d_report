@@ -53,58 +53,32 @@ We will now elaborato on each step.
 
 \subsubsection{Heuristic Line-Wall determination}
 	% what do we have what is the input
-	Now we have a bunch of 2D line segments which represent parts of the building contour. 
-	As we agreed in our assumption every line segment is originated from a upperside of a wall of the building.
+	From the Hough transform we have a bunch of 2D line segments which represent parts of the building contour. 
+	As we agreed in our assumption that every line segment probably presents (a part of) the upperside of a wall of the building.
 	It looks like its time to augment these walls but in fact we don't know which linesegments is associated with which wall.
+	This section explains how the linesegments are associated with the right wall.\\
 
-%------------------------------------------------------------------------------------------------
+	It would be straightforward to use the method of section %TODO
+	Instead of of a skyline pixel we could take the linesegments endpoints and project it onto the buildingwalls. The wall with the shortest distance will be assigned to the linesegment.
 
-	To determine which wall the linesegment belongs to it would be straightforward to use the method of section %TODO
-	but take instead of of a skyline pixel only the linesegments endpoints and project it onto the building.
-
-	And to update the specific wall we first need to know with a high probability of being correct which wall the line segment presents
-	
-	%As can be seen in the previous section determining on which part of the building a skyline pixel belongs quite succesfull.
-	But this introduces a little problem: some of the line segments have endpoints of the corner of the building.
-	The linesegments endpoint on this corner could easily be classified as the ascending wall.
-	The wall is now undetermined because both endpoints do not agree on the same wall.  
-	To solve this problem some heuristic methods are developed and tested.
-	% todo explain?
-	%A heuristic is succesfull if it is simple and effective.
-	The middle point of the line segment has a low change of being on a buildingcorner and a big change of being on the wall we are looking for.
-	Therefor we use the middlepoint instead of the endpoints to determine the right wall.
+	%And to update the specific wall we first need to know with a high probability of being correct which wall the line segment presents
+	But this method introduces a problem: some of the line segments have endpoints that lie at the corner of the building. These line segments could easily be associated with the neighboring wall. Because the 3D model is a rough estimate this could lead to bad results.
+	In the cornercase it is not clear to which wall the linesegment belongs because both endpoints do not agree on the same wall. To solve this problem some heuristic methods are developed and tested. The following heuristic is both simple and effective.
+	The heuristic uses the importance of the middlepoint of the linesegment. This middle point has a low change of being on a buildingcorner and the on average biggest change of being on the wall we are looking for.
+	Therefor we discard the endpoints and use the middlepoint the endpoints to determine the right wall.
 	As in the previous section %TODO
 	this middlepoint is intersected with all plaines spanned by the walls. The linesegment is stored to the wall with the shortest distance.
-	%The output of this part of the algorithm is for every wall a bunch of associated linesegments originated from different views.
-	\\
-	Now all line segments are associated with a certain wall we can use this information to augment the 3D model.
-	Before we do this we assume that every wall has a straight upperside. % TODO is dit niet al een kkeertje aangenomen jongu?
-	% TODO hoezo?
-	The last step for augmenting the buildinging, bearing this assumption in mind, is now boiled down to making a good estimate of the height of the wall of the building.
+	The output of this part of the algorithm is for every wall a bunch of associated linesegments originated from different views.
 
-	%The middle point is used as a third candidate for voting oh yeah i love to vote men i love
-	% I LOVE NIG GERNS I LOVE NIG RS
-	
-	% chaining
-	%example image
+	%TODO example image
 
-
-	%decide which line segment represents which wall (heuristic)
 \subsubsection{Wall height estimation}
 
-	%calc average height of lines for each wall
-	% update belonging wall
-	In the previous section we adressed the problem that the endpoints of a line segment may not agree on the wall.
-	We also introduced a method to determine the right wall.  
-	Next we reproject the line segment to that wall.
-	The reprojection is done by intersecting both endpoints of the linesegment to the plane that is spanned by this wall.
-	This is done for every linesegment belonging to the wall we process. 
-	Next the 3D intersection points are collected and averaged, this gives us an average of the midpoints of the projected linesegments.
-	This value is used as the new height of the wall of the building.
-	Above process is done for every wall.
-	
-	%The coordinates of the projected endpoints are stored with the corresponding wall.
-	%This gives the following result?
+
+	In the previous section we adressed the problem that the endpoints of a line segment may not agree on the wall.  We also introduced a method to associate a line segment with the right wall. In this section this information is used to estimate the height of the wall which is in the next section used to update the 3D model.\\
+	Now all line segments are associated with a certain wall we reproject the linesegment from the different views on the wall. The reprojection is done by intersecting both endpoints of the linesegment to the plane that is spanned by this wall.
+	Next the 3D intersection points are collected and averaged, this gives us an average of the midpoints of the projected linesegments. We do this for every wall seperately.
+	The average is used as the new height of the wall of the building.
 	%TODO image
 
 \subsubsection{Augmenting the 3D model} %todo other word then augment?
@@ -116,10 +90,10 @@ We will now elaborato on each step.
 %TODO cons pros of this assumption
 %TODO vet goed dat ik dus mijn algo different wallheights aan kan, promoten!
 
-
-	% check in code how this is done?
-	The rough 3d model is divided in different walls. A wall exist of four corner points. In the previous section we calculated the new heights of the walls the building. This is propagated by adjusting the upper cornerpoints of walls.
-	This is done by coping the bottomleft and right cornerpoints and adding the estimated height from the previous section to the y-value.
+	In the previous section we calculated the new heights of the walls the building. 
+	This is propagated by adjusting the upper cornerpoints of the walls.
+	This is done by copying the bottomleft and -right cornerpoints and adding the estimated height from the previous section to its y-value.
+	% TODO footnote:
 	Note that this method assumes that the walls are alligned on the y-axis, which is in our dataset the case.
 	%TODO iets zeggen over het ground plain, zie ook costins werk
 
