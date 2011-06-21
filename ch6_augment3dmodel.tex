@@ -34,7 +34,8 @@ We will now elaborate on each step.
 
 	%chaining my ass of here :)
 	% full motivation 
-	The main aim of this part is to take the output of the skyline detector and to remove its outliers caused by for example tree's. To remove the outliers we put the process upside down: we are detecting the inliers and consider the rest as outliers.\\
+	The main aim of this part is to extract structure from the output of the skyline detector. This includes the removement of outliers (caused by for example an occluding tree) and the extraction of straight line segments. 
+	To remove the outliers we put the process upside down: we are detecting the inliers and consider the rest as outliers.\\
 	But do we define an inlier? If we take the contour of an average building it is mostly formed by straight lines, assuming the roof is flat.
 	% todo example images
 	If a bunch of skyline pixels lie on the same line they probably represent a building countour.
@@ -75,18 +76,17 @@ We will now elaborate on each step.
 	%TODO example image
 
 \subsubsection{Wall height estimation}
-
-
 	In the previous section we adressed the problem that the endpoints of a line segment may not agree on the wall.  We also introduced a method to associate a line segment with the right wall. In this section this information is used to estimate the height of the wall which is in the next section used to update the 3D model.\\
-	Now all line segments are associated with a certain wall we reproject the linesegment from the different views on the wall. The reprojection is done by intersecting both endpoints of the linesegment to the plane that is spanned by this wall.
-	Next the 3D intersection points are collected and averaged, this gives us an average of the midpoints of the projected linesegments. We do this for every wall seperately.
-	The average is used as the new height of the wall of the building.
+	Now all line segments are associated with a certain wall we reproject the linesegment from the different views on the wall. The reprojection is done by intersecting both endpoints of the linesegment to the plane that is spanned by associated wall.
+	Next the 3D intersection points are collected and averaged, this gives us an average of the midpoints of the projected linesegments. We do this for every wall seperately returning the average height of the line segments.
+	These averages are then used as the new heights of the walls of the building.
 	%TODO image
 
 \subsubsection{Augmenting the 3D model} %todo other word then augment?
 	We made an assumption that a building consists of a flat roof (note that the walls may have different heights but the roof should be flat).
-	In the previous section we calculated this new individual heights of the walls the building. 
-	This is propagated to the 3D model by adjusting the existing upper cornerpoints of the walls. We copy the bottomleft and -right cornerpoints and add the estimated height from the previous section to its y-value.
+	In the previous section we calculated the new individual heights of the walls the building. 
+	This is propagated to the 3D model by adjusting the location of the existing upper cornerpoints of the walls. We copy the bottomleft and -right cornerpoints and add the estimated height from the previous section to its y-value.
+	% TODO image
 	% TODO footnote:
 	FOODNOTE:Note that this method assumes that the walls are alligned on the y-axis, which is in our dataset the case.
 	%TODO iets zeggen over het ground plain, zie ook costins werk
@@ -104,32 +104,15 @@ The flat roof assumption could be stretched to a roof consist of two planes
 The middle point of the line is projected to all walls, it could be a significant speedup to reduce the set of walls to only the walls that are found at the endpoints. This is not done because both endpoints could lie on a cornerpoint making it possible that none of the endpoints refer to the correct wall.
 
 
-%idea to think of (to detailed or not):
-program and test different heuristics?
-do analytic test (compare 1 and 3 analyticly)
-	to much detail for something like this? or not?
-
-Plan:
-first write thesis without the heuristic part
-
-IDEAS:
-heuristic 1:
-take a point in the middle and let it decide
-
-heuristic 2:
-the endpoint that lies more in the middle decides which wall we take
-this can be calculated using the difference of distances to the wall corner points
-
-heuristic 3:
-take points on a houghline
-make a rating that the more in a middle a point is the more evidence there is
-this is because it is more away from a corner so lower change of other wall
 
 
 % TODO
 %TODO what are the mathematics
 %TODO write something about complications and wat je er aan hebt
 %use power of illustration, lots of example images! ask myself is there stil something left where I can add an illustration??
+% read again and check level of detail, is it everywhere the same?
+% do I do enough chaining?
+% read again on other sujects in mind see how te wr thesis
 
 %TODO spell check!!
 
