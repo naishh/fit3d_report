@@ -4,40 +4,8 @@
 \usepackage{amsmath} % for the argmin
 \newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
 \newcommand{\argmin}[1]{\underset{#1}{\operatorname{arg\ min}}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%\newcommand{\min}{\textrm{min}}
-%functions
 \setlength{\parindent}{0in}
-
 \include{commands}
-
-
-
-
-
-
 
 \title{\sc Optimizing 3D models from 2D images}
 
@@ -137,22 +105,23 @@ We will now elaborate on each step.
 	FOODNOTE:Note that this method assumes that the walls are alligned on the y-axis, which is in our dataset the case.
 	%TODO iets zeggen over het ground plain, zie ook costins werk
 
+	
 
 \subsection{Results (What did I find)}
 Lets rehearse the output of the skyline detector.
-%TODO img
+\fig{outputSkylineIm3-3.eps}{}{0.5}
 The following image shows the top 3 longest Houghlines. It is clear that it fits
 well on the building contour.
 
 The next image displays the line segments projected onto their associated walls.
 For a clear view we only picked three walls of the building.
 The red cross in the middle of the line is the average of its endpoints.
+\fig{outputHoughlines2d.eps}{}{0.5}
 
 In this image the midpoints of the projected linesegments are averaged. This
 point is used as the new height of the building. As can be seen from the
 different plane colors, the building walls are changed to their individual height.
-%TODO make image!
-
+\fig{outputHoughlines3d.eps}{}{1.0}
 
 \subsection{Discussion (What do my results mean to me and why)}
 ???
