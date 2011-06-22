@@ -1,9 +1,6 @@
 next to do in writing thesis:
+BESEFFEN DAT HET BEST LEUK IS NU IK ZO GOED BEZIG BEN (ja lach daar maar ff om ouwe :D)
 
-BESEFFEN DAT HET BEST LEUK IS NU IK ZO GOED BEZIG BEN
-
-write new topic augmented the 3d building estimate in new file
-name it augment3d.tex or so
 when bored after few ours
 make the includes work and write a spine bone with includes
 
@@ -20,6 +17,7 @@ bare in mind big picture
 % TODO
 todos onderaan ch6_augment3dmodel.tex
 when tired make images
+program
 make new organogram
 	edge detection
 	houghlines
@@ -35,4 +33,13 @@ THINK PLAN WRITE REVISE
 is the rough model introduced yet? explain how it is retrieved  (googlemaps?), what the specs are, how rough is it compare to the real 3d model, etc.
 
 make nice picture of skyline with projection and the projection lines
+
+
+
+
+
+read whole ch in 10 min
+think of logic steps, when does intersection comes in
+
+
 
