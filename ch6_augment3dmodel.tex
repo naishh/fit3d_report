@@ -1,7 +1,53 @@
-% thinks to bear in mind
-% reader must be able to reproduce it
+\documentclass[10pt]{article}
+\usepackage{graphicx, subfigure}
 
-\section{Augmenting the 3D building estimate}
+\usepackage{amsmath} % for the argmin
+\newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
+\newcommand{\argmin}[1]{\underset{#1}{\operatorname{arg\ min}}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\newcommand{\min}{\textrm{min}}
+%functions
+\setlength{\parindent}{0in}
+
+\include{commands}
+
+
+
+
+
+
+
+\title{\sc Optimizing 3D models from 2D images}
+
+\author{T. Kostelijk\\mailtjerk@gmail.com}
+
+\begin{document}
+\maketitle
+
+
+\section{Augmenting the 3D building}
 \subsection{Introduction}
 % write THIS AT LAST
 In the previous section we saw the equivalence between the skyline and the building contour, we also saw how this skyline was detected and how every point on this skyline was projected on the buildingwall it most likely presents. 
@@ -93,7 +139,25 @@ We will now elaborate on each step.
 
 
 \subsection{Results (What did I find)}
+Lets rehearse the output of the skyline detector.
+%TODO img
+The following image shows the top 3 longest Houghlines. It is clear that it fits
+well on the building contour.
+
+The next image displays the line segments projected onto their associated walls.
+For a clear view we only picked three walls of the building.
+The red cross in the middle of the line is the average of its endpoints.
+
+In this image the midpoints of the projected linesegments are averaged. This
+point is used as the new height of the building. As can be seen from the
+different plane colors, the building walls are changed to their individual height.
+%TODO make image!
+
+
 \subsection{Discussion (What do my results mean to me and why)}
+???
+
+
 %TODO cons pros of the flat roof assumption
 %TODO vet goed dat ik dus mijn algo different wallheights aan kan, promoten!
 
@@ -116,3 +180,4 @@ The middle point of the line is projected to all walls, it could be a significan
 
 %TODO spell check!!
 
+\end{document}
