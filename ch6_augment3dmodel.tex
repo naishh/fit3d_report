@@ -75,8 +75,8 @@ We will now elaborate on each step.
 	It looks like its time to augment these walls but in fact we don't know which line segments is associated with which wall.
 	This section explains how the line segments are associated with the right wall.\\
 
-	It would be straightforward to use the method of section %TODO
-	Instead of of a skyline pixel we could take the line segments endpoints and project it onto the building walls. The wall with the shortest distance will be assigned to the line segment.
+	It would be straightforward to use the method of chapter %TODO
+	Instead of a skyline pixel we could take the line segments endpoints and project it onto the building walls. The wall with the shortest distance will be assigned to the line segment.
 
 	%And to update the specific wall we first need to know with a high probability of being correct which wall the line segment presents
 	But this method introduces a problem: some of the line segments have endpoints that lie at the corner of the building. These line segments could easily be associated with the neighboring wall. Because the 3D model is a rough estimate this could lead to bad results.
@@ -88,6 +88,101 @@ We will now elaborate on each step.
 	The output of this part of the algorithm is for every wall a bunch of associated line segments originated from different views.
 
 	%TODO example image
+
+
+	Method 3:  
+	target
+	associate line segments to right wall
+	
+	method
+	If a line segment is originated from a specific wall then the projected line segment should have a large overlap with the wall, see figure%TODO.
+	This fact is used as a heuristic to search for the most probable wall.
+
+	The line segment is projected to every wall and the overlap is measured. 
+	The wall with the largest overlap is classified as the associated wall.
+	This is now explained in detail.
+	
+	overlap measure:
+	if the line segment is projected onto the plane spanned by a wall the linesegment overlaps the wall either
+		1) no overlap (fig %TODO)
+		2) partial overlap (fig %TODO)
+		3) full overlap (fig %TODO)
+
+	%TODO table?, overlap, points in polygon, output value (e.g. partial overlap, 1, 0..1)
+
+	A wall is a polygon of four points. Both line segments endpoints are exposed to an \emph{in polygon} test. 
+	%TODO REF MATLAB?
+	%we use the Matlab build in polygon as in section (%TODO)
+	The in polygon test returns true if the point lies within the polygon.
+	If there is no overlap none of the endpoints are in the polygon, if there is a partial overlap one endpoint is in the polygon and with the full overlap both or zero endpoints are in the polygon.
+	If a specific wall has no overlap, an overlapvalue of zero is returned.
+	If a specific wall has full overlap, an overlap value of 1 is returned.
+	If a specific wall has partial overlap the following is done to calculate its overlap value.
+	
+	situation
+	Because we assume infinite height, the partial overlapping line always intersects one of the vertical wallsides.
+	The overlapping part of the line is the linesegment defined by this intersection and the line segments endpoint that succeeded the in polygon test.
+	To determine which of the two vertical lines are crossed a simple angle comparison is done.
+	We use the same method as was done in section %TODO 
+	We calculate vectors by connecting w, d, and c.
+	Because one of the line segment endpoints was lieing outside the wall, one of the two vectors (dc, dw) or (cd, cw) have a obtuse angle, see figure %TODO.
+	%TODO angle tekentje 
+	If (dc, dw) is obtuse, the left vertical line da, is crossed. 
+	If (cd, cw) is obtuse, the right vertical line cb, is crossed. 
+
+	To test if a line with no points in the polygon is a full or zero overlap above method is also applied.
+	If both (dv, dc) and (dw,dc) are obtuse or acute the linesegment lies outside the wall so zero overlap is returned.
+	If (dv, dc) and (dw,dc) differ in obtuse or accuteness e.g. (dv, dc) is acute and (dw, dc) is obtuse then 
+	both endpoints lie on another side of the wall, full overlap can be concluded.
+	The overlap is calculated by measuring the length of the linesegment defined by the intersections with (d,a) and (c,b) and the line (v,w).
+	
+	NEE NEE dit is dus eigenlijk partial overlap
+
+	to put it al together in a table:
+	%TODO
+	%TODO bedenken welke tests het eerst gedaan moeten orden (in polygon of die andere) om zo de snelste tree te hebben
+
+
+
+	endpoints in  
+	If both are obtuse the 
+
+	Depended on the intersection is calculated 
+
+	wall segment
+	The obtuse 
+	the vertical line with the 
+	
+	The angles are acute or obtuse if the dot product of the vectors involved are
+	respectively positive or negative.
+	
+	the bottompart as a vector with his origin either at the left vertical corner (dc) or the right vertical corner (
+	
+
+
+	 of a line always 
+	With partial overlap we want to calculate the intersection with one of the vertical lines of the polygon
+	check
+	doel
+	% TODO describe situation with full overlap but no in polygon points
+
+
+	describe how to calc overlap here:
+
+	concl
+	example images of different scenarios
+
+
+	TODO:
+	make schema with 3 methods, and in one regel the summary of its technique
+	
+	test with different techniques
+	make different dataset
+	hand anotated (pleonastisch zeg hehe) for ground truth
+	1) project endpoints (and sometimes end up not agreeing wall)
+	2) use midpoint of line
+	3) use tjs algo (line wall overlap)
+
 
 \subsubsection{Wall height estimation}
 	In the previous section we addressed the problem that the endpoints of a line segment may not agree on the wall.  We also introduced a method to associate a line segment with the right wall. In this section this information is used to estimate the height of the wall which is in the next section used to update the 3D model.\\
