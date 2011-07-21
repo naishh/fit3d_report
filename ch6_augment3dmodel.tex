@@ -111,25 +111,26 @@ We will now elaborate on each step.
 	Lets define $l$ in $R2$ line segment returned from the Hough algorithm.
 	If we project $l$ to the plane spanned by wall $w$ we get a line $l_{proj_w}$ in $R3$.
 	If line segment $l$ comes from the contour of wall $w$, then $l_{proj_w}$ should have a large overlap with $w$, and have small overlap with the other walls.
-	%This fact is used as a Heuristic assumption to guide the search for the best %tits, hahahahah
-	see figure%TODO.
-	%This fact is used as a heuristic to search for the most probable wall.
+	%see figure%TODO.
+	The overlap assumption is used as a Heuric to search for the most probable wall. How this is is done is explained next.
 
-	Every line segments is projected to all walls and the overlap is measured. 
-	The wall with the largest overlap is classified as the most probable wall.
-	The algorithm returns a set of lines in $R3$, which represent the Hough line segments projected to their most probable wall.
+	Every line segments is projected to all walls and the overlap ratio is
+	measured. 	The wall from where the line has the largest overlap ratio is
+	classified as the most probable wall.
+	The output of the algorithm is a set of lines in $R3$, which represent the
+	Hough line segments projected to their most probable wall.
 
-	How the overlap is calculated is now explained in detail.
-	
-
-	$l_{proj_w} can overlap $w$ in four different scenarios:
-		1) no overlap (fig %TODO)
+	The overlap ratio (or) is the amount line-wall overlap (lwo) overlap divided by the total length of the line. 
+	Befor the amount of overlap is calculated the type of overlap is determined first:
+	$l_{proj_w}$ can overlap $w$ in four different scenarios:
+		1) no overlap (see fig %TODO)
 		2) partial overlap (fig %TODO)
-		3) full overlap (includes)(fig %TODO)
-		3) full overlap (overextends) (fig %TODO)
-
+		3) full overlap ($l_{proj_w}$ is included in $w$)(fig %TODO)
+		3) full overlap ($l_{proj_w}$ overextends $w$) (fig %TODO)
 	%TODO table?, overlap, points in polygon, output value (e.g. partial overlap, 1, 0..1)
+	% in figure overlap ratio percentages drawwen
 
+------------------------------------------------------------------
 	A wall is a polygon of four points. Both line segments endpoints are exposed to an \emph{in polygon} test. 
 	%TODO REF MATLAB?
 	%we use the Matlab build in polygon as in section (%TODO)
