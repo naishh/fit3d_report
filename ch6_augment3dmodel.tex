@@ -69,44 +69,64 @@ We will now elaborate on each step.
 	).
 
 \subsubsection{Heuristic Line-Wall determination}
-	% what do we have what is the input
-	From the Hough transform we have a bunch of 2D line segments which represent parts of the building contour. 
-	As we agreed in our assumption that every line segment probably presents (a part of) the upper side of a wall of the building.
-	It looks like its time to augment these walls but in fact we don't know which line segments is associated with which wall.
-	This section explains how the line segments are associated with the right wall.\\
+% 	It would be straightforward to use the method of chapter %TODO
+% 	Instead of a skyline pixel we could take the line segments endpoints and project it onto the building walls. The wall with the shortest distance will be assigned to the line segment.
+% 
+% 	%And to update the specific wall we first need to know with a high probability of being correct which wall the line segment presents
+% 	But this method introduces a problem: some of the line segments have endpoints that lie at the corner of the building. These line segments could easily be associated with the neighboring wall. Because the 3D model is a rough estimate this could lead to bad results.
+% 	In the corner case it is not clear to which wall the line segment belongs because both endpoints do not agree on the same wall. To solve this problem some heuristic methods are developed and tested. The following heuristic is both simple and effective.
+% 	The heuristic uses the importance of the middle point of the line segment. This middle point has a low change of being on a building corner and the on average biggest change of being on the wall we are looking for.
+% 	Therefor we discard the endpoints and use the middle point the endpoints to determine the right wall.
+% 	As in the previous section %TODO
+% 	this middle point is intersected with all planes spanned by the walls. The line segment is stored to the wall with the shortest distance.
+% 	The output of this part of the algorithm is for every wall a bunch of associated line segments originated from different views.
+% 
+% 	%TODO example image
 
-	It would be straightforward to use the method of chapter %TODO
-	Instead of a skyline pixel we could take the line segments endpoints and project it onto the building walls. The wall with the shortest distance will be assigned to the line segment.
-
-	%And to update the specific wall we first need to know with a high probability of being correct which wall the line segment presents
-	But this method introduces a problem: some of the line segments have endpoints that lie at the corner of the building. These line segments could easily be associated with the neighboring wall. Because the 3D model is a rough estimate this could lead to bad results.
-	In the corner case it is not clear to which wall the line segment belongs because both endpoints do not agree on the same wall. To solve this problem some heuristic methods are developed and tested. The following heuristic is both simple and effective.
-	The heuristic uses the importance of the middle point of the line segment. This middle point has a low change of being on a building corner and the on average biggest change of being on the wall we are looking for.
-	Therefor we discard the endpoints and use the middle point the endpoints to determine the right wall.
-	As in the previous section %TODO
-	this middle point is intersected with all planes spanned by the walls. The line segment is stored to the wall with the shortest distance.
-	The output of this part of the algorithm is for every wall a bunch of associated line segments originated from different views.
-
-	%TODO example image
-
-
-	Method 3:  
-	target
-	associate line segments to right wall
 	
-	method
-	If a line segment is originated from a specific wall then the projected line segment should have a large overlap with the wall, see figure%TODO.
-	This fact is used as a heuristic to search for the most probable wall.
+	The Hough transform returned a set of 2D line segments. We assume this set
+	represent (parts of) the building contour. To be more precise we assume
+	that every line segment in the set represents (a part of) the upper side of
+	some wall of the building. This section explains how we, given a line
+	segment, determine its associated wall.
 
-	The line segment is projected to every wall and the overlap is measured. 
-	The wall with the largest overlap is classified as the associated wall.
-	This is now explained in detail.
+	%TODO name different methods and put in table and test
+	% Some different methods
+	% method 1:
+	% take endpoints and project, con: endpoints don't agree
+	% see above tekst
+	% method 2:
+	% midle point
+	% method 3: 
+	% overlap
 	
-	overlap measure:
-	if the line segment is projected onto the plane spanned by a wall the linesegment overlaps the wall either
+	structure is?
+	-situation
+	-method
+	-concl
+
+	Before we expain the method lets analyse the situation.
+
+	% TODO uitzoeken hoe je R noteert
+	Lets define $l$ in $R2$ line segment returned from the Hough algorithm.
+	If we project $l$ to the plane spanned by wall $w$ we get a line $l_{proj_w}$ in $R3$.
+	If line segment $l$ comes from the contour of wall $w$, then $l_{proj_w}$ should have a large overlap with $w$, and have small overlap with the other walls.
+	%This fact is used as a Heuristic assumption to guide the search for the best %tits, hahahahah
+	see figure%TODO.
+	%This fact is used as a heuristic to search for the most probable wall.
+
+	Every line segments is projected to all walls and the overlap is measured. 
+	The wall with the largest overlap is classified as the most probable wall.
+	The algorithm returns a set of lines in $R3$, which represent the Hough line segments projected to their most probable wall.
+
+	How the overlap is calculated is now explained in detail.
+	
+
+	$l_{proj_w} can overlap $w$ in four different scenarios:
 		1) no overlap (fig %TODO)
 		2) partial overlap (fig %TODO)
-		3) full overlap (fig %TODO)
+		3) full overlap (includes)(fig %TODO)
+		3) full overlap (overextends) (fig %TODO)
 
 	%TODO table?, overlap, points in polygon, output value (e.g. partial overlap, 1, 0..1)
 
