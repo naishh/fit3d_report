@@ -120,8 +120,8 @@ We will now elaborate on each step.
 	The output of the algorithm is a set of lines in $R3$, which represent the
 	Hough line segments projected to their most probable wall.
 
-	The overlap ratio (or) is the amount line-wall overlap (lwo) overlap divided by the total length of the line. 
-	Befor the amount of overlap is calculated the type of overlap is determined first:
+	The overlap ratio (or) is defined as the amount line-wall overlap (lwo) overlap divided by the total length of the line. 
+	Before the amount of overlap is calculated, the type of overlap is determined first:
 	$l_{proj_w}$ can overlap $w$ in four different scenarios:
 		1) no overlap (see fig %TODO)
 		2) partial overlap (fig %TODO)
@@ -131,26 +131,35 @@ We will now elaborate on each step.
 	% in figure overlap ratio percentages drawwen
 
 ------------------------------------------------------------------
-	A wall is a polygon of four points. Both line segments endpoints are exposed to an \emph{in polygon} test. 
+	A wall is constructed of a polygon with four points. 
+	The type of overlap is defined by exposing the endpoints of the line segments to an \emph{in polygon} test. 
 	%TODO REF MATLAB?
 	%we use the Matlab build in polygon as in section (%TODO)
-	The in polygon test returns true if the point lies within the polygon.
-	If there is no overlap none of the endpoints are in the polygon, if there is a partial overlap one endpoint is in the polygon and with the full overlap both or zero endpoints are in the polygon.
-	If a specific wall has no overlap, an overlapvalue of zero is returned.
-	If a specific wall has full overlap, an overlap value of 1 is returned.
-	If a specific wall has partial overlap the following is done to calculate its overlap value.
-	
-	situation
-	Because we assume infinite height, the partial overlapping line always intersects one of the vertical wallsides.
-	The overlapping part of the line is the linesegment defined by this intersection and the line segments endpoint that succeeded the in polygon test.
-	To determine which of the two vertical lines are crossed a simple angle comparison is done.
-	We use the same method as was done in section %TODO 
-	We calculate vectors by connecting w, d, and c.
-	Because one of the line segment endpoints was lieing outside the wall, one of the two vectors (dc, dw) or (cd, cw) have a obtuse angle, see figure %TODO.
-	%TODO angle tekentje 
-	If (dc, dw) is obtuse, the left vertical line da, is crossed. 
-	If (cd, cw) is obtuse, the right vertical line cb, is crossed. 
+	\begin{tabular}
+	Type of overlap 			&	points in polygon   & overlap ratio
+	no overlap					&	0					& 0
+	partial overlap 			&	1					& <0..1>
+	full overlap (included)		&	2					& 1
+	full overlap (overextended)	&  	0					& 1 
+	\end{tabular}
 
+	Table %TODO
+	represents the types of overlap with the corresponding number of points that pass the \emph{in polygon} test and the overlapratio value.
+
+	The overlap ratio is calculated for the partial- and full overlap types, this is done as follows. 
+	Lets first consider the partial overlap type, the \emph{in polygon} test returned 1, that means the other line segments endpoint lies outside the wall.
+	To calculate its overlap ratio the line needs to be cut down to the part that overlaps the wall, this point is defined as the intersection of the line with one of the vertical wall sides, see figure. %TODO
+%. The cutdown line has two coordinates, first ofcourse the point that passed the \emp{in polygon} test and second the intersection of the original line with one of the vertical wallsides
+	%Because we assume infinite height, The partial overlapping line always intersects one of the vertical wallsides.
+	%The overlapping part of the line is the linesegment defined by this intersection and the line segments endpoint that succeeded the in polygon test.
+	To determine which of the two vertical lines $ad$ or $bc$ is crossed, a simple angle comparison is done.
+	We use the same method as was done in section %TODO 
+	First four vectors are calculated connecting $w$, $d$, and $c$.
+	Because one of the line segment endpoints lies outside the wall, the angle between the two vectors $dc$, $dw$ or $cd$, $cw$ have an obtuse angle, see figure %TODO.
+	%TODO angle tekentje 
+	If $\angle dc, dw$ is obtuse, the left vertical line $da$, is crossed. 
+	If $\angle cd, cw$ is obtuse, the right vertical line $cb$, is crossed. 
+------------------------------------------------------------------------------------------------------------------------------------
 	To test if a line with no points in the polygon is a full or zero overlap above method is also applied.
 	If both (dv, dc) and (dw,dc) are obtuse or acute the linesegment lies outside the wall so zero overlap is returned.
 	If (dv, dc) and (dw,dc) differ in obtuse or accuteness e.g. (dv, dc) is acute and (dw, dc) is obtuse then 
@@ -159,20 +168,7 @@ We will now elaborate on each step.
 	
 	NEE NEE dit is dus eigenlijk partial overlap
 
-	to put it al together in a table:
-	%TODO
-	%TODO bedenken welke tests het eerst gedaan moeten orden (in polygon of die andere) om zo de snelste tree te hebben
 
-
-
-	endpoints in  
-	If both are obtuse the 
-
-	Depended on the intersection is calculated 
-
-	wall segment
-	The obtuse 
-	the vertical line with the 
 	
 	The angles are acute or obtuse if the dot product of the vectors involved are
 	respectively positive or negative.
@@ -187,11 +183,6 @@ We will now elaborate on each step.
 	doel
 	% TODO describe situation with full overlap but no in polygon points
 
-
-	describe how to calc overlap here:
-
-	concl
-	example images of different scenarios
 
 
 	TODO:
