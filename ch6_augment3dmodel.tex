@@ -22,6 +22,16 @@
 \begin{document}
 \maketitle
 
+\section{Comments on this thesis}
+There Frans and Isaac,
+
+I incorporated most of the feedback except for
+-the test on different datasets
+(the dataset is not ready yet)
+-large introduction
+I elaberate a bit more then my prev version but I think you want more background information.
+I do this in a few chapters earlier which is not included in this document.
+-
 
 \section{Improving the 3D building}
 \subsection{Introduction}
@@ -29,7 +39,8 @@
 In the previous chapter we extracted the building contour with the skyline
 detector. The output was a set of 2D points and we collected this set for every
 view of the building.  The aim of this chapter is to use this set of points to
-improve the basic 3D model.
+improve a basic 3D model.
+%TODO introduce 3d model
 
 %situation
 First of all the point cloud from the skyline detector included a lot of noise caused mostly
@@ -113,14 +124,25 @@ The 3D model is then improved by updating the walls according these heights. \\
 	straight line not as its image points $(x1, y1)$, $(x2, y2)$, etc., but in
 	terms of the parameters of the straight line formula $y = mx + b$. i.e., the
 	slope parameter $m$ and the intercept parameter $b$.
-	If a pixel is classified as a skyline pixel, the Hough transform increases a
-	vote value for every valid line ($m$,$b$ pair) that crosses this particular
-	pixel.  Thus lines ($m$, $b$ pairs) that receive a large amount of votes
-	contain a large amount of skyline pixels.  Because it finds straight lines
-	with skyline pixels it is most likely that it returns parts of the building
-	contour. 
-	Optional the Hough transform returns the start- and endpoint of the lines 
-	which is in our case useful as we look for specific building contour parts. 
+	The input of a Hough transform is a binary image. In our case the output of 
+	the skyline detector (section %TODO.).
+	If a pixel is classified as a skyline pixel (a pixel that lies on the
+	skyline according the skyline detector), the Hough transform increases
+	a vote value for every valid line ($m$,$b$ pair) that crosses this
+	particular pixel.  Lines ($m$, $b$ pairs) that receive a large amount of votes
+	contain a large amount of skyline pixels.  
+	Because the algorithm detects straight lines containing only skyline pixels it is
+	most likely that it returns parts of the skyline and therefor the building contour. \\
+	The Hough transform is implemented in \textemph{Matlab} and has some useful extra functions:\\
+	The algorithm can optionally return the start- and endpoint of the found lines 
+	which is very useful as it helps to associate which part of the building is described by the line.
+	Furthermore it has the parameter \emph{FillGab} that specifies the distance
+	between two line segments associated with the same $m$,$b$ pair. When the
+	distance between the line segments is less then value specified, it merges
+	the line segments into a single line segment. In our application this
+	parameter in particular interest to merge lines that are interrupted by for
+	example an occluding tree.
+
 	%Because of occlusion the Houghlines could return two separate line segments
 	%which is originally one line which is %onderbbbbbbbroken.
 	\\
@@ -402,10 +424,12 @@ We now discuss some future work and conclude.  In this thesis little is discusse
 To find the closest wall the middle point point of the line is now projected to all walls, it could be a significant speedup to reduce the set of walls to only the walls that are found at the endpoints. The downside is that it is slightly dangerous because it could be the case that both line segments endpoints could lie on a corner point making it possible that none of the endpoints refer to the correct wall.\\
 
 As can be seen from figure TODO%TODO
-two line segments appear on the same wall. This means they have a double influence on the average wall height which is unfair. A simple solution would be to add a normalization preprocess step so each view has only one wall height vote per wall. A more elegant solution would be to merge the two (or more) line segments to a single line segment. This could be achieved with an iterative Houghline transform where the \emph{FillGap} parameter is increased in each iteration. For fig ?? %TODO 
+%TODO fix MISSING FIGURE
+two line segments appear on the same wall. This means they have a double influence on the average wall height which is unfair. A simple solution would be to add a normalization preprocess step so each view has only one wall height vote per wall. A more elegant solution would be to merge the two (or more) line segments to a single line segment. This could be achieved with an iterative Hough transform where the \emph{FillGap} parameter is increased in each iteration. For fig ?? %TODO 
+%TODO why iterative?? why not big gab as param??
 two iterations would be enough where the \emph{FillGap} parameter needs to be at least as big as the occluding tree in the second iteration.\\
 To make the algorithm more generic the flat roof assumption could be stretched or even discarded.
-Consider figure TODO %TODO
+Consider figure TODO %TODO schuin roof plaatje
 it has a roof consisting of two planes which are not parallel with the facade of the building. This makes the problem of extracting the 3D model more complex but not 
 infeasible. By developing a method for this it would be smart to make symmetry assumptions. The roof lies exactly in the middle of the building and it consists of two symmetric planes, this is useful information. In 
 %TODO ref opzoeken
