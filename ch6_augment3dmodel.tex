@@ -56,6 +56,7 @@
 \section{Comments on this thesis}
 There Frans and Isaac,
 
+%TODO
 I incorporated most of the feedback except for
 -the test on different datasets
 (the dataset is not ready yet)
@@ -269,7 +270,7 @@ segment is classified as the most likely wall for that line segment.
 	normalized.
 
 	$l_{proj_w}$ can overlap $w$ in four different scenarios, this is explained
-	in figure %TODO:
+	in figure 10 %TODO:
 
 	caption figures:
 		1) no overlap (see fig %TODO)\\
@@ -284,7 +285,10 @@ segment is classified as the most likely wall for that line segment.
 	wall of the building.
 	%TODO REF MATLAB?
 	%we use the Matlab build in polygon as in section (%TODO)
-	%TODO tabulartje 
+
+	The table below represents the types of overlap with the corresponding number of points
+	that pass the \emph{in polygon} test and their possible line-wall overlap
+	value.\\ 
 	\begin{tabular}
 	Type of line-wall overlap 			&	points in polygon 			& line-wall overlap \\
 	no overlap					&	0					& 0		\\
@@ -292,12 +296,8 @@ segment is classified as the most likely wall for that line segment.
 	full line-wall overlap (included)		&	2					& 1		\\
 	full line-wall overlap (overextended)		&  	0					& 1 		\\
 	\end{tabular}
+	\\
 	% TODO uitzoeken wat interval t/m is 
-
-	Table %TODO
-	represents the types of overlap with the corresponding number of points
-	that pass the \emph{in polygon} test and their possible line-wall overlap
-	value. 
 
 	If the point in polygon test returns 0 the line-wall overlap calculation
 	is skipped and 0 is returned. The remaining overlap types (partial- and full
@@ -312,7 +312,7 @@ segment is classified as the most likely wall for that line segment.
 	part that overlaps the wall and the length is measured. 
 	The cropped line has two coordinates, first ofcourse the point that passed
 	the \emp{in polygon} test and secondly the intersection of the line
-	segment with one of the vertical wall sides, see figure. %TODO
+	segment with one of the vertical wall sides, see figure . %TODO
 	(Note that because we assume the walls to be of infinite height, the line
 	segment partial overlapping line segment always intersects one of the
 	vertical wallsides.)
@@ -346,10 +346,7 @@ segment is classified as the most likely wall for that line segment.
 	As you can see in Figure %todo
 	this resulted in either full or none overlap.
 	Again we analysing the vector angles to determine the remaining overlap-type.
-	Lets consider 
-	figure %TODO
-	and figure %TODO
-	If both angles $\angle dv, dc$ and $\angle dw,dc$ are obtuse or acute
+	Lets consider figure 10d and figure 10e, if both angles $\angle dv, dc$ and $\angle dw,dc$ are obtuse or acute
 	then the whole line segment lies outside the wall. An overlap value of zero
 	is returned.\\
 	Otherwise, if $\angle dv, dc$ and $\angle dw,dc$ differ in obtuse or accuteness
@@ -359,6 +356,10 @@ segment is classified as the most likely wall for that line segment.
 	The amount of overlap is now calculated by measuring the length
 	of the line segment which is cut down by his intersections with $da$ and
 	$cb$.
+
+
+
+
 	
 	Finally the line-wall overlap is normalized by the line segments length:\\
 	$\alhpa_{l} = \fac{lwo}{|l|}$
@@ -382,6 +383,9 @@ segment is classified as the most likely wall for that line segment.
 	depended on the overlap type and the line is normalized. A search for the
 	maximum normalized line-wall overlap is used to determine the correct line-wall
 	association.
+
+	% TODO
+	% latex draw, show cut off line segments (different color)
 
 	% TODO:
 	% make schema with 3 methods, and in one regel the summary of its technique
