@@ -1,13 +1,29 @@
 \documentclass[10pt]{article}
 \usepackage{graphicx, subfigure, latexdraw}
 
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+
+
+\usepackage{graphicx, subfigure}
+
 \usepackage{amsmath} % for the argmin
 \newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
 \newcommand{\argmin}[1]{\underset{#1}{\operatorname{arg\ min}}}
 \setlength{\parindent}{0in}
 \include{commands}
 
-\title{\sc Optimizing 3D models from 2D images}
+% TODO
+% put this in one of the chapters befor this chapter:
+% The 3D model comes from a top view googlemaps blabal
+% The model is of infinite height
+% an intro which answers the question:
+% detail of the problem, why is this such a interesting problem
+% what did others and how is my work related?
+
+\title{\sc Improve 3D models from 2D images}
 
 \author{T. Kostelijk\\mailtjerk@gmail.com}
 
@@ -15,66 +31,164 @@
 \maketitle
 
 
-\section{Augmenting the 3D building}
+
+\section{Test}
+
+% Generated with LaTeXDraw 2.0.8
+% Fri Aug 05 21:57:11 CEST 2011
+% a
+\scalebox{1} % Change this value to rescale the drawing.
+{
+\begin{pspicture}(0,-1.005)(4.473328,1.4)
+\psframe[linewidth=0.01,dimen=outer](3.0,1.4)(1.5,-1.0)
+\psline[linewidth=0.01cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(3.0,-1.0)(1.1,0.6)
+\psline[linewidth=0.01cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(1.5,-1.0)(0.0,0.6)
+\psline[linewidth=0.02cm](0.0,0.6)(1.1,0.6)
+\psarc[linewidth=0.01](3.0,-1.0){0.4}{138.81407}{180.0}
+\psarc[linewidth=0.01](1.5,-1.0){0.3}{0.0}{135.0}
+\psarc[linewidth=0.01](3.9,1.0){0.3}{26.565052}{333.43494}
+\psarc[linewidth=0.01](4.0,0.9){0.3}{26.565052}{333.43494}
+\psarc[linewidth=0.01](4.1,0.8){0.3}{26.565052}{333.43494}
+\psarc[linewidth=0.01](4.2,0.7){0.3}{26.565052}{333.43494}
+\end{pspicture} 
+}
 
 
 
+\section{Comments on this thesis}
+There Frans and Isaac,
 
+%TODO
+I incorporated most of the feedback except for
+-the test on different datasets\\
+(the dataset is not ready yet)\\
+-large introduction\\
+I elaberate a bit more then my prev version but I think you want more background
+information.\\
+I do this in a few chapters earlier which is not included in this document.\\
+- other types of roofs?\\
 
+\section{Improving the 3D building}
 
 \subsection{Introduction}
-% write THIS AT LAST
-In the previous section we saw the equivalence between the skyline and the building contour, we also saw how this skyline was detected and how every point on this skyline was projected on the building wall it most likely presents. 
-This 3D point cloud is an interesting result but it is not enough for our aim, to augment the basic 3D model.
-First of all this point cloud included a lot of noise caused mostly by occluding objects like tree's. How do we detect those outliers?
-% why not ransac?
-And if we know which data belongs to the building contour we could use the developed projection techniques from section %TODO
-to obtain parts of the building contour.
-The next question arises is, given this building contour parts, how do we augment the 3D model in a clean way?
-We developed an algorithm that addresses these questions.
+%chain
+In the previous chapter we extracted the building contour with the skyline
+detector. The output was a set of 2D points and we collected this set for every
+view of the building.  The aim of this chapter is to use this set of points to
+improve a basic 3D model.
+%TODO introduce 3d model
+
+%situation
+First of all the point cloud from the skyline detector included a lot of noise caused mostly
+by occluding objects like tree's. How do we detect those outliers?
+And if we have an outlier free point cloud how can we use this information to
+improve the 3D model? How can a point be associated to a specific part of the
+building and finaly improve the 3D model? 
+These questions are addressed in this chapter.
+
+%solution
+The solution is made broadly in the following steps. First, the set of points is transfered to a set of
+lines. Then each line segment is assigned to a wall of the building. After this 
+the lines are projected to these assigned walls. 
+These projections are used to estimate new heights of the building walls.
+The 3D model is then improved by updating the walls according these heights. \\
+ We will now elaborate on each step.
+
+
+% TODO
+% part of intro?:
+% And if we know which data belongs to the building contour we could use the developed projection techniques from section %TODO
+% to obtain parts of the building contour.
+% The next question arises is, given this building contour parts, how do we
+% improve the 3D model in a clean way?
+
 %before we take these next steps we take one step back and go to the 2d images.
 	%we saw that the skyline detector outputs a binary image where a white pixel is considered as highly from the skyline and therefor the building contour.
 	%todo
-\subsection{The algorithm}
-Let us first define the input of the algorithm:
-\begin{itemize}
-	\item a set of calibrated binary 2D images where white indicates a skyline pixel which has a high probability of being the building contour
-	%TODO explain calibrated somewhere eerder in het report
-	\item a rough 3D model extracted from an open street view database
-	%TODO introduce the 3D model somewhere eerder in report
-\end{itemize}
-The output will be an updated 3D model, this output is developed in several steps:\\
-First some operation are done in 2D, the individual skyline pixels are grouped into line segments using an approach called the Hough transform. In the next step every line is heuristicly associated to (and projected on) a specific wall in 3D. The third step is to combine the projected line segments, which produces and estimate of the height of each building wall. In the last step these heights are used to augment the walls of the rough 3D model.
-We will now elaborate on each step.
+
+
+% why not ransac?
+\subsection{Extracting line segments}
+\subsubsection{motivation/intro/chain to hough} %TODO
+
+% Let us first define the input of the algorithm:
+% \begin{itemize}
+% 	\item a set of calibrated binary 2D images where white indicates a skyline pixel which has a high probability of being the building contour
+% 	%TODO explain calibrated somewhere eerder in het report
+% 	\item a rough 3D model extracted from an open street view database
+% 	%TODO introduce the 3D model somewhere eerder in report
+% \end{itemize}
+%
+% The output will be an updated 3D model, this output is developed in several steps:\\
+% First some operation are done in 2D, the individual skyline pixels are grouped
+% into line segments using an approach called the Hough transform. In the next
+% step every line is heuristicly associated to (and projected on) a specific wall
+% in 3D. The third step is to combine the projected line segments, which produces
+% and estimate of the height of each building wall. In the last step these heights
+% are used to improve the walls of the rough 3D model.
 
 %why fit lines on 2d and not in 3d
 %cheaper easier?
-\subsubsection{Extracting line segments, Hough transform} % Houghlines
-	%The aim of this step is to use the output of the skyline detector to extract line segments. These line segments can be used to update to indicate the building contour and update the 3D model.
 
-	%chaining my ass of here :)
-	% full motivation 
-	The main aim of this part is to extract structure from the output of the skyline detector. This includes the removement of outliers (caused by for example an occluding tree) and the extraction of straight line segments. 
-	To remove the outliers we put the process upside down: we are detecting the inliers and consider the rest as outliers.\\
-	But do we define an inlier? If we take the contour of an average building it is mostly formed by straight lines, assuming the roof is flat.
+	To remove the outliers the process is put upside down: we detect the
+	inliers and consider the remainder as outliers. But we first have to define an inlier.\\
+	Lets take the contour of an average building, this is mostly formed by
+	straight lines. We use this fact to simplify our problem:\\
+	\textemph{Flat roof assumption}\\
+	\textemph{We assume each building has a flat roof, implicating that each buildingwall
+	has a straight upper contour}
+
 	% todo example images
-	If a bunch of skyline pixels lie on the same line they probably represent a building contour.
+	If a set of skyline pixels lie on the same line, they form a straight line
+	and therefor have a large probability to present a part of the building contour.
+	These skyline pixels, that form a straight line, are therefor considered as our
+	inliers. 
+	If we have a method that extracts straight line segments, we can use these
+	line segments to find parts of the building contour and finaly improve the 3D
+	model. Next is explained how these straight line segments are extracted.
 	% TODO what if a plain flys by? note in drawbacks of method
-	The problem of finding the building contour is now boiled down to finding skyline pixels that lie on a straight line.
+
+\subsubsection{Hough transform}
+	A widely used method for extracting line segments is the the Hough transform
+	(invented by P. Hough).  We regard this as a suitable method because it is
+	used a lot for this problem. This is because it is unique in its low
+	computational comlexity (compared to other (iterative) methods like RANSAC).
+	%TODO reference
+	We will explain this method briefly.
+	In the Hough transform, a main idea is to consider the characteristics of a
+	straight line not as its image points $(x1, y1)$, $(x2, y2)$, etc., but in
+	terms of the parameters of the straight line formula $y = mx + b$. i.e., the
+	slope parameter $m$ and the intercept parameter $b$.
+	The input of a Hough transform is a binary image. In our case the output of 
+	the skyline detector (chapter TODO).
+	If a pixel is classified as a skyline pixel (a pixel that lies on the
+	skyline according the skyline detector), the Hough transform increases
+	a vote value for every valid line ($m$,$b$ pair) that crosses this
+	particular pixel.  Lines ($m$, $b$ pairs) that receive a large amount of votes
+	contain a large amount of skyline pixels.  
+	Because the algorithm detects straight lines containing only skyline pixels it is
+	most likely that it returns parts of the skyline and therefor the building contour. \\
+	The Hough transform is implemented in \textemph{Matlab} and has some useful extra functions:\\
+	The algorithm can optionally return the start- and endpoint of the found lines 
+	which is very useful as it helps to associate which part of the building is described by the line.
+	Furthermore it has the parameter \emph{FillGab} that specifies the distance
+	between two line segments associated with the same $m$,$b$ pair. When the
+	distance between the line segments is less then value specified, it merges
+	the line segments into a single line segment. In our application this
+	parameter in particular interest to merge lines that are interrupted by for
+	example an occluding tree.
+
+	%Because of occlusion the Houghlines could return two separate line segments
+	%which is originally one line which is %onderbbbbbbbroken.
 	\\
-	A famous method for extracting line segments is the the Hough transform (invented by Paul Hough).
-	We will explain this method in short, details regarding this method are found in the Appendix.A??%TODO
-	In the Hough transform, a main idea is to consider the characteristics of a straight line not as its image points $(x1, y1)$, $(x2, y2)$, etc., but in terms of the parameters of the straight line formula $y = mx + b$. i.e., the slope parameter $m$ and the intercept parameter $b$.
-	If a skyline pixel is found the Hough transform increases a vote value for every valid line ($m$,$b$ pair) that crosses this particular point. This is done in a very efficient way, see Appendix A?? %TODO 
-	for details.
-	The lines ($m$, $b$ pairs) that receive a large amount of votes contain a large amount of skyline pixels. Because it is a straight line it most likely represents a part of the building contour. 
-	Optional the Hough transform returns the start- and endpoint of the lines which is in our case useful. 
-	%Because of occlusion the Houghlines could return two separate line segments which is originally one line which is %onderroken.
-	\\
-	Results of the Hough transform on the 2D output of the skyline detector are displayed and evaluated in the result section (section %TODO
-	).
+	Results of the Hough transform on the 2D output of the skyline detector are
+	displayed and evaluated in the Result section.
 
 \subsubsection{Heuristic Line-Wall determination}
+% 	method below is very nice but it is outperformed by my ultragenius other
+% 	method, so I could use it in the thesis but only as different test
+% 	methods
+%
 % 	It would be straightforward to use the method of chapter %TODO
 % 	Instead of a skyline pixel we could take the line segments endpoints and project it onto the building walls. The wall with the shortest distance will be assigned to the line segment.
 % 
@@ -88,127 +202,214 @@ We will now elaborate on each step.
 % 	The output of this part of the algorithm is for every wall a bunch of associated line segments originated from different views.
 % 
 % 	%TODO example image
+%TODO name different methods and put in table and test
+% Some different methods
+% method 1:
+% take endpoints and project, con: endpoints don't agree
+% see above tekst
+% method 2:
+% midle point
+% method 3: 
+% overlap
 
+	% intro
+	\paragraph{Introduction}
+	The Hough transform of the previous section returned a set of 2D line
+	segments.  If we could find a way to associate parts of the building with
+	the 2D line segments, we can use this to improve our basic 3D model.
+	This section explains how we associate the line segments with the most
+	likely parts of the building. \\
+
+	First the problem is analysed and together with that a few assumption are made.
+	Then some heuristics are defined and finally the developed method is explained.
+
+	\paragraph{Assumptions}
+	% intro of assumptions
+	We treat the parts of the building as individual walls and associate each
+	line segment with a wall of the building that is most likely responsible for
+	that line segment. 
+
+	\emph{Unique wall assumption}:\\
+	%motivation, straight lines, skyline detector
+	\emph{We asume that the output of the Hough transform are line segments that
+	each represent the upperside of the contour of a single wall of the building}
+
+	%We assume that the output of the Hough transform, the 2D line segments this set
+	%represents (parts of) the building contour. To be more precise we assume
+	%that every line segment in the set represents (a part of) the upper side of
+	%a specific wall of the building. 
+
+
+	If a line segment is assumpted to represent a single wall then the
+	projection to that wall should have a large line-wall overlap. To be more
+	precise, lets define $l$ in $\mathbb{R}2$ as a line segment that is generated by the Hough
+	transform.  If we project $l$ to the plane spanned by a certain wall $w$, we
+	get a line $l_{proj_w}$ in $\mathbb{R}3$.  As we assumed, $l$ comes from the 
+	contour of wall $w$. Its easy to see that $l_{proj_w}$
+	should have a large overlap with $w$, and also should have a small overlap with
+	the other walls.
+	%see figure%TODO. create two figure's (2d and 3d) with a single houghline
+	%(projected)
 	
-	The Hough transform returned a set of 2D line segments. We assume this set
-	represent (parts of) the building contour. To be more precise we assume
-	that every line segment in the set represents (a part of) the upper side of
-	some wall of the building. This section explains how we, given a line
-	segment, determine its associated wall.
+	\emph{Largest line-wall overlap assumption}:\\
+	\emph{A line segment is originated from the wall with the largest overlap
+	with the projected line segment.}\\
 
-	%TODO name different methods and put in table and test
-	% Some different methods
-	% method 1:
-	% take endpoints and project, con: endpoints don't agree
-	% see above tekst
-	% method 2:
-	% midle point
-	% method 3: 
-	% overlap
+	Now we have defined the assumptions we explain the algorithm.
+
+	\paragraph{Algorithm}
+	The algorithm can be described broadly as follows:
+	A line segment is projected to all walls and the amount of line-wall overlap is
+	calculated. The wall with the largest overlap with the specific line
+segment is classified as the most likely wall for that line segment.
+	Next the line segments are projected to their most likely wall, the
+	algorithm outputs this set of lines in $\mathbb{R}3$. 
 	
-	structure is?
-	-situation
-	-method
-	-concl
+	%\paragraph{Line wall overlap type}
+	This line-wall overlap is calculated in different steps.
+	First different types of overlap are explained. After the algorithm
+	determines the \emph{overlap type}, the overlap amount is determined and
+	normalized.
 
-	Before we expain the method lets analyse the situation.
+	$l_{proj_w}$ can overlap $w$ in four different scenarios:\\
+		1) no overlap (see fig 10a)\\
+		2) partial overlap (fig 10b)\\
+		3) full overlap ($l_{proj_w}$ is included in $w$)(fig 10c)\\
+		4) full overlap ($l_{proj_w}$ overextends $w$) (fig 10d)\\
 
-	% TODO uitzoeken hoe je R noteert
-	Lets define $l$ in $R2$ line segment returned from the Hough algorithm.
-	If we project $l$ to the plane spanned by wall $w$ we get a line $l_{proj_w}$ in $R3$.
-	If line segment $l$ comes from the contour of wall $w$, then $l_{proj_w}$ should have a large overlap with $w$, and have small overlap with the other walls.
-	%see figure%TODO.
-	The overlap assumption is used as a Heuric to search for the most probable wall. How this is is done is explained next.
-
-	Every line segments is projected to all walls and the overlap ratio is
-	measured. 	The wall from where the line has the largest overlap ratio is
-	classified as the most probable wall.
-	The output of the algorithm is a set of lines in $R3$, which represent the
-	Hough line segments projected to their most probable wall.
-
-	The overlap ratio (or) is defined as the amount line-wall overlap (lwo) overlap divided by the total length of the line. 
-	Before the amount of overlap is calculated, the type of overlap is determined first:
-	$l_{proj_w}$ can overlap $w$ in four different scenarios:
-		1) no overlap (see fig %TODO)
-		2) partial overlap (fig %TODO)
-		3) full overlap ($l_{proj_w}$ is included in $w$)(fig %TODO)
-		3) full overlap ($l_{proj_w}$ overextends $w$) (fig %TODO)
-	%TODO table?, overlap, points in polygon, output value (e.g. partial overlap, 1, 0..1)
-	% in figure overlap ratio percentages drawwen
-
-------------------------------------------------------------------
-	A wall is constructed of a polygon with four points. 
-	The type of overlap is defined by exposing the endpoints of the line segments to an \emph{in polygon} test. 
+	The type of overlap is defined exposing the endpoints of the line
+	segments to an \emph{in polygon} test where the polygon represents a 
+	wall of the building.
 	%TODO REF MATLAB?
 	%we use the Matlab build in polygon as in section (%TODO)
+
+	The table below represents the types of overlap with the corresponding number of points
+	that pass the \emph{in polygon} test and their possible line-wall overlap
+	value.\\ 
 	\begin{tabular}
-	Type of overlap 			&	points in polygon   & overlap ratio
-	no overlap					&	0					& 0
-	partial overlap 			&	1					& <0..1>
-	full overlap (included)		&	2					& 1
-	full overlap (overextended)	&  	0					& 1 
+	Type of line-wall overlap 			&	points in polygon 			& line-wall overlap \\
+	no overlap					&	0					& 0		\\
+	partial overlap 				&	1					& [0..1]	\\
+	full line-wall overlap (included)		&	2					& 1		\\
+	full line-wall overlap (overextended)		&  	0					& 1 		\\
 	\end{tabular}
+	\\
 
-	Table %TODO
-	represents the types of overlap with the corresponding number of points that pass the \emph{in polygon} test and the overlapratio value.
+	If the point in polygon test returns 0, the line-wall overlap calculation
+	is skipped and 0 is returned. The remaining overlap types (partial- and full
+	line-wall) overlap are treated individually:\\
 
-	The overlap ratio is calculated for the partial- and full overlap types, this is done as follows. 
-	Lets first consider the partial overlap type, the \emph{in polygon} test returned 1, that means the other line segments endpoint lies outside the wall.
-	To calculate its overlap ratio the line needs to be cut down to the part that overlaps the wall, this point is defined as the intersection of the line with one of the vertical wall sides, see figure. %TODO
-%. The cutdown line has two coordinates, first ofcourse the point that passed the \emp{in polygon} test and second the intersection of the original line with one of the vertical wallsides
-	%Because we assume infinite height, The partial overlapping line always intersects one of the vertical wallsides.
-	%The overlapping part of the line is the linesegment defined by this intersection and the line segments endpoint that succeeded the in polygon test.
-	To determine which of the two vertical lines $ad$ or $bc$ is crossed, a simple angle comparison is done.
-	We use the same method as was done in section %TODO 
-	First four vectors are calculated connecting $w$, $d$, and $c$.
-	Because one of the line segment endpoints lies outside the wall, the angle between the two vectors $dc$, $dw$ or $cd$, $cw$ have an obtuse angle, see figure %TODO.
-	%TODO angle tekentje 
-	If $\angle dc, dw$ is obtuse, the left vertical line $da$, is crossed. 
-	If $\angle cd, cw$ is obtuse, the right vertical line $cb$, is crossed. 
-------------------------------------------------------------------------------------------------------------------------------------
-	To test if a line with no points in the polygon is a full or zero overlap above method is also applied.
-	If both (dv, dc) and (dw,dc) are obtuse or acute the linesegment lies outside the wall so zero overlap is returned.
-	If (dv, dc) and (dw,dc) differ in obtuse or accuteness e.g. (dv, dc) is acute and (dw, dc) is obtuse then 
-	both endpoints lie on another side of the wall, full overlap can be concluded.
-	The overlap is calculated by measuring the length of the linesegment defined by the intersections with (d,a) and (c,b) and the line (v,w).
+	% TODO latex draw
+	% latex draw, show cut off line segments (different color)
+	% extra dikke vector over de lijn DC
+	% duidelijke pijl aan het eind van stippellijn
+	% alpha of beta teken en daar naar verwijzen ipv vectors benoemen
+	% TODO in figure overlap ratio percentages drawwen
+
+	\paragraph{Partial overlap}
+	Lets first consider the partial overlap type (Figure 10b), the \emph{in polygon} test
+	returned 1, that means that one of the line segments endpoint lies in
+	and one lies outside the wall.
+	To calculate the amount of line-wall overlap, the line segment is cropped to the
+	part that overlaps the wall and the length is measured. 
+	The cropped line has two coordinates, first ofcourse the point that passed
+	the \emp{in polygon} test and secondly the intersection of the line
+	segment with one of the vertical wall sides.
+	(Note that because we assume the walls to be of infinite height, the line
+	segment partial overlapping line segment always intersects one of the
+	vertical wallsides.)
+	To determine which of the two vertical wallsides ($da$ or $cb$ from Figure 10b)
+	 is crossed, we determine on which side the point that didn't lie in the polygon (v) lies.
+	This is done by an angle comparison (as in section TODO).
+	First, two groups of two vectors are defined: $dv$, $dc$ and $cw$, $cd$ see figure 10b.
+	We measure the angles between the vectors and call them $\alpha$, and
+	$\beta$. 
+	Because one of the line segment endpoints lies outside
+	the wall $\alpha$ or $\beta$ is obtuse, in this case $\alpha$ is obtuse.
+	(Note that this only holds under the assumption that all wall sides are orthogonal)\\
+	To be more precise: 
+	\begin{itemize}
+	\item if $\alpha$ is obtuse, the left vertical wallside $da$, is
+	crossed. \\
+	\item If $\beta$ is obtuse, the right vertical wallside $cb$, is
+	crossed. \\
+	\end{itemize}
+	(The angles are acute or obtuse if the dot product of the vectors involved
+	are respectively positive or negative. The advantage of this method is that
+	it's simple and computational cheap.)
+	The amount of line-wall overlap is easy calculated by cutting of the
+	point where $l$ intersects the determined vertical wallside ($da$ or
+	$cb$) and measuring its remaining length.
+
+	\paragraph{Full or none overlap}
+	Now lets consider the overlap types where the \emp{in polygon} test
+	returned 0.
+	As you can see in Figure 10a and 10d this resulted in either full or none overlap.
+	Again we analyse the vector angles to determine the remaining overlap-type.
+	If only one of the angles is obtuse, Figure 10a, with no points in the polygon 
+	then the whole line segment lies outside the wall. An overlap value of zero
+	is returned.\\
+	Otherwise, if both angles $\alpha$ and $\beta$ are obtuse or acute (Figure 10d),
+	both endpoints lie on a different side of the wall, and cross the wall in
+	between. Full overlap is concluded here. 
+	The amount of overlap is now calculated by measuring the length
+	of the line segment which is cut down by his intersections with $da$ and
+	$cb$. In this case this is the same as line $dc$, but its easy to see that
+	this is not the case when the $vw$ is skew.
+
+
+
+
+
 	
-	NEE NEE dit is dus eigenlijk partial overlap
+	Finally the line-wall overlap is normalized by the line segments length:\\
+	$\alhpa_{l} = \fac{lwo}{|l|}$
+	$\alpha_{l}$ is the normalized line-wall overlap, 
+	$lwo$ is the unnormalized amount of line-wall overlap, 
+	and ($|l|$) is the total length of the line sement.\\
+
+	The intuition behind this is that line segments that are likely to
+	present a wall not only have a large overlap but also have a small part
+	that has no overlap. By calculating the relative overlap, both amount of overlap
+	and -missing overlap is taken into account.\\
+
+	The maximum of the normalized line-wall overlap is used to associate a
+	line segment with his most likely wall.
+	%TODO formula?
+	\textemph{should I place a formula here? and if yes how do I denote this
+	mathematically legal/correct}
+
+	To summarize, the overlap type is defined by calculating the numbers of in
+	polygon points and measuring some angles. Next the line segment is cut off
+	depended on the overlap type and the line is normalized. A search for the
+	maximum normalized line-wall overlap is used to determine the correct line-wall
+	association.
 
 
+	% TODO:
+	% make schema with 3 methods, and in one regel the summary of its technique
 	
-	The angles are acute or obtuse if the dot product of the vectors involved are
-	respectively positive or negative.
-	
-	the bottompart as a vector with his origin either at the left vertical corner (dc) or the right vertical corner (
-	
-
-
-	 of a line always 
-	With partial overlap we want to calculate the intersection with one of the vertical lines of the polygon
-	check
-	doel
-	% TODO describe situation with full overlap but no in polygon points
-
-
-
-	TODO:
-	make schema with 3 methods, and in one regel the summary of its technique
-	
-	test with different techniques
-	make different dataset
-	hand anotated (pleonastisch zeg hehe) for ground truth
-	1) project endpoints (and sometimes end up not agreeing wall)
-	2) use midpoint of line
-	3) use tjs algo (line wall overlap)
-
+	% test with different techniques
+	% make different dataset
+	% hand anotated (pleonastisch zeg hehe) for ground truth
+	% 1) project endpoints (and sometimes end up not agreeing wall)
+	% 2) use midpoint of line
+	% 3) use tjs algo (line wall overlap)
 
 \subsubsection{Wall height estimation}
-	In the previous section we addressed the problem that the endpoints of a line segment may not agree on the wall.  We also introduced a method to associate a line segment with the right wall. In this section this information is used to estimate the height of the wall which is in the next section used to update the 3D model.\\
-	Now all line segments are associated with a certain wall we re-project the line segment from the different views on the wall. The re-projection is done by intersecting both endpoints of the line segment to the plane that is spanned by associated wall.
+	%TODO CHAINING AGAIN
+%	In the previous section we addressed the problem that the endpoints of a line segment may not agree on the wall.  We also introduced a method to associate a line segment with the right wall. 
+  	In the previous section we associated the line segments with their most
+	likely wall.
+	In this section this information is used to estimate the height of the
+	wall which is finally used to update the 3D model in section %TODO
+	\\
+	Now all line segments are associated with a certain wall we re-project the
+	line segment from the different views on their associated wall. The re-projection is done by intersecting both endpoints of the line segment to the plane that is spanned by associated wall.
 	Next the 3D intersection points are collected and averaged, this gives us an average of the midpoints of the projected line segments. We do this for every wall separately returning the average height of the line segments.
 	These averages are then used as the new heights of the walls of the building.
 
-\subsubsection{Augmenting the 3D model} %todo other word then augment?
+\subsubsection{Improving the 3D model} 
 	We made an assumption that a building consists of a flat roof (note that the walls may have different heights but the roof should be flat).
 	In the previous section we calculated the new individual heights of the walls the building. 
 	This is propagated to the 3D model by adjusting the location of the existing upper corner points of the walls. We copy the bottom left and -right corner points and add the estimated height from the previous section to its y-value.
@@ -243,6 +444,7 @@ and the right wall is shortened.\\
 %As can be seen from the different plane colors, the building walls are changed to their individual height.
 
 \subsection{Discussion}
+	%TODO (disadvantage unique wall asumption: line loopt door verschillende walls)
 We will now discuss the results. As can be seen in figure \ref{fig:outputHoughlines2d.eps} the left line segment doesn't cover the whole building wall. This is caused by using strict parameters in the Hough transform (like a small line width).
 If some ascending skyline pixels fall just outside the Houghlines, a gap is created and the line segment is cut down at that point. This is however not a big problem because the lines are long enough to produce a good wall height estimate. Furthermore their are at least 5 other lines that support this estimate. These lines represent the same wall but are originated from images taken from different views. \\
 The left and middle line segment of figure \ref{fig:outputHoughlines2d.eps} are a good example of the corner problem. Both endpoints could easily be associated with the wrong wall (even if the rough 3D model is very accurate). Fortunately we use the middle point of the line segment to determine the correct wall. This works well as its 100\% accurate (for this dataset).
@@ -256,10 +458,12 @@ We now discuss some future work and conclude.  In this thesis little is discusse
 To find the closest wall the middle point point of the line is now projected to all walls, it could be a significant speedup to reduce the set of walls to only the walls that are found at the endpoints. The downside is that it is slightly dangerous because it could be the case that both line segments endpoints could lie on a corner point making it possible that none of the endpoints refer to the correct wall.\\
 
 As can be seen from figure TODO%TODO
-two line segments appear on the same wall. This means they have a double influence on the average wall height which is unfair. A simple solution would be to add a normalization preprocess step so each view has only one wall height vote per wall. A more elegant solution would be to merge the two (or more) line segments to a single line segment. This could be achieved with an iterative Houghline transform where the \emph{FillGap} parameter is increased in each iteration. For fig ?? %TODO 
+%TODO fix MISSING FIGURE
+two line segments appear on the same wall. This means they have a double influence on the average wall height which is unfair. A simple solution would be to add a normalization preprocess step so each view has only one wall height vote per wall. A more elegant solution would be to merge the two (or more) line segments to a single line segment. This could be achieved with an iterative Hough transform where the \emph{FillGap} parameter is increased in each iteration. For fig ?? %TODO 
+%TODO why iterative?? why not big gab as param??
 two iterations would be enough where the \emph{FillGap} parameter needs to be at least as big as the occluding tree in the second iteration.\\
 To make the algorithm more generic the flat roof assumption could be stretched or even discarded.
-Consider figure TODO %TODO
+Consider figure TODO %TODO schuin roof plaatje
 it has a roof consisting of two planes which are not parallel with the facade of the building. This makes the problem of extracting the 3D model more complex but not 
 infeasible. By developing a method for this it would be smart to make symmetry assumptions. The roof lies exactly in the middle of the building and it consists of two symmetric planes, this is useful information. In 
 %TODO ref opzoeken
