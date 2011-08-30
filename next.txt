@@ -58,3 +58,12 @@ plaatjes matlab
 
 
 (thuis) gebruik kookwekker!
+
+
+
+
+
+latexdraw werkt nog niet omdat een package pst- nog wat niet werkt
+voor nu maar even pngtjes geruiken
+
+

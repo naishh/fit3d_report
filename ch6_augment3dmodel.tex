@@ -2,13 +2,16 @@
 
 \usepackage[usenames,dvipsnames]{pstricks}
 \usepackage{epsfig}
-\usepackage{pst-grad} % For gradients
-\usepackage{pst-plot} % For axes
+%\usepackage{pst-grad} % For gradients
+%\usepackage{pst-plot} % For axes
 
 
 \usepackage{graphicx, subfigure}
 
 \usepackage{amsmath} % for the argmin
+\usepackage{amsfonts}
+
+
 \newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
 \newcommand{\argmin}[1]{\underset{#1}{\operatorname{arg\ min}}}
 \setlength{\parindent}{0in}
@@ -30,26 +33,127 @@
 \maketitle
 
 
-\section{Test}
-
-% Generated with LaTeXDraw 2.0.8
-% Fri Aug 05 21:57:11 CEST 2011
-% a
-\scalebox{1} % Change this value to rescale the drawing.
-{
-\begin{pspicture}(0,-1.005)(4.473328,1.4)
-\psframe[linewidth=0.01,dimen=outer](3.0,1.4)(1.5,-1.0)
-\psline[linewidth=0.01cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(3.0,-1.0)(1.1,0.6)
-\psline[linewidth=0.01cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(1.5,-1.0)(0.0,0.6)
-\psline[linewidth=0.02cm](0.0,0.6)(1.1,0.6)
-\psarc[linewidth=0.01](3.0,-1.0){0.4}{138.81407}{180.0}
-\psarc[linewidth=0.01](1.5,-1.0){0.3}{0.0}{135.0}
-\psarc[linewidth=0.01](3.9,1.0){0.3}{26.565052}{333.43494}
-\psarc[linewidth=0.01](4.0,0.9){0.3}{26.565052}{333.43494}
-\psarc[linewidth=0.01](4.1,0.8){0.3}{26.565052}{333.43494}
-\psarc[linewidth=0.01](4.2,0.7){0.3}{26.565052}{333.43494}
-\end{pspicture} 
-}
+% \section{Test}
+% % Generated with LaTeXDraw 2.0.8
+% % Tue Aug 30 15:29:42 CEST 2011
+% % \usepackage[usenames,dvipsnames]{pstricks}
+% % \usepackage{epsfig}
+% % \usepackage{pst-grad} % For gradients
+% % \usepackage{pst-plot} % For axes
+% \scalebox{1} % Change this value to rescale the drawing.
+% {
+% \begin{pspicture}(0,-7.2317185)(23.60875,7.6267185)
+% \psframe[linewidth=0.01,dimen=outer](6.689375,7.0132813)(3.689375,2.0132813)
+% \usefont{T1}{ppl}{m}{n}
+% \rput(3.5725,7.423281){a}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(6.577344,7.423281){b}
+% \psline[linewidth=0.02cm,linestyle=dashed,dash=0.16cm 0.16cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(6.689375,2.0132813)(3.189375,6.6132812)
+% \psline[linewidth=0.02cm,linestyle=dashed,dash=0.16cm 0.16cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(3.689375,2.0132813)(0.189375,6.6132812)
+% \psline[linewidth=0.04cm](0.189375,6.6132812)(3.189375,6.6132812)
+% \usefont{T1}{ppl}{m}{n}
+% \rput(3.2773438,1.9232812){d}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(6.9671874,1.9232812){c}
+% \psarc[linewidth=0.01](3.689375,2.0132813){0.6}{0.0}{126.869896}
+% \psarc[linewidth=0.01](6.689375,2.0132813){0.6}{126.869896}{180.0}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(0.08515625,6.923281){v}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(3.1215625,6.923281){w}
+% \psline[linewidth=0.01cm](0.189375,6.713281)(0.189375,6.5132813)
+% \psline[linewidth=0.01cm](3.189375,6.713281)(3.189375,6.5132813)
+% \psline[linewidth=0.01cm](0.089375,6.6132812)(0.289375,6.6132812)
+% \psline[linewidth=0.01cm](3.289375,6.6132812)(3.089375,6.6132812)
+% \psframe[linewidth=0.01,dimen=outer](14.689375,7.0132813)(11.689375,2.0132813)
+% \usefont{T1}{ppl}{m}{n}
+% \rput(11.5725,7.423281){a}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(14.577344,7.423281){b}
+% \psline[linewidth=0.02cm,linestyle=dashed,dash=0.16cm 0.16cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(14.689375,2.0132813)(13.189375,6.6132812)
+% \psline[linewidth=0.02cm,linestyle=dashed,dash=0.16cm 0.16cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(11.689375,2.0132813)(10.189375,6.6132812)
+% \psline[linewidth=0.04cm](10.189375,6.6132812)(13.189375,6.6132812)
+% \usefont{T1}{ppl}{m}{n}
+% \rput(11.277344,1.9232812){d}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(14.967188,1.9232812){c}
+% \psarc[linewidth=0.01](11.689375,2.0132813){0.6}{0.0}{108.43495}
+% \psarc[linewidth=0.01](14.689375,2.0132813){0.6}{108.43495}{180.0}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(10.085156,6.923281){v}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(13.121563,6.923281){w}
+% \psline[linewidth=0.01cm](10.189375,6.713281)(10.189375,6.5132813)
+% \psline[linewidth=0.01cm](13.189375,6.713281)(13.189375,6.5132813)
+% \psline[linewidth=0.01cm](10.089375,6.6132812)(10.289375,6.6132812)
+% \psline[linewidth=0.01cm](13.289375,6.6132812)(13.089375,6.6132812)
+% \psframe[linewidth=0.01,dimen=outer](6.689375,-1.9867188)(3.689375,-6.9867187)
+% \usefont{T1}{ppl}{m}{n}
+% \rput(3.5725,-1.5767188){a}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(6.577344,-1.5767188){b}
+% \psline[linewidth=0.02cm,linestyle=dashed,dash=0.16cm 0.16cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(6.689375,-6.9867187)(5.189375,-2.3867188)
+% \psline[linewidth=0.02cm,linestyle=dashed,dash=0.16cm 0.16cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(3.689375,-6.9867187)(4.224311,-2.3916135)
+% \psline[linewidth=0.04cm](4.224311,-2.3916135)(5.189375,-2.3916135)
+% \usefont{T1}{ppl}{m}{n}
+% \rput(3.2773438,-7.076719){d}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(6.9671874,-7.076719){c}
+% \psarc[linewidth=0.01](3.689375,-6.9867187){0.6}{0.0}{80.53768}
+% \psarc[linewidth=0.01](6.689375,-6.9867187){0.6}{108.43495}{180.0}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(3.9851563,-2.1767187){v}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(5.4215627,-2.1767187){w}
+% \psline[linewidth=0.01cm](4.224311,-2.2917197)(4.224311,-2.491507)
+% \psline[linewidth=0.01cm](5.189375,-2.2867188)(5.189375,-2.4867187)
+% \psframe[linewidth=0.01,dimen=outer](22.689375,-1.9867188)(19.689375,-6.9867187)
+% \usefont{T1}{ppl}{m}{n}
+% \rput(19.5725,-1.5767188){a}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(22.577343,-1.5767188){b}
+% \psline[linewidth=0.02cm,linestyle=dashed,dash=0.16cm 0.16cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(19.689375,-6.9867187)(23.289375,-2.3867188)
+% \psline[linewidth=0.02cm,linestyle=dashed,dash=0.16cm 0.16cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(22.689375,-6.9867187)(19.124311,-2.3916135)
+% \psline[linewidth=0.04cm](19.089375,-2.3867188)(23.189375,-2.3867188)
+% \usefont{T1}{ppl}{m}{n}
+% \rput(19.277344,-7.076719){d}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(22.967188,-7.076719){c}
+% \psarc[linewidth=0.01](19.689375,-6.9867187){0.6}{0.0}{53.130104}
+% \psarc[linewidth=0.01](22.689375,-6.9867187){0.6}{126.869896}{180.0}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(18.885157,-2.1767187){v}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(23.421562,-2.1767187){w}
+% \psline[linewidth=0.01cm](19.124311,-2.2917197)(19.124311,-2.491507)
+% \psline[linewidth=0.01cm](23.189375,-2.2867188)(23.189375,-2.4867187)
+% \psline[linewidth=0.01cm](18.989374,-2.3867188)(19.156479,-2.3916135)
+% \psline[linewidth=0.01cm](23.289375,-2.3867188)(23.089375,-2.3867188)
+% \psframe[linewidth=0.01,dimen=outer](14.689375,-1.9867188)(11.689375,-6.9867187)
+% \usefont{T1}{ppl}{m}{n}
+% \rput(11.5725,-1.5767188){a}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(14.577344,-1.5767188){b}
+% \psline[linewidth=0.02cm,linestyle=dashed,dash=0.16cm 0.16cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(14.689375,-6.9867187)(15.189375,-2.3867188)
+% \psline[linewidth=0.02cm,linestyle=dashed,dash=0.16cm 0.16cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(11.689375,-6.8867188)(11.1243105,-2.3916135)
+% \psline[linewidth=0.04cm](11.089375,-2.3867188)(15.189375,-2.3867188)
+% \usefont{T1}{ppl}{m}{n}
+% \rput(11.277344,-7.076719){d}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(14.967188,-7.076719){c}
+% \psarc[linewidth=0.01](11.689375,-6.9867187){0.6}{0.0}{97.125015}
+% \psarc[linewidth=0.01](14.689375,-6.9867187){0.6}{82.874985}{180.0}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(10.885157,-2.1767187){v}
+% \usefont{T1}{ppl}{m}{n}
+% \rput(15.421562,-2.1767187){w}
+% \psline[linewidth=0.01cm](11.1243105,-2.2917197)(11.1243105,-2.491507)
+% \psline[linewidth=0.01cm](15.189375,-2.2867188)(15.189375,-2.4867187)
+% \psline[linewidth=0.01cm](11.092142,-2.3916135)(11.15648,-2.3916135)
+% \psline[linewidth=0.01cm](15.289375,-2.3867188)(15.089375,-2.3867188)
+% \end{pspicture} 
+% }
+% 
 
 
 
@@ -132,8 +236,8 @@ The 3D model is then improved by updating the walls according these heights. \\
 	inliers and consider the remainder as outliers. But we first have to define an inlier.\\
 	Lets take the contour of an average building, this is mostly formed by
 	straight lines. We use this fact to simplify our problem:\\
-	\textemph{Flat roof assumption}\\
-	\textemph{We assume each building has a flat roof, implicating that each buildingwall
+	\emph{Flat roof assumption}\\
+	\emph{We assume each building has a flat roof, implicating that each buildingwall
 	has a straight upper contour}
 
 	% todo example images
@@ -166,7 +270,7 @@ The 3D model is then improved by updating the walls according these heights. \\
 	contain a large amount of skyline pixels.  
 	Because the algorithm detects straight lines containing only skyline pixels it is
 	most likely that it returns parts of the skyline and therefor the building contour. \\
-	The Hough transform is implemented in \textemph{Matlab} and has some useful extra functions:\\
+	The Hough transform is implemented in \emph{Matlab} and has some useful extra functions:\\
 	The algorithm can optionally return the start- and endpoint of the found lines 
 	which is very useful as it helps to associate which part of the building is described by the line.
 	Furthermore it has the parameter \emph{FillGab} that specifies the distance
@@ -174,11 +278,9 @@ The 3D model is then improved by updating the walls according these heights. \\
 	distance between the line segments is less then value specified, it merges
 	the line segments into a single line segment. In our application this
 	parameter in particular interest to merge lines that are interrupted by for
-	example an occluding tree.
-
+	example an occluding tree.\\
 	%Because of occlusion the Houghlines could return two separate line segments
-	%which is originally one line which is %onderbbbbbbbroken.
-	\\
+	%which is originally one line which is %onderbbbbbbbroken.  \\
 	Results of the Hough transform on the 2D output of the skyline detector are
 	displayed and evaluated in the Result section.
 
@@ -284,7 +386,7 @@ segment is classified as the most likely wall for that line segment.
 	The table below represents the types of overlap with the corresponding number of points
 	that pass the \emph{in polygon} test and their possible line-wall overlap
 	value.\\ 
-	\begin{tabular}
+	\begin{tabular}{|l|l|l|}
 	Type of line-wall overlap 			&	points in polygon 			& line-wall overlap \\
 	no overlap					&	0					& 0		\\
 	partial overlap 				&	1					& [0..1]	\\
@@ -311,7 +413,7 @@ segment is classified as the most likely wall for that line segment.
 	To calculate the amount of line-wall overlap, the line segment is cropped to the
 	part that overlaps the wall and the length is measured. 
 	The cropped line has two coordinates, first ofcourse the point that passed
-	the \emp{in polygon} test and secondly the intersection of the line
+	the \emph{in polygon} test and secondly the intersection of the line
 	segment with one of the vertical wall sides.
 	(Note that because we assume the walls to be of infinite height, the line
 	segment partial overlapping line segment always intersects one of the
@@ -340,7 +442,7 @@ segment is classified as the most likely wall for that line segment.
 	$cb$) and measuring its remaining length.
 
 	\paragraph{Full or none overlap}
-	Now lets consider the overlap types where the \emp{in polygon} test
+	Now lets consider the overlap types where the \emph{in polygon} test
 	returned 0.
 	As you can see in Figure 10a and 10d this resulted in either full or none overlap.
 	Again we analyse the vector angles to determine the remaining overlap-type.
@@ -361,8 +463,9 @@ segment is classified as the most likely wall for that line segment.
 
 	
 	Finally the line-wall overlap is normalized by the line segments length:\\
-	$\alhpa_{l} = \fac{lwo}{|l|}$
-	$\alpha_{l}$ is the normalized line-wall overlap, 
+	%TODO alpha is used now in another context, use other sign!
+	%$\alpha_{l} = \fac{lwo}{|l|}$
+	%$\alpha_{l}$ is the normalized line-wall overlap, 
 	$lwo$ is the unnormalized amount of line-wall overlap, 
 	and ($|l|$) is the total length of the line sement.\\
 
@@ -374,7 +477,7 @@ segment is classified as the most likely wall for that line segment.
 	The maximum of the normalized line-wall overlap is used to associate a
 	line segment with his most likely wall.
 	%TODO formula?
-	\textemph{should I place a formula here? and if yes how do I denote this
+	\emph{should I place a formula here? and if yes how do I denote this
 	mathematically legal/correct}
 
 	To summarize, the overlap type is defined by calculating the numbers of in
@@ -467,6 +570,7 @@ support this estimate for this wall.\\
 %TODO vet goed dat ik dus mijn algo different wallheights aan kan, promoten!
 %TODO explain (earlyer) why flat roof?
 	% to allign walls with the skyline of the skyline detector
+%TODO onderstaand nog een keer doorlezen
 
 We assumed flat roof
 infinite height walls
