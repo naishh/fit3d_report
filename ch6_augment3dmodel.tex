@@ -1,5 +1,4 @@
 \documentclass[10pt]{article}
-\usepackage{graphicx, subfigure, latexdraw}
 
 \usepackage[usenames,dvipsnames]{pstricks}
 \usepackage{epsfig}
@@ -29,7 +28,6 @@
 
 \begin{document}
 \maketitle
-
 
 
 \section{Test}
@@ -69,7 +67,6 @@ I do this in a few chapters earlier which is not included in this document.\\
 - other types of roofs?\\
 
 \section{Improving the 3D building}
-
 \subsection{Introduction}
 %chain
 In the previous chapter we extracted the building contour with the skyline
@@ -77,6 +74,7 @@ detector. The output was a set of 2D points and we collected this set for every
 view of the building.  The aim of this chapter is to use this set of points to
 improve a basic 3D model.
 %TODO introduce 3d model
+%TODO talk about infinite heigh walls of the 3d model
 
 %situation
 First of all the point cloud from the skyline detector included a lot of noise caused mostly
@@ -385,6 +383,13 @@ segment is classified as the most likely wall for that line segment.
 	maximum normalized line-wall overlap is used to determine the correct line-wall
 	association.
 
+	%TODO
+	% example image where I project a line to every wall of the building
+	% a table of wall overlap value's sorted on largeness
+	% bedenken: hoezo wint niet altijd de achterste wall omdat er dan full overlap
+	% is??
+
+
 
 	% TODO:
 	% make schema with 3 methods, and in one regel the summary of its technique
@@ -444,13 +449,68 @@ and the right wall is shortened.\\
 %As can be seen from the different plane colors, the building walls are changed to their individual height.
 
 \subsection{Discussion}
-	%TODO (disadvantage unique wall asumption: line loopt door verschillende walls)
-We will now discuss the results. As can be seen in figure \ref{fig:outputHoughlines2d.eps} the left line segment doesn't cover the whole building wall. This is caused by using strict parameters in the Hough transform (like a small line width).
-If some ascending skyline pixels fall just outside the Houghlines, a gap is created and the line segment is cut down at that point. This is however not a big problem because the lines are long enough to produce a good wall height estimate. Furthermore their are at least 5 other lines that support this estimate. These lines represent the same wall but are originated from images taken from different views. \\
-The left and middle line segment of figure \ref{fig:outputHoughlines2d.eps} are a good example of the corner problem. Both endpoints could easily be associated with the wrong wall (even if the rough 3D model is very accurate). Fortunately we use the middle point of the line segment to determine the correct wall. This works well as its 100\% accurate (for this dataset).
+%TODO positief lullen over resultaat
+%TODO (disadvantage unique wall asumption: line loopt door verschillende walls)
+We will now discuss the results. As can be seen in figure
+\ref{fig:outputHoughlines2d.eps} the left line segment doesn't cover the whole
+building wall. This is caused by using strict parameters in the Hough transform
+(like a small line thickness parameter).  If some ascending skyline pixels fall just outside
+the Houghlines, a gap is created and the line segment is cut down at that point.
+This is however not a big problem because the lines are long enough to produce a
+good wall height estimate. Furthermore their are at least 5 other lines
+(originated from different views) that
+support this estimate for this wall.\\
 
+
+\subsubsection{alternative roofs}
 %TODO cons pros of the flat roof assumption
 %TODO vet goed dat ik dus mijn algo different wallheights aan kan, promoten!
+%TODO explain (earlyer) why flat roof?
+	% to allign walls with the skyline of the skyline detector
+
+We assumed flat roof
+infinite height walls
+
+Because of the flat roof assumption we didn't consider alternative rooftypes.
+We now discuss what adaptations the system should require to handle alternative roofs.
+In figure TODO, 6 different roofshapes are displayed.\\
+%TODO insert figure
+Because we assume that the roof images are taken from the ground, the skyline
+detector will always detect the top of the building. In case of the flatroof
+assumption this was also the top of the building walls.
+In case of a alternative roof this is just the top of the building and something
+else needs to be developed to find the building walls. Furthermore we want to
+know which rooftype we are dealing with to generate the 3D model.\\
+Some ideas about this are now proposed:\\
+Use a object dector to detect doors, windows and dormers to estimate the
+number of floors, the location of the wall-roof separation and the exclution of
+some rooftypes (e.g. a dormer is never located on a flatroof).\\
+Use the Hough transform to search for horizontal lines between the groundplane and the
+heigh roofline to detect the wall-roof separation. Some buildings have a gutter,
+because of this fact the number of horizontal lines on the wall-roof separation
+will be larger which is useful.\\
+Use gps and geografic information and a database of rooftypes with gps location
+to classify the rooftype. The skyline detector detects the buildingheight, if we
+could use predefined information about the ratio between the wallheight and
+total height of the building, the wallheights could be estimated.\\
+Assuming we determined the rooftype, buildingheight and wallheights, the 3D model could 
+easy be generated. 
+%For example the Gable, Gambrel and Hipped roof have in common that the heighest
+%roofline  is in the middle of the building.
+For the \emph{Gable} roof for example this will involve connecting the upperside of the
+walls with the heigh roofline (returned by the skyline detector). For the other
+rooftypes, the buildingheight and wallheight and a template structure of the
+roof could be used to generate the 3D model.
+
+% old middle point shizzle
+% The left and middle line segment of figure \ref{fig:outputHoughlines2d.eps} are
+% a good example of the corner problem. Both endpoints could easily be associated
+% with the wrong wall (even if the rough 3D model is very accurate). Fortunately
+% we use the middle point of the line segment to determine the correct wall. This
+% works well as its 100\% accurate (for this dataset).
+%TODO check text on old usage of e.g. middlepoints 
+
+
 
 % midpoint heuristic
 \subsection{Conclusion and Future work}
@@ -474,6 +534,12 @@ Furthermore it would be nice the fully discard the flat roof assumption. This wi
 To conclude, we showed that a Houghline transform is a useful method to detect outliers and find prominent structure in the building contour. We introduced a heuristic to pair up line segments with their associated walls. This was used to produce new wall heights which where propagated to the 3D model.
 Existing and novel AI computer vision techniques where powerful combined resulting in an accurate 3D model based on only a few calibrated 2D images. 
 
+
+\subsection{References}
+%TODO hough
+
+
+
 % TODO
 %TODO what are the mathematics
 %TODO write something about complications and wat je er aan hebt
@@ -483,5 +549,6 @@ Existing and novel AI computer vision techniques where powerful combined resulti
 % read again on other subjects in mind see how te wr thesis
 
 %TODO spell check!!
+
 
 \end{document}
