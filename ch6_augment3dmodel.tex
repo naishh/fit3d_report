@@ -1,9 +1,10 @@
 \documentclass[10pt]{article}
 
-\usepackage[usenames,dvipsnames]{pstricks}
-\usepackage{epsfig}
-\usepackage{pst-grad} % For gradients
-\usepackage{pst-plot} % For axes
+% latexdraw
+% \usepackage[usenames,dvipsnames]{pstricks}
+% \usepackage{epsfig}
+% \usepackage{pst-grad} % For gradients
+% \usepackage{pst-plot} % For axes
 
 
 \usepackage{graphicx, subfigure}
@@ -30,39 +31,42 @@
 \maketitle
 
 
-\section{Test}
-
-% Generated with LaTeXDraw 2.0.8
-% Fri Aug 05 21:57:11 CEST 2011
-% a
-\scalebox{1} % Change this value to rescale the drawing.
-{
-\begin{pspicture}(0,-1.005)(4.473328,1.4)
-\psframe[linewidth=0.01,dimen=outer](3.0,1.4)(1.5,-1.0)
-\psline[linewidth=0.01cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(3.0,-1.0)(1.1,0.6)
-\psline[linewidth=0.01cm,arrowsize=0.05291667cm 2.0,arrowlength=1.4,arrowinset=0.4]{->}(1.5,-1.0)(0.0,0.6)
-\psline[linewidth=0.02cm](0.0,0.6)(1.1,0.6)
-\psarc[linewidth=0.01](3.0,-1.0){0.4}{138.81407}{180.0}
-\psarc[linewidth=0.01](1.5,-1.0){0.3}{0.0}{135.0}
-\psarc[linewidth=0.01](3.9,1.0){0.3}{26.565052}{333.43494}
-\psarc[linewidth=0.01](4.0,0.9){0.3}{26.565052}{333.43494}
-\psarc[linewidth=0.01](4.1,0.8){0.3}{26.565052}{333.43494}
-\psarc[linewidth=0.01](4.2,0.7){0.3}{26.565052}{333.43494}
-\end{pspicture} 
-}
-
+%\section{Test}
+% LaTeXDraw 
+% op uva compu compilen?
 
 
 \section{Comments on this thesis}
-There Frans and Isaac,
+%	TODO
+Dear Isaac,
 
-I incorporated most of the feedback except for
--the test on different datasets
+I've updated my thesis and incorporated most of the feedback.
+I also elaborated a lot on the part 'where tjerk comes in' (Associating line segments with building parts)
+
+Below a list of things that needs to be worked on.
+
+I think it takes about two days to finish the list but I am on holiday from
+now (8-)15 august and it would be nice if the project continues. So it would
+be great if you can evaluate my thesis chapter in this period . Would you do that?
+
+Would you check if my level of detail is allright,
+if I should put more or less formula's,
+if the formula's and symols are good,
+if the new part (Associating line segments with building parts) is allright
+if the figures are clear
+etc. etc.
+
+Things that are not processed yet:
+-the test on different datasets\\
 (the dataset is not ready yet)
--large introduction
-I elaberate a bit more then my prev version but I think you want more background information.
-I do this in a few chapters earlier which is not included in this document.
-- other types of roofs?
+-expanded introduction\\
+I elaborate a more wrt my previous version but I think you want more background information.
+I do this a few chapters earlier which is not included in this document.
+-discussion about other types of roofs\\
+-a missing image\\
+-Houghline reference
+-introduce the 3D model\\
+
 
 \section{Improving the 3D building}
 \subsection{Introduction}
@@ -104,7 +108,7 @@ The 3D model is then improved by updating the walls according these heights. \\
 
 % why not ransac?
 \subsection{Extracting line segments}
-\subsubsection{motivation/intro/chain to hough} %TODO
+%\subsubsection{motivation/intro/chain to hough} %TODO
 
 % Let us first define the input of the algorithm:
 % \begin{itemize}
@@ -130,8 +134,8 @@ The 3D model is then improved by updating the walls according these heights. \\
 
 	Lets take the contour of an average building, this is mostly formed by
 	straight lines. We use this fact to simplify our problem: 
-	\textemph{Flat roof assumption}\\
-	\textemph{We assume each building has a flat roof, implicating that each buildingwall
+	\emph{Flat roof assumption}\\
+	\emph{We assume each building has a flat roof, implicating that each buildingwall
 	has a straight upper contour}
 
 	% todo example images
@@ -164,7 +168,7 @@ The 3D model is then improved by updating the walls according these heights. \\
 	contain a large amount of skyline pixels.  
 	Because the algorithm detects straight lines containing only skyline pixels it is
 	most likely that it returns parts of the skyline and therefor the building contour. \\
-	The Hough transform is implemented in \textemph{Matlab} and has some useful extra functions:\\
+	The Hough transform is implemented in \emph{Matlab} and has some useful extra functions:\\
 	The algorithm can optionally return the start- and endpoint of the found lines 
 	which is very useful as it helps to associate which part of the building is described by the line.
 	Furthermore it has the parameter \emph{FillGab} that specifies the distance
@@ -172,16 +176,15 @@ The 3D model is then improved by updating the walls according these heights. \\
 	distance between the line segments is less then value specified, it merges
 	the line segments into a single line segment. In our application this
 	parameter in particular interest to merge lines that are interrupted by for
-	example an occluding tree.
+	example an occluding tree.\\
 
 	%Because of occlusion the Houghlines could return two separate line segments
 	%which is originally one line which is %onderbbbbbbbroken.
-	\\
 	Results of the Hough transform on the 2D output of the skyline detector are
-	displayed and evaluated in the Result section 
+	displayed and evaluated in the Result section.\\
 	%(section %TODO).
 
-\subsubsection{Heuristic Line-Wall determination}
+\subsection{Associating line segments with building parts}
 % 	method below is very nice but it is outperformed by my ultragenius other
 % 	method, so I could use it in the thesis but only as different test
 % 	methods
@@ -210,7 +213,7 @@ The 3D model is then improved by updating the walls according these heights. \\
 % overlap
 
 	% intro
-	\paragraph{Introduction}
+	\subsubsection{Introduction}
 	The Hough transform of the previous section returned a set of 2D line
 	segments.  If we could find a way to associate parts of the building with
 	the 2D line segments, we can use this to improve our basic 3D model.
@@ -220,7 +223,7 @@ The 3D model is then improved by updating the walls according these heights. \\
 	First the problem is analysed and together with that a few assumption are made.
 	Then some heuristics are defined and finally the developed method is explained.
 
-	\paragraph{Assumptions}
+	\subsubsection{Assumptions}
 	% intro of assumptions
 	We treat the parts of the building as individual walls and associate each
 	line segment with a wall of the building that is most likely responsible for
@@ -254,7 +257,7 @@ The 3D model is then improved by updating the walls according these heights. \\
 
 	Now we have defined the assumptions we explain the algorithm.
 
-	\paragraph{Algorithm}
+	\subsubsection{Algorithm}
 	The algorithm can be described broadly as follows:
 	A line segment is projected to all walls and the amount of line-wall overlap is
 	calculated. The wall with the largest overlap with the specific line
@@ -269,7 +272,8 @@ segment is classified as the most likely wall for that line segment.
 	normalized.
 
 	$l_{proj_w}$ can overlap $w$ in four different scenarios, this is explained
-	in figure %TODO:
+	in figure 10x (see attachment in e-mail overlaytypes.jpg) %TODO:
+
 
 	caption figures:
 		1) no overlap (see fig %TODO)\\
@@ -285,12 +289,19 @@ segment is classified as the most likely wall for that line segment.
 	%TODO REF MATLAB?
 	%we use the Matlab build in polygon as in section (%TODO)
 	%TODO tabulartje 
-	\begin{tabular}
+	\begin{tabular}{|l||c|c|}
+	\hline
 	Type of line-wall overlap 			&	points in polygon 			& line-wall overlap \\
+	\hline
+	\hline
 	no overlap					&	0					& 0		\\
+	\hline
 	partial overlap 				&	1					& <0..1>	\\
+	\hline
 	full line-wall overlap (included)		&	2					& 1		\\
+	\hline
 	full line-wall overlap (overextended)		&  	0					& 1 		\\
+	\hline
 	\end{tabular}
 	% TODO uitzoeken wat interval t/m is 
 
@@ -304,14 +315,14 @@ segment is classified as the most likely wall for that line segment.
 	line-wall) overlap are treated individually:\\
 
 
-	\paragraph{Partial overlap}
+	\subsubsection{Partial overlap}
 	Lets first consider the partial overlap type, the \emph{in polygon} test
 	returned 1, that means that one of the line segments endpoint lies in
 	and one lies outside the wall.
 	To calculate the amount of line-wall overlap, the line segment is cropped to the
 	part that overlaps the wall and the length is measured. 
 	The cropped line has two coordinates, first ofcourse the point that passed
-	the \emp{in polygon} test and secondly the intersection of the line
+	the \emph{in polygon} test and secondly the intersection of the line
 	segment with one of the vertical wall sides, see figure. %TODO
 	(Note that because we assume the walls to be of infinite height, the line
 	segment partial overlapping line segment always intersects one of the
@@ -340,8 +351,8 @@ segment is classified as the most likely wall for that line segment.
 	point where $l$ intersects the determined vertical wallside ($da$ or
 	$cb$) and measuring its remaining length.
 
-	\paragraph{Full or none overlap}
-	Now lets consider the overlap types where the \emp{in polygon} test
+	\subsubsection{Full or none overlap}
+	Now lets consider the overlap types where the \emph{in polygon} test
 	returned 0.
 	As you can see in Figure %todo
 	this resulted in either full or none overlap.
@@ -361,7 +372,7 @@ segment is classified as the most likely wall for that line segment.
 	$cb$.
 	
 	Finally the line-wall overlap is normalized by the line segments length:\\
-	$\alhpa_{l} = \fac{lwo}{|l|}$
+	$\alpha_{l} = \frac{lwo}{|l|}$
 	$\alpha_{l}$ is the normalized line-wall overlap, 
 	$lwo$ is the unnormalized amount of line-wall overlap, 
 	and ($|l|$) is the total length of the line sement.\\
@@ -374,7 +385,7 @@ segment is classified as the most likely wall for that line segment.
 	The maximum of the normalized line-wall overlap is used to associate a
 	line segment with his most likely wall.
 	%TODO formula?
-	\textemph{should I place a formula here? and if yes what kind of
+	\emph{should I place a formula here? and if yes what kind of
 	notation do I use, and which subscripts?}
 
 	To summarize, the overlap type is defined by calculating the numbers of in
@@ -417,11 +428,12 @@ segment is classified as the most likely wall for that line segment.
 	
 
 \subsection{Results}
-\fig{outputSkylineIm3-3.eps}{}{0.5}
-Lets rehearse the output of the skyline detector in figure \ref{fig:outputSkylineIm3-3.eps}.
-\fig{outputHoughlines2d.eps}{}{0.5}
-\fig{outputHoughlines3d.eps}{}{0.8}
-\fig{outputMutateBuilding.eps}{}{0.7}
+\noindent
+\fig{outputSkylineIm3-3}{}{0.5}
+Lets return to the output of the skyline detector in figure \ref{fig:outputSkylineIm3-3.eps}.
+\fig{outputHoughlines2d}{}{0.5}
+\fig{outputHoughlines3d}{}{0.8}
+\fig{outputMutateBuilding}{}{0.7}
 Figure \ref{fig:outputHoughlines2d.eps} shows the top 3 longest Houghlines, the
 endpoints are denoted with a black and blue cross. All three lines lie on the
 building contour.  The left line covers only a part of the building wall. The
@@ -468,7 +480,7 @@ infeasible. By developing a method for this it would be smart to make symmetry a
 
 Furthermore it would be nice the fully discard the flat roof assumption. This will allow a building to have any shape, which is nice. The drawback is that a new method of outlier detection has to be developed. Object recognition could have a great deal in this. If one knows where for example an occluding object is located, then this could be used to filter the output of the skyline detector. This gives rise to a new problem that the 3D model has no augmentations at the position of occluding objects. Making sense of what would be behind the occluding object would be a interesting AI challenge and will incorporate pattern recognition, making use of repetitive structures and off course combining the multiple views to reveal as much information.\\
 
-To conclude, we showed that a Houghline transform is a useful method to detect outliers and find prominent structure in the building contour. We introduced a heuristic to pair up line segments with their associated walls. This was used to produce new wall heights which where propagated to the 3D model.
+To conclude, we showed that a Houghline transform is a useful method to detect outliers and find prominent structure in the contour of a building with a flat roof. We introduced a method to pair up line segments with their associated walls. This was used to produce new wall heights which where propagated to the 3D model.
 Existing and novel AI computer vision techniques where powerful combined resulting in an accurate 3D model based on only a few calibrated 2D images. 
 
 % TODO
