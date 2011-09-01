@@ -36,8 +36,6 @@ make nice picture of skyline with projection and the projection lines
 
 
 
-
-
 read whole ch in 10 min
 think of logic steps, when does intersection comes in
 
@@ -60,3 +58,12 @@ plaatjes matlab
 
 
 (thuis) gebruik kookwekker!
+
+
+
+
+
+latexdraw werkt nog niet omdat een package pst- nog wat niet werkt
+voor nu maar even pngtjes geruiken
+
+
