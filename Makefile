@@ -1,4 +1,4 @@
-REPORT = report
+REPORT = ch6_augment3dmodel.tex
 TEMPFILES = *.aux *.ps *.log *.bak *.bbl *.blg *.toc *.dvi
 TEMPDIR = .tmp
 
@@ -6,7 +6,7 @@ all:
 	latex $(REPORT)
 	latex $(REPORT)
 	dvipdf $(REPORT).dvi
-	cp report.pdf ~/public_html/
+	#cp report.pdf ~/public_html/
 	#evince report.dvi &
 	rm -f $(TEMPFILES)
 

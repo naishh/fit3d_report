@@ -33,37 +33,32 @@
 \maketitle
 
 
-%\section{Test}
 % LaTeXDraw 
 % op uva compu compilen?
 
 
 \section{Comments on this thesis}
 %	TODO
-Dear Isaac,
+Dear Isaac/Frans,
 
 %TODO
-I incorporated most of the feedback except for
+This in an update of my thesis chapter. I incorporated most of the feedback except for
 -the test on different datasets\\
 (the dataset is not ready yet)\\
 -large introduction\\
-I elaberate a bit more then my prev version but I think you want more background
-information.\\
-I do this in a few chapters earlier which is not included in this document.\\
-- other types of roofs?\\
-
+I elaberate a bit more then my previous version but I think you want more background
+information. I do this in a few chapters earlier which is not included in this document.\\
+-references
+ 
 \section{Improving the 3D building}
 \subsection{Introduction}
 %chain
 In the previous chapter we extracted the building contour with the skyline
 detector. The output was a set of 2D points and we collected this set for every
 view of the building.  The aim of this chapter is to use this set of points to
-improve a basic 3D model.
-%TODO introduce 3d model
-%TODO talk about infinite heigh walls of the 3d model
+improve the basic 3D model. 
 
-%situation
-First of all the point cloud from the skyline detector included a lot of noise caused mostly
+The point cloud from the skyline detector included a lot of noise caused mostly
 by occluding objects like tree's. How do we detect those outliers?
 And if we have an outlier free point cloud how can we use this information to
 improve the 3D model? How can a point be associated to a specific part of the
@@ -71,12 +66,17 @@ building and finaly improve the 3D model?
 These questions are addressed in this chapter.
 
 %solution
-The solution is made broadly in the following steps. First, the set of points is transfered to a set of
+The solution is made broadly in the following steps. 
+First a basic 3D model is generated. \emph{openstreetmap} gives us a photo of the
+building.  The heights of the walls are unknown because a topview of the
+building is used.  From this topview image a basic 3D model with infinite
+height walls is generated.\\
+Secondly the set of points returned by the skyline detector is transfered to a set of
 lines. Then each line segment is assigned to a wall of the building. After this 
-the lines are projected to these assigned walls. 
-These projections are used to estimate new heights of the building walls.
+the lines are projected to these assigned walls in the 3D model. 
+These projections are used to estimate the new heights of the building walls.
 The 3D model is then improved by updating the walls according these heights. \\
- We will now elaborate on each step.
+We will now elaborate on the steps.
 
 
 % TODO
@@ -93,8 +93,6 @@ The 3D model is then improved by updating the walls according these heights. \\
 
 % why not ransac?
 \subsection{Extracting line segments}
-%\subsubsection{motivation/intro/chain to hough} %TODO
-
 % Let us first define the input of the algorithm:
 % \begin{itemize}
 % 	\item a set of calibrated binary 2D images where white indicates a skyline pixel which has a high probability of being the building contour
@@ -128,7 +126,7 @@ The 3D model is then improved by updating the walls according these heights. \\
 	These skyline pixels, that form a straight line, are therefor considered as our
 	inliers. 
 	If we have a method that extracts straight line segments, we can use these
-	line segments to find parts of the building contour and finaly improve the 3D
+	line segments to find parts of the building contour and finaly use this to improve the 3D
 	model. Next is explained how these straight line segments are extracted.
 	% TODO what if a plain flys by? note in drawbacks of method
 
@@ -242,7 +240,7 @@ The 3D model is then improved by updating the walls according these heights. \\
 	Now we have defined the assumptions we explain the algorithm.
 
 	\subsubsection{Algorithm}
-	The algorithm can be described broadly as follows:
+	The algorithm can be described broadly as follows:\\
 	A line segment is projected to all walls and the amount of line-wall overlap is
 	calculated. The wall with the largest overlap with the specific line
 segment is classified as the most likely wall for that line segment.
@@ -256,7 +254,13 @@ segment is classified as the most likely wall for that line segment.
 	normalized.
 
 	$l_{proj_w}$ can overlap $w$ in four different scenarios, this is explained
-	in figure 10x (see attachment in e-mail overlaytypes.jpg) %TODO:
+	in figure 10x %TODO overlaytypes figure here:
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=10cm]{img/overlaytypes.jpg}
+\end{figure}
+	
 
 % captions of the figure
 %		1) no overlap (see fig 10a)\\
@@ -288,13 +292,6 @@ segment is classified as the most likely wall for that line segment.
 	full line-wall overlap (overextended)		&  	0					& 1 		\\
 	\hline
 	\end{tabular}
-
-	full line-wall overlap (included)		&	2					& 1		\\
-	\hline
-	full line-wall overlap (overextended)		&  	0					& 1 		\\
-	\hline
-	\end{tabular}
-	\\
 
 	If the point in polygon test returns 0, the line-wall overlap calculation
 	is skipped and 0 is returned. The remaining overlap types (partial- and full
@@ -414,11 +411,15 @@ segment is classified as the most likely wall for that line segment.
   	In the previous section we associated the line segments with their most
 	likely wall.
 	In this section this information is used to estimate the height of the
-	wall which is finally used to update the 3D model in section %TODO
+	wall which is finally used to update the 3D model in the next section.
 	\\
 	Now all line segments are associated with a certain wall we re-project the
-	line segment from the different views on their associated wall. The re-projection is done by intersecting both endpoints of the line segment to the plane that is spanned by associated wall.
-	Next the 3D intersection points are collected and averaged, this gives us an average of the midpoints of the projected line segments. We do this for every wall separately returning the average height of the line segments.
+	line segment from the different views on their associated wall. The
+	re-projection is done by intersecting both endpoints of the line segment to
+	the plane that is spanned by associated wall.
+	Next the 3D intersection points are collected and averaged, this gives us
+	an average of the midpoints of the projected line segments. We do this for
+	every wall separately returning the average height of the line segments.
 	These averages are then used as the new heights of the walls of the building.
 
 \subsubsection{Improving the 3D model} 
@@ -470,7 +471,7 @@ good wall height estimate. Furthermore their are at least 5 other lines
 support this estimate for this wall.\\
 
 
-\subsubsection{alternative roofs}
+\subsubsection{Alternative roofs}
 %TODO cons pros of the flat roof assumption
 %TODO vet goed dat ik dus mijn algo different wallheights aan kan, promoten!
 %TODO explain (earlyer) why flat roof?
@@ -543,6 +544,7 @@ Existing and novel AI computer vision techniques where powerful combined resulti
 
 
 \subsection{References}
+TODO
 %TODO hough
 
 
