@@ -1,3 +1,5 @@
+% zaterdag 12:20 - ??
+
 \documentclass[10pt]{article}
 
 \usepackage[usenames,dvipsnames]{pstricks}
@@ -30,6 +32,17 @@
 % what did others and how is my work related?
 % sections netjes met labels referen?
 % zoeken op 'but' en kijken of er however bij kan
+% zoeken of Figure en dan refs gebruiken
+% aan alle eind alinea \\ zetten
+%
+%TODO what are the mathematics
+%TODO write something about complications and wat je er aan hebt
+%use power of illustration, lots of example images! ask myself is there still something left where I can add an illustration??
+% read again and check level of detail, is it everywhere the same?
+% do I do enough chaining?
+% read again on other subjects in mind see how te wr thesis
+
+%TODO spell check!!
 
 
 \title{\sc Improve 3D models from 2D images}
@@ -66,24 +79,21 @@ Thanks in advance for reading my thesis chapter and giving me useful feedback.
 In the previous chapter we extracted the building contour with the skyline
 detector. The output was a set of 2D points and we collected this set for every
 view of the building.  The aim of this chapter is to use this set of points to
-improve a basic 3D model. 
-
+improve a basic 3D model. \\
 The point cloud from the skyline detector included a lot of noise caused mostly
 by occluding objects like tree's. How do we detect those outliers?
+%TODO trees or tree's, het is meervoud en niet bezittelijk
 And if we have an outlier free point cloud how can we use this information to
-improve the 3D model? How can a point be associated to a specific part of the
-building and finally improve the 3D model? 
-These questions are addressed in this chapter.
-
-%solution
+improve a basic 3D model? And how can a point be associated to a specific part of the
+building?  These questions are addressed in this chapter.\\
 We present a stepwise solution. First \emph{Openstreetmap} is used to generate
 a basic 3D model of a building. Secondly the set of points returned by the
 skyline detector is transfered to a set of lines. Then each line segment is
 assigned to a wall of the building. After this the lines are projected to these
-assigned walls in the 3D model. 
+assigned walls in the 3D model. \\
 The projections are used to estimate the new heights of the building walls.
 The 3D model is then improved by updating the walls according these heights. \\
-We will now elaborate on the steps.
+We will now elaborate on each step.
 
 \subsection{Generating the 3D model}
 % TODO example image openstreetmap
@@ -110,21 +120,10 @@ its basis. We estimate the wall heights by hand and extend the
 % This is done to make sure we don't miss
 % a , more on this in section 
 An example of the 3D model can be seen in Figure 3.\\
-% TODO Fig nr
 
 
 
 
-% TODO
-% part of intro?:
-% And if we know which data belongs to the building contour we could use the developed projection techniques from section %TODO
-% to obtain parts of the building contour.
-% The next question arises is, given this building contour parts, how do we
-% improve the 3D model in a clean way?
-
-%before we take these next steps we take one step back and go to the 2d images.
-	%we saw that the skyline detector outputs a binary image where a white pixel is considered as highly from the skyline and therefore the building contour.
-	%TODO
 
 
 % why not ransac?
@@ -168,7 +167,6 @@ An example of the 3D model can be seen in Figure 3.\\
 	\emph{RANSAC}).\\
 	% TODO motivate why not ransac, search for papers about line segments,
 	% reference them
-	%TODO aan alle eind alinea \\ zetten
 	In the Hough transform, the main idea is to consider the characteristics of a
 	straight line not as its image points $(x1, y1)$, $(x2, y2)$, etc., but in
 	terms of the parameters of the straight line formula $y = mx + b$. i.e., the
@@ -232,9 +230,8 @@ An example of the 3D model can be seen in Figure 3.\\
 	the 2D line segments, we can estimate new heights of this walls and improve our basic 3D model.
 	This section explains how we associate the line segments with the most
 	likely walls of the building. \\
-	First the problem is analyzed and a few assumption are made.  Then some
-	%TODO other word heuristics?
-	heuristics are defined and finally the developed method is explained.
+	First, a few assumption are made then the details of the problem are analyzed and finally the developed method is explained.
+
 	\subsubsection{Assumptions}
 	% intro of assumptions
 	We consider each building consisting of seperate walls and associate each
@@ -571,7 +568,7 @@ height estimation and the computational costs.
 To make the algorithm more generic, the flat roof assumption could be stretched or even discarded.
 We'll now consider other roof types and discuss what adaptations the system should require to handle these.
 In Figure 5, 6 different roof shapes are displayed.\\
-%TODO figure nr
+
 %TODO FILL caption figures (is 2e arg ouwe)
 \figw{typesOfRoofs.png}{}{12cm}
 Consider the Gable Roof in Figure 5, it is a roof consisting of two planes
@@ -621,15 +618,6 @@ TODO
 
 
 
-% TODO
-%TODO what are the mathematics
-%TODO write something about complications and wat je er aan hebt
-%use power of illustration, lots of example images! ask myself is there still something left where I can add an illustration??
-% read again and check level of detail, is it everywhere the same?
-% do I do enough chaining?
-% read again on other subjects in mind see how te wr thesis
-
-%TODO spell check!!
 
 
 \end{document}
