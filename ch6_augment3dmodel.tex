@@ -20,6 +20,8 @@
 \include{commands}
 
 
+% TODO discuss fig 4 
+
 
 %TODO general advise
 % motivate my assumption and choices 
@@ -33,6 +35,8 @@
 % zoeken of Figure en dan labels and refs gebruiken
 % zoeken of chapter en dan labels and refs gebruiken
 % aan alle eind alinea \\ zetten
+% fill caption of figures
+% search what houghline (and canny edge for report.tex) params I used
 
 
 %TODO aan het eind
@@ -63,6 +67,8 @@ This in an update of my thesis chapter. Isaac read it and give me feedback. This
 (the dataset is not ready yet)\\
 -references\\
 (I'll do this on the end)\\
+-parametervalues Houghline\\
+(Is this still importand?)
 -large introduction\\
 Explanation:I expanded the introduction a bit more then my previous version but I think you
 want more background information. I do this in a few chapters earlier which is
@@ -71,16 +77,22 @@ contain a questionmark.\\
 \\
 Furthermore, I processed many small changes but a few big changes are:\\
 -I explicitly defined all assumptions.\\
--I updated the way line segments are associated with building parts and illustrated it with Figure 10.\\
 -I wrote a new subsection about alternative roof-types.\\
+-I updated the way line segments are associated with building parts and illustrated it with Figure 10.\\
 \\
+Because this new method of associating lines with walls is so much better and
+more intuitive then my old method (I put him in section 2), I consider to
+discard the old method.\\ 
+But I could also keep the old method and use it as
+a test against the new one. What is your advice about this?\\
+
 Would you give me feedback about the level of detail, where do I go in to much and where is more detail desired?\\
 Isaac told me to make the future work section smaller, do you agree with this and yes would you tell me which part you think we can drop?\\
 I tried to put some mathematics but didn't do it everywhere. Could you give me feedback where to put (more) formulas or symbols and where not?\\
 I think I need to put my work in context with the work of others. But on this specific part I can't find any work. How do I deal with that?\\
 Do I remember it right that you are leaving for 1 month beginning at half september?\\
-Would be nice if we can discuss your feedback before but that will depend on your schedule.\\
-Please let me know when the feedback is done and lets make an appointment. I think Isaacs presence will not be necesarry.\\
+Would be nice if we can discuss your feedback before then, but that will depend on your schedule.\\
+Please let me know when the feedback is done and lets make an appointment. I think Isaacs presence will not be necesarry, right Isaac?\\
 
 Thanks in advance for reading my thesis chapter and giving me useful feedback.
 
@@ -213,17 +225,8 @@ An example of the 3D model can be seen in Figure 4.\\
 % 	method, so I could use it in the thesis but only as different test
 % 	methods
 %
-% 	It would be straightforward to use the method of chapter %TODO
-% 	Instead of a skyline pixel we could take the line segments endpoints and project it onto the building walls. The wall with the shortest distance will be assigned to the line segment.
-% 
-% 	%And to update the specific wall we first need to know with a high probability of being correct which wall the line segment presents
-% 	But this method introduces a problem: some of the line segments have endpoints that lie at the corner of the building. These line segments could easily be associated with the neighboring wall. Because the 3D model is a rough estimate this could lead to bad results.
-% 	In the corner case it is not clear to which wall the line segment belongs because both endpoints do not agree on the same wall. To solve this problem some heuristic methods are developed and tested. The following heuristic is both simple and effective.
-% 	The heuristic uses the importance of the middle point of the line segment. This middle point has a low change of being on a building corner and the on average biggest change of being on the wall we are looking for.
-% 	Therefor we discard the endpoints and use the middle point the endpoints to determine the right wall.
-% 	As in the previous section %TODO
-% 	this middle point is intersected with all planes spanned by the walls. The line segment is stored to the wall with the shortest distance.
-% 	The output of this part of the algorithm is for every wall a bunch of associated line segments originated from different views.
+
+
 % 
 % 	%TODO example image
 %TODO name different methods and put in table and test
@@ -508,10 +511,8 @@ good wall height estimate. Furthermore there are at least 5 other lines
 
 
 
-%TODO check everything on old middlepoint shizzle
 %TODO conclusion and future work doornemen
 %TODO hele thesis doorlezen!
-%TODO search what houghline (and canny edge for report.tex) params I used
 %TODO  fig 4 mooi maken
 
 % midpoint heuristic
@@ -554,27 +555,21 @@ height estimation and the computational costs.
 
 
 \subsubsection{Alternative roofs}
-% Consider Figure TODO, %TODO schuin roof plaatje
-
-% When developing a method for this we would make symmetry assumptions. The roof lies exactly in the middle of the building and it consists of two symmetric planes, this input is useful information. In 
-% %TODO ref opzoeken
-% [REF] a polygon fit procedure is used where even dormers are recognized.\\
-
-%--------------------------------------
+%TODO ref opzoeken
+%[REF] a polygon fit procedure is used where even dormers are recognized.\\
 %TODO vet goed dat ik dus mijn algo different wall heights aan kan, promoten!
-%TODO onderstaand nog een keer doorlezen
-To make the algorithm more generic, the flat roof assumption could be stretched or even discarded.
-We'll now consider other roof types and discuss what adaptations the system should require to handle these.
-In Figure 5, 6 different roof shapes are displayed.\\
+To make the algorithm more generic, the flat roof assumption could be stretched
+or even discarded.  We'll now consider other roof types and discuss what
+adaptations the system should require to handle these.  In Figure 5,
+6 different roof shapes are displayed.\\
 
-%TODO FILL caption figures (is 2e arg ouwe)
 \figw{typesOfRoofs.png}{}{12cm}
-Consider the Gable Roof in Figure 5, it is a roof consisting of two planes
+Consider the \emph{Gable Roof} in Figure 5, it is a roof consisting of two planes
 which are not parallel with the facade of the building. This makes the problem
-of extracting the 3D model more complex, but not  infeasible. \\
+of extracting the 3D model more complex, but not infeasible. \\
 Because we assume that the roof images are taken from the ground, the skyline
 detector will always detect the top of the building. In case of a flat roof
-this is also the top of the building walls.  In case of an
+this is also the top of the building walls. In case of an
 alternative roof, this will be just the top of the building. The building walls however
 could lie a lot lower, therefore something else needs to be developed to find the wall
 heights. It would be useful to develop a method that can detect which roof type we
@@ -597,23 +592,42 @@ Some ideas about this are now proposed:\\
 	total height of the building, the wall heights could be estimated.\\
 \end{itemize}
 Assuming we determined the roof type,the building height and wall heights, the 3D model could 
-easy be generated. For the \emph{Gable} roof for example this will involve
+easily be generated. For the \emph{Gable} roof for example this will involve
 connecting two surfaces from the upper side of the walls with the high roof line (returned by the
 skyline detector). For the other roof types, the building height and wall
 height together with a template structure of the roof could be used to generate the 3D
 model.
 
-% TODO2
-% old middle point shizzle
-% The left and middle line segment of Figure \ref{fig:outputHoughlines2d.eps} are
-% a good example of the corner problem. Both endpoints could easily be associated
-% with the wrong wall (even if the rough 3D model is very accurate). Fortunately
-% we use the middle point of the line segment to determine the correct wall. This
-% works well as its 100\% accurate (for this dataset).
 
 \subsection{References}
 Under construction
 %TODO hough
+
+
+\section{My old method of line-wall association}
+It would be straightforward to use the method of the skyline detector of
+chapter ?%TODO
+Instead of a skyline pixel we could take the line segments
+endpoints and project it onto the building walls. The wall with the shortest
+distance will be assigned to the line segment.\\
+
+And to update the specific wall we first need to know with a high probability of being correct which wall the line segment presents
+But this method introduces a problem: some of the line segments have endpoints that lie at the corner of the building. These line segments could easily be associated with the neighboring wall. Because the 3D model is a rough estimate this could lead to bad results.
+In the corner case it is not clear to which wall the line segment belongs because both endpoints do not agree on the same wall. To solve this problem some heuristic methods are developed and tested. The following heuristic is both simple and effective.
+The heuristic uses the importance of the middle point of the line segment. This middle point has a low change of being on a building corner and the on average biggest change of being on the wall we are looking for.
+Therefor we discard the endpoints and use the middle point the endpoints to determine the right wall.
+As in the previous section %TODO
+this middle point is intersected with all planes spanned by the walls. The line segment is stored to the wall with the shortest distance.
+The output of this part of the algorithm is for every wall a bunch of associated line segments originated from different views.\\
+
+in section Results was this text:\\
+The left and middle line segment of Figure 3 %TODO
+%\ref{fig:outputHoughlines2d.eps} 
+are
+a good example of the corner problem. Both endpoints that lie on the corner could easily be associated
+with the wrong wall (even if the rough 3D model is very accurate). Fortunately
+we use the middle point of the line segment to determine the correct wall. This
+works well as its 100\% accurate (for this dataset).
 
 
 \end{document}
