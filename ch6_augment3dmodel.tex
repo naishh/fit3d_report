@@ -8,7 +8,7 @@
 %\usepackage{pst-plot} % For axes
 
 
-\usepackage{graphicx, subFigure}
+\usepackage{graphicx, subfigure}
 
 \usepackage{amsmath} % for the argmin
 \usepackage{amsfonts}
@@ -19,30 +19,27 @@
 \setlength{\parindent}{0in}
 \include{commands}
 
+
+
 %TODO general advise
 % motivate my assumption and choices 
 % explain stepwise if the reader is dumb
 % can en could niet in dezelfde zin gebruiken, zelfde tijd gebruiken
-% ipv treat consider gebruiken!
-%
-% TODO
-% put this in one of the chapters before this chapter:
-% an intro which answers the question:
-% detail of the problem, why is this such a interesting problem
-% what did others and how is my work related?
-% sections netjes met labels referen?
 % zoeken op 'but' en kijken of er however bij kan
-% zoeken of Figure en dan refs gebruiken
-% aan alle eind alinea \\ zetten
+
+
+%TODO2 (is a categorie of would be nice todo's)
 %
-%TODO what are the mathematics
-%TODO write something about complications and wat je er aan hebt
-%use power of illustration, lots of example images! ask myself is there still something left where I can add an illustration??
+% zoeken of Figure en dan labels and refs gebruiken
+% zoeken of chapter en dan labels and refs gebruiken
+% aan alle eind alinea \\ zetten
+
+
+%TODO aan het eind
 % read again and check level of detail, is it everywhere the same?
 % do I do enough chaining?
 % read again on other subjects in mind see how te wr thesis
-
-%TODO spell check!!
+% spell check!!
 
 
 \title{\sc Improve 3D models from 2D images}
@@ -58,20 +55,37 @@
 
 
 \section{Comments on this thesis}
-Dear Isaac,
+Dear Frans,
 
-This in an update of my thesis chapter. I incorporated most of the feedback except for\\
+I write this in English so Isaac can read it also.
+This in an update of my thesis chapter. Isaac read it and give me feedback. This feedback and all feedback you gave me are incorporated except for\\
 -the test on different datasets\\
 (the dataset is not ready yet)\\
 -references\\
+(I'll do this on the end)\\
 -large introduction\\
-I expanded the introduction a bit more then my previous version but I think you want more background
-information. I do this in a few chapters earlier which is not included in this document.\\
-I processed many small changes and the two big changes are:\\
-I updated the way line segments are associated with building parts and illustrated it with Figure 10.\\
-I wrote a new subsection about alternative roof-types.\\
+Explanation:I expanded the introduction a bit more then my previous version but I think you
+want more background information. I do this in a few chapters earlier which is
+not included in this document. Therefore some backreferences to sections also
+contain a questionmark.\\
+\\
+Furthermore, I processed many small changes but a few big changes are:\\
+-I explicitly defined all assumptions.\\
+-I updated the way line segments are associated with building parts and illustrated it with Figure 10.\\
+-I wrote a new subsection about alternative roof-types.\\
+\\
+Would you give me feedback about the level of detail, where do I go in to much and where is more detail desired?\\
+Isaac told me to make the future work section smaller, do you agree with this and yes would you tell me which part you think we can drop?\\
+I tried to put some mathematics but didn't do it everywhere. Could you give me feedback where to put (more) formulas or symbols and where not?\\
+I think I need to put my work in context with the work of others. But on this specific part I can't find any work. How do I deal with that?\\
+Do I remember it right that you are leaving for 1 month beginning at half september?\\
+Would be nice if we can discuss your feedback before but that will depend on your schedule.\\
+Please let me know when the feedback is done and lets make an appointment. I think Isaacs presence will not be necesarry.\\
+
 Thanks in advance for reading my thesis chapter and giving me useful feedback.
 
+Kind regards,
+Tjerk Kostelijk
  
 \section{Improving the 3D building}
 \subsection{Introduction}
@@ -81,8 +95,7 @@ detector. The output was a set of 2D points and we collected this set for every
 view of the building.  The aim of this chapter is to use this set of points to
 improve a basic 3D model. \\
 The point cloud from the skyline detector included a lot of noise caused mostly
-by occluding objects like tree's. How do we detect those outliers?
-%TODO trees or tree's, het is meervoud en niet bezittelijk
+by occluding objects like trees. How do we detect those outliers?
 And if we have an outlier free point cloud how can we use this information to
 improve a basic 3D model? And how can a point be associated to a specific part of the
 building?  These questions are addressed in this chapter.\\
@@ -93,19 +106,20 @@ assigned to a wall of the building. After this the lines are projected to these
 assigned walls in the 3D model. \\
 The projections are used to estimate the new heights of the building walls.
 The 3D model is then improved by updating the walls according these heights. \\
-We will now elaborate on each step.
+We will now elaborate on each step.\\
 
 \subsection{Generating the 3D model}
-% TODO example image openstreetmap
-The 3D model is generated using a groundplain which is manually extended.\\
-The groundplain (viewed from top) of the generated 3D model is originated from
-\emph{Openstreetmap}.  Openstreetmap is a freely accessible 2D map generated by
+The 3D model is generated using a basis (groundplane) which is manually extended.\\
+The basis (viewed from top) of the generated 3D model is originated from
+\emph{Openstreetmap}.\\
+\figw{openstreetmap.png}{}{12cm}
+Openstreetmap, see Figure 1,is a freely accessible 2D map generated by
 users all over the world. It contains information about streets, building
 contours, building functions, museums, etc.  We are interested in the building
 contours.  We take a snapshot of one particular area and extract this building
 contour.  This is a set of ordered points where each point corresponds to a
 corner of the building.  Next we link these points to walls.\\ 
-Because the map is based on aerial images it is in 2D and contains no
+Because the map is based on aerial images, it is in 2D and contains no
 information about the height of each wall.  Also information regarding the
 rooftype or the number of floors is not present.\\
 The final 3D model is generated by starting with the the 2D building contour as
@@ -119,26 +133,35 @@ its basis. We estimate the wall heights by hand and extend the
 % actually works with infinite high walls. 
 % This is done to make sure we don't miss
 % a , more on this in section 
-An example of the 3D model can be seen in Figure 3.\\
-
-
+An example of the 3D model can be seen in Figure 4.\\
 
 
 
 
 % why not ransac?
 \subsection{Extracting line segments}
-	The skyline detector returned a set of points. We want to extract line
-	segments from these points but some points are outliers. In this
-	section we explain how we tackle both at the same time.\\
-	To discard the outliers we detect the inliers and consider the remainder as outliers. But we first have to define an inlier.\\
 
+
+\subsubsection{Introduction}
+	The skyline detector returned a set of points. If some of these points lie
+	on the same line, they form a straight line.  Straight lines are likely to
+	come from the building contour.\\
+	If we have a method that extracts these straight line segments, we can use these
+	line segments to find parts of the building contour and finally use this to
+	improve the 3D model.\\
+	Unfortunately A problem arises that some points are outliers. To discard these outliers
+	we detect the inliers and consider the remainder as outliers.  In this
+	section we draw a assumption, explain how straight line segments are extracted and how
+	outliers are discarded.\\
+
+
+\subsubsection{Assuming a flat roof}
 	Many urban areas contain building with a flat roof. This means that the
 	contour of the building is mostly formed by straight lines.  We use this
 	fact to simplify our problem:\\
 	\emph{Flat roof assumption}\\
 	\emph{We assume each building has a flat roof, implicating that each building wall
-	has a straight upper contour. The walls may have different heights but the roof should be flat.\\
+	has a straight upper contour. The walls may have different heights but the roof should be flat.}\\
 
 	This assumption is very useful as it let us focus on finding the height
 	of the buildingwalls from the building contour without having to concern
@@ -147,17 +170,7 @@ An example of the 3D model can be seen in Figure 3.\\
 		with a small adjustment the method could be used to at least
 		gain the building height which is a useful application.\\
 	Ideas about how to handle rooftypes explicitly can be found in the
-	Future section.
-
-	% TODO example images
-	If a set of skyline pixels lie on the same line, they form a straight line
-	and therefore likely present a part of the building contour.
-	These skyline pixels, that form a straight line, are therefore considered as our
-	inliers.\\ 
-	If we have a method that extracts straight line segments, we can use these
-	line segments to find parts of the building contour and finally use this to improve the 3D
-	model. Next is explained how these straight line segments are extracted.
-	
+	Future work section.\\
 
 \subsubsection{Hough transform}
 	A widely used method for extracting line segments is the Hough transform
@@ -172,7 +185,7 @@ An example of the 3D model can be seen in Figure 3.\\
 	terms of the parameters of the straight line formula $y = mx + b$. i.e., the
 	slope parameter $m$ and the intercept parameter $b$.\\
 	The input of a Hough transform is a binary image, in our case the output of 
-	the skyline detector (chapter TODO).\\
+	the skyline detector (chapter ?).\\
 	If a pixel is classified as a skyline pixel (a pixel that lies on the
 	skyline according the skyline detector), the Hough transform increases
 	a vote value for every valid line ($m$,$b$ pair) that crosses this
@@ -233,38 +246,33 @@ An example of the 3D model can be seen in Figure 3.\\
 	First, a few assumption are made then the details of the problem are analyzed and finally the developed method is explained.
 
 	\subsubsection{Assumptions}
-	% intro of assumptions
 	We consider each building consisting of seperate walls and associate each
 	line segment with a wall of the building that is most likely responsible for
-	that line segment. 
-
+	that line segment. \\
+		
+	%TODO2 numbered assumptions
 	\emph{Unique wall assumption}:\\
-	%motivation, straight lines, skyline detector
-	\emph{We assume that the output of the Hough transform are line segments that
-	each represent the upper side of the contour of a single wall of the building}
+	\emph{We assume that the output of the Hough transform are line segments
+	that each represent a single wall of the building, e.g. if the Hough
+	transform finds 3 line segments there are 3 walls present.}\\
 
-	%TODO WAT HIERmee doen?
-	%We assume that the output of the Hough transform, the 2D line segments this set
-	%represents (parts of) the building contour. To be more precise we assume
-	%that every line segment in the set represents (a part of) the upper side of
-	%a specific wall of the building. 
+	\emph{Building wall appearence assumption}:\\
+	\emph{We assume that every line segment in the output of the Hough transform represent (a part of) the upper side of
+	a specific wall of the building.}
 
-
-
-
-
-	If a line segment is assumed to represent a single wall then the
-	projection to that wall should have a large overlap. 
-	To be more precise, let's define $l$ in $\mathbb{R}2$ as a line segment that is generated by the Hough
-	transform.  If we project $l$ to the plane spanned by a wall $W$ we get a line $l_{proj_W}$ in $\mathbb{R}3$.  
-	If we assume $l$ to come from contour of wall $W$, then $l_{proj_W}$ should
-	have a large intersection with this wall $W$ (as we overestimated the height of
-	the building). We call this the line-wall overlap value, $lwo$. The detailed
-	calculation of $lwo$ follows.  Note that the projection of $l$ with the other walls should
-	have a small $lwo$ value .
-	%see Figure%TODO. create two Figure's (2d and 3d) with a single houghline
+	If a line segment is assumed to represent a single wall then the projection
+	to that wall should have a large overlap with this wall.  To be more
+	precise, let's define $l$ in $\mathbb{R}2$ as a line segment that is
+	generated by the Hough transform.  If we project $l$ to the plane spanned
+	by a wall $W$ we get a line $l_{proj_W}$ in $\mathbb{R}3$.  If we assume
+	$l$ to come from contour of wall $W$, then $l_{proj_W}$ should have a large
+	intersection with this wall $W$ (as we overestimated the height of the
+	building). We call this the line-wall overlap value, $lwo$.  A mathematical
+	definition of $lwo$ follows.  Note that the projection of $l$ with the
+	other walls should have a small $lwo$ value .
+	%TODO2. see figure, create two Figure's (2d and 3d) with a single houghline
 	%(projected)
-	
+
 	\emph{Largest line-wall overlap assumption}:\\
 	\emph{A line segment describes the contour of the wall where its projection
 	has the the largest overlap with.}\\
@@ -337,10 +345,10 @@ segment is classified as the most likely wall for that line segment.
 	% extra dikke vector over de lijn DC
 	% duidelijke pijl aan het eind van stippellijn
 	% alpha of beta teken en daar naar verwijzen ipv vectors benoemen
-	% TODO in Figure overlap ratio percentages drawwen
-	% TODO Controleren of het paragraph of susubsections moeten zijn
-	% in code \lprojw ipv v,w  zo ook met angles
 	% dikke W in abcd vlak
+	% in latexdrawcode \lprojw ipv v,w  zo ook met angles
+	% TODO in Figure overlap ratio percentages drawwen
+
 
 
 	\paragraph{Partial overlap}
@@ -357,7 +365,7 @@ segment is classified as the most likely wall for that line segment.
 	vertical wall sides.)\\
 	To determine which of the two vertical wall sides ($da$ or $cb$ from Figure 10b)
 	 is crossed, we determine on which side the point that didn't lie in the polygon (v) lies.
-	This is done by an angle comparison (as in section TODO).\\
+	This is done by an angle comparison (as in section ?).\\
 	First, two groups of two vectors are defined: $dv$, $dc$ and $cw$, $cd$ (see Figure 10b).
 	We measure the angles between the vectors and call them $\angle d$, and
 	$\angle c$. 
@@ -399,8 +407,9 @@ segment is classified as the most likely wall for that line segment.
 	
 	\paragraph{Line-wall overlap normalization}
 	Finally the line-wall overlap is normalized by the line segments length:\\
-	%TODO different math mode
-	$\alpha_l = \frac{lwo}{|l|}$\\
+	\begin{equation}
+		\alpha_l = \frac{lwo}{|l|}
+	\end{equation}
 	Where $\alpha_l$ is the normalized line-wall overlap, $lwo$ is the unnormalized
 	amount of line-wall overlap, and ($|l|$) is the total length of the line
 	segment.\\
@@ -416,7 +425,7 @@ segment is classified as the most likely wall for that line segment.
 	normalized line-wall overlap is used to determine the correct line-wall
 	association.\\
 
-	%TODO
+	%TODO2
 	% example image where I project a line to every wall of the building
 	% a table of wall overlap value's sorted on largeness
 	% bedenken: hoezo wint niet altijd de achterste wall omdat er dan full overlap
@@ -424,9 +433,8 @@ segment is classified as the most likely wall for that line segment.
 
 
 
-	% TODO:
+	% TODO2
 	% make schema with 3 methods, and in one regel the summary of its technique
-	
 	% test with different techniques
 	% make different dataset
 	% hand anotated (pleonastisch zeg hehe) for ground truth
@@ -448,34 +456,22 @@ segment is classified as the most likely wall for that line segment.
 	an average of the midpoints of the projected line segments. We do this for
 	every wall separately, returning the average height of the line segments.
 	These averages are then used as the new heights of the walls of the
-	building.\\
-	The new individual heights are used in the 3D model by adjusting
-	the location of the existing upper corner points of the walls. We copy the
+	building. Note that this is only permitted in presence of the \emph{flat roof assumption}.\\
+	The new individual heights are used in the 3D model by adjusting the
+	location of the existing upper corner points of the walls. We copy the
 	bottom left and right corner points and add the estimated height from the
-	previous section to its y-value.\\
-
-
-
-	Note that  in this process the \emph{flat roof assumption} and
-	%TODO assump
-	\emph{y-aligned walls assumption} are made.
-
-
-
-
-
-
-	
+	previous section to its y-value. The y-value is the direction of the
+	gravity which is permitted by the \emph{Gravity aligned walls assumption}.
 
 \subsection{Results}
 \noindent
 \fig{outputSkylineIm3-3}{}{0.4}
 Let's return to the output of the skyline detector in Figure 1.
-%TODO \ref{fig:outputSkylineIm3-3.eps}.
+%TODO FIG nummeren \ref{fig:outputSkylineIm3-3.eps}.
 \fig{outputHoughlines2d}{}{0.4}
 \fig{outputHoughlines3d}{}{0.5}
 \fig{outputMutateBuilding}{}{0.5}
-Figure 2
+Figure 3
 %TODO \ref{fig:outputHoughlines2d.eps} 
 shows the top 3 longest Houghlines, the
 endpoints are denoted with a black and blue cross. All three line segments lie on the
@@ -489,7 +485,7 @@ different views) projected on to their associated walls.  For a clear view we've
 only selected the lines that were associated with three specific walls of the building.  
 The red cross in the middle of the line represents the average of its endpoints.\\
 
-Figure 4 %TODO \ref{fig:outputMutateBuilding.eps} 
+Figure 5 %TODO \ref{fig:outputMutateBuilding.eps} 
 displays the updated 3D model. The
 corner points of the walls are adjusted according the calculated wall heights.
 The green plane displays the augmented wall. The left and middle wall are extended
@@ -499,14 +495,16 @@ and the right wall is shortened.\\
 
 \subsection{Discussion}
 %TODO positief lullen over resultaat
-We will now discuss some results. As can be seen in Figure
+As can be seen in Figure
 \ref{fig:outputHoughlines2d.eps} the left line segment doesn't cover the whole
-building wall. This is caused by using strict parameters in the Hough transform
+building wall. This is caused by the use of strict parameters in the Hough transform
 (like a small line thickness parameter).  If some ascending skyline pixels fall just outside
 the Houghlines, a gap is created and the line segment is cut down at that point.
 This is however not a big problem because the lines are long enough to produce a
 good wall height estimate. Furthermore there are at least 5 other lines
 (originated from different views) that support the estimate for this wall.\\
+%TODO
+\emph{I think it is best to add more discussion when the other datasets and results are ready}
 
 
 
@@ -524,7 +522,7 @@ To conclude, we showed that a Houghline transform is a useful method to detect o
 Existing and novel AI computer vision techniques were powerfully combined resulting in an accurate 3D model based on only a few calibrated 2D images. 
 
 \subsection{Future work}
-As can be seen in Figure 3
+As can be seen in Figure 4
 %TODO%TODO
 two line segments appear on the same single wall. This means that they have a double
 influence on the average wall height, which is unjustified. 
@@ -532,7 +530,7 @@ A simple solution would be to add a normalization pre-process step, so each view
 has only one wall height vote per wall. A more decent solution would be to
 merge the two (or more) line segments to a single line segment. This could be
 achieved with an iterative Hough transform where the \emph{FillGap} parameter is
-increased in each iteration. E.g. for the right wall of the building in Figure 3  %TODO 
+increased in each iteration. E.g. for the right wall of the building in Figure 4  %TODO 
 %TODO why iterative?? why not big gab as param??
 two iterations would be enough, the \emph{FillGap} parameter needs to be at least as big as the occluding tree in the second iteration.\\
 
@@ -597,6 +595,7 @@ Some ideas about this are now proposed:\\
 	\item The skyline detector detects the building height, if we
 	could use predefined information about the ratio between the wall height and
 	total height of the building, the wall heights could be estimated.\\
+\end{itemize}
 Assuming we determined the roof type,the building height and wall heights, the 3D model could 
 easy be generated. For the \emph{Gable} roof for example this will involve
 connecting two surfaces from the upper side of the walls with the high roof line (returned by the
@@ -604,20 +603,17 @@ skyline detector). For the other roof types, the building height and wall
 height together with a template structure of the roof could be used to generate the 3D
 model.
 
+% TODO2
 % old middle point shizzle
 % The left and middle line segment of Figure \ref{fig:outputHoughlines2d.eps} are
 % a good example of the corner problem. Both endpoints could easily be associated
 % with the wrong wall (even if the rough 3D model is very accurate). Fortunately
 % we use the middle point of the line segment to determine the correct wall. This
 % works well as its 100\% accurate (for this dataset).
-%TODO check text on old usage of e.g. middle points 
 
 \subsection{References}
-TODO
+Under construction
 %TODO hough
-
-
-
 
 
 \end{document}
