@@ -46,29 +46,24 @@
 % spell check!!
 
 
+% TODO IDEEEN
+% polygonal models fitten bij dakkapels
+
 \title{\sc Improve 3D models from 2D images}
-
 \author{T. Kostelijk\\mailtjerk@gmail.com}
-
 \begin{document}
 \maketitle
-
-
-% LaTeXDraw 
-% op uva compu compilen?
-
-
 \section{Comments on this thesis}
 Dear Frans,
 
 I write this in English so Isaac can read it also.
-This in an update of my thesis chapter. Isaac read it and give me feedback. This feedback and all feedback you gave me are incorporated except for\\
+This in an update of my thesis chapter. Isaac read it and gave me feedback. His feedback and all feedback you gave me are incorporated except for:\\
 -the test on different datasets\\
 (the dataset is not ready yet)\\
 -references\\
 (I'll do this on the end)\\
 -parametervalues Houghline\\
-(Is this still importand?)
+(I'll do this on the end)\\
 -large introduction\\
 Explanation:I expanded the introduction a bit more then my previous version but I think you
 want more background information. I do this in a few chapters earlier which is
@@ -81,23 +76,26 @@ Furthermore, I processed many small changes but a few big changes are:\\
 -I updated the way line segments are associated with building parts and illustrated it with Figure 10.\\
 \\
 Because this new method of associating lines with walls is so much better and
-more intuitive then my old method (I put him in section 2), I consider to
+more intuitive then my old method (see section 2), I am considering to
 discard the old method.\\ 
-But I could also keep the old method and use it as
+However, I could also keep the old method and use it as
 a test against the new one. What is your advice about this?\\
 
 Would you give me feedback about the level of detail, where do I go in to much and where is more detail desired?\\
-Isaac told me to make the future work section smaller, do you agree with this and yes would you tell me which part you think we can drop?\\
-I tried to put some mathematics but didn't do it everywhere. Could you give me feedback where to put (more) formulas or symbols and where not?\\
+Isaac told me to make the future work section smaller, do you agree with this and if yes would you tell me which part you think we should drop?\\
+Furthermore my discussion section is very short, I think it is best to add more discussion when the other datasets and results are ready. What do you think?\\
+I have tried to write down some mathematics but didn't do it everywhere. Could you give me feedback where to put (more) formulas or symbols and where not?\\
 I think I need to put my work in context with the work of others. But on this specific part I can't find any work. How do I deal with that?\\
 Do I remember it right that you are leaving for 1 month beginning at half september?\\
 Would be nice if we can discuss your feedback before then, but that will depend on your schedule.\\
 Please let me know when the feedback is done and lets make an appointment. I think Isaacs presence will not be necesarry, right Isaac?\\
+I am available most of the days. Please let me know when you are available.\\
 
-Thanks in advance for reading my thesis chapter and giving me useful feedback.
+Thanks in advance for reading my thesis chapter and giving me useful feedback.\\
 
-Kind regards,
-Tjerk Kostelijk
+Kind regards,\\
+Tjerk Kostelijk\\
+mailtjerk@gmail.com
  
 \section{Improving the 3D building}
 \subsection{Introduction}
@@ -109,19 +107,19 @@ improve a basic 3D model. \\
 The point cloud from the skyline detector included a lot of noise caused mostly
 by occluding objects like trees. How do we detect those outliers?
 And if we have an outlier free point cloud how can we use this information to
-improve a basic 3D model? And how can a point be associated to a specific part of the
+improve a basic 3D model? And how do we know which point is associated to which part of the
 building?  These questions are addressed in this chapter.\\
 We present a stepwise solution. First \emph{Openstreetmap} is used to generate
 a basic 3D model of a building. Secondly the set of points returned by the
 skyline detector is transfered to a set of lines. Then each line segment is
 assigned to a wall of the building. After this the lines are projected to these
-assigned walls in the 3D model. \\
-The projections are used to estimate the new heights of the building walls.
-The 3D model is then improved by updating the walls according these heights. \\
+assigned walls in the 3D model.  The projections are used to estimate new
+height values of the building walls.  The 3D model is finally improved by updating the
+walls according these heights. \\
 We will now elaborate on each step.\\
 
 \subsection{Generating the 3D model}
-The 3D model is generated using a basis (groundplane) which is manually extended.\\
+The 3D model is generated using a basis (groundplane) which is manually extended.
 The basis (viewed from top) of the generated 3D model is originated from
 \emph{Openstreetmap}.\\
 \figw{openstreetmap.png}{}{12cm}
@@ -132,53 +130,47 @@ contours.  We take a snapshot of one particular area and extract this building
 contour.  This is a set of ordered points where each point corresponds to a
 corner of the building.  Next we link these points to walls.\\ 
 Because the map is based on aerial images, it is in 2D and contains no
-information about the height of each wall.  Also information regarding the
-rooftype or the number of floors is not present.\\
+information regarding the height of each wall.  \\
 The final 3D model is generated by starting with the the 2D building contour as
-its basis. We estimate the wall heights by hand and extend the
-2D basis in the gravity direction.\\
-\emph{Gravity aligned walls assumption}\\
-	\emph{The walls of the building are aligned in the direction of the gravity
-	which is orthogonal to the 2D basis from \textbf{Openstreetmap}}\\
+its basis. We estimate the wall heights by hand and overestimate this height.
+After this we use the height to extend the 2D basis in the opposite gravity direction,
+resulting in a 3D model.\\\\
+\textbf{\emph{Gravity aligned walls assumption}}\\
+	\emph{The walls of the building are aligned in the opposite direction of the gravity
+	which is orthogonal to the 2D basis from \textbf{Openstreetmap}}.\\
 
 % Extending the 2D basis with a finite height is only for illustration purposes, the algorithm
 % actually works with infinite high walls. 
 % This is done to make sure we don't miss
 % a , more on this in section 
-An example of the 3D model can be seen in Figure 4.\\
-
-
-
+An example of the 3D model can be seen in Figure 4.
 
 % why not ransac?
 \subsection{Extracting line segments}
-
-
 \subsubsection{Introduction}
 	The skyline detector returned a set of points. If some of these points lie
 	on the same line, they form a straight line.  Straight lines are likely to
-	come from the building contour.\\
-	If we have a method that extracts these straight line segments, we can use these
-	line segments to find parts of the building contour and finally use this to
-	improve the 3D model.\\
-	Unfortunately A problem arises that some points are outliers. To discard these outliers
+	come from the building contour. If we have a method that extracts these
+	straight line segments, we can use these line segments to find parts of the
+	building contour and finally use this to improve the 3D model.\\
+	Unfortunately a problem arises because some points are outliers. To discard these outliers
 	we detect the inliers and consider the remainder as outliers.  In this
-	section we draw a assumption, explain how straight line segments are extracted and how
-	outliers are discarded.\\
+	section we draw an assumption and we explain how straight line segments are extracted and how
+	outliers are discarded at the same time.\\
 
 
 \subsubsection{Assuming a flat roof}
-	Many urban areas contain building with a flat roof. This means that the
+	Many urban areas contain buildings with a flat roof. This means that the
 	contour of the building is mostly formed by straight lines.  We use this
-	fact to simplify our problem:\\
-	\emph{Flat roof assumption}\\
+	fact to simplify our problem:\\\\
+	\textbf{\emph{Flat roof assumption}}\\
 	\emph{We assume each building has a flat roof, implicating that each building wall
 	has a straight upper contour. The walls may have different heights but the roof should be flat.}\\
 
 	This assumption is very useful as it let us focus on finding the height
-	of the buildingwalls from the building contour without having to concern
+	of the building walls from the building contour without having to concern
 	for (complex) rooftypes.  This doesn't mean that the method described in
-		this thesis is unusable for building that contain roofs. E.g.
+		this thesis is unusable for buildings that contain roofs. E.g.
 		with a small adjustment the method could be used to at least
 		gain the building height which is a useful application.\\
 	Ideas about how to handle rooftypes explicitly can be found in the
@@ -204,17 +196,17 @@ An example of the 3D model can be seen in Figure 4.\\
 	particular pixel.  Lines ($m$, $b$ pairs) that receive a large amount of votes
 	contain a large amount of skyline pixels.\\
 	Because the algorithm detects straight lines containing only skyline pixels it is
-	most likely that it returns parts of the skyline and therefore the building contour. \\
-	The Hough transform is implemented in \emph{Matlab} and has some useful extra functions.\\
-	The algorithm can optionally return the start- and endpoint of the found lines 
-	which is very useful as it helps to associate which part of the building is
-	described by the line.\\
+	most likely that it returns parts of the skyline and therefore the building
+	contour. \\ The Hough transform is implemented in \emph{Matlab} and has
+	some useful extra functions.The algorithm can optionally return the start
+	and endpoint of the found lines which is very useful as it helps us to
+	associate which part of the building is described by the line.\\
 	Furthermore it has the parameter \emph{FillGap} that specifies the distance
 	between two line segments associated with the same $m$,$b$ pair.  When this
-	is less then the \emph{FillGap} parameter, it merges the line segments into
-	a single line segment. In our application this parameter is of particular
-	interest when we want to merge lines that are interrupted by for example an
-	occluding tree.\\
+	inter line segment distance is less then the \emph{FillGap} parameter, it
+	merges the line segments into a single line segment. In our application
+	this parameter is of particular interest when we want to merge lines that
+	are interrupted by for example an occluding tree.\\
 	Results of the Hough transform on the 2D output of the skyline detector are
 	displayed and evaluated in the Result section.
 
@@ -254,12 +246,12 @@ An example of the 3D model can be seen in Figure 4.\\
 	that line segment. \\
 		
 	%TODO2 numbered assumptions
-	\emph{Unique wall assumption}:\\
+	\textbf{	\emph{Unique wall assumption:}}\\
 	\emph{We assume that the output of the Hough transform are line segments
 	that each represent a single wall of the building, e.g. if the Hough
 	transform finds 3 line segments there are 3 walls present.}\\
 
-	\emph{Building wall appearence assumption}:\\
+	\textbf{	\emph{Building wall appearence assumption:}}\\
 	\emph{We assume that every line segment in the output of the Hough transform represent (a part of) the upper side of
 	a specific wall of the building.}
 
@@ -272,13 +264,13 @@ An example of the 3D model can be seen in Figure 4.\\
 	intersection with this wall $W$ (as we overestimated the height of the
 	building). We call this the line-wall overlap value, $lwo$.  A mathematical
 	definition of $lwo$ follows.  Note that the projection of $l$ with the
-	other walls should have a small $lwo$ value .
+	other walls should have a small $lwo$ value.
 	%TODO2. see figure, create two Figure's (2d and 3d) with a single houghline
 	%(projected)
 
-	\emph{Largest line-wall overlap assumption}:\\
+	\textbf{	\emph{Largest line-wall overlap assumption:}}\\
 	\emph{A line segment describes the contour of the wall where its projection
-	has the the largest overlap with.}\\
+	has the largest overlap with.}\\
 
 	\subsubsection{Line-wall association algorithm}
 	Having defined the assumptions, the situation and the idea behind the
@@ -291,9 +283,9 @@ segment is classified as the most likely wall for that line segment.
 	
 	%\paragraph{Line wall overlap type}
 	This line-wall overlap is calculated in different steps.
-	First different types of overlap are explained. After the algorithm
-	determines the \emph{overlap type}, the overlap amount is determined and
-	normalized.
+	First, different types of overlap are explained. Secondly the algorithm
+	determines the \emph{overlap type}, then the overlap amount is determined and
+	finally the amount of overlap is normalized.\\
 
 	$l_{proj_W}$ can overlap $W$ in four different scenarios, this is explained
 	in Figure 10. The wall $W$ is spanned by $abcd$, and $l_{proj_W}$ is spanned
@@ -362,13 +354,13 @@ segment is classified as the most likely wall for that line segment.
 	part that overlaps the wall and the length is measured.\\
 	The cropped line has two coordinates, first of course the point that passed
 	the \emph{in polygon} test and secondly the intersection of the line
-	segment with one of the vertical wall sides.\\
-	(Note that because we assume the walls to be of infinite height, the 
+	segment with one of the vertical wall sides ($da$ or $cb$ from Figure 10b).\\
+	We assume the walls to be of infinite height, therefore the 
 	partial overlapping line segment always intersects one of the
-	vertical wall sides.)\\
-	To determine which of the two vertical wall sides ($da$ or $cb$ from Figure 10b)
-	 is crossed, we determine on which side the point that didn't lie in the polygon (v) lies.
-	This is done by an angle comparison (as in section ?).\\
+	vertical wall sides.\\
+	To determine which of the two vertical wall sides is crossed, we determine
+	on which side the point that doesn't lie in the polygon (v) is on.  This is
+	done by an angle comparison (as in section ?).\\
 	First, two groups of two vectors are defined: $dv$, $dc$ and $cw$, $cd$ (see Figure 10b).
 	We measure the angles between the vectors and call them $\angle d$, and
 	$\angle c$. 
@@ -378,7 +370,7 @@ segment is classified as the most likely wall for that line segment.
 	which we assumed in the \emph{Gravity aligned walls assumption}\\
 	To be more precise: 
 	\begin{itemize}
-	\item if $\angle d$ is obtuse, the left vertical wall side $da$, is
+	\item Ff $\angle d$ is obtuse, the left vertical wall side $da$, is
 	crossed. \\
 	\item If $\angle c$ is obtuse, the right vertical wall side $cb$, is
 	crossed. \\
@@ -398,7 +390,7 @@ segment is classified as the most likely wall for that line segment.
 	As you can see in Figure 10a and 10d this resulted in either full or no overlap.
 	Again we analyze the vector angles to determine the remaining overlap-type.
 	If only one of the angles is obtuse with no points in the polygon, like in Figure 10a,
-	the whole line segment lies outside the wall. An overlap value of zero
+	the whole line segment lies outside the wall: an overlap value of zero
 	is returned.\\
 	Otherwise, if both angles $\angle d$ and $\angle c$ are obtuse or acute (Figure 10d),
 	both endpoints lie on a different side of the wall, and they cross the wall somewhere in
@@ -415,18 +407,22 @@ segment is classified as the most likely wall for that line segment.
 	\end{equation}
 	Where $\alpha_l$ is the normalized line-wall overlap, $lwo$ is the unnormalized
 	amount of line-wall overlap, and ($|l|$) is the total length of the line
-	segment.\\
+	segment (uncut).\\
 	The intuition behind this is that line segments that are likely to
 	present a wall not only have a large overlap but also have a small part
-	that has no overlap. By calculating the relative overlap, both amounts of overlap
-	and -missing overlap are taken into account.\\
+	that has no overlap, the missing overlap should have a negative effect. By
+	calculating the relative overlap, both amounts of overlap and -missing
+	overlap are taken into account.\\
 	The maximum of the normalized line-wall overlap is used to associate a
 	line segment with its most likely wall.
 	To summarize, the overlap type is defined by calculating the numbers of in
 	polygon points and evaluating two dotproducts. Next the line segment is cut off
-	depending on the overlap type and the line is normalized. The maximum
-	normalized line-wall overlap is used to determine the correct line-wall
-	association.\\
+	depending on the overlap type and the line is normalized. \\
+	
+	Now we have determined the normalized line-wall overlap, we use this to
+	search for the correct line-wall association. This is achieved by
+	associating a line segment with the wall that has the largest line-wall
+	overlap.\\
 
 	%TODO2
 	% example image where I project a line to every wall of the building
@@ -481,13 +477,11 @@ endpoints are denoted with a black and blue cross. All three line segments lie o
 building contour.  The left line segment covers only a part of the building wall. The
 middle line segment covers the full wall. The left and middle line segment are connected. The
 right line segment covers the wall until the tree occludes.\\
-
 Figure %TODO \ref{fig:outputHoughlines3d.eps} 
 3 displays the line segments (originated from
 different views) projected on to their associated walls.  For a clear view we've
 only selected the lines that were associated with three specific walls of the building.  
 The red cross in the middle of the line represents the average of its endpoints.\\
-
 Figure 5 %TODO \ref{fig:outputMutateBuilding.eps} 
 displays the updated 3D model. The
 corner points of the walls are adjusted according the calculated wall heights.
@@ -499,7 +493,8 @@ and the right wall is shortened.\\
 \subsection{Discussion}
 %TODO positief lullen over resultaat
 As can be seen in Figure
-\ref{fig:outputHoughlines2d.eps} the left line segment doesn't cover the whole
+%\ref{fig:outputHoughlines2d.eps} 
+3 the left line segment doesn't cover the whole
 building wall. This is caused by the use of strict parameters in the Hough transform
 (like a small line thickness parameter).  If some ascending skyline pixels fall just outside
 the Houghlines, a gap is created and the line segment is cut down at that point.
@@ -507,7 +502,7 @@ This is however not a big problem because the lines are long enough to produce a
 good wall height estimate. Furthermore there are at least 5 other lines
 (originated from different views) that support the estimate for this wall.\\
 %TODO
-\emph{I think it is best to add more discussion when the other datasets and results are ready}
+%\emph{I think it is best to add more discussion when the other datasets and results are ready}
 
 
 
