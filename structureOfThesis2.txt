@@ -4,18 +4,20 @@ Introduction (What did I and why) (WRITE AFTER CONCLUSION)
 	Aim (clear out hypothesis here)
 	Organization of thesis 
 
-3D Building detection? (Skyline detection and projection)
+(5) Skyline ... (detection (and not projection, only 2d, the projection is done in next chapter))
 	Introduction
 	Method (or The algorithm)
 	Results (What did I find)
 	Discussion (What do my results mean to me and why)
 	Conclusion and Future work
-Augmenting the 3D building estimate
+
+(6) Augmenting the 3D building estimate
 	Introduction
 	Method (or The algorithm)
 	Results (What did I find)
 	Discussion (What do my results mean to me and why)
 	Conclusion and Future work
+
 Door/window detection
 	Introduction
 	Method (or The algorithm)

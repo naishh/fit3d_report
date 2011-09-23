@@ -1,0 +1,284 @@
+% subjects to write 
+% houghlines
+% axis angle theory, to projection
+% how I calc the wall normal
+
+\documentclass[10pt]{article}
+\usepackage{graphicx, subfigure}
+\usepackage{amsmath} % for the argmin
+\newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
+\newcommand{\argmin}[1]{\underset{#1}{\operatorname{arg\ min}}}
+\setlength{\parindent}{0in}
+
+\include{commands}
+
+\title{\sc Improve 3D models from 2D images}
+
+\author{T. Kostelijk\\mailtjerk@gmail.com}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Here comes the abstract
+\end{abstract}
+
+
+
+\section{Skyline detection}
+
+
+\subsection{Method} % the algorithm, maar Isaac vind dit fijner
+
+make assumption (building is first thing)
+drawback assumption, plane flys by
+
+aim
+discuss input and output algorithm 
+
+gaussian smooth (explain if reader is thumb)
+vertical image columns (introduce x and y) 
+thresholding
+
+
+explain differences of edge detection methods?
+say that 
+
+the algorith can use all matlab build ins edge detection type's (name them)
+we use sobel because he worked est on tested on empirical basis
+
+linear vertellen
+even feedback erbij pakken
+
+
+
+
+
+
+
+
+\subsection{Results}% (What did I find)
+\subsection{Discussion}  % (What do my results mean to me and why)
+\subsection{Conclusion and Future work}
+
+
+
+
+
+% ----------------------------------------------------------------------------------------
+% old shizzle menizzle, lets rewrite this shit aaight
+\section{Skyline detection}
+ \subsection{Introduction}
+
+The sky and the earth are separated by a skyline in images. The detection of this skyline
+has proven to be a very succesful computer vision application in a wide range of
+domains. In this domain it is used to provide a countour of a building. This
+contour is in a next step used to refine a 3D model of this building.\\
+The organisation of this chapter is as follows.  First related work on skyline
+detection is discussed, then a new algorithm of the skyline algorithm is
+described and finally some results are presented.\\
+% It is interesting to denote that the skyline detector a stand alone method and
+% can be optimized individually without any knowledge of the other parts of the
+% project.
+ \subsection{Related work}
+ ...
+
+%talk about assumptions
+%there are always this assumptions??
+%but what can we (not) assume?
+%Furthermore we can assume that some straight lines 
+
+ \subsection{The Algorithm}
+ \subsubsection{The original algorithm}
+ %TODO lezen: Map-based localization using the panoramic horizon
+The skyline detection algorithm as described in $[9]$ works as follows:
+The frames are first preprocessed by converting them to Gaussian smoothed images.
+The skyline of a frame is then detected by analysing the the image columns
+seperately.
+The smoothed intensity gradient is calculated from top to bottom. This is done
+by taking the derivative of the gaussian smoothed image.
+The system takes the first pixel with gradient higher then a threshold to be
+classified as a skyline element.  This is done for every column in the image.
+The result is a set of coordinates of length $W$,
+where $W$ is the width of the image, that represent the skyline.
+
+Taking the smoothed intensity gradient is the most basic method of edge
+detection and has the disadvantage that is is not robust to more vague
+edges. This is not surprising as it its purpose was a interactive system where the
+user refines the result. It is clear that an optimization is needed.
+
+  \subsubsection{The optimization}
+ % page 15/16
+ % idea for future work:
+ % adaptive thresholding wrt average intensity!
+The column based approach seem te be very useful and is therefor unchanged. 
+The effectiveness of the algorithm is totally depended of the method of edge
+detection and the preprocessing of the images. 
+The original algorithm uses the smoothed intensity gradient as a way of
+detecting edges. This is a very basic method and more sophisticated edge
+detection algorithms are present.\\
+To select a proper edge detector, a practical study is done on the different
+Matlab build in edge detection techniques. The output of the different edge
+detection techniques was studied and the Sobel edge detector came with the most
+promising results. The Sobel edge detector outputs a binary image, therefor the column inlier
+threshold method is replaced by finding the first white pixel. This is as the
+original algorithm done from top to bottom for every column in the image.
+\\ 
+To make the algorithm more precise, two preprocessing
+steps are introduced. First the contrast of the image is increased, this makes
+sharp edges stand out more.  Secondly the image undertakes a Gaussian blur,
+this removes a large part of the noise.
+
+The system now has several parameters which has to be set manually by the user:
+\begin{itemize}
+	\item contrast,
+	% officialy i don't do this contrast thing
+	\item intensity (window size) of Gaussian blur,
+	\item Sobel edge detector threshold,
+\end{itemize}
+\textit{Should I write down what parameter values I used or is this of too much
+detail}
+
+If the user introduces a new dataset these parameters needs to be changed
+as the image quality and lightning condition are probably different.
+%(Automatic parameter estimation based on the image would be interesting future
+%work but lies without the scope of this research.)
+
+ \subsection{Results}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The system assumes that the first sharp edge (seen from top to bottom) is
+always the skyline/building edge. This gives raise to some outliers, for 
+for example a streetlight or a tree. These outliers are removed as described in
+the next section.  
+
+The Skyline detector without outlier removal has an accuracy of 80 \% 
+Some results on the Floriande dataset $[1]$ can be seen in Figure \ref{fig:outputskyline}.
+
+\figs{outputskyline}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The output
+of the edge detector}{The output of the skyline detector. The skyline elements are marked red}{1}
+
+
+\section{Skyline projection}
+ \subsection{Introduction}
+The final product of this research is an accurate 3D model of an urban
+landscape. This is accomplished in several steps, so far the first step: skyline detection is
+explained. The next step is to create a basic 3D model of the urban landscape.
+Then the retrieved skyline of the previous section is used to update the basic
+3D model of the building. This is illustrated in Figure \ref{fig:uml1.eps}
+
+\fig{uml1.eps}{Situation scheme}{0.5}
+
+
+
+   \subsection{3D modelling}
+First a rough 3D model of the urban landscape has to be generated. This is done
+by taking a top-view Google maps image of the scene and extract the contour of
+the building, this is done manually. 
+The height of the building is estimated, also manually, and together with the
+contour a rough 3D model is generated, see Figure \ref{fig:building.eps}. 
+\fig{building.eps}{A rough 3D model of the building}{1}
+%TODO: disadvantage: height of building everywhere the same
+
+
+% TODO how do I combine the results of the different angles
+\subsection{Project to 3D space}
+When the skylines of the 2D images are projected to 3D it can give 
+accurate information about the contour of the building(s). This is used to
+refine the basic 3D model.  Next is explained how the skylines are projected to
+3D.\\
+
+A skyline consist of different skyline pixels. Every 2D skyline pixel presents a 3D point in space. No
+information is known about the distance from the 3D point to the camera that
+took the picture. What is known is de 2D location of the pixel which reduces the possible points in 3D
+space to an infinite line.  This line is known and spanned by two 
+coordinates:\\ 
+\begin{itemize}
+	\item The camera center %(camera centers are annotated for every image)
+	\item $K'p$, where $K$ is the Calibration matrix of the camera and $p$ is the homogeneous pixel coordinate.
+	\textit{Why K'p, I don't remember the theory behind it and can't find it in your paper. Would you explain this Isaac?}
+\end{itemize}
+
+
+%---
+% TODO write in algorithm style?
+For every skyline pixel a line spanned by the above two coordinates is derived.
+
+
+\subsection{Intersect with building}
+The lines derived as described in the previous section are not enough to refine
+the 3D model because it is still unknown which skyline part belongs to which
+part of the 3D model.
+
+Therefor these lines of possibel pixel locations need to
+be reduced to the actual 3D locations of the pixels.  This is done by intersecting
+them with the walls of the rough 3D model and is done as follows.
+
+The building is first divided into different walls.  Every wall of the building spans a plane. 
+Intersections are then calculated between the lines and the planes of the building walls.\\
+\textit{Isaac, should I put a intersection formula down here or is this trivial?}\\
+
+A skyline pixel intersects with every wall as both the lines and planes are
+infinite and have a very low change of being parallel.
+The next challenge is to reduce the number of intersection for every skylinepixel
+to one. In other words, to determine the wall that is responsible for that pixel. 
+This is later on used to update the 3D model at the right place.
+
+The details of this process is explained next:
+%has the largest probability of being 
+
+\subsection{Results}
+% discuss occluding tree, occluding lamp
+% other building on background
+
+
+\subsection{Discussion}
+% TODO what if a plain flys by? note in drawbacks of method
+
+\section{Update 3D model}
+This module is not finished yet.
+
+
+\section{References}
+\begin{itemize}
+\item $[1]$ 
+Esteban, I., Dijk, J. Groen, F.C.A. FIT3D toolbox: multiple view geometry and
+3D reconstruction for matlab. International Symposium on Security. Defence
+Europe (SPIE), \[2010\].
+\item $[8]$ Castano, Automatic detection of dust devils and clouds on Mars.
+\item $[9]$ Cozman, Outdoor visual position estimation for planetary rovers.
+\end{itemize}
+
+% TODO
+% pictures
+% explain motivation behind decisions
+% explain what is new or what is unique
+
+
+% TODO
+% put this in one of the first chapters :
+% an intro which answers the question:
+% detail of the problem, why is this such a interesting problem
+% what did others and how is my work related?
+% write something about mogelijke complications en/of juist wat je er wel aan hebt
+%
+
+% TODO background section?
+% image captions
+% read whole report
+
+% TODO: documentclass anders zodat alles breder is en plaatjes ook breder kunnen
+% en niet bij 7cm al afbreken
+
+% TODO
+% name assumption; the photos taken are straight, the walls are vertical, ivm 
+% (columnwise algo part of the skyline detector )
+
+
+% TODO
+% discussion:
+% Furthermore it would be good to fully discard the flat roof assumption. This will allow a building to have any shape, which is nice. The drawback is that a new method of outlier detection has to be developed. 
+% Object recognition play a great part in this. If one knows where, for example, an occluding object is located, this could be used to filter the output of the skyline detector. This however rises a new problem, namely that the 3D model has no augmentations at the position of occluding objects. Determining what would be located behind the occluding object would be an interesting AI challenge and will incorporate pattern recognition, making use of repetitive structures and off course combining the multiple views to reveal as much information as possible.\\
+
+
+\end{document}
+
+
