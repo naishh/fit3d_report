@@ -84,30 +84,71 @@ a related skyline detection algorithm as presented in %TODO REF
 $[9]$.\\
 
 % nog meer woordjes vooraf?
-The frames are first preprocessed by converting them to Gaussian smoothed images.
-This is done to increase the difference between sharp and vague edges (sharp
-edges stand out more and vague edges disappear).
-The image, which is a collection of $w$ x $h$ pixels, is first divided in #$w$ columns.
-Next, each column produces a new column that stores its derivatives. This is called the smoothed intensity gradient.
-The values of this column are height when a big change in color happens (e.g. an edge is detected) at
-that location in the image. 
-The system takes of every column the first pixel (as seen from top) with a
-gradient higher then a certain threshold and classifies it as a skyline
-element.  
-The result is a set of $y$ coordinates of length $w$, that represents the skyline.
+%gaussian smooth (explain if reader is thumb)
+To increase the difference between sharp and vague edges (and let sharp edges
+stand out more and vague edges disappear) the images are converted to Gaussian
+smoothed images.  The smoothed image, which is a collection of $w$ x $h$ pixels,
+is first divided in #$w$ columns.  Next, each column produces a new column that
+stores its vertical derivatives. This is called the smoothed intensity gradient.
+The values of this column are high when a big change in color happens (e.g. an
+edge is detected) at that location in the image. 
+The system walks through the values of a column starting from the top.  When it
+detects a pixel with a gradient higher then a certain threshold it stores its
+y-value (the location of the heighest sharp edge of that column) and continues
+to the next column.  The result is a set of $y$ coordinates of length $w$, that
+represents the skyline.
 
+\subsubsection{Improved algorithm}
+%motivation
+Taking the smoothed intensity gradient is the most basic method of edge
+detection and has the disadvantage that is is not robust to more vague edges. It
+is not surprising that the algoritm in []%REF 
+was used in an interactive system
+where the user refines the result. 
+Our aim is to develop a autonomous skyline detector, the only user interaction
+that is allowed is to provide the system some parameters. We will now discuss
+the adaptations that we developed wrt the related algorithm.\\
+
+The column based approach seem te be very useful and is therefor unchanged. 
+The preprocess of the related algorithm 
 %----------------------------------------------------------------------------------------------------
 
+The effectiveness of the algorithm is totally depended of the method of edge
+detection and the preprocessing of the images. 
+The original algorithm uses the smoothed intensity gradient as a way of
+detecting edges. 
+This is a very basic method and more sophisticated edge
+detection algorithms are present.\\
 
-%gaussian smooth (explain if reader is thumb)
-\subsubsection{Column based approach}
 
-thresholding
 
+To select a proper edge detector, a practical study is done on the different
+Matlab build in edge detection techniques. The output of the different edge
+detection techniques was studied and the Sobel edge detector came with the most
+promising results. The Sobel edge detector outputs a binary image, therefor the column inlier
+threshold method is replaced by finding the first white pixel. This is as the
+original algorithm done from top to bottom for every column in the image.
+
+
+
+
+
+%make table?
+Sobel		The Sobel method finds edges using the Sobel approximation to the derivative. It returns edges at those points where the gradient of I is maximum.
+Prewitt		The Prewitt method finds edges using the Prewitt approximation to the derivative. It returns edges at those points where the gradient of I is maximum.
+Roberts		The Roberts method finds edges using the Roberts approximation to the derivative. It returns edges at those points where the gradient of I is maximum.
+Laplacian	The Laplacian of Gaussian method finds edges by looking for zero crossings after filtering I with a Laplacian of Gaussian filter.
+zero-cross	The zero-cross method finds edges by looking for zero crossings after filtering I with a filter you specify.
+Canny		The Canny method finds edges by looking for local maxima of the gradient of I. The gradient is calculated using the derivative of a Gaussian filter. The method uses two thresholds, to detect strong and weak edges, and includes the weak edges in the output only if they are connected to strong edges. This method is therefore less likely than the others to be fooled by noise, and more likely to detect true weak edges.
+
+
+
+
+
+%different edge detection
 
 explain differences of edge detection methods?
 say that 
-
 the algorith can use all matlab build ins edge detection type's (name them)
 we use sobel because he worked est on tested on empirical basis
 
@@ -181,6 +222,9 @@ detection and the preprocessing of the images.
 The original algorithm uses the smoothed intensity gradient as a way of
 detecting edges. This is a very basic method and more sophisticated edge
 detection algorithms are present.\\
+
+
+
 To select a proper edge detector, a practical study is done on the different
 Matlab build in edge detection techniques. The output of the different edge
 detection techniques was studied and the Sobel edge detector came with the most
