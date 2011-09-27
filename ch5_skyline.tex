@@ -24,20 +24,84 @@ Here comes the abstract
 \end{abstract}
 
 
-
 \section{Skyline detection}
+ \subsection{Introduction}
+If we take a regular image where both sky and earth are present, there
+is often a clear seperatation between them. This separation is called the
+skyline. %oehhhhhhh 
+The detection of this skyline has proven to be a very succesful computer vision
+application in a wide range of domains. In this domain it is used at urban
+images to provide a countour of a building. This contour is later used to
+provide 3D information about the scene.\\
+The organisation of this chapter is as follows.  First we give a summary of some
+related work on skyline detection.  Next we explain how we developed a new
+robust skyline detection algorithm.  Finally we present some results.
+
+\subsection{Related work}
+%TODO
+
+\subsection{Method} % the algorithm, maar Isaac vindt dit fijner
+\subsubsection{Situation and assumptions}
+Before we present the method let's define the situation and make some
+assumptions.\\
+
+\textit{definition: skyline in urban scene}
+A skyline in an urban scene is a set op points of the length $w$ (where $w$ is the
+width of the size of the image) where each point describes the location of the
+transition from the sky to an object (e.g. a bulding) which is mounted on the earth.
+
+%motivate assumption
+The first question arises: how are we going to detect this transition. In
+general the color of the sky is very different then the buildingcolor. A
+colorbased: using an edge detector would be an intuitive decision.\\
+However, the sky and building itself also contain edges (e.g. clouds and 
+windows) so how do we determine the right edge?
+The number of possible edges could be decreased by thresholding the intensity of
+the edge but it would still be a difficult task to determine the right edge.\\
+
+To solve this problem we draw an assumption that is inspired on.
+%TODO ref
+%inspired on the idea of: %TODO 
+Instead of using the sharpest edge we take the most upper sharp edge and
+classify this edge as the skyline.
+
+\textit{Top sharp edge assumption}
+The first sharp edge (seen from top to bottom) in the image 
+presents the skyline.
+%TODO read original paper and see if i can get some assumption
+%TODO discussion:
+%drawback assumption, plane flys by
 
 
-\subsection{Method} % the algorithm, maar Isaac vind dit fijner
+%TODO
+%aim
+%discuss input and output algorithm 
 
-make assumption (building is first thing)
-drawback assumption, plane flys by
 
-aim
-discuss input and output algorithm 
+\subsubsection{Related algorithm}
+To put our work in context, we first describe
+a related skyline detection algorithm as presented in %TODO REF 
+$[9]$.\\
 
-gaussian smooth (explain if reader is thumb)
-vertical image columns (introduce x and y) 
+% nog meer woordjes vooraf?
+The frames are first preprocessed by converting them to Gaussian smoothed images.
+This is done to increase the difference between sharp and vague edges (sharp
+edges stand out more and vague edges disappear).
+The image, which is a collection of $w$ x $h$ pixels, is first divided in #$w$ columns.
+Next, each column produces a new column that stores its derivatives. This is called the smoothed intensity gradient.
+The values of this column are height when a big change in color happens (e.g. an edge is detected) at
+that location in the image. 
+The system takes of every column the first pixel (as seen from top) with a
+gradient higher then a certain threshold and classifies it as a skyline
+element.  
+The result is a set of $y$ coordinates of length $w$, that represents the skyline.
+
+%----------------------------------------------------------------------------------------------------
+
+
+%gaussian smooth (explain if reader is thumb)
+\subsubsection{Column based approach}
+
 thresholding
 
 
@@ -51,14 +115,9 @@ linear vertellen
 even feedback erbij pakken
 
 
-
-
-
-
-
-
 \subsection{Results}% (What did I find)
 \subsection{Discussion}  % (What do my results mean to me and why)
+% what are the differences with the method in [9]?
 \subsection{Conclusion and Future work}
 
 
@@ -67,12 +126,16 @@ even feedback erbij pakken
 
 % ----------------------------------------------------------------------------------------
 % old shizzle menizzle, lets rewrite this shit aaight
-\section{Skyline detection}
- \subsection{Introduction}
+\section{__Skyline detection}
+ \subsection{__Introduction}
 
+%Nice
 The sky and the earth are separated by a skyline in images. The detection of this skyline
 has proven to be a very succesful computer vision application in a wide range of
-domains. In this domain it is used to provide a countour of a building. This
+domains. In this domain it is used to provide a countour of a building. 
+
+%TODO
+This
 contour is in a next step used to refine a 3D model of this building.\\
 The organisation of this chapter is as follows.  First related work on skyline
 detection is discussed, then a new algorithm of the skyline algorithm is
@@ -80,7 +143,7 @@ described and finally some results are presented.\\
 % It is interesting to denote that the skyline detector a stand alone method and
 % can be optimized individually without any knowledge of the other parts of the
 % project.
- \subsection{Related work}
+ \subsection{__Related work}
  ...
 
 %talk about assumptions
@@ -88,8 +151,8 @@ described and finally some results are presented.\\
 %but what can we (not) assume?
 %Furthermore we can assume that some straight lines 
 
- \subsection{The Algorithm}
- \subsubsection{The original algorithm}
+ \subsection{__The Algorithm}
+ \subsubsection{__The original algorithm}
  %TODO lezen: Map-based localization using the panoramic horizon
 The skyline detection algorithm as described in $[9]$ works as follows:
 The frames are first preprocessed by converting them to Gaussian smoothed images.
@@ -97,6 +160,7 @@ The skyline of a frame is then detected by analysing the the image columns
 seperately.
 The smoothed intensity gradient is calculated from top to bottom. This is done
 by taking the derivative of the gaussian smoothed image.
+
 The system takes the first pixel with gradient higher then a threshold to be
 classified as a skyline element.  This is done for every column in the image.
 The result is a set of coordinates of length $W$,
@@ -107,7 +171,7 @@ detection and has the disadvantage that is is not robust to more vague
 edges. This is not surprising as it its purpose was a interactive system where the
 user refines the result. It is clear that an optimization is needed.
 
-  \subsubsection{The optimization}
+  \subsubsection{__The optimization}
  % page 15/16
  % idea for future work:
  % adaptive thresholding wrt average intensity!
@@ -144,7 +208,7 @@ as the image quality and lightning condition are probably different.
 %(Automatic parameter estimation based on the image would be interesting future
 %work but lies without the scope of this research.)
 
- \subsection{Results}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \subsection{__Results}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The system assumes that the first sharp edge (seen from top to bottom) is
 always the skyline/building edge. This gives raise to some outliers, for 
 for example a streetlight or a tree. These outliers are removed as described in
@@ -157,8 +221,8 @@ Some results on the Floriande dataset $[1]$ can be seen in Figure \ref{fig:outpu
 of the edge detector}{The output of the skyline detector. The skyline elements are marked red}{1}
 
 
-\section{Skyline projection}
- \subsection{Introduction}
+\section{__Skyline projection}
+ \subsection{__Introduction}
 The final product of this research is an accurate 3D model of an urban
 landscape. This is accomplished in several steps, so far the first step: skyline detection is
 explained. The next step is to create a basic 3D model of the urban landscape.
@@ -169,7 +233,7 @@ Then the retrieved skyline of the previous section is used to update the basic
 
 
 
-   \subsection{3D modelling}
+   \subsection{__3D modelling}
 First a rough 3D model of the urban landscape has to be generated. This is done
 by taking a top-view Google maps image of the scene and extract the contour of
 the building, this is done manually. 
@@ -180,7 +244,7 @@ contour a rough 3D model is generated, see Figure \ref{fig:building.eps}.
 
 
 % TODO how do I combine the results of the different angles
-\subsection{Project to 3D space}
+\subsection{__Project to 3D space}
 When the skylines of the 2D images are projected to 3D it can give 
 accurate information about the contour of the building(s). This is used to
 refine the basic 3D model.  Next is explained how the skylines are projected to
@@ -203,7 +267,7 @@ coordinates:\\
 For every skyline pixel a line spanned by the above two coordinates is derived.
 
 
-\subsection{Intersect with building}
+\subsection{__Intersect with building}
 The lines derived as described in the previous section are not enough to refine
 the 3D model because it is still unknown which skyline part belongs to which
 part of the 3D model.
@@ -225,19 +289,19 @@ This is later on used to update the 3D model at the right place.
 The details of this process is explained next:
 %has the largest probability of being 
 
-\subsection{Results}
+\subsection{__Results}
 % discuss occluding tree, occluding lamp
 % other building on background
 
 
-\subsection{Discussion}
+\subsection{__Discussion}
 % TODO what if a plain flys by? note in drawbacks of method
 
-\section{Update 3D model}
+\section{__Update 3D model}
 This module is not finished yet.
 
 
-\section{References}
+\section{__References}
 \begin{itemize}
 \item $[1]$ 
 Esteban, I., Dijk, J. Groen, F.C.A. FIT3D toolbox: multiple view geometry and
