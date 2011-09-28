@@ -1,11 +1,12 @@
 plan to read how to write a thesis (again)
 
 chapter 5 skyline
-	rewrite related work
+	process chapter comments
 	write results
 	write discussion
 	gather and process todos
 	do matlab edge detecting tests and generate images
+	rewrite related work
 	references (bibtex)
 	
 chapter 6 ass
@@ -22,4 +23,5 @@ write big main introduction Introduction (What did I do and why) (WRITE AFTER CO
 	Aim (clear out hypothesis here)
 	Organization of thesis 
 
+make a include script
 tex de whole shizzle
