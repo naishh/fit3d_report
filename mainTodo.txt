@@ -11,7 +11,7 @@ chapter 5 skyline
 	
 chapter 6 ass
 	search for and write about related work
-	write projection and use text of ch 5
+**	write projection and use text of ch 5
 	read second half of chapter see feedback map
 	gather and process todos 
 
@@ -23,5 +23,7 @@ write big main introduction Introduction (What did I do and why) (WRITE AFTER CO
 	Aim (clear out hypothesis here)
 	Organization of thesis 
 
-make a include script
+EASY GOING TODOS WHEN TYRED:
+make an include script
+install matlab
 tex de whole shizzle
