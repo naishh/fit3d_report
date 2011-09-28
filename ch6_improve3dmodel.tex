@@ -284,6 +284,104 @@ segment is classified as the most likely wall for that line segment.
 	Next the line segments are projected to their most likely wall and the
 	algorithm outputs this set of lines in $\mathbb{R}3$. 
 	
+
+
+	%--------------------------------------------------------------------------------------
+	%TODO Better changing, and think of a right place in the chapter
+	every wall of the building exist of four coordinates
+	wall spans plane
+	point to 3d line
+	line intersects plane
+	for everywall intersection is found unless line is parallel
+
+The line segment that was returned by the Hough transform consists of two
+endpoints $v$ and $w$. These endpoints are in 2D but are recorded in a 3D scene
+and therefor also present a 3D point in space.
+The value of the 3rd dimension represents the distance from the 3D point to the
+camera that took the picture, this value is unknown.
+What is known, is de 2D information of the pixel, this is the location of the
+pixel in the image. We know what camera took the picture so we can calculate a
+camera specific Calibration matrix. This reduces the possible points in 3D space
+to an infinite line.  
+
+This line is defined by two coordinates:
+coordinates:\\ 
+\begin{itemize}
+	\item $C$, the center of the camera 
+	%TODO %(camera centers are annotated for every image)
+	\item $K'p$, where $K$ is the Calibration matrix of the camera and $p$ is the homogeneous pixel coordinate.
+	%TODO explain Why K'p
+%TODO explain in detail what K is and how it is retrieved, maybe write this down in preliminaries?
+\end{itemize}
+%TODO image
+
+The camera can be described in the same coordinate system as the 3D point we are
+looking for, we call this the world coordinate system. 
+The camera center is a value in $\mathbb{R}$3 that represents the camera's position in the world
+coordinate system. If the camera rotates, it rotates around this point.\\
+%TODO introduce viewing direction
+A system is calibrated if the camera centers and camera viewing directions are
+known. In some systems this is recorded on forehand. In our system we retrieved
+this values by using the fit3d toolbox.\\  %TODO REF
+%TODO uitleggen hoe (fit3d toolbox)
+$K'p$ is the point that lies on the retina of the camera 
+
+The infinite line of possible points in 3D is defined by the coordinates $C$ and $K'p$
+%TODO describe how a infinite line is described by 2 formulas
+
+
+As described in %TODO
+ the 3D building model is divided into different walls.  
+
+%TODO larger intro
+To know which linesegment presents which wall we are intersecting the infinite
+lines with the walls. 
+
+
+Because the 3D model is an estimate the walls maybe just
+to short. Thats why we let every wall span an infinite plane.
+
+%TODO formula
+
+ We have a 3d model
+ This helps us to find where the line segment 
+ 
+Intersections are then calculated between the lines and the planes spanned by the building walls.\\
+%TODO intersection formula 
+
+
+
+
+
+
+
+
+
+
+	%--------------------------------------------------------------------------------------
+old:
+
+Therefor these lines of possibel pixel locations need to
+be reduced to the actual 3D locations of the pixels.  This is done by intersecting
+them with the walls of the rough 3D model and is done as follows.
+
+The building is first divided into different walls.  Every wall of the building spans a plane. 
+Intersections are then calculated between the lines and the planes of the building walls.\\
+\textit{Isaac, should I put a intersection formula down here or is this trivial?}\\
+
+A skyline pixel intersects with every wall as both the lines and planes are
+infinite and have a very low change of being parallel.
+The next challenge is to reduce the number of intersection for every skylinepixel
+to one. In other words, to determine the wall that is responsible for that pixel. 
+This is later on used to update the 3D model at the right place.
+
+	%--------------------------------------------------------------------------------------
+
+
+
+
+
+
 	%\paragraph{Line wall overlap type}
 	This line-wall overlap is calculated in different steps.
 	First, different types of overlap are explained. Secondly the algorithm
