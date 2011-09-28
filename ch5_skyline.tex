@@ -3,6 +3,8 @@
 % axis angle theory, to projection
 % how I calc the wall normal
 
+%TODO ML betekent TODO MATLAB
+
 \documentclass[10pt]{article}
 \usepackage{graphicx, subfigure}
 \usepackage{amsmath} % for the argmin
@@ -39,6 +41,18 @@ robust skyline detection algorithm.  Finally we present some results.
 
 \subsection{Related work}
 %TODO
+
+
+
+
+
+
+
+
+
+
+
+
 
 \subsection{Method} % the algorithm, maar Isaac vindt dit fijner
 \subsubsection{Situation and assumptions}
@@ -96,9 +110,11 @@ The system walks through the values of a column starting from the top.  When it
 detects a pixel with a gradient higher then a certain threshold it stores its
 y-value (the location of the heighest sharp edge of that column) and continues
 to the next column.  The result is a set of $y$ coordinates of length $w$, that
-represents the skyline.
+represents the skyline. 
 
 \subsubsection{Improved algorithm}
+%TODO talk about the robustness
+%TODO introduce a scene with bad lightning conditions
 %motivation
 Taking the smoothed intensity gradient is the most basic method of edge
 detection and has the disadvantage that is is not robust to more vague edges. It
@@ -106,57 +122,99 @@ is not surprising that the algoritm in []%REF
 was used in an interactive system
 where the user refines the result. 
 Our aim is to develop a autonomous skyline detector, the only user interaction
-that is allowed is to provide the system some parameters. We will now discuss
+that we allow is to provide the system some parameters. We will now discuss
 the adaptations that we developed wrt the related algorithm.\\
 
-The column based approach seem te be very useful and is therefor unchanged. 
-The preprocess of the related algorithm 
+The column based approach of the related algorithm seem te be very useful and is therefor unchanged. 
+The related algorithm uses the smoothed intensity gradient as a method to detect edges. 
+Because of the accuracy disadvantage of this method we took another approach in
+detecting edges. Because we used Matlab as our implementation platform, we where
+able to test different edge detecting types. The following edge detecting types
+where tested.
+
+%Because the column based part of the algorithm is individual, it can read any image, we could totally develop a new preprocess step.
+%TODO better english
 %----------------------------------------------------------------------------------------------------
 
-The effectiveness of the algorithm is totally depended of the method of edge
-detection and the preprocessing of the images. 
-The original algorithm uses the smoothed intensity gradient as a way of
-detecting edges. 
-This is a very basic method and more sophisticated edge
-detection algorithms are present.\\
+The output of the different edge detection techniques was studied on an emprical
+basis and the Canny edge detector came with the most promising results. This is
+probably because Canny is the most 'intelligent' edge detector.  It uses two
+thresholds, to detect strong and weak edges, and includes the weak edges in the
+output only if they are connected to strong edges. In table %REF
+a Matlab buildin edge detectors are listed with their method explanation.
+%TODO check in matlab if canny uses 2 thresholds as args 
 
+\begin{tabular}
+	\hline
+	Edge detecting type		& method\\
+	Sobel					& The Sobel method finds edges using the Sobel
+	approximation to the derivative. It returns edges at those points where the
+	gradient of I is maximum.\\
+	\hline
+	Prewitt					& The Prewitt method finds edges using the Prewitt
+	approximation to the derivative. It returns edges at those points where the
+	gradient of I is maximum.\\
+	\hline
+	Roberts					& The Roberts method finds edges using the Roberts
+	approximation to the derivative. It returns edges at those points where the
+	gradient of I is maximum.\\
+	\hline
+	Laplacian				& The Laplacian of Gaussian method finds edges by
+	looking for zero crossings after filtering I with a Laplacian of Gaussian
+	filter.\\
+	\hline
+	zero-cross				& The zero-cross method finds edges by looking for zero
+	crossings after filtering I with a filter you specify.\\
+	\hline
+	Canny					& The Canny method finds edges by looking for local
+	maxima of the gradient of I. The gradient is calculated using the derivative of
+	a Gaussian filter. The method uses two thresholds, to detect strong and weak
+	edges, and includes the weak edges in the output only if they are connected to
+	strong edges. This method is therefor less likely than the others to be fooled
+	by noise, and more likely to detect true weak edges.\\
+	\hline
+\end{tabular}
 
+%TODO ML 
+% check edge detector at different dataset and compair results
+%However on an another scene an other edge type could perform better. 
+Because the optimal edge detector type can be scene dependend, it can be set
+by the user as a parameter in our functions.\\
 
-To select a proper edge detector, a practical study is done on the different
-Matlab build in edge detection techniques. The output of the different edge
-detection techniques was studied and the Sobel edge detector came with the most
-promising results. The Sobel edge detector outputs a binary image, therefor the column inlier
-threshold method is replaced by finding the first white pixel. This is as the
-original algorithm done from top to bottom for every column in the image.
+%TODO ML check in matlab if every edge detector returns a binary image
+The Canny edge detector outputs a binary image, therefor the column inlier
+threshold is set to 1, which means that it finds the first pixel that is white. 
+This is, as in the related algorithm, done from top to bottom for every column in
+the image.\\
 
+Because we know we are looking for sharp edges we improved the algorithm by
+introducing two preprocessing steps. First the contrast of the image is
+increased, this makes sharp edges stand out more.  Secondly the image undertakes
+an extra Gaussian blur, this removes a large part of the nois. Note that
+dependend on the edge detector type this could mean that the image is blurred
+twice.\\
 
+%TODO ML make different edge images, with and without each step (contrast, blur
+% etc)
 
+The system now has several parameters which has to be set manually by the user:
+\begin{itemize}
+	\item contrast,
+	% officialy i don't do this contrast thing ghehe, whoepsie daisy fooling the
+	% reader
+	\item intensity (window size) of Gaussian blur,
+	\item Sobel edge detector threshold,
+\end{itemize}
 
-
-%make table?
-Sobel		The Sobel method finds edges using the Sobel approximation to the derivative. It returns edges at those points where the gradient of I is maximum.
-Prewitt		The Prewitt method finds edges using the Prewitt approximation to the derivative. It returns edges at those points where the gradient of I is maximum.
-Roberts		The Roberts method finds edges using the Roberts approximation to the derivative. It returns edges at those points where the gradient of I is maximum.
-Laplacian	The Laplacian of Gaussian method finds edges by looking for zero crossings after filtering I with a Laplacian of Gaussian filter.
-zero-cross	The zero-cross method finds edges by looking for zero crossings after filtering I with a filter you specify.
-Canny		The Canny method finds edges by looking for local maxima of the gradient of I. The gradient is calculated using the derivative of a Gaussian filter. The method uses two thresholds, to detect strong and weak edges, and includes the weak edges in the output only if they are connected to strong edges. This method is therefore less likely than the others to be fooled by noise, and more likely to detect true weak edges.
-
-
-
-
-
-%different edge detection
-
-explain differences of edge detection methods?
-say that 
-the algorith can use all matlab build ins edge detection type's (name them)
-we use sobel because he worked est on tested on empirical basis
-
-linear vertellen
-even feedback erbij pakken
+% write down what parameter I used, and worked best
+If the user introduces a new dataset these parameters needs to be configured
+as the image quality and lightning condition are scene dependend.
 
 
 \subsection{Results}% (What did I find)
+% canny edge images
+% skyline detector shizzle
+
 \subsection{Discussion}  % (What do my results mean to me and why)
 % what are the differences with the method in [9]?
 \subsection{Conclusion and Future work}
@@ -185,7 +243,43 @@ described and finally some results are presented.\\
 % can be optimized individually without any knowledge of the other parts of the
 % project.
  \subsection{__Related work}
- ...
+A lot of related work on skyline detection is done and it is used in a wide
+range of domains. $[8]$ yields a good introduction of different skyline
+detection techniques, these are listed below.
+
+\subsubsection{Cloud detection for Mars Exploration Rovers (MER)}
+Mars Exploration Rovers (MER) are used to detect clouds and dust devils on Mars.
+In [1] their approach is to first identify the sky (equivalentl, the skyline)
+and then determine if there are clouds in the region segmented as sky.
+
+\subsubsection{Horizon detection for Unmaned Air Vehicles (UAV)}
+In this domain, the horizon detector for UAVs can take advantage of the high
+altitude of the vehicle and therefor the horizon can be approximated to be a
+straigt line.  This turns the detection problem into a line-fitting problem.
+Ofcourse this work is not applicable for detecting a building countour as the
+straight line assumption doesn't work. But it needs to be mentioned that from this
+idea some inspiration on line fitting is done because the building countour has
+straight line segments.
+
+\subsubsection{Planetary Rover localisation}
+In [9] they use the skyline detection in planetary rovers, their approach is to
+combine the detected skyline with a given map of the landscape (hills, roads) to
+detect its current location. 
+The advantage of their technique is the simplicity and effectiveness of the
+algorithm which makes it suitable for this project.  A big drawback is that it
+is geared toward speed over extremely high accuracy because it is 
+interactive system where an operator refines the skyline.
+
+As mentioned in the introduction, in this project we use the skyline to extract
+the building contour to eventually update a 3D model which is a brand new
+purpose of skyline detection.  There is no user interaction present, and the
+accuracy is a matter of high importance.  This makes it different from existing
+skyline techniques and caution should be taken by using existing algorithms.
+From the related work the Planetary Rover localisation [9] seemed to fit most on
+this project.  Therefor method [9] is used, but as a basis, and a custom
+algorithm with higher accuracy is developed. This is explained in the next
+section.
+
 
 %talk about assumptions
 %there are always this assumptions??
