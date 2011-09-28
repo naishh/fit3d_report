@@ -26,4 +26,8 @@ write big main introduction Introduction (What did I do and why) (WRITE AFTER CO
 EASY GOING TODOS WHEN TYRED:
 make an include script
 install matlab
+	 w.s. is iso bestand te klein ivm fat32 ext hd
+	 downloaden via piratebay van anne
+	 thuis nog een keer proberen en dan zonder ext hd
+	
 tex de whole shizzle
