@@ -1,0 +1,21 @@
+\section{Preliminaries(DRAFT)}
+\subsection{Transform coordinates to a line equation}
+%TODO uitleggen hoe je van 2 coords een lijnvergelijking maakt
+TODO, explain 2 coords to an line equation
+
+
+\subsection{Coordination systems}
+The camera can be described in the same coordinate system as the 3D point we are
+looking for, we call this the world coordinate system. 
+The camera center is a value in $\mathbb{R}$3 that represents the camera's position in the world
+coordinate system. If the camera rotates, it rotates around this point.\\
+
+\subsection{Homogenous coordinate}
+explain how to add extra homogeneous dimension (x,y,1) and why this is
+
+\subsection{Planes and walls}
+How to span plane by wall coords
+
+\subsection{Getting the camera centers}
+Explain here about fit3d toolbox
+

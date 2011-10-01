@@ -2,10 +2,9 @@
 
 \documentclass[10pt]{article}
 
+%TODO onderstaand moet wel aan staan dus ff package downen op laptop?
 \usepackage[usenames,dvipsnames]{pstricks}
 \usepackage{epsfig}
-%\usepackage{pst-grad} % For gradients
-%\usepackage{pst-plot} % For axes
 
 
 \usepackage{graphicx, subfigure}
@@ -57,6 +56,7 @@
 \begin{document}
 \maketitle
 \section{Comments on this thesis}
+%TODO
 Dear Frans,
 
 I write this in English so Isaac can read it also.
@@ -150,7 +150,7 @@ An example of the 3D model can be seen in Figure 4.
 
 % why not ransac?
 \subsection{Extracting line segments}
-\subsubsection{Introduction}
+%intro
 	The skyline detector returned a set of points. If some of these points lie
 	on the same line, they form a straight line.  Straight lines are likely to
 	come from the building contour. If we have a method that extracts these
@@ -162,7 +162,7 @@ An example of the 3D model can be seen in Figure 4.
 	outliers are discarded at the same time.\\
 
 
-\subsubsection{Assuming a flat roof}
+	\paragraph{Assuming a flat roof}\\
 	Many urban areas contain buildings with a flat roof. This means that the
 	contour of the building is mostly formed by straight lines.  We use this
 	fact to simplify our problem:\\\\
@@ -215,16 +215,8 @@ An example of the 3D model can be seen in Figure 4.
 
 
 
-\subsection{Associating line segments with building walls}
-% 	method below is very nice but it is outperformed by my ultragenius other
-% 	method, so I could use it in the thesis but only as different test
-% 	methods
-%
-
-
-% 
-% 	%TODO example image
-%TODO name different methods and put in table and test
+\subsection{Project the skyline to the building}
+%TODO name different methods? and put in table and test
 % Some different methods
 % method 1:
 % take endpoints and project, con: endpoints don't agree
@@ -235,15 +227,117 @@ An example of the 3D model can be seen in Figure 4.
 % overlap
 
 	% intro
-	\subsubsection{Introduction}
 	The Hough transform of the previous section returned a set of 2D line
-	segments.  If we can find a way to associate certain walls of the building with
-	the 2D line segments, we can estimate new heights of this walls and improve our basic 3D model.
-	This section explains how we associate the line segments with the most
-	likely walls of the building. \\
-	First, a few assumption are made then the details of the problem are analyzed and finally the developed method is explained.
+	segments which present parts of the skyline.  If we can find a way to
+	project these lines to the building we can improve our basic 3D model.
+	
+	This involves two steps, the projection to the building and a way to
+	associate a skylinepart with a specific buildingpart.
+	% TODO organisation of chapter uitleggen of niet?
+	% First, a few assumption are made and the details of the problem are
+	% analyzed. Secondly the developed method of projection and line-wall
+	% association is explained.\\
+	%TODO POLIJSTEN
 
-	\subsubsection{Assumptions}
+	%TODO intronize projection
+	%TODO how does the 3d model helps us?
+
+	\subsubsection{From image point (2D) to possible points in scene (3D)} 
+	The line segment that was returned by the Hough transform consists of two
+	endpoints $v$ and $w$. These endpoints are in 2D but are recorded in a 3D scene
+	and therefor present a 3D point in space.
+	The value of the 3rd dimension represents the distance from the 3D point to the
+	camera that took the picture, this value is unknown.
+	What is known, is de 2D information about the pixel, this is the location of the
+	pixel in the image. As it is our own dataset we also know what camera took the
+	picture so we can calculate a camera specific Calibration matrix. 
+	The 2D coordinates together with the Calibration matrix make with some calculations
+	it possible to reduce the possible points in 3D space to a line.
+	See Figure %TODO make figure of line that goes into scene
+	\\
+	\textit{comment:I put more on this in the preliminaries (which is still a draft)}\\
+
+	%TODO howcome we don't need P (rotation matrix)
+	This line is defined by two coordinates:\\
+	\begin{itemize}
+		\item $C$, the center of the camera, and
+		%TODO %(camera centers are annotated for every image)
+		\item $K'p$, the point that lies on the retina of the camera, where $K$ is the Calibration matrix and $p$ is the homogeneous pixel coordinate.
+		%TODO explain Why K'p
+	%TODO explain in detail what K is and how it is retrieved, maybe write this down in preliminaries?
+	\end{itemize}
+	%TODO image
+
+	%TODO zee zisserman pagenumbers in feedbackmap
+	see preliminaries %TODO REF over hoe je van 2 coords naar een lijn gaat
+
+	So the problem is boiled down in finding the Camera centers and finding the
+	Calibration matrix.\\
+
+	%TODO introduce viewing direction
+	A system is calibrated if the camera centers (positions) and camera viewing directions are
+	known. In some systems this is known on forehand by measuring the cameras position and
+	orientation at the scene. In other systems, as in ours, this is calculated 
+	%TODO goed woord voor NADERHAND 
+	after
+	We calculated these values using the fit3d toolbox.%TODO Ref
+	 See prelimanaries (%TODO
+	) for detail.\\  
+	%TODO uitleggen hoe (fit3d toolbox)
+
+	The calibration matrix is retrieved by making images of a chessboard in
+	different positions and orientations and using the Bouget toolbox to calibrate
+	the camera. More on this in the preliminaries.
+
+	Now we have two coordinates we can set up an equation of the line as in
+	preliminaries (Transform coordinates to a line equation). And we can continue to
+	the next step.
+
+	\subsubsection{Intersecting with walls}
+	%TODO write in intro 
+	%For every line segment we now have two endpoints which are transformed to an
+	%infinite line of possible points in the scene.  We are now ... your friend 
+	%TODO larger intro
+	%To know which linesegment presents which wall we are intersecting the infinite
+	%lines with the walls. 
+	%
+	%The building is first divided into different walls.  Every wall of the building spans a plane. 
+	%Intersections are then calculated between the lines and the planes of the building walls.\\
+
+
+	As described in %TODO
+	 the 3D building model is divided into different walls. These walls are
+	 described by two ground coordinates and a direction which is the y-direction as
+	 assumed by the \emph{Gravity aligned walls assumption}.
+
+	As you can read in preliminaries (Planes and walls) the walls are transformed
+	into planes.  This is done for two reasons: first this transformation is required to calculate the intersection properly.
+	Secondly, because the 3D model is an estimate, the walls maybe just
+	to small which could %TODO ongewenst
+	result in no intersection which is unwanted.
+	%TODO example image
+
+	Now we have the building divided op into planes we can intersect the lines.
+	%TODO intersection formula 
+	%TODO 
+	%Note that
+	%A skyline pixel intersects with every wall as both the lines and planes are
+	%infinite and have a very low change of being parallel.
+
+	For every line segment we have two endpoints which are now projected on the
+	building walls
+	This results in 2xlxw points in 3D, grouped by the line segments, where $l$ is the number
+	of lines and $w$ is the number of walls. 
+
+	The next challenge is to reduce the number of intersection for every line
+	segment to one. In other words, to determine the wall that is responsible for
+	the line segment. This is later on used to update the height of the wall of the
+	3D model.
+
+
+\subsubsection{Associating line segments with building walls}
+%TODO intro
+	\paragraph{Assumptions}\\
 	We consider each building consisting of seperate walls and associate each
 	line segment with a wall of the building that is most likely responsible for
 	that line segment. \\
@@ -275,112 +369,16 @@ An example of the 3D model can be seen in Figure 4.
 	\emph{A line segment describes the contour of the wall where its projection
 	has the largest overlap with.}\\
 
-	\subsubsection{Line-wall association algorithm}
+	%\subsubsection{Line-wall association}
 	Having defined the assumptions, the situation and the idea behind the
-	line-wall association, we can now explain the line-wall matching algorithm.\\
+	line-wall association, we can now explain the line-wall matching algorithm.\\ 
+
 	A line segment is projected to all walls and the amount of line-wall
 	overlap, $lwo$ is calculated. The wall with the largest overlap with the specific line
 segment is classified as the most likely wall for that line segment.
 	Next the line segments are projected to their most likely wall and the
 	algorithm outputs this set of lines in $\mathbb{R}3$. 
 	
-
-
-	%--------------------------------------------------------------------------------------
-	%TODO Better changing, and think of a right place in the chapter
-	every wall of the building exist of four coordinates
-	wall spans plane
-	point to 3d line
-	line intersects plane
-	for everywall intersection is found unless line is parallel
-
-The line segment that was returned by the Hough transform consists of two
-endpoints $v$ and $w$. These endpoints are in 2D but are recorded in a 3D scene
-and therefor also present a 3D point in space.
-The value of the 3rd dimension represents the distance from the 3D point to the
-camera that took the picture, this value is unknown.
-What is known, is de 2D information of the pixel, this is the location of the
-pixel in the image. We know what camera took the picture so we can calculate a
-camera specific Calibration matrix. This reduces the possible points in 3D space
-to an infinite line.  
-
-This line is defined by two coordinates:
-coordinates:\\ 
-\begin{itemize}
-	\item $C$, the center of the camera 
-	%TODO %(camera centers are annotated for every image)
-	\item $K'p$, where $K$ is the Calibration matrix of the camera and $p$ is the homogeneous pixel coordinate.
-	%TODO explain Why K'p
-%TODO explain in detail what K is and how it is retrieved, maybe write this down in preliminaries?
-\end{itemize}
-%TODO image
-
-The camera can be described in the same coordinate system as the 3D point we are
-looking for, we call this the world coordinate system. 
-The camera center is a value in $\mathbb{R}$3 that represents the camera's position in the world
-coordinate system. If the camera rotates, it rotates around this point.\\
-%TODO introduce viewing direction
-A system is calibrated if the camera centers and camera viewing directions are
-known. In some systems this is recorded on forehand. In our system we retrieved
-this values by using the fit3d toolbox.\\  %TODO REF
-%TODO uitleggen hoe (fit3d toolbox)
-$K'p$ is the point that lies on the retina of the camera 
-
-The infinite line of possible points in 3D is defined by the coordinates $C$ and $K'p$
-%TODO describe how a infinite line is described by 2 formulas
-
-
-As described in %TODO
- the 3D building model is divided into different walls.  
-
-%TODO larger intro
-To know which linesegment presents which wall we are intersecting the infinite
-lines with the walls. 
-
-
-Because the 3D model is an estimate the walls maybe just
-to short. Thats why we let every wall span an infinite plane.
-
-%TODO formula
-
- We have a 3d model
- This helps us to find where the line segment 
- 
-Intersections are then calculated between the lines and the planes spanned by the building walls.\\
-%TODO intersection formula 
-
-
-
-
-
-
-
-
-
-
-	%--------------------------------------------------------------------------------------
-old:
-
-Therefor these lines of possibel pixel locations need to
-be reduced to the actual 3D locations of the pixels.  This is done by intersecting
-them with the walls of the rough 3D model and is done as follows.
-
-The building is first divided into different walls.  Every wall of the building spans a plane. 
-Intersections are then calculated between the lines and the planes of the building walls.\\
-\textit{Isaac, should I put a intersection formula down here or is this trivial?}\\
-
-A skyline pixel intersects with every wall as both the lines and planes are
-infinite and have a very low change of being parallel.
-The next challenge is to reduce the number of intersection for every skylinepixel
-to one. In other words, to determine the wall that is responsible for that pixel. 
-This is later on used to update the 3D model at the right place.
-
-	%--------------------------------------------------------------------------------------
-
-
-
-
-
 
 	%\paragraph{Line wall overlap type}
 	This line-wall overlap is calculated in different steps.

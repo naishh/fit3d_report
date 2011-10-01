@@ -101,7 +101,7 @@ $[9]$.\\
 To increase the difference between sharp and vague edges (and let sharp edges
 stand out more and vague edges disappear) the images are converted to Gaussian
 smoothed images.  The smoothed image, which is a collection of $w$ x $h$ pixels,
-is first divided in #$w$ columns.  Next, each column produces a new column that
+is first divided in \#$w$ columns.  Next, each column produces a new column that
 stores its vertical derivatives. This is called the smoothed intensity gradient.
 The values of this column are high when a big change in color happens (e.g. an
 edge is detected) at that location in the image. 
@@ -143,7 +143,7 @@ output only if they are connected to strong edges. In table %REF
 a Matlab buildin edge detectors are listed with their method explanation.
 %TODO check in matlab if canny uses 2 thresholds as args 
 
-\begin{tabular}
+\begin{tabular}{|l|l|}
 	\hline
 	Edge detecting type		& method\\
 	Sobel					& The Sobel method finds edges using the Sobel
@@ -224,8 +224,8 @@ as the image quality and lightning condition are scene dependend.
 
 % ----------------------------------------------------------------------------------------
 % old shizzle menizzle, lets rewrite this shit aaight
-\section{__Skyline detection}
- \subsection{__Introduction}
+\section{--Skyline detection}
+ \subsection{--Introduction}
 
 %Nice
 The sky and the earth are separated by a skyline in images. The detection of this skyline
@@ -241,7 +241,7 @@ described and finally some results are presented.\\
 % It is interesting to denote that the skyline detector a stand alone method and
 % can be optimized individually without any knowledge of the other parts of the
 % project.
- \subsection{__Related work}
+ \subsection{--Related work}
 A lot of related work on skyline detection is done and it is used in a wide
 range of domains. $[8]$ yields a good introduction of different skyline
 detection techniques, these are listed below.
@@ -285,8 +285,8 @@ section.
 %but what can we (not) assume?
 %Furthermore we can assume that some straight lines 
 
- \subsection{__The Algorithm}
- \subsubsection{__The original algorithm}
+ \subsection{--The Algorithm}
+ \subsubsection{--The original algorithm}
  %TODO lezen: Map-based localization using the panoramic horizon
 The skyline detection algorithm as described in $[9]$ works as follows:
 The frames are first preprocessed by converting them to Gaussian smoothed images.
@@ -305,7 +305,7 @@ detection and has the disadvantage that is is not robust to more vague
 edges. This is not surprising as it its purpose was a interactive system where the
 user refines the result. It is clear that an optimization is needed.
 
-  \subsubsection{__The optimization}
+  \subsubsection{--The optimization}
  % page 15/16
  % idea for future work:
  % adaptive thresholding wrt average intensity!
@@ -345,7 +345,7 @@ as the image quality and lightning condition are probably different.
 %(Automatic parameter estimation based on the image would be interesting future
 %work but lies without the scope of this research.)
 
- \subsection{__Results}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \subsection{--Results}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The system assumes that the first sharp edge (seen from top to bottom) is
 always the skyline/building edge. This gives raise to some outliers, for 
 for example a streetlight or a tree. These outliers are removed as described in
@@ -358,8 +358,8 @@ Some results on the Floriande dataset $[1]$ can be seen in Figure \ref{fig:outpu
 of the edge detector}{The output of the skyline detector. The skyline elements are marked red}{1}
 
 
-\section{__Skyline projection}
- \subsection{__Introduction}
+\section{--Skyline projection}
+ \subsection{--Introduction}
 The final product of this research is an accurate 3D model of an urban
 landscape. This is accomplished in several steps, so far the first step: skyline detection is
 explained. The next step is to create a basic 3D model of the urban landscape.
@@ -370,7 +370,7 @@ Then the retrieved skyline of the previous section is used to update the basic
 
 
 
-   \subsection{__3D modelling}
+   \subsection{--3D modelling}
 First a rough 3D model of the urban landscape has to be generated. This is done
 by taking a top-view Google maps image of the scene and extract the contour of
 the building, this is done manually. 
@@ -381,7 +381,7 @@ contour a rough 3D model is generated, see Figure \ref{fig:building.eps}.
 
 
 % TODO how do I combine the results of the different angles
-\subsection{__Project to 3D space}
+\subsection{--Project to 3D space}
 When the skylines of the 2D images are projected to 3D it can give 
 accurate information about the contour of the building(s). This is used to
 refine the basic 3D model.  Next is explained how the skylines are projected to
@@ -390,7 +390,7 @@ refine the basic 3D model.  Next is explained how the skylines are projected to
 A skyline consist of different skyline pixels. Every 2D skyline pixel presents a 3D point in space. No
 information is known about the distance from the 3D point to the camera that
 took the picture. What is known is de 2D location of the pixel which reduces the possible points in 3D
-space to an infinite line.  This line is known and spanned by two 
+space to a line.  This line is known and spanned by two 
 coordinates:\\ 
 \begin{itemize}
 	\item The camera center %(camera centers are annotated for every image)
@@ -404,7 +404,7 @@ coordinates:\\
 For every skyline pixel a line spanned by the above two coordinates is derived.
 
 
-\subsection{__Intersect with building}
+\subsection{--Intersect with building}
 The lines derived as described in the previous section are not enough to refine
 the 3D model because it is still unknown which skyline part belongs to which
 part of the 3D model.
@@ -426,19 +426,19 @@ This is later on used to update the 3D model at the right place.
 The details of this process is explained next:
 %has the largest probability of being 
 
-\subsection{__Results}
+\subsection{--Results}
 % discuss occluding tree, occluding lamp
 % other building on background
 
 
-\subsection{__Discussion}
+\subsection{--Discussion}
 % TODO what if a plain flys by? note in drawbacks of method
 
-\section{__Update 3D model}
+\section{--Update 3D model}
 This module is not finished yet.
 
 
-\section{__References}
+\section{--References}
 \begin{itemize}
 \item $[1]$ 
 Esteban, I., Dijk, J. Groen, F.C.A. FIT3D toolbox: multiple view geometry and

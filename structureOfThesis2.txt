@@ -11,8 +11,20 @@ Introduction (What did I and why) (WRITE AFTER CONCLUSION)
 	Discussion (What do my results mean to me and why)
 	Conclusion and Future work
 
-(6) Augmenting the 3D building estimate
+(6) Improving the 3D building estimate
 	Introduction
+
+	Generating the 3D model
+	Extracting line segments
+		Assuming a flat roof
+		Hough transform
+
+**	Project the skyline to the building
+		From image point (2D) to possible points in scene (3D)
+		Intersecting with walls
+		Associating line segments with building walls
+
+
 	Method (or The algorithm)
 	Results (What did I find)
 	Discussion (What do my results mean to me and why)
