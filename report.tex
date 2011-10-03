@@ -91,16 +91,24 @@ A lot of related work on skyline detection is done and it is used in a wide
 range of domains. $[8]$ yields a good introduction of different skyline
 detection techniques, these are listed below.
 
-\subsubsection{Cloud detection for Mars Exploration Rovers (MER)}
-Mars Exploration Rovers (MER) are used to detect clouds and dust devils on Mars.
-In [1] their approach is to first identify the sky (equivalentl, the skyline)
-and then determine if there are clouds in the region segmented as sky.
+%\paragraph{Automatic detection of dust devils and clouds on Mars}\\
+%Mars Exploration Rovers are used to detect clouds and dust devils on Mars.
+%In [],%TODO REF
+%their approach is to first identify the sky (equivalent, the skyline)
+%and then determine if there are clouds in the region segmented as sky.
+%%TODO elaborate on method?
 
-\subsubsection{Horizon detection for Unmaned Air Vehicles (UAV)}
-In this domain, the horizon detector for UAVs can take advantage of the high
+\subsubsection{Horizon detection for Unmaned Air Vehicles}
+%TODO images?
+In this domain, the horizon detector for Unmaned Air Vehicles takes can take advantage of the high
 altitude of the vehicle and therefor the horizon can be approximated to be a
-straigt line.  This turns the detection problem into a line-fitting problem.
-Ofcourse this work is not applicable for detecting a building countour as the
+straigt line. 
+In [], %TODO Ref vision-guided flight staility and control for micro air vehicles
+an algorithm is proposed which is based on the idea that this straight line spearates the image
+onto two regions that have a different appearence. They use color as a measure
+of appearance and generate two color distributions: one for the sky and one
+for the ground. The distributions are optimized using bisection search on a criterium that uses the covariance and the eigen values of the distributions. The line that best separates the two distributions is determined to be the horizon.\\
+This work is not applicable for detecting a building countour as the
 straight line assumption doesn't work. But it needs to be mentioned that from this
 idea some inspiration on line fitting is done because the building countour has
 straight line segments.
