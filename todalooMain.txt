@@ -6,12 +6,12 @@ chapter 5 skyline
 	write discussion
 	gather and process todos
 	do matlab edge detecting tests and generate images
-	rewrite related work
+	rewrite related work (second half)
 	references (bibtex)
 	
 chapter 6 ass
 	search for and write about related work
-**	write projection and use text of ch 5
+	write projection and use text of ch 5
 	read second half of chapter see feedback map
 	gather and process todos 
 
@@ -25,9 +25,4 @@ write big main introduction Introduction (What did I do and why) (WRITE AFTER CO
 
 EASY GOING TODOS WHEN TYRED:
 make an include script
-install matlab
-	 w.s. is iso bestand te klein ivm fat32 ext hd
-	 downloaden via piratebay van anne
-	 thuis nog een keer proberen en dan zonder ext hd
-	
 tex de whole shizzle
