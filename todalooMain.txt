@@ -4,6 +4,7 @@ chapter 5 skyline
 	process chapter comments
 	write results
 	write discussion
+	write camera calibration
 	gather and process todos
 	do matlab edge detecting tests and generate images
 	rewrite related work (second half)
@@ -15,6 +16,7 @@ chapter 6 ass
 	read second half of chapter see feedback map
 	gather and process todos 
 
+chapter ? preliminaries
 
 write big main introduction Introduction (What did I do and why) (WRITE AFTER CONCLUSION)
 	use costins work and refs as inspiration
@@ -23,6 +25,8 @@ write big main introduction Introduction (What did I do and why) (WRITE AFTER CO
 	Aim (clear out hypothesis here)
 	Organization of thesis 
 
+
 EASY GOING TODOS WHEN TYRED:
 make an include script
 tex de whole shizzle
+shorten the ch0_comments.tex

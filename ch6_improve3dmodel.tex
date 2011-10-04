@@ -161,7 +161,8 @@ An example of the 3D model can be seen in Figure 4.
 	segments which present parts of the skyline.  If we can find a way to
 	project these lines to the building we can improve our basic 3D model.
 	
-	This involves two steps, the projection to the building and a way to
+	This involves three steps, the calibration of the camera,
+	the projection to the building and a way to
 	associate a skylinepart with a specific buildingpart.
 	% TODO organisation of chapter uitleggen of niet?
 	% First, a few assumption are made and the details of the problem are
@@ -172,56 +173,79 @@ An example of the 3D model can be seen in Figure 4.
 	%TODO intronize projection
 	%TODO how does the 3d model helps us?
 
+	\subsubsection{Camera calibration}
+
+	\paragraph{Extrinsic parameters}
+	
+	%\paragraph{Getting the camera centers and viewing directions}
+	%TODO introduce viewing direction
+	How do we find the the camera centers (positions) and camera viewing
+	directions. In some systems this is known on forehand by measuring the cameras position and
+	orientation at the scene. In other systems, as in ours, this is calculated 
+	afterwards.  We calculated the values afterwards and used the
+	\emph{fit3d toolbox} for this.%TODO Ref
+	 See prelimanaries (%TODO
+	) for detail.\\  
+	%TODO uitleggen hoe (fit3d toolbox)
+
+	\paragraph{Intrinsic parameters}
+	%\paragraph{Getting the calibration matrix}
+	%TODO inspriation
+	% isaacs paper 
+	% google 
+	% matlab help bouget 
+	%
+
+	"relationship between what appears on the image (or retinal) plane and where
+	it is located in the 3D world."
+	intrinsic 
+	extrinsic params
+	As it is our own dataset we also know what camera took the picture so we can
+	calculate a camera specific Calibration matrix.  
+	%TODO explain rotation, translation
+	%TODO intrinsic extrinsic parametrs
+	
+	The calibration matrix is retrieved by making images of a chessboard in
+	different positions and orientations together with the Bouget toolbox.
+	%More on this in the preliminaries.
+
+	 
 	\subsubsection{From image point (2D) to possible points in scene (3D)} 
 	The line segment that was returned by the Hough transform consists of two
-	endpoints $v$ and $w$. These endpoints are in 2D but are recorded in a 3D scene
-	and therefor present a 3D point in space.
-	The value of the 3rd dimension represents the distance from the 3D point to the
-	camera that took the picture, this value is unknown.
-	What is known, is de 2D information about the pixel, this is the location of the
-	pixel in the image. As it is our own dataset we also know what camera took the
-	picture so we can calculate a camera specific Calibration matrix. 
-	The 2D coordinates together with the Calibration matrix make with some calculations
-	it possible to reduce the possible points in 3D space to a line.
+	endpoints $v$ and $w$. These endpoints are in 2D but are recorded in a 3D
+	scene and therefor present a 3D point in space.  The value of the 3rd
+	dimension represents the distance from the 3D point to the camera that took
+	the picture. Unfortunately this value is unknown, however because we
+	calibrated the camera we can reduce the possible points in 3D space to a
+	line.\\
 	See Figure %TODO make figure of line that goes into scene
-	\\
-	\textit{comment:I put more on this in the preliminaries (which is still a draft)}\\
 
-	%TODO howcome we don't need P (rotation matrix)
-	This line is defined by two coordinates:\\
+	We know:
+	\item The 2D properties about the pixel, (the location of the pixel in the image). 
+	\item The camera's internal parameters (Calibration matrix) \\
+	\item The translation of the camera
+	\item The rotation of the camera
+
+	We can now define the line of possible points in 3D space by two coordinates:\\
 	\begin{itemize}
 		\item $C$, the center of the camera, and
 		%TODO %(camera centers are annotated for every image)
 		\item $K'p$, the point that lies on the retina of the camera, where $K$ is the Calibration matrix and $p$ is the homogeneous pixel coordinate.
 		%TODO explain Why K'p
-	%TODO explain in detail what K is and how it is retrieved, maybe write this down in preliminaries?
+		%TODO add P
 	\end{itemize}
 	%TODO image
 
 	%TODO zee zisserman pagenumbers in feedbackmap
-	see preliminaries %TODO REF over hoe je van 2 coords naar een lijn gaat
+	%TODO REF over hoe je van 2 coords naar een lijn gaat
 
-	So the problem is boiled down in finding the Camera centers and finding the
-	Calibration matrix.\\
+	%So the problem is boiled down in finding the Camera centers and viewing
+	%directions and finding the
+	%Calibration matrix.\\
 
-	%TODO introduce viewing direction
-	A system is calibrated if the camera centers (positions) and camera viewing directions are
-	known. In some systems this is known on forehand by measuring the cameras position and
-	orientation at the scene. In other systems, as in ours, this is calculated 
-	%TODO goed woord voor NADERHAND 
-	after
-	We calculated these values using the fit3d toolbox.%TODO Ref
-	 See prelimanaries (%TODO
-	) for detail.\\  
-	%TODO uitleggen hoe (fit3d toolbox)
-
-	The calibration matrix is retrieved by making images of a chessboard in
-	different positions and orientations and using the Bouget toolbox to calibrate
-	the camera. More on this in the preliminaries.
-
-	Now we have two coordinates we can set up an equation of the line as in
-	preliminaries (Transform coordinates to a line equation). And we can continue to
-	the next step.
+	Now we have the two required coordinates, we can set up an equation of the
+	line of possible points in 3D.
+	This is done as described in preliminaries (Transform coordinates to a line equation). 
 
 	\subsubsection{Intersecting with walls}
 	%TODO write in intro 

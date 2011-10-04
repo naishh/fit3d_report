@@ -1,12 +1,16 @@
 Matlab todo
 
-Edge detection with different thresholds
 
 IMAGES
-the scene from top where 5 cameras are positioned (maybe rip from
-isaac paper)
 a line comes from the camera center through de image to the building
 (use openscenegraph for this)
+
+the scene from top where 5 cameras are positioned (maybe rip from
+isaac paper)
+
+MISC
+Edge detection with different thresholds
+and different methods
 
 CATEGORIE would be nice:
 improve quality of final image where the building is improved

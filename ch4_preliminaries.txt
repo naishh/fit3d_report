@@ -19,3 +19,6 @@ How to span plane by wall coords
 \subsection{Getting the camera centers}
 Explain here about fit3d toolbox
 
+\subsection{Calibrating the camera with the Bouget toolbox}
+
+
