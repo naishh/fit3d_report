@@ -1,23 +1,22 @@
-REPORT = ch6_augment3dmodel.tex
+REPORT = main.tex
 TEMPFILES = *.aux *.ps *.log *.bak *.bbl *.blg *.toc *.dvi
 TEMPDIR = .tmp
 
 all:
 	latex $(REPORT)
 	latex $(REPORT)
-	dvipdf $(REPORT).dvi
-	#cp report.pdf ~/public_html/
 	#evince report.dvi &
 	rm -f $(TEMPFILES)
 
 pdf:
+	latex $(REPORT)
 	latex $(REPORT)
 	#bibtex $(REPORT)
 	#bibtex $(REPORT)
 	#latex $(REPORT)
 	#latex $(REPORT)
 	dvipdf $(REPORT).dvi
-	#git add report.pdf
+	git add $(REPORT).pdf
 	rm -f $(TEMPFILES) *.dvi
 
 clean:

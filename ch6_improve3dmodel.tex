@@ -30,55 +30,6 @@
 % TODO IDEEEN
 % polygonal models fitten bij dakkapels
 
-\title{\sc Improve 3D models from 2D images}
-\author{T. Kostelijk\\mailtjerk@gmail.com}
-\begin{document}
-\maketitle
-\section{Comments on this thesis}
-%TODO
-Dear Frans,
-
-I write this in English so Isaac can read it also.
-This in an update of my thesis chapter. Isaac read it and gave me feedback. His feedback and all feedback you gave me are incorporated except for:\\
--the test on different datasets\\
-(the dataset is not ready yet)\\
--references\\
-(I'll do this on the end)\\
--parametervalues Houghline\\
-(I'll do this on the end)\\
--large introduction\\
-Explanation:I expanded the introduction a bit more then my previous version but I think you
-want more background information. I do this in a few chapters earlier which is
-not included in this document. Therefore some backreferences to sections also
-contain a questionmark.\\
-\\
-Furthermore, I processed many small changes but a few big changes are:\\
--I explicitly defined all assumptions.\\
--I wrote a new subsection about alternative roof-types.\\
--I updated the way line segments are associated with building parts and illustrated it with Figure 10.\\
-\\
-Because this new method of associating lines with walls is so much better and
-more intuitive then my old method (see section 2), I am considering to
-discard the old method.\\ 
-However, I could also keep the old method and use it as
-a test against the new one. What is your advice about this?\\
-
-Would you give me feedback about the level of detail, where do I go in to much and where is more detail desired?\\
-Isaac told me to make the future work section smaller, do you agree with this and if yes would you tell me which part you think we should drop?\\
-Furthermore my discussion section is very short, I think it is best to add more discussion when the other datasets and results are ready. What do you think?\\
-I have tried to write down some mathematics but didn't do it everywhere. Could you give me feedback where to put (more) formulas or symbols and where not?\\
-I think I need to put my work in context with the work of others. But on this specific part I can't find any work. How do I deal with that?\\
-Do I remember it right that you are leaving for 1 month beginning at half september?\\
-Would be nice if we can discuss your feedback before then, but that will depend on your schedule.\\
-Please let me know when the feedback is done and lets make an appointment. I think Isaacs presence will not be necesarry, right Isaac?\\
-I am available most of the days. Please let me know when you are available.\\
-
-Thanks in advance for reading my thesis chapter and giving me useful feedback.\\
-
-Kind regards,\\
-Tjerk Kostelijk\\
-mailtjerk@gmail.com
- 
 \section{Improving the 3D building}
 \subsection{Introduction}
 %chain
@@ -141,7 +92,7 @@ An example of the 3D model can be seen in Figure 4.
 	outliers are discarded at the same time.\\
 
 
-	\paragraph{Assuming a flat roof}\\
+	\paragraph{Assuming a flat roof}
 	Many urban areas contain buildings with a flat roof. This means that the
 	contour of the building is mostly formed by straight lines.  We use this
 	fact to simplify our problem:\\\\
@@ -311,12 +262,12 @@ An example of the 3D model can be seen in Figure 4.
 	The next challenge is to reduce the number of intersection for every line
 	segment to one. In other words, to determine the wall that is responsible for
 	the line segment. This is later on used to update the height of the wall of the
-	3D model.
+	3D model.\\
 
 
 \subsubsection{Associating line segments with building walls}
 %TODO intro
-	\paragraph{Assumptions}\\
+	\paragraph{Assumptions}
 	We consider each building consisting of seperate walls and associate each
 	line segment with a wall of the building that is most likely responsible for
 	that line segment. \\
@@ -702,5 +653,3 @@ with the wrong wall (even if the rough 3D model is very accurate). Fortunately
 we use the middle point of the line segment to determine the correct wall. This
 works well as its 100\% accurate (for this dataset).
 
-
-\end{document}
