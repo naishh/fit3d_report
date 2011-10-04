@@ -12,6 +12,13 @@ MISC
 Edge detection with different thresholds
 and different methods
 
+
+IMAGES FROM PDFS
+outdoor visual... pdf
+page 15
+
+
+
 CATEGORIE would be nice:
 improve quality of final image where the building is improved
 an image with the skyline AND the houghlines

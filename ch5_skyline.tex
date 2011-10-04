@@ -21,23 +21,34 @@ robust skyline detection algorithm.  Finally we present some results.
 %TODO
 %mooie intro zin die niet hetzelfde is als vorige paragraaf
 Skyline detection is used in a wide range of domains.
-In $[8]$, Castano et all present a nice introduction of different skyline
-detection techniques, these are listed below.
+In $[8]$, Castano et all present a good introduction of different skyline
+detection techniques. We used this as an inspiration to write this related work section.
 % TODO finish with papers in hand (now not present)
 
-%------------------------------------------------------------------------
-%\paragraph{Automatic detection of dust devils and clouds on Mars}\\
-%Mars Exploration Rovers are used to detect clouds and dust devils on Mars.
-%In [],%TODO REF
-%their approach is to first identify the sky (equivalent, the skyline)
-%and then determine if there are clouds in the region segmented as sky.
-%%TODO elaborate on method?
+%structure
+% field of application (aim)
+% method
+% pro's cons
+
+\subsubsection{Detection of dust devils and clouds on Mars}
+In []%TODO Ref {mars}
+Mars Exploration Rovers are used to detect clouds and dust devils on Mars.
+Their approach is to first identify the sky and then determine if there are
+clouds in the region segmented as sky. The sky is detected by an innovative
+algorithm that consits of three steps.  First they place seeds in a sliding
+window whenever the homogeneity of the window is high. Then they grow this seeds
+in the direction of edges which are estimated using a Sobel edge detector.
+Finally each pixel located above the growed seeds is classified as sky.\\
+
+This method looks like the most sophisticated one, as it is accurate and autonomous. Because we have a stable scene with sharp edges at the buildingcontour this method would be an overkill.
+% TODO images?
+
 
 \subsubsection{Horizon detection for Unmaned Air Vehicles}
 %TODO images?
 In this domain, the horizon detector for Unmaned Air Vehicles takes can take advantage of the high
 altitude of the vehicle and therefor the horizon can be approximated to be a
-straigt line. 
+straight line. 
 In [], %TODO Ref vision-guided flight staility and control for micro air vehicles
 an algorithm is proposed which is based on the idea that this straight line spearates the image
 onto two regions that have a different appearence. They use color as a measure
@@ -45,16 +56,34 @@ of appearance and generate two color distributions: one for the sky and one
 for the ground. The distributions are optimized using bisection search on a criterium that uses the covariance and the eigen values of the distributions. The line that best separates the two distributions is determined to be the horizon.\\
 This work is not applicable for detecting a building countour as the
 straight line assumption doesn't work. But it needs to be mentioned that from this
-idea some inspiration on line fitting is done because the building has walls that have straight lines.
+idea some inspiration about line fitting is done because the building has walls
+that have straight lines.
 
 %TODO, every related work article a pro and a con
 
+\subsubsection{Planetary Rover localisation}
+In [] %TODO Ref 9
+skyline detection is used in planetary rovers to estimate their location.
+Their previous method to detect the skyline was based on feature matching. The current method is signal-based and puts the focus correspondences among dense structures in the image. 
+A given map of the landscape (hills, roads, etc) is aligned with the signal-based skyline to recover the rover's position.\\
 
+The advantage of their technique is the simplicity and effectiveness of the
+algorithm which could make it suitable for this project.  A big drawback is
+that it is strongly geared toward speed over high accuracy. The detector is
+part of an interactive system where an operator refines the skyline.  For our
+application the skyline detector must be accurate, robust and must operate
+fully automatically.\\
 
-
-
-
-%------------------------------------------------------------------------
+%TODO better chain? merge this alineas?
+As mentioned in the introduction, in this project we use the skyline to
+extract the building contour to eventually update a 3D model which is a brand
+new purpose of skyline detection.  There is no user interaction present, and
+the accuracy is a matter of high importance.  This makes it different from
+existing skyline techniques 
+From the related work the %TODO REF Planetary Rover localisation [9] 
+seemed to fit most on this project.  Therefor this method is used as a basis, and on top of that a custom
+algorithm with higher accuracy is developed. This is explained in the next
+section.
 
 
 
@@ -451,6 +480,7 @@ Esteban, I., Dijk, J. Groen, F.C.A. FIT3D toolbox: multiple view geometry and
 Europe (SPIE), \[2010\].
 \item $[8]$ Castano, Automatic detection of dust devils and clouds on Mars.
 \item $[9]$ Cozman, Outdoor visual position estimation for planetary rovers.
+
 \end{itemize}
 
 % TODO

@@ -1,4 +1,0 @@
-The camera can be described in the same coordinate system as the 3D point we are
-looking for, we call this the world coordinate system. 
-The camera center is a value in $\mathbb{R}$3 that represents the camera's position in the world
-coordinate system. If the camera rotates, it rotates around this point.\\
