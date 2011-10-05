@@ -1,16 +1,17 @@
-REPORT = main.tex
-TEMPFILES = *.aux *.ps *.log *.bak *.bbl *.blg *.toc *.dvi
+REPORT = main
+#TEMPFILES = *.aux *.ps *.log *.bak *.bbl *.blg *.toc *.dvi
+TEMPFILES = *.aux *.ps *.log *.bak *.bbl *.blg *.toc 
 TEMPDIR = .tmp
 
 all:
-	latex $(REPORT)
-	latex $(REPORT)
+	latex $(REPORT).tex
+	latex $(REPORT).tex
 	#evince report.dvi &
 	rm -f $(TEMPFILES)
 
 pdf:
-	latex $(REPORT)
-	latex $(REPORT)
+	latex $(REPORT).tex
+	latex $(REPORT).tex
 	#bibtex $(REPORT)
 	#bibtex $(REPORT)
 	#latex $(REPORT)
