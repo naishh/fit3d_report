@@ -17,12 +17,14 @@ detection.\\
 For our application the skyline detector must be accurate, robust and must
 operate without any user interaction. This makes it different from existing
 skyline techniques.\\
-The organization of this chapter is as follows.  First we give a summary of some
+The organization of this chapter is as follows.  First we give a summary of
 related work on skyline detection.  Next we explain how we developed a new
-robust skyline detection algorithm.  Finally we present some results.
+robust skyline detection algorithm.  Then we present and discuss some results
+and, finally, we conclude.
 
-\subsection{Related work}
-In $[8]$, Castano et all present a good introduction of different skyline
+\subsubsection{Related work}
+Castano et al. []%TODO ref
+present a good introduction of different skyline
 detection techniques. We used this as an inspiration to write this related work
 section.
 
@@ -31,7 +33,7 @@ section.
 % method
 % pro's cons
 
-\subsubsection{Detection of dust devils and clouds on Mars}
+\paragraph{Detection of dust devils and clouds on Mars}
 In []%TODO Ref {mars}
 Mars Exploration Rovers are used to detect clouds and dust devils on Mars.
 Their approach is to first identify the sky and then determine if there are
@@ -46,11 +48,12 @@ autonomous. However, we have a stable scene with sharp edges at the
 building contour so this method would be an overkill.  % TODO images?
 
 
-\subsubsection{Horizon detection for Unmanned Air Vehicles}
+\paragraph{Horizon detection for Unmanned Air Vehicles}
 %TODO images?
-In this domain, they detect the horizon to stabilize and control the flight of Unmanned Air Vehicles.\\  
-In [], %TODO Ref vision-guided flight stability and control for micro air vehicles
-a horizon detector takes advantage of the high altitude of the vehicle, the
+In this domain, scientists detect the horizon to stabilize and control the flight of Unmanned Air Vehicles.\\  
+%TODO
+et all [], %TODO Ref vision-guided flight stability and control for micro air vehicles
+use a horizon detector that takes advantage of the high altitude of the vehicle, the
 horizon is approximated to be a straight line.  An algorithm is present which is
 based on the idea that this straight line separates the image into two regions
 that have a different appearance. They use color as a measure of appearance and
@@ -66,9 +69,10 @@ is done because the building has walls that have straight lines.
 
 %TODO, every related work article a pro and a con
 
-\subsubsection{Planetary Rover localization}
-In [] %TODO Ref 9
-skyline detection is used in planetary rovers to estimate their location.  Their
+\paragraph{Planetary Rover localization}
+%TODO
+ et al.[] %TODO Ref 9
+use skyline detection in planetary rovers to estimate their location.  Their
 previous method to detect the skyline was based on feature matching. The current
 method is signal-based and puts the focus correspondences among dense structures
 in the image.\\
@@ -257,6 +261,7 @@ Some results on the Floriande dataset $[1]$ can be seen in Figure \ref{fig:outpu
 
 \figs{outputskyline}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The output
 of the edge detector}{The output of the skyline detector. The skyline elements are marked red}{1}
+%TODO commands.tex fixen want de caption van b staat bij a
 
 
 \subsection{Discussion}  % (What do my results mean to me and why)

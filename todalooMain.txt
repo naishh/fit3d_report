@@ -1,6 +1,7 @@
 plan to read how to write a thesis (again)
 
 chapter 5 skyline
+	uitgebreide intro schrijven
 	process chapter comments
 	write results
 	write discussion
@@ -8,14 +9,15 @@ chapter 5 skyline
 	write camera calibration
 	gather and process todos
 	do matlab edge detecting tests and generate images
-	rewrite related work (second half)
-	references (bibtex)
+	references (bibtex), bibtex reader gebruiken
+	andere dataset op skyline detector testen
 	
 chapter 6 ass
 	search for and write about related work
 	write projection and use text of ch 5
 	read second half of chapter see feedback map
 	gather and process todos 
+	check backreferences
 
 chapter ? preliminaries
 
@@ -28,6 +30,7 @@ write big main introduction Introduction (What did I do and why) (WRITE AFTER CO
 
 
 EASY GOING TODOS WHEN TYRED:
-make an include script
-tex de whole shizzle
 shorten the ch0_comments.tex
+table line break fixen
+todo's afgaan voor easytodos
+
