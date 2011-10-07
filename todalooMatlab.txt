@@ -4,6 +4,8 @@ Matlab todo
 IMAGES
 a line comes from the camera center through de image to the building
 (use openscenegraph for this)
+skyline detection without the custom algo (highen contrast, gauss etc) and compair to the
+custom algo
 
 the scene from top where 5 cameras are positioned (maybe rip from
 isaac paper)

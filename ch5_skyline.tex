@@ -5,29 +5,26 @@
 
 
 \section{Skyline detection}
-%TODO
-% It is interesting to denote that the skyline detector a stand alone method and
-% can be optimized individually without any knowledge of the other parts of the
-% project.
  \subsection{Introduction}
 If we take a regular image where both sky and earth are present, there
 is often a clear separation between them. This separation is called the
 skyline. %oehhhhhhh 
 The detection of this skyline has proven to be a very successful computer vision
 application in a wide range of domains. In this domain it is used at urban
-images to provide a contour of a building. This contour is later used to
-provide 3D information about the scene.\\
+images to provide a contour of a building.  This contour is later used to
+provide 3D information about the scene. This is a brand new purpose of skyline
+detection.\\
+For our application the skyline detector must be accurate, robust and must
+operate without any user interaction. This makes it different from existing
+skyline techniques.\\
 The organization of this chapter is as follows.  First we give a summary of some
 related work on skyline detection.  Next we explain how we developed a new
 robust skyline detection algorithm.  Finally we present some results.
 
 \subsection{Related work}
-%TODO
-%mooie intro zin die niet hetzelfde is als vorige paragraaf
-Skyline detection is used in a wide range of domains.
 In $[8]$, Castano et all present a good introduction of different skyline
-detection techniques. We used this as an inspiration to write this related work section.
-% TODO finish with papers in hand (now not present)
+detection techniques. We used this as an inspiration to write this related work
+section.
 
 %structure
 % field of application (aim)
@@ -45,28 +42,27 @@ in the direction of edges which are estimated using a Sobel edge detector.
 Finally each pixel located above the grew seeds is classified as sky.\\
 
 This method looks like the most sophisticated one, as it is accurate and
-autonomous. Because we have a stable scene with sharp edges at the
-building contour this method would be an overkill.  % TODO images?
+autonomous. However, we have a stable scene with sharp edges at the
+building contour so this method would be an overkill.  % TODO images?
 
 
 \subsubsection{Horizon detection for Unmanned Air Vehicles}
 %TODO images?
-In this domain, the horizon detector for Unmanned Air Vehicles takes can take advantage of the high
-altitude of the vehicle and therefor the horizon can be approximated to be a
-straight line. 
+In this domain, they detect the horizon to stabilize and control the flight of Unmanned Air Vehicles.\\  
 In [], %TODO Ref vision-guided flight stability and control for micro air vehicles
-an algorithm is proposed which is based on the idea that this straight line separates the image
-onto two regions that have a different appearance. They use color as a measure
-of appearance and generate two color distributions: one for the sky and one
-for the ground. The distributions are optimized using bisection search on
-	a criterion that uses the covariance and the eigen values of the
-	distributions. The line that best separates the two distributions is
-	determined to be the horizon.\\
+a horizon detector takes advantage of the high altitude of the vehicle, the
+horizon is approximated to be a straight line.  An algorithm is present which is
+based on the idea that this straight line separates the image into two regions
+that have a different appearance. They use color as a measure of appearance and
+generate two color distributions: one for the sky and one for the ground. The
+distributions are optimized using bisection search on a criterion that uses the
+covariance and the eigen values of the distributions. The line that best
+separates the two distributions is determined to be the horizon.\\
 
 This work is not applicable for detecting a building contour as the
 straight line assumption doesn't work. But it needs to be mentioned that from this
-idea some inspiration about line fitting is done because the building has walls
-that have straight lines.
+idea some inspiration for chapter %TODO Ref
+is done because the building has walls that have straight lines.
 
 %TODO, every related work article a pro and a con
 
@@ -80,23 +76,16 @@ A given map of the landscape (hills, roads, etc) is aligned with the
 signal-based skyline to recover the rover's position.\\
 
 The advantage of their technique is the simplicity and effectiveness of the
-algorithm which could make it suitable for this project.  A big drawback is
-that it is strongly geared toward speed over high accuracy. The detector is
-part of an interactive system where an operator refines the skyline.  For our
-application the skyline detector must be accurate, robust and must operate
-fully automatically.\\
-
-%TODO better chain? merge this alineas?
-As mentioned in the introduction, in this project we use the skyline to
-extract the building contour to eventually update a 3D model which is a brand
-new purpose of skyline detection.  There is no user interaction present, and
-the accuracy is a matter of high importance.  This makes it different from
-existing skyline techniques 
-From the related work the %TODO REF Planetary Rover localization [9] 
-seemed to fit most on this project.  Therefor this method is used as a basis, and on top of that a custom
-algorithm with higher accuracy is developed. This is explained in the next
-section.
-
+algorithm which could make it suitable for this project.  A big drawback is that
+it is strongly geared toward speed over high accuracy. To increase accuracy the
+detector is part of an interactive system where an operator refines the skyline.
+For our application the skyline detector must operate without any user
+interaction. Furthermore it has to be robust and accurate enough to fit to the next module
+in the system.  Nevertheless the work of 
+%TODO REF Planetary Rover localization [9] 
+seemed to fit most on this project as it uses a simple but effective algorithm. 
+We decided to use this method as a basis and to build a custom algorithm with
+higher accuracy on top of that. This is explained in the next section.
 
 
 \subsection{Method} % the algorithm, maar Isaac vindt dit fijner
@@ -277,8 +266,33 @@ the building contour. As can be seen in Figure ??, this gives raise to some
 outliers, for example a streetlight or a tree. These outliers are removed by
 another module and this described in the next section.  
 
+%TODO discuss lamp and tree outlier
+
 % what are the differences with the method in [9]?
 \subsection{Conclusion and Future work}
+%TODO
+A detailed research on related work research was done.
+We introduced a brand new purpose of skyline detection: the extraction of a
+building countour. We build an algorithm on top of a succesful existing
+algorithm.  The algorithm doesn't depend on human intervention and is robust enough to give
+(together with the module explained in the next section) accurate results.\\
+It is interesting to denote that the skyline detector a stand alone method and
+can be optimized individually without any knowledge of the other parts of the
+project.
+%TODO Test algo with and without the customisation
+
+\paragraph{Future Work}
+Although the outlier removal procedure is done in a seperate module it would be
+nice to develop a skyline detector which is more robust to outliers.
+In most of the related work there is focussed on detecting parts that are
+classified as sky and parts that are classified as ground. In future work the
+idea of a ground could be replaced by modeling a building. The distinctive
+textures of the buildings (repeating bricks) could be used to classify a
+pixel. Then a rough building contour could be estimated by using the
+highest building pixel for every column. Detailed edge detection can be
+done in this neighborhoud. In this way the outliers at the lamp and the tree are
+filtered at this stage.
+
 
 % TODO
 % pictures
