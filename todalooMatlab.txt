@@ -1,5 +1,6 @@
 Matlab todo
 
+camera calibration
 
 IMAGES
 a line comes from the camera center through de image to the building
