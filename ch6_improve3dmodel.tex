@@ -11,7 +11,7 @@
 % zoeken op 'but' en kijken of er however bij kan
 
 
-%TODO2 (is a categorie of would be nice todo's)
+%TODO2 (is a categorie of would be nice TODO's)
 %
 % zoeken of Figure en dan labels and refs gebruiken
 % zoeken of chapter en dan labels and refs gebruiken
@@ -19,13 +19,17 @@
 % fill caption of figures
 % search what houghline (and canny edge for report.tex) params I used
 
+% TODO
+% discussion:
+% Furthermore it would be good to fully discard the flat roof assumption. This will allow a building to have any shape, which is nice. The drawback is that a new method of outlier detection has to be developed. 
+% Object recognition play a great part in this. If one knows where, for example, an occluding object is located, this could be used to filter the output of the skyline detector. This however rises a new problem, namely that the 3D model has no augmentations at the position of occluding objects. Determining what would be located behind the occluding object would be an interesting AI challenge and will incorporate pattern recognition, making use of repetitive structures and off course combining the multiple views to reveal as much information as possible.\\
+
 
 %TODO aan het eind
 % read again and check level of detail, is it everywhere the same?
 % do I do enough chaining?
 % read again on other subjects in mind see how te wr thesis
 % spell check!!
-
 
 % TODO IDEEEN
 % polygonal models fitten bij dakkapels
@@ -183,8 +187,8 @@ An example of the 3D model can be seen in Figure 4.
 	directions. In some systems this is known on forehand by measuring the cameras position and
 	orientation at the scene. In other systems, as in ours, this is calculated 
 	afterwards.  We calculated the values afterwards and used the
-	\emph{fit3d toolbox} for this.%TODO Ref
-	 See prelimanaries (%TODO
+	\emph{Fit3d toolbox} [5] for this.
+	 See preliminaries (%TODO
 	) for detail.\\  
 	%TODO uitleggen hoe (fit3d toolbox)
 
@@ -196,19 +200,19 @@ An example of the 3D model can be seen in Figure 4.
 	% matlab help bouget 
 	%
 
-	"relationship between what appears on the image (or retinal) plane and where
-	it is located in the 3D world."
-	intrinsic 
-	extrinsic params
+	% %TODO
+	% "relationship between what appears on the image (or retinal) plane and where
+	% it is located in the 3D world."
+	% intrinsic 
+	% extrinsic params
+
 	As it is our own dataset we also know what camera took the picture so we can
 	calculate a camera specific Calibration matrix.  
 	%TODO explain rotation, translation
 	%TODO intrinsic extrinsic parametrs
-	
 	The calibration matrix is retrieved by making images of a chessboard in
 	different positions and orientations together with the Bouget toolbox.
-	%More on this in the preliminaries.
-
+	More on this in the preliminaries.
 	 
 	\subsubsection{From image point (2D) to possible points in scene (3D)} 
 	The line segment that was returned by the Hough transform consists of two
@@ -650,11 +654,6 @@ connecting two surfaces from the upper side of the walls with the high roof line
 skyline detector). For the other roof types, the building height and wall
 height together with a template structure of the roof could be used to generate the 3D
 model.
-
-
-\subsection{References}
-Under construction
-%TODO hough
 
 
 \section{My old method of line-wall association}

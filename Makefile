@@ -6,6 +6,7 @@ TEMPDIR = .tmp
 all:
 	latex $(REPORT).tex
 	latex $(REPORT).tex
+	latex $(REPORT).tex
 	#evince report.dvi &
 	rm -f $(TEMPFILES)
 
