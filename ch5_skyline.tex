@@ -23,7 +23,7 @@ robust skyline detection algorithm.  Then we present and discuss some results
 and, finally, we conclude.
 
 \subsubsection{Related work}
-Castano et al. [1] present a clear introduction of different skyline
+Castano et al. \cite{Dust} present a clear introduction of different skyline
 detection techniques. We used this paper as an inspiration to write this related work
 section.
 
@@ -34,7 +34,7 @@ section.
 
 % TODO images in related work
 \paragraph{Detection of dust devils and clouds on Mars}
-In [1], mars Exploration Rovers are used to detect clouds and dust devils on Mars.
+In \cite{Dust}, mars Exploration Rovers are used to detect clouds and dust devils on Mars.
 Their approach is to first identify the sky and then determine if there are
 clouds in the region segmented as sky. The sky is detected by an innovative
 algorithm that consists of three steps.  First they place seeds in a sliding
@@ -50,7 +50,7 @@ building contour so this method would be an implementation overkill.
 \paragraph{Horizon detection for Unmanned Air Vehicles}
 In this domain, scientists detect the horizon to stabilize and control the
 flight of Unmanned Air Vehicles.\\  
-S.M. Ettinger et all [2] use a horizon detector that takes advantage of the high altitude of the vehicle, the
+S.M. Ettinger et all \cite{Guidedflight} use a horizon detector that takes advantage of the high altitude of the vehicle, the
 horizon is approximated to be a straight line.  An algorithm is present which is
 based on the idea that this straight line separates the image into two regions
 that have a different appearance. They use color as a measure of appearance and
@@ -66,7 +66,7 @@ comes from this idea because the building has walls that have straight lines.
 
 \paragraph{Planetary Rover localization}
 %TODO
-Cozman et al. [3] use skyline detection in planetary rovers to estimate their location.  Their
+Cozman et al. \cite{Rover} use skyline detection in planetary rovers to estimate their location.  Their
 previous method to detect the skyline was based on feature matching. The current
 method is signal-based and puts the focus correspondences among dense structures
 in the image.\\
@@ -79,7 +79,7 @@ it is strongly geared toward speed over high accuracy. To increase accuracy the
 detector is part of an interactive system where an operator refines the skyline.
 For our application the skyline detector must operate without any user
 interaction. Furthermore it has to be robust and accurate enough to fit to the next module
-in the system.  Nevertheless the work of Cozman et al. [3] seemed to fit most on
+in the system.  Nevertheless the work of Cozman et al. \cite{Rover} seemed to fit most on
 this project as it uses a simple but effective algorithm.  We decided to use
 this method as a basis and to build a custom algorithm with higher accuracy on
 top of that. This is explained in the next section.
@@ -108,7 +108,7 @@ the edge but it would still be a difficult task to determine the right edge.\\
 
 %TODO Read below and see if its still true
 To solve this problem we draw an assumption that is inspired on inspired on the
-idea of [3]. Instead of using the sharpest edge we take the most upper sharp
+idea of \cite{Rover}. Instead of using the sharpest edge we take the most upper sharp
 edge and classify this edge as the skyline.
 
 \textbf{\emph{Top sharp edge assumption}}
@@ -125,7 +125,7 @@ represents the skyline.}
 
 
 \subsubsection{Related algorithm}
-To put our work in context, we first describe a related skyline detection algorithm as presented in [3].\\
+To put our work in context, we first describe a related skyline detection algorithm as presented in \cite{Rover}.\\
 %TODO talk about assumptions
 
 % nog meer woordjes vooraf?
@@ -249,7 +249,9 @@ as the image quality and lightning condition are scene depended.
 %TODO
 % canny edge images
 % skyline detector shizzle
-Some results on the Floriande dataset $[1]$ can be seen in Figure \ref{fig:outputskyline}.
+Some results on the Floriande dataset %TODO ref
+ can be seen in Figure \ref{fig:outputskyline}.
+ %TODO introduce floriande dataset with intro text
 
 \figs{outputskyline}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The output
 of the edge detector}{The output of the skyline detector. The skyline elements are marked red}{1}
@@ -272,7 +274,6 @@ different module of the system, this is described in the next section.
 
 %TODO discuss lamp and tree outlier
 
-% what are the differences with the method in [9]?
 \subsection{Conclusion and Future work}
 %TODO
 A detailed research on related work research was done.

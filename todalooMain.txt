@@ -1,6 +1,4 @@
 todotoday:
-all refs
-images section etc
 shorttodo's
 fill tekst like 'here comes' if i don't have time to write it
 

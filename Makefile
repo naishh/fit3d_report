@@ -5,6 +5,7 @@ TEMPDIR = .tmp
 
 all:
 	latex $(REPORT).tex
+	bibtex $(REPORT)
 	latex $(REPORT).tex
 	latex $(REPORT).tex
 	#evince report.dvi &
@@ -12,11 +13,9 @@ all:
 
 pdf:
 	latex $(REPORT).tex
+	bibtex $(REPORT)
 	latex $(REPORT).tex
-	#bibtex $(REPORT)
-	#bibtex $(REPORT)
-	#latex $(REPORT)
-	#latex $(REPORT)
+	latex $(REPORT).tex
 	dvipdf $(REPORT).dvi
 	git add $(REPORT).pdf
 	rm -f $(TEMPFILES) *.dvi
