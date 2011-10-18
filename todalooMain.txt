@@ -4,7 +4,10 @@ fill tekst like 'here comes' if i don't have time to write it
 
 plan to read how to write a thesis (again)
 
+inhoudsopgave erin hangen, dat heed volgens mij een ballenbeschermer TOC
+
 chapter 5 skyline
+	check ref chapter
 	uitgebreide intro schrijven
 	process chapter comments
 	write results
