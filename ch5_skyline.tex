@@ -1,4 +1,10 @@
 % TODO
+% explain motivation behind decisions
+% image captions
+% documentclass anders zodat alles breder is en plaatjes ook breder kunnen % en niet bij 7cm al afbreken
+
+
+% TODO
 % subjects to write 
 % axis angle theory, to projection
 % how I calc the wall normal
@@ -27,11 +33,6 @@ and, finally, we conclude.
 Castano et al. \cite{Dust} present a clear introduction of different skyline
 detection techniques. 
 
-%structure
-% field of application (aim)
-% method
-% pro's cons
-
 % TODO images in related work
 \paragraph{Detection of dust devils and clouds on Mars}
 In \cite{Dust}, mars Exploration Rovers are used to detect clouds and dust devils on Mars.
@@ -54,41 +55,28 @@ S.M. Ettinger et all \cite{Guidedflight} use a horizon detector that takes
 advantage of the high altitude of the vehicle, the horizon is approximated to be
 a straight line.  
 %TODO make text below more clear
-An algorithm is present which is based on the idea that this
-straight line separates the image into two regions that have a different
-appearance. They use color as a measure of appearance and generate two color
-distributions: one for the sky and one for the ground. The distributions are
-optimized using bisection search on a criterion that uses the covariance and the
-eigen values of the distributions. The line that best separates the two
-distributions is determined to be the horizon.\\
+This straight line separates the image into sky and ground. They use color as a measure of appearance and generate two color
+distributions: one for the sky and one for the ground. They use the covariance and the eigen values of the distributions to guide a bisection search for the best seperation. The line that best separates the two distributions is determined to be the skyline.\\
 
-This work is not applicable for detecting a building contour as the
-straight line assumption doesn't work. But it needs to be mentioned that some
-ideas for section \ref{extractinglinesegments} %TODO check Ref
-%TODO better word for created (ontstaan)
-are created because the building has walls that have straight lines.
+This work is not applicable for detecting a building contour as the straight
+line assumption doesn't work.  But it needs to be mentioned that some ideas
+for section \ref{extractinglinesegments} are created because the building has
+	walls that have straight lines.
 
 \paragraph{Planetary Rover localization}
-%TODO
 Cozman et al. \cite{Rover} use skyline detection in planetary rovers to estimate 
-their location.  Their previous method to detect the skyline was based on
-feature matching. 
-
-%TODO very unclear, make more clear
-The current method is signal-based and puts the focus
-correspondences among dense structures in the image.\\
-A given map of the landscape (hills, roads, etc) is aligned with the
-signal-based skyline to recover the rover's position.\\
-
-The advantage of their technique is the simplicity and effectiveness of the
-algorithm which could make it suitable for this project.  A big drawback is that
-they prefer speed over accuracy.  To increase accuracy, the
-detector is part of an interactive system where an operator refines the
-skyline.\\
-
-For our application the skyline detector must operate without any user
-interaction. Furthermore it has to be robust and accurate enough to fit to the
-next module in the system.  We decided to use this method as a basis and to
+their location.  
+To recover the rover's position they match image structures with a given map
+of the landscape (hills, roads, etc) and align both images.
+The matching process was first based on feature matching. In an improved version the matching process was done by searching for correspondences among dense structures in the image and the given map, so called signal based matching.\\
+The advantage of their algorithm is the simplicity and effectiveness, this
+could make their algorithm suitable for this project.  A big drawback is that
+they prefer speed over accuracy.  To increase accuracy, the detector is part
+of an interactive system where an operator refines the skyline.  For our
+application the skyline detector must operate without any user interaction.
+Furthermore it has to be robust and accurate enough to fit to the next module
+in the system.\\
+We decided to use this method as a basis and to
 build a custom algorithm with higher accuracy on top of that. This is explained
 in the next section.
 
@@ -118,7 +106,7 @@ Furthermore the algorithm would not be robust to a change in
 the lightning conditions, influenced heavily by the weather.\\
 
 %TODO Read below and see if its still true
-To solve this problem we draw an assumption that is inspired on the
+To solve this problem we draw an assumption that is based on the
 idea of \cite{Rover}. Instead of using the sharpest edge we take the most upper sharp
 edge and classify this edge as the skyline.
 
@@ -186,7 +174,8 @@ we list Matlab's build in edge detectors together with the method explanation.
 	% \label{tableedge}
 	% \caption{Different edge detectors explained}
 
-\begin{tabular}{|l|l|}
+\begin{table}[ht]
+\begin{tabular}{|l|p{10cm}|}
 	\hline
 	Edge detecting type		& method\\
 	Sobel					& The Sobel method finds edges using the Sobel
@@ -216,6 +205,7 @@ we list Matlab's build in edge detectors together with the method explanation.
 	by noise, and more likely to detect true weak edges.\\
 	\hline
 \end{tabular}
+\end{table}
 
 %TODO ML 
 % check edge detector at different dataset and compair results
@@ -254,6 +244,7 @@ as the image quality and lightning condition are scene depended.
 
 
 \subsection{Results}% (What did I find)
+%TODO Test algo with and without the customisation
 %TODO
 % canny edge images
 % skyline detector shizzle
@@ -277,7 +268,7 @@ the building contour. As can be seen in Figure \ref{fig:outputskyline}, not
 every skyline element is placed on the building contour but placed on, for
 example, the streetlight or the tree. We define them as outliers.
 Other objects in the air that apear above the building but contain a sharp edge,
-for example a plane, will also turn into outliers.  This is a drawback of the
+for example an aircraft, will also turn into outliers.  This is a drawback of the
 	columnt based method.\\
 The advantage of the method is its simplicity (and therefore low complexity) and
 automomity.  We didn't focus on the development of a more accurate skyline
@@ -285,53 +276,24 @@ detector because this result is good enough for our purpose. We removed the
 outliers in a different module of the system, this is described in the next
 section.  
 
-%TODO discuss lamp and tree outlier
-
 \subsection{Conclusion and Future work}
-%TODO
 A detailed research on related work research was done.
 We introduced a brand new application of skyline detection: the extraction of a
 building countour. We build an algorithm on top of a succesful existing
 algorithm.  The algorithm doesn't depend on human intervention and is robust enough to give
 (together with the module explained in the next section) accurate results.\\
-It is interesting to denote that the skyline detector a stand alone method and
-can be optimized individually without any knowledge of the other parts of the
-project.
-%TODO Test algo with and without the customisation
+It is interesting to denote that the skyline detector is a stand alone method and
+can be optimized individually without any knowledge of the other modules of the
+project.\\
 
-\paragraph{Future Work}
-Although the outlier removal procedure is done in a seperate module it would be
-nice to develop a skyline detector which is more robust to outliers.
+Although the outlier removal procedure is done in a seperate module, it would be
+interesting future work to develop a skyline detector which is more robust to outliers.
 Most of the related work is based on detecting parts that are
-classified as sky and parts that are classified as ground. In future work the
-idea of detecting the ground could be replaced by detecting a building. The distinctive
-textures of the buildings (repeating bricks) could be used for the
-classification.  Then a rough building contour could be estimated by using the
-highest building pixel for every column. Detailed edge detection could be
+classified as sky and parts that are classified as ground. The
+idea of detecting the sky and ground could be replaced by detecting the sky and a building. The distinctive
+textures of the buildings (repeating bricks) could be of great use for the
+classification.  After that, a rough building contour could be estimated by using the highest building pixel for every column. Detailed edge detection could be
 done in this neighborhoud. In this way the outliers, (e.g. the lamp and the
-tree) are filtered at this stage.
-
-
-% TODO
-% pictures
-% explain motivation behind decisions
-% explain what is new or what is unique
-
-
-% TODO
-% put this in one of the first chapters :
-% an intro which answers the question:
-% detail of the problem, why is this such a interesting problem
-% what did others and how is my work related?
-% write something about mogelijke complications en/of juist wat je er wel aan hebt
-%
-
-% TODO background section?
-% image captions
-% read whole report
-
-% TODO: documentclass anders zodat alles breder is en plaatjes ook breder kunnen % en niet bij 7cm al afbreken
-
-
+tree) are filtered and no secondary outlier removal procedure is needed.
 
 
