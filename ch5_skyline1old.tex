@@ -42,7 +42,7 @@ window whenever the homogeneity of the window is high. Then they grow this seeds
 in the direction of edges which are estimated using a Sobel edge detector.
 Finally each pixel located above the grew seeds is classified as sky.\\
 
-Of the discussed methods so far, this seed growing method looks like the most sophisticated one, as
+Of the discussed methods so far, this method looks like the most sophisticated one, as
 it is accurate and autonomous. However, we have a stable scene with sharp edges
 at the building contour so this method would be an implementation overkill.  
 
@@ -52,9 +52,7 @@ In this domain \cite{Guidedflight}, scientists detect the horizon to stabilize a
 flight of Unmanned Air Vehicles.\\  
 S.M. Ettinger et all \cite{Guidedflight} use a horizon detector that takes
 advantage of the high altitude of the vehicle, the horizon is approximated to be
-a straight line.  
-%TODO make text below more clear
-An algorithm is present which is based on the idea that this
+a straight line.  An algorithm is present which is based on the idea that this
 straight line separates the image into two regions that have a different
 appearance. They use color as a measure of appearance and generate two color
 distributions: one for the sky and one for the ground. The distributions are
@@ -64,33 +62,28 @@ distributions is determined to be the horizon.\\
 
 This work is not applicable for detecting a building contour as the
 straight line assumption doesn't work. But it needs to be mentioned that some
-ideas for section \ref{extractinglinesegments} %TODO check Ref
-%TODO better word for created (ontstaan)
-are created because the building has walls that have straight lines.
+inspiration for section \ref{extractinglinesegments} %TODO check Ref
+comes from this idea because the building has walls that have straight lines.
 
 \paragraph{Planetary Rover localization}
 %TODO
-Cozman et al. \cite{Rover} use skyline detection in planetary rovers to estimate 
-their location.  Their previous method to detect the skyline was based on
-feature matching. 
-
-%TODO very unclear, make more clear
-The current method is signal-based and puts the focus
-correspondences among dense structures in the image.\\
+Cozman et al. \cite{Rover} use skyline detection in planetary rovers to estimate their location.  Their
+previous method to detect the skyline was based on feature matching. The current
+method is signal-based and puts the focus correspondences among dense structures
+in the image.\\
 A given map of the landscape (hills, roads, etc) is aligned with the
 signal-based skyline to recover the rover's position.\\
 
 The advantage of their technique is the simplicity and effectiveness of the
 algorithm which could make it suitable for this project.  A big drawback is that
-they prefer speed over accuracy.  To increase accuracy, the
-detector is part of an interactive system where an operator refines the
-skyline.\\
-
+it is strongly geared toward speed over high accuracy. To increase accuracy the
+detector is part of an interactive system where an operator refines the skyline.
 For our application the skyline detector must operate without any user
-interaction. Furthermore it has to be robust and accurate enough to fit to the
-next module in the system.  We decided to use this method as a basis and to
-build a custom algorithm with higher accuracy on top of that. This is explained
-in the next section.
+interaction. Furthermore it has to be robust and accurate enough to fit to the next module
+in the system.  Nevertheless the work of Cozman et al. \cite{Rover} seemed to fit most on
+this project as it uses a simple but effective algorithm.  We decided to use
+this method as a basis and to build a custom algorithm with higher accuracy on
+top of that. This is explained in the next section.
 
 
 \subsection{Method} % the algorithm, maar Isaac vindt dit fijner
@@ -99,26 +92,23 @@ Before we present the method let's define the situation and make some
 assumptions.\\
 
 \textbf{\emph{Definition: skyline in urban scene}}\\
-\emph{A skyline in an urban scene is a set of points of the size $w$ (where $w$ is the
-width of the image) where each point describes the location of the
-transition from the sky to an object (e.g. a building) which is connected to the
+\emph{A skyline in an urban scene is a set of points of the length $w$ (where $w$ is the
+width of the size of the image) where each point describes the location of the
+transition from the sky to an object (e.g. a building) which is mounted on the
 earth.}
 
 %motivate assumption
-The question is: how are we going to detect the sky-building
-transition point?\\ 
-In general, the color of the sky is very different than the
-color of the building. The use of a color-based edge detector would be an
-intuitive decision.\\
-However, the sky and building itself also contains edges (caused by for example
-clouds and windows), so how do we determine the right edge?
+The first question arises: how are we going to detect the sky-building
+transition point?\\ In general, the color of the sky is very different then the building color. A
+color-based edge detector would be an intuitive decision.\\
+However, the sky and building itself also contains edges (e.g. clouds and 
+windows), so how do we determine the right edge?
 The number of possible edges could be decreased by thresholding the intensity of
-the edge but it would still be a difficult task to determine the right edge.
-Furthermore the algorithm would not be robust to a change in
-the lightning conditions, influenced heavily by the weather.\\
+the edge but it would still be a difficult task to determine the right edge.\\
+
 
 %TODO Read below and see if its still true
-To solve this problem we draw an assumption that is inspired on the
+To solve this problem we draw an assumption that is inspired on inspired on the
 idea of \cite{Rover}. Instead of using the sharpest edge we take the most upper sharp
 edge and classify this edge as the skyline.
 
@@ -143,11 +133,11 @@ To put our work in context, we first describe a related skyline detection algori
 %gaussian smooth (explain if reader is thumb)
 To increase the difference between sharp and vague edges, and to let sharp edges
 stand out more and vague edges disappear, the images are converted to Gaussian
-smoothed images.  The smoothed image is first divided in \#$w$ columns.  Next,
-each column produces a new column that stores its vertical derivatives. This is
-called the smoothed intensity gradient.  The values of this column are high when
-a big change in color happens (e.g. an edge is detected) at that location on the
-image. 
+smoothed images.  The smoothed image, which is a collection of $w$ x $h$ pixels,
+is first divided in \#$w$ columns.  Next, each column produces a new column that
+stores its vertical derivatives. This is called the smoothed intensity gradient.
+The values of this column are high when a big change in color happens (e.g. an
+edge is detected) at that location on the image. 
 The system walks through the values of a column, starting from the top.  When it
 detects a pixel with a gradient higher then a certain threshold it stores its
 y-value (the location of the highest sharp edge of that column) and continues
@@ -160,59 +150,62 @@ represent the skyline.
 %motivation
 Taking the smoothed intensity gradient is the most basic method of edge
 detection and has the disadvantage that it is not robust to more vague edges. It
-is not surprising that the algorithm in \cite{Rover}
-was used in an interactive system where the user refines the result. 
+is not surprising that the algorithm in []%ref 
+was used in an interactive system
+where the user refines the result. 
 Our aim is to develop a autonomous skyline detector, the only user interaction
 that we allow is to provide the system some parameters. We will now discuss
 the adaptations that we developed with respect to the related algorithm.\\
 
 The column based approach of the related algorithm seems to be very useful and is
-therefore unchanged.  The related algorithm uses the smoothed intensity gradient
+therefor unchanged.  The related algorithm uses the smoothed intensity gradient
 as a method to detect edges. 
 Because of the accuracy disadvantage of this method we took another approach in
-detecting edges. We tested different edge detecting types. 
+detecting edges. Because we used Matlab as our implementation platform, we were
+able to test different edge detecting types. The following edge detecting types
+were tested.
+
+%TODO
+%Because the column based part of the algorithm is individual, it can read any
+%image, we could totally develop a new preprocess step.
 
 The output of the different edge detection techniques was studied on an empirical
 basis and the Canny edge detector came with the most promising results. This is
-probably because Canny is a more advanced edge detector.  It uses two
+probably because Canny is the most 'intelligent' edge detector.  It uses two
 thresholds, one to detect strong and one to detect weak edges. It includes the weak edges in the
-output, but only if they are connected to strong edges. In table \ref{tableedge} %ref
+output, but only if they are connected to strong edges. In table %ref
 we list Matlab's build in edge detectors together with the method explanation.
 
 %TODO check in matlab if canny uses 2 thresholds as args 
 
 %TODO tex table line breaks fixen
-%TODO, label and caption fixen
-	% \label{tableedge}
-	% \caption{Different edge detectors explained}
-
 \begin{tabular}{|l|l|}
 	\hline
 	Edge detecting type		& method\\
 	Sobel					& The Sobel method finds edges using the Sobel
 	approximation to the derivative. It returns edges at those points where the
-	gradient of the image is maximum.\\
+	gradient of I is maximum.\\
 	\hline
 	Prewitt					& The Prewitt method finds edges using the Prewitt
 	approximation to the derivative. It returns edges at those points where the
-	gradient of the image is maximum.\\
+	gradient of I is maximum.\\
 	\hline
 	Roberts					& The Roberts method finds edges using the Roberts
 	approximation to the derivative. It returns edges at those points where the
-	gradient of the image is maximum.\\
+	gradient of I is maximum.\\
 	\hline
 	Laplacian				& The Laplacian of Gaussian method finds edges by
-	looking for zero crossings after filtering the image with a Laplacian of Gaussian
+	looking for zero crossings after filtering I with a Laplacian of Gaussian
 	filter.\\
 	\hline
 	zero-cross				& The zero-cross method finds edges by looking for zero
-	crossings after filtering the image with a filter you specify.\\
+	crossings after filtering I with a filter you specify.\\
 	\hline
 	Canny					& The Canny method finds edges by looking for local
-	maxima of the gradient of the image. The gradient is calculated using the derivative of
+	maxima of the gradient of I. The gradient is calculated using the derivative of
 	a Gaussian filter. The method uses two thresholds, to detect strong and weak
 	edges, and includes the weak edges in the output only if they are connected to
-	strong edges. This method is therefore less likely than the others to be fooled
+	strong edges. This method is therefor less likely than the others to be fooled
 	by noise, and more likely to detect true weak edges.\\
 	\hline
 \end{tabular}
@@ -224,7 +217,7 @@ Because the optimal edge detector type can be scene depended, it can be set
 by the user as a parameter in our functions.\\
 
 %TODO ML check in matlab if every edge detector returns a binary image
-The Canny edge detector outputs a binary image, therefore the column inlier
+The Canny edge detector outputs a binary image, therefor the column inlier
 threshold is set to 1, which means that it finds the first pixel that is white. 
 This is, as in the related algorithm, done from top to bottom for every column in
 the image.\\
@@ -260,37 +253,32 @@ as the image quality and lightning condition are scene depended.
 Some results on the Floriande dataset %TODO ref
  can be seen in Figure \ref{fig:outputskyline}.
  %TODO introduce floriande dataset with intro text
- %TODO result with spil dataset
 
-\figs{outputskyline}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The output of the edge detector and the skyline detector.}{The output of the edge detector}{The output of the skyline detector. The skyline elements are marked red}
+\figs{outputskyline}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The output
+of the edge detector}{The output of the skyline detector. The skyline elements are marked red}{1}
 %TODO commands.tex fixen want de caption van b staat bij a
 
 
 \subsection{Discussion}  % (What do my results mean to me and why)
-The largest part of the building edge is detected, this is a ...
-%todo translate gewenst
-result given
+The largest part of the building edge is detected, this is a nice result given
 the algorithm operates without any user interaction.\\
 The system assumes that the first sharp edge (seen from top to bottom) is always
-%TODO Check if figure reference works
-the building contour. As can be seen in Figure \ref{fig:outputskyline}, not
-every skyline element is placed on the building contour but placed on, for
-example, the streetlight or the tree. We define them as outliers.
+the building contour. As can be seen in Figure ??, this gives raise to some
+outliers, for example a streetlight or a tree. 
 Other objects in the air that apear above the building but contain a sharp edge,
 for example a plane, will also turn into outliers.  This is a drawback of the
-	columnt based method.\\
-The advantage of the method is its simplicity (and therefore low complexity) and
-automomity.  We didn't focus on the development of a more accurate skyline
-detector because this result is good enough for our purpose. We removed the
-outliers in a different module of the system, this is described in the next
-section.  
+	columnt based method.
+The advantage of the method is its simplicity, automomity and low complexity.
+We didn't focus on the development of a more accurate skyline detector because
+this result is good enough for our purpose. We removed the outliers in a
+different module of the system, this is described in the next section.  
 
 %TODO discuss lamp and tree outlier
 
 \subsection{Conclusion and Future work}
 %TODO
 A detailed research on related work research was done.
-We introduced a brand new application of skyline detection: the extraction of a
+We introduced a brand new purpose of skyline detection: the extraction of a
 building countour. We build an algorithm on top of a succesful existing
 algorithm.  The algorithm doesn't depend on human intervention and is robust enough to give
 (together with the module explained in the next section) accurate results.\\
@@ -302,14 +290,14 @@ project.
 \paragraph{Future Work}
 Although the outlier removal procedure is done in a seperate module it would be
 nice to develop a skyline detector which is more robust to outliers.
-Most of the related work is based on detecting parts that are
+In most of the related work there is focussed on detecting parts that are
 classified as sky and parts that are classified as ground. In future work the
-idea of detecting the ground could be replaced by detecting a building. The distinctive
-textures of the buildings (repeating bricks) could be used for the
-classification.  Then a rough building contour could be estimated by using the
-highest building pixel for every column. Detailed edge detection could be
-done in this neighborhoud. In this way the outliers, (e.g. the lamp and the
-tree) are filtered at this stage.
+idea of a ground could be replaced by modeling a building. The distinctive
+textures of the buildings (repeating bricks) could be used to classify a
+pixel. Then a rough building contour could be estimated by using the
+highest building pixel for every column. Detailed edge detection can be
+done in this neighborhoud. In this way the outliers at the lamp and the tree are
+filtered at this stage.
 
 
 % TODO
@@ -330,7 +318,8 @@ tree) are filtered at this stage.
 % image captions
 % read whole report
 
-% TODO: documentclass anders zodat alles breder is en plaatjes ook breder kunnen % en niet bij 7cm al afbreken
+% TODO: documentclass anders zodat alles breder is en plaatjes ook breder kunnen
+% en niet bij 7cm al afbreken
 
 
 

@@ -2,7 +2,10 @@ Matlab todo
 
 camera calibration
 
+
 IMAGES
+skyline result on the other dataset
+
 a line comes from the camera center through de image to the building
 (use openscenegraph for this)
 skyline detection without the custom algo (highen contrast, gauss etc) and compair to the
@@ -19,7 +22,6 @@ and different methods
 IMAGES FROM PDFS
 outdoor visual... pdf
 page 15
-
 
 
 CATEGORIE would be nice:
