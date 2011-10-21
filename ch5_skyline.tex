@@ -54,9 +54,11 @@ flight of Unmanned Air Vehicles.\\
 S.M. Ettinger et all \cite{Guidedflight} use a horizon detector that takes
 advantage of the high altitude of the vehicle, the horizon is approximated to be
 a straight line.  
-%TODO make text below more clear
-This straight line separates the image into sky and ground. They use color as a measure of appearance and generate two color
-distributions: one for the sky and one for the ground. They use the covariance and the eigen values of the distributions to guide a bisection search for the best seperation. The line that best separates the two distributions is determined to be the skyline.\\
+This straight line separates the image into sky and ground. They use color as
+a measure of appearance and generate two color distributions: one for the sky
+and one for the ground. They use the covariance and the eigen values of the
+distributions to guide a bisection search for the best seperation. The line that
+best separates the two distributions is determined to be the skyline.\\
 
 This work is not applicable for detecting a building contour as the straight
 line assumption doesn't work.  But it needs to be mentioned that some ideas
@@ -79,6 +81,10 @@ in the system.\\
 We decided to use this method as a basis and to
 build a custom algorithm with higher accuracy on top of that. This is explained
 in the next section.
+
+%TODO evt more related work:
+% Skyline Extraction using a Multistage Edge Filtering
+
 
 
 \subsection{Method} % the algorithm, maar Isaac vindt dit fijner
@@ -105,7 +111,6 @@ the edge but it would still be a difficult task to determine the right edge.
 Furthermore the algorithm would not be robust to a change in
 the lightning conditions, influenced heavily by the weather.\\
 
-%TODO Read below and see if its still true
 To solve this problem we draw an assumption that is based on the
 idea of \cite{Rover}. Instead of using the sharpest edge we take the most upper sharp
 edge and classify this edge as the skyline.
@@ -113,19 +118,9 @@ edge and classify this edge as the skyline.
 \textbf{\emph{Top sharp edge assumption}}
 \emph{The first sharp edge (seen from top to bottom) in the image 
 represents the skyline.}
-%TODO read original paper and see if i can get some assumption
-%TODO discussion:
-%drawback assumption, plane flys by
-
-
-%TODO
-%aim
-%discuss input and output algorithm 
-
 
 \subsubsection{Related algorithm}
 To put our work in context, we first describe a related skyline detection algorithm as presented in \cite{Rover}.\\
-%TODO talk about assumptions
 
 % nog meer woordjes vooraf?
 %gaussian smooth (explain if reader is thumb)
@@ -149,7 +144,8 @@ represent the skyline.
 Taking the smoothed intensity gradient is the most basic method of edge
 detection and has the disadvantage that it is not robust to more vague edges. It
 is not surprising that the algorithm in \cite{Rover}
-was used in an interactive system where the user refines the result. 
+was used in an interactive system where the user has to refine the result.\\
+
 Our aim is to develop a autonomous skyline detector, the only user interaction
 that we allow is to provide the system some parameters. We will now discuss
 the adaptations that we developed with respect to the related algorithm.\\
@@ -167,14 +163,10 @@ thresholds, one to detect strong and one to detect weak edges. It includes the w
 output, but only if they are connected to strong edges. In table \ref{tableedge} %ref
 we list Matlab's build in edge detectors together with the method explanation.
 
-%TODO check in matlab if canny uses 2 thresholds as args 
-
-%TODO tex table line breaks fixen
-%TODO, label and caption fixen
-	% \label{tableedge}
-	% \caption{Different edge detectors explained}
-
 \begin{table}[ht]
+%TODO, table label and caption fixen
+\label{tableedge}
+\caption{Different edge detectors explained}
 \begin{tabular}{|l|p{10cm}|}
 	\hline
 	Edge detecting type		& method\\
@@ -244,15 +236,19 @@ as the image quality and lightning condition are scene depended.
 
 
 \subsection{Results}% (What did I find)
+Two different datasets are used. \\
+The first dataset is the \emph{Floriande} dataset, which is included in the Fit3d toolbox \ref{Fit3d}. The dataset consists of eight images with resolution 1728x1152px.\\
+The second dataset is named the \emph{Spil} dataset, the photos are taken of buildings near the street called 'van Spilbergenstraat, Amsterdam'.
+In the dataset there are 40 images present with resolution 3072x2304px.
+%the images contain radial distortion, for the skyline detector this didn't seem to rise problems. The images are undistorted in the next module.
+
+
 %TODO Test algo with and without the customisation
-%TODO
-% canny edge images
-% skyline detector shizzle
-Some results on the Floriande dataset %TODO ref
+Some results on the Floriande dataset \ref{Fit3d}%TODO ref
  can be seen in Figure \ref{fig:outputskyline}.
- %TODO introduce floriande dataset with intro text
  %TODO result with spil dataset
 
+%TODO List the exact threshold values
 \figs{outputskyline}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The output of the edge detector and the skyline detector.}{The output of the edge detector}{The output of the skyline detector. The skyline elements are marked red}
 %TODO commands.tex fixen want de caption van b staat bij a
 
