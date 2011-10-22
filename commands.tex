@@ -23,11 +23,27 @@
 	\label{fig:#1}
 	\centering
 	\subfigure[#5]{
-		\includegraphics[width=14cm]{img/#2}
+		\includegraphics[width=16cm]{img/#2}
 		\label{fig:#2}
 	}
 	\subfigure[#6]{
-		\includegraphics[width=14cm]{img/#3}
+		\includegraphics[width=16cm]{img/#3}
+		\label{fig:#3}
+	}
+	\caption{#4}
+	\end{figure}
+}
+
+\newcommand{\figsachtien}[6]{
+	\begin{figure}[!ht]
+	\label{fig:#1}
+	\centering
+	\subfigure[#5]{
+		\includegraphics[width=18cm]{img/#2}
+		\label{fig:#2}
+	}
+	\subfigure[#6]{
+		\includegraphics[width=18cm]{img/#3}
 		\label{fig:#3}
 	}
 	\caption{#4}
