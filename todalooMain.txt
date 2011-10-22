@@ -2,8 +2,8 @@ todotoday:
 	backup maken
 	toc
 	feedback isaac
+	table smaller
 todo's
-table smaller
 preliminaries
 
 
