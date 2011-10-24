@@ -1,15 +1,7 @@
 todotoday:
-caption figures
-todo's
-preliminaries
+laatste todo skyline
 plaatje met 2 houghlines
-
-
-
-vimdiff or meld and send results to Anne
-search on google or in bougette toolbox doc how K is constructed
-perform radial distortion
-try Motion estimation scriptTjerk with what I think is K
+preliminaries
 
 
 
@@ -23,10 +15,7 @@ chapter 5 skyline
 	gather and process todos
 	
 chapter 6 ass
-	CHECK ALL REFS:
-		search for %ref, (t)able, ection, igure, ref spatie
 	search for and write about related work
-	write projection and use text of ch 5
 	process first half of chapter see feedback map
 	gather and process todos 
 	check backreferences
@@ -42,7 +31,41 @@ write big main introduction Introduction (What did I do and why) (WRITE AFTER CO
 
 
 EASY GOING TODOS WHEN TYRED:
-shorten the ch0_comments.tex
-table line break fixen
-todo's afgaan voor easytodos
 
+
+WOULD BE NICE TODOS:
+SKYLINE DETECTOR
+introduce a scene with bad lightning conditions
+skyline detector, paste images in related work of 
+evt more related work:
+% Skyline Extraction using a Multistage Edge Filtering
+%TODO uitzoeken waarom plaatjes zo naar rechts schuiven
+%TODO uitzoeken waarom kwaliteit slecht is, het gaat fout zodra matlab het image showed in een figure window en opslaat
+
+% subjects to write 
+% axis angle theory, to projection
+% how I calc the wall normal
+% documentclass anders zodat alles breder is en plaatjes ook breder kunnen 
+% en niet bij 7cm al afbreken
+alle alineas een enter eronder, of i i g overal consistent
+% search what houghline (and canny edge for report.tex) params I used
+
+% TODO latex draw
+	% latex draw, show cut off line segments (different color)
+	% extra dikke vector over de lijn DC
+	% duidelijke pijl aan het eind van stippellijn
+	% alpha of beta teken en daar naar verwijzen ipv vectors benoemen
+	% dikke W in abcd vlak
+	% in latexdrawcode \lprojw ipv v,w  zo ook met angles
+	% TODO in Figure overlap ratio percentages drawwen
+
+% a table of wall overlap value's sorted on largeness
+% example image where I project a line to every wall of the building
+
+% make schema with 3 methods, and in one regel the summary of its technique
+% test with different techniques
+% make different dataset
+% hand anotated (pleonastisch zeg hehe) for ground truth
+% 1) project endpoints (and sometimes end up not agreeing wall)
+% 2) use midpoint of line
+% 3) use tjs algo (line wall overlap)

@@ -5,6 +5,8 @@ camera calibration
 
 IMAGES
 skyline result on the other dataset
+a better projected houghline image where the lines at the right side are
+displayed better
 
 a line comes from the camera center through de image to the building
 (use openscenegraph for this)

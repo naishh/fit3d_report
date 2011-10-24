@@ -1,16 +1,5 @@
-% TODO
-% explain motivation behind decisions
-% image captions
-% documentclass anders zodat alles breder is en plaatjes ook breder kunnen % en niet bij 7cm al afbreken
-
-
-% TODO
-% subjects to write 
-% axis angle theory, to projection
-% how I calc the wall normal
-
-
 \section{Skyline detection}
+\label{chap:skylinedetection}
  \subsection{Introduction}
 If we take a regular image on which both sky and earth are present, there
 is often a clear separation between them. This separation is called the
@@ -33,7 +22,6 @@ and, finally, we conclude.
 Castano et al. \cite{Dust} present a clear introduction of different skyline
 detection techniques. 
 
-% TODO images in related work
 \paragraph{Detection of dust devils and clouds on Mars}
 In \cite{Dust}, mars Exploration Rovers are used to detect clouds and dust devils on Mars.
 Their approach is to first identify the sky and then determine if there are
@@ -85,8 +73,6 @@ We decided to use the Rover method \cite{Rover} as a basis and
 build a custom algorithm with higher accuracy on top of that. This is explained
 in the next section.
 
-%TODO evt more related work:
-% Skyline Extraction using a Multistage Edge Filtering
 
 
 
@@ -116,9 +102,9 @@ the lightning conditions, influenced heavily by the weather.\\
 
 To solve this problem we draw an assumption that is based on the
 idea of \cite{Rover}. Instead of using the sharpest edge we take the most upper sharp
-edge and classify this edge as the skyline.
+edge and classify this edge as the skyline.\\
 
-\textbf{\emph{Top sharp edge assumption}}
+\textbf{\emph{Top sharp edge assumption}}\\
 \emph{The first sharp edge (seen from top to bottom) in the image 
 represents the skyline.}
 
@@ -141,7 +127,6 @@ to the next column.  The result is a set of $y$ coordinates of length $w$, that
 represent the skyline. 
 
 \subsubsection{Improved algorithm}
-%TODO introduce a scene with bad lightning conditions
 Taking the smoothed intensity gradient is the most basic method of edge
 detection and has the disadvantage that it is not robust to more vague edges. It
 is not surprising that the algorithm in \cite{Rover}
@@ -203,13 +188,9 @@ we list Matlab's build in edge detectors together with the method explanation.
 \end{tabular}
 \end{table}
 
-%TODO ML 
-% check edge detector at different dataset and compare results
-%However on an another scene an other edge type could perform better. 
 Because the optimal edge detector type can be scene depended, it can be set
 by the user as a parameter in our functions.\\
 
-%TODO ML check in matlab if every edge detector returns a binary image
 The Canny edge detector outputs a binary image, therefore the column inlier
 threshold is set to 1, which means that it finds the first pixel that is white. 
 This is, as in the related algorithm, done from top to bottom for every column in
@@ -222,9 +203,6 @@ an extra Gaussian blur, this removes a large part of the noise. Note that
 depending on the edge detector type this could mean that the image is blurred
 twice.\\
 
-%TODO ML make different edge images, with and without each step (contrast, blur
-% etc)
-
 The system now has several parameters which have to be set manually by the user:
 \begin{itemize}
 	\item Contrast,
@@ -234,12 +212,11 @@ The system now has several parameters which have to be set manually by the user:
 	\item Edge detector threshold.
 \end{itemize}
 
-%TODO write down what parameter I used, and worked best
 If the user introduces a new dataset these parameters need to be configured
 as the image quality and lightning condition are scene depended.
 
 
-\subsection{Results}% (What did I find)
+\subsection{Results}
 Two different datasets are used. \\
 The first dataset is the \emph{Floriande} dataset, which is included in the
 Fit3d toolbox \cite{Fit3d}.  The dataset consists of eight images with resolution 1728x1152px.\\
@@ -249,35 +226,33 @@ with resolution 3072x2304px.\\
 %the photos are taken of buildings near the street called 'van Spilbergenstraat, Amsterdam'.
 %the images contain radial distortion, for the skyline detector this didn't seem to rise problems. The images are undistorted in the next module.
 
-%TODO Test algo with and without the customisation
 The output of the edge detector and skyline detector on the \emph{Floriande}
 dataset \cite{Fit3d} can be seen in Figure \ref{fig:outputskylineFloriande}
 We emphasize the effect of different thresholds of the edge detector on the
-\emph{Spil} dataset in Figure \ref{fig:outputskylineSpil}.
+\emph{Spil} dataset in Figure \ref{fig:outputskylineSpil} and Figure
+\ref{fig:outputSkylineSpil-Im1-thresh070}.
 
 \pagebreak
-%TODO uitzoeken waarom plaatjes zo naar rechts schuiven
 \figs{outputskylineFloriande}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The
 output of the edge detector and the skyline detector.}{The output of the edge
 detector}{The output of the skyline detector. The skyline elements are marked
 red}
-%TODO commands.tex fixen want de caption van b staat bij a
 
-%TODO uitzoeken waarom kwaliteit slecht is, het gaat fout zodra matlab het image showed in een figure window en opslaat
-%TODO List the exact threshold values
+\pagebreak
 \figs{outputskylineSpil}{outputSkylineSpil-Im13-thresh030.eps}{outputSkylineSpil-Im13-thresh070.eps}{The
 skyline detector on two different thresholds}{Because of the streetlight, a
 large part of the building is not detected. Threshold=0.3}{The desired part of
 the building is detected.  Threshhold=0.7}
-%TODO Im1 invoegen en zeggen dat het dus verkeerd gaat met een te hoge thresh
 
+\pagebreak
+\fig{outputSkylineSpil-Im1-thresh070}{The output of the skyline detector with a
+too high threshold (0.70)}{0.3}
 
 \subsection{Discussion}  % (What do my results mean to me and why)
 Consider Figure \ref{fig:outputskylineFloriande}, the largest part of the
 building edge is detected. This is a desired result, given the algorithm
 operates without any user interaction.\\
 The system assumes that the first sharp edge (seen from top to bottom) is always
-%TODO Check if figure reference works
 the building contour. This is why not every skyline element is placed on the building
 contour but placed on, for example, a streetlight or a tree. We define them
 as outliers. Other sharp edged objects that appear above the building,
@@ -285,11 +260,15 @@ for example an aircraft, will also turn into outliers.  This is a disadvantage o
 	column based method.\\
 However, not every object above the building becomes an outlier, as can be seen in Figure
 \ref{fig:outputskylineSpil} a change in the threshold parameter of the edge
-detector can erase tough outliers. \\
-It is not realistic to assume full absence of sharp objects above the building,
-therefore we don't. Furthermore this the part where we can add some artificial
-intelligence . We developed a seperate module to remove these remaining
-outliers. This is described in the next section.  
+detector can erase tough outliers. 
+In Figure \ref{fig:outputSkylineSpil-Im1-thresh070} the risk of using a to high
+threshold is shown. Although increasing the threshold to 0.7 removed the
+streetlight outliers in, the results on this scene are very bad.\\
+
+We decided to keep the threshold low and developed a seperate module to remove the outliers. It is not realistic to
+assume full absence of sharp objects above the building, therefore we don't.
+Furthermore this the part where we can add some artificial intelligence. This is
+described in the next section.  
 
 %TODO in kader discussion plaatsen
 % In other systems where the skyline is detected in the context of a horizon like context.
