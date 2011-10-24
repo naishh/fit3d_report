@@ -52,33 +52,36 @@ at the building contour so this method would be an implementation overkill.
 In this domain \cite{Guidedflight}, scientists detect the horizon to stabilize and control the
 flight of Unmanned Air Vehicles.\\  
 S.M. Ettinger et all \cite{Guidedflight} use a horizon detector that takes
-advantage of the high altitude of the vehicle, the horizon is approximated to be
-a straight line.  
+advantage of the high altitude of the vehicle, in that way the horizon is
+approximated to be a straight line.  
 This straight line separates the image into sky and ground. They use color as
 a measure of appearance and generate two color distributions: one for the sky
 and one for the ground. They use the covariance and the eigen values of the
-distributions to guide a bisection search for the best seperation. The line that
+distributions to guide a bisection search for the best separation. The line that
 best separates the two distributions is determined to be the skyline.\\
 
 This work is not applicable for detecting a building contour as the straight
-line assumption doesn't work.  But it needs to be mentioned that some ideas
-for section \ref{extractinglinesegments} are created because the building has
-	walls that have straight lines.
+line assumption doesn't work.  But it needs to be mentioned that some ideas for
+section \ref{extractinglinesegments} are created because the building has walls
+that have straight lines, an assumption is made about partially straight lines.
 
 \paragraph{Planetary Rover localization}
 Cozman et al. \cite{Rover} use skyline detection in planetary rovers to estimate 
 their location.  
 To recover the rover's position they match image structures with a given map
 of the landscape (hills, roads, etc) and align both images.
-The matching process was first based on feature matching. In an improved version the matching process was done by searching for correspondences among dense structures in the image and the given map, so called signal based matching.\\
+The matching process was first based on feature matching. In an improved version
+the matching process was done by searching for correspondences among dense
+structures in the image and on the given map, so called signal based matching.\\
 The advantage of their algorithm is the simplicity and effectiveness, this
 could make their algorithm suitable for this project.  A big drawback is that
 they prefer speed over accuracy.  To increase accuracy, the detector is part
 of an interactive system where an operator refines the skyline.  For our
 application the skyline detector must operate without any user interaction.
-Furthermore it has to be robust and accurate enough to fit to the next module
-in the system.\\
-We decided to use this method as a basis and to
+Furthermore it has to be robust and accurate because it provides a basis for
+the extraction of straight lines which offer an estimation of the buildingwall
+heights.\\
+We decided to use the Rover method \cite{Rover} as a basis and 
 build a custom algorithm with higher accuracy on top of that. This is explained
 in the next section.
 
@@ -104,8 +107,8 @@ transition point?\\
 In general, the color of the sky is very different than the
 color of the building. The use of a color-based edge detector would be an
 intuitive decision.\\
-However, the sky and building itself also contains edges (caused by for example
-clouds and windows), so how do we determine the right edge?
+However, the sky and the building itself also contains edges (caused by for example
+clouds and windows). So how do we determine the right edge?
 The number of possible edges could be decreased by thresholding the intensity of
 the edge but it would still be a difficult task to determine the right edge.
 Furthermore the algorithm would not be robust to a change in
@@ -170,6 +173,8 @@ we list Matlab's build in edge detectors together with the method explanation.
 \begin{tabular}{|l|p{10cm}|}
 	\hline
 	Edge detecting type		& method\\
+	\hline
+	\hline
 	Sobel					& The Sobel method finds edges using the Sobel
 	approximation to the derivative. It returns edges at those points where the
 	gradient of the image is maximum.\\
@@ -200,7 +205,7 @@ we list Matlab's build in edge detectors together with the method explanation.
 \end{table}
 
 %TODO ML 
-% check edge detector at different dataset and compair results
+% check edge detector at different dataset and compare results
 %However on an another scene an other edge type could perform better. 
 Because the optimal edge detector type can be scene depended, it can be set
 by the user as a parameter in our functions.\\
@@ -237,23 +242,26 @@ as the image quality and lightning condition are scene depended.
 
 \subsection{Results}% (What did I find)
 Two different datasets are used. \\
-The first dataset is the \emph{Floriande} dataset, which is included in the Fit3d toolbox \ref{Fit3d}. The dataset consists of eight images with resolution 1728x1152px.\\
-The second dataset is named the \emph{Spil} dataset, the photos are taken of buildings near the street called 'van Spilbergenstraat, Amsterdam'.
-In the dataset there are 40 images present with resolution 3072x2304px.
+The first dataset is the \emph{Floriande} dataset, which is included in the
+Fit3d toolbox \cite{Fit3d}.  The dataset consists of eight images with resolution 1728x1152px.\\
+The second dataset is named the \emph{Spil} dataset and it contains 40 images
+with resolution 3072x2304px.\\
+%bijzaken:
+%the photos are taken of buildings near the street called 'van Spilbergenstraat, Amsterdam'.
 %the images contain radial distortion, for the skyline detector this didn't seem to rise problems. The images are undistorted in the next module.
 
-
 %TODO Test algo with and without the customisation
-Some results on the Floriande dataset \ref{Fit3d}%TODO ref
- can be seen in Figure \ref{fig:outputskyline}.
- %TODO result with spil dataset
+The output of the edge detector and skyline detector on the \emph{Floriande}
+dataset \cite{Fit3d} can be seen in Figure \ref{fig:outputskylineFloriande}
+We emphasize the effect of different thresholds of the edge detector on the
+\emph{Spil} dataset in Figure \ref{fig:outputskylineSpil}.
 
 %TODO List the exact threshold values
-\figs{outputskyline}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The output of the edge detector and the skyline detector.}{The output of the edge detector}{The output of the skyline detector. The skyline elements are marked red}
+\figs{outputskylineFloriande}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The output of the edge detector and the skyline detector.}{The output of the edge detector}{The output of the skyline detector. The skyline elements are marked red}
 %TODO commands.tex fixen want de caption van b staat bij a
 
 %TODO uitzoeken waarom kwaliteit slecht is, het gaat fout zodra matlab het image showed in een figure window en opslaat
-\figs{TODO}{outputSkylineSpil-Im13-thresh030.eps}{outputSkylineSpil-Im13-thresh070.eps}{TODO}{TODO}{The output of the skyline detector. The skyline elements are marked red}
+\figs{outputskylineSpil}{outputSkylineSpil-Im13-thresh030.eps}{outputSkylineSpil-Im13-thresh070.eps}{TODO}{TODO}{TODO}
 %TODO Im1 invoegen en zeggen dat het dus verkeerd gaat met een te hoge thresh
 
 
@@ -267,11 +275,11 @@ The system assumes that the first sharp edge (seen from top to bottom) is always
 the building contour. As can be seen in Figure \ref{fig:outputskyline}, not
 every skyline element is placed on the building contour but placed on, for
 example, the streetlight or the tree. We define them as outliers.
-Other objects in the air that apear above the building but contain a sharp edge,
+Other objects in the air that appear above the building but contain a sharp edge,
 for example an aircraft, will also turn into outliers.  This is a drawback of the
-	columnt based method.\\
+	column based method.\\
 The advantage of the method is its simplicity (and therefore low complexity) and
-automomity.  We didn't focus on the development of a more accurate skyline
+autonomity.  We didn't focus on the development of a more accurate skyline
 detector because this result is good enough for our purpose. We removed the
 outliers in a different module of the system, this is described in the next
 section.  
@@ -279,7 +287,7 @@ section.
 
 %TODO in kader discussion plaatsen
 % In other systems where the skyline is detected in the context of a horizon like context.
-% It isn't possile to keep track of the change in the skyline detector as the building has radical changes
+% It isn't possible to keep track of the change in the skyline detector as the building has radical changes
 
 
 
@@ -289,21 +297,21 @@ section.
 \subsection{Conclusion and Future work}
 A detailed research on related work research was done.
 We introduced a brand new application of skyline detection: the extraction of a
-building countour. We build an algorithm on top of a succesful existing
+building contour. We build an algorithm on top of a successful existing
 algorithm.  The algorithm doesn't depend on human intervention and is robust enough to give
 (together with the module explained in the next section) accurate results.\\
 It is interesting to denote that the skyline detector is a stand alone method and
 can be optimized individually without any knowledge of the other modules of the
 project.\\
 
-Although the outlier removal procedure is done in a seperate module, it would be
+Although the outlier removal procedure is done in a separate module, it would be
 interesting future work to develop a skyline detector which is more robust to outliers.
 Most of the related work is based on detecting parts that are
 classified as sky and parts that are classified as ground. The
 idea of detecting the sky and ground could be replaced by detecting the sky and a building. The distinctive
 textures of the buildings (repeating bricks) could be of great use for the
 classification.  After that, a rough building contour could be estimated by using the highest building pixel for every column. Detailed edge detection could be
-done in this neighborhoud. In this way the outliers, (e.g. the lamp and the
+done in this neighborhood. In this way the outliers, (e.g. the lamp and the
 tree) are filtered and no secondary outlier removal procedure is needed.
 
 
