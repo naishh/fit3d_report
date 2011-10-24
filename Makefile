@@ -20,6 +20,16 @@ pdf:
 	git add $(REPORT).pdf
 	rm -f $(TEMPFILES) *.dvi
 
+pdfshow:
+	latex $(REPORT).tex
+	bibtex $(REPORT)
+	latex $(REPORT).tex
+	latex $(REPORT).tex
+	dvipdf $(REPORT).dvi
+	git add $(REPORT).pdf
+	rm -f $(TEMPFILES) *.dvi
+	evince main.pdf
+
 clean:
 	rm -f *~ .*.swp *.*.orig *.*.backup
 	rm -f $(TEMPFILES) *.dvi *.pdf

@@ -141,9 +141,7 @@ to the next column.  The result is a set of $y$ coordinates of length $w$, that
 represent the skyline. 
 
 \subsubsection{Improved algorithm}
-%TODO talk about the robustness
 %TODO introduce a scene with bad lightning conditions
-%motivation
 Taking the smoothed intensity gradient is the most basic method of edge
 detection and has the disadvantage that it is not robust to more vague edges. It
 is not surprising that the algorithm in \cite{Rover}
@@ -163,13 +161,14 @@ The output of the different edge detection techniques was studied on an empirica
 basis and the Canny edge detector came with the most promising results. This is
 probably because Canny is a more advanced edge detector.  It uses two
 thresholds, one to detect strong and one to detect weak edges. It includes the weak edges in the
-output, but only if they are connected to strong edges. In table \ref{tableedge} %ref
+output, but only if they are connected to strong edges. In Table \ref{tab:edge} %ref
 we list Matlab's build in edge detectors together with the method explanation.
 
 \begin{table}[ht]
-%TODO, table label and caption fixen
-\label{tableedge}
 \caption{Different edge detectors explained}
+\label{tab:edge}
+%note naar mijzelf altijd eerst caption dan label, dan en slechts dan gaat hte
+%goed met de nummering
 \begin{tabular}{|l|p{10cm}|}
 	\hline
 	Edge detecting type		& method\\
@@ -256,62 +255,67 @@ dataset \cite{Fit3d} can be seen in Figure \ref{fig:outputskylineFloriande}
 We emphasize the effect of different thresholds of the edge detector on the
 \emph{Spil} dataset in Figure \ref{fig:outputskylineSpil}.
 
-%TODO List the exact threshold values
-\figs{outputskylineFloriande}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The output of the edge detector and the skyline detector.}{The output of the edge detector}{The output of the skyline detector. The skyline elements are marked red}
+\pagebreak
+%TODO uitzoeken waarom plaatjes zo naar rechts schuiven
+\figs{outputskylineFloriande}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The
+output of the edge detector and the skyline detector.}{The output of the edge
+detector}{The output of the skyline detector. The skyline elements are marked
+red}
 %TODO commands.tex fixen want de caption van b staat bij a
 
 %TODO uitzoeken waarom kwaliteit slecht is, het gaat fout zodra matlab het image showed in een figure window en opslaat
-\figs{outputskylineSpil}{outputSkylineSpil-Im13-thresh030.eps}{outputSkylineSpil-Im13-thresh070.eps}{TODO}{TODO}{TODO}
+%TODO List the exact threshold values
+\figs{outputskylineSpil}{outputSkylineSpil-Im13-thresh030.eps}{outputSkylineSpil-Im13-thresh070.eps}{The
+skyline detector on two different thresholds}{Because of the streetlight, a
+large part of the building is not detected. Threshold=0.3}{The desired part of
+the building is detected.  Threshhold=0.7}
 %TODO Im1 invoegen en zeggen dat het dus verkeerd gaat met een te hoge thresh
 
 
 \subsection{Discussion}  % (What do my results mean to me and why)
-The largest part of the building edge is detected, this is a ...
-%todo translate gewenst
-result given
-the algorithm operates without any user interaction.\\
+Consider Figure \ref{fig:outputskylineFloriande}, the largest part of the
+building edge is detected. This is a desired result, given the algorithm
+operates without any user interaction.\\
 The system assumes that the first sharp edge (seen from top to bottom) is always
 %TODO Check if figure reference works
-the building contour. As can be seen in Figure \ref{fig:outputskyline}, not
-every skyline element is placed on the building contour but placed on, for
-example, the streetlight or the tree. We define them as outliers.
-Other objects in the air that appear above the building but contain a sharp edge,
-for example an aircraft, will also turn into outliers.  This is a drawback of the
+the building contour. This is why not every skyline element is placed on the building
+contour but placed on, for example, a streetlight or a tree. We define them
+as outliers. Other sharp edged objects that appear above the building,
+for example an aircraft, will also turn into outliers.  This is a disadvantage of the
 	column based method.\\
-The advantage of the method is its simplicity (and therefore low complexity) and
-autonomity.  We didn't focus on the development of a more accurate skyline
-detector because this result is good enough for our purpose. We removed the
-outliers in a different module of the system, this is described in the next
-section.  
-
+However, not every object above the building becomes an outlier, as can be seen in Figure
+\ref{fig:outputskylineSpil} a change in the threshold parameter of the edge
+detector can erase tough outliers. \\
+It is not realistic to assume full absence of sharp objects above the building,
+therefore we don't. Furthermore this the part where we can add some artificial
+intelligence . We developed a seperate module to remove these remaining
+outliers. This is described in the next section.  
 
 %TODO in kader discussion plaatsen
 % In other systems where the skyline is detected in the context of a horizon like context.
 % It isn't possible to keep track of the change in the skyline detector as the building has radical changes
 
 
-
-
-
-
 \subsection{Conclusion and Future work}
 A detailed research on related work research was done.
 We introduced a brand new application of skyline detection: the extraction of a
 building contour. We build an algorithm on top of a successful existing
-algorithm.  The algorithm doesn't depend on human intervention and is robust enough to give
-(together with the module explained in the next section) accurate results.\\
+algorithm.  The algorithm doesn't depend on human intervention and is robust and
+accurate enough to provide a base for the next module in the system.\\
 It is interesting to denote that the skyline detector is a stand alone method and
 can be optimized individually without any knowledge of the other modules of the
 project.\\
 
 Although the outlier removal procedure is done in a separate module, it would be
-interesting future work to develop a skyline detector which is more robust to outliers.
-Most of the related work is based on detecting parts that are
-classified as sky and parts that are classified as ground. The
-idea of detecting the sky and ground could be replaced by detecting the sky and a building. The distinctive
-textures of the buildings (repeating bricks) could be of great use for the
-classification.  After that, a rough building contour could be estimated by using the highest building pixel for every column. Detailed edge detection could be
-done in this neighborhood. In this way the outliers, (e.g. the lamp and the
-tree) are filtered and no secondary outlier removal procedure is needed.
+interesting (future work) to develop a skyline detector which is more robust to
+outliers.  Most of the related work is based on detecting parts that are
+classified as sky and parts that are classified as ground. The idea of detecting
+the sky and ground could be replaced by detecting the sky and a building. The
+distinctive textures of the buildings (repeating bricks) could be of great use
+for the classification.  After that, a rough building contour could be estimated
+	by using the highest building pixel for every column. In this neighborhood,
+	detailed edge detection could be done. In this way the outliers (e.g. the
+	streetlight and the tree) are filtered and no secondary outlier removal
+	procedure is needed.
 
 

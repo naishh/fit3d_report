@@ -1,10 +1,9 @@
 todotoday:
-	backup maken
-	toc
-	feedback isaac
-	table smaller
+caption figures
 todo's
 preliminaries
+plaatje met 2 houghlines
+
 
 
 vimdiff or meld and send results to Anne
@@ -20,22 +19,15 @@ inhoudsopgave erin hangen, dat heed volgens mij een ballenbeschermer TOC
 
 
 chapter 5 skyline
-	CHECK ALL REFS:
-		search for %ref, (t)able, ection, igure, ref spatie
-	uitgebreide intro schrijven
-	process chapter comments
-	write results
-	write discussion
-	write conclusion
 	write camera calibration
 	gather and process todos
-	do matlab edge detecting tests and generate images
-	andere dataset op skyline detector testen
 	
 chapter 6 ass
+	CHECK ALL REFS:
+		search for %ref, (t)able, ection, igure, ref spatie
 	search for and write about related work
 	write projection and use text of ch 5
-	read second half of chapter see feedback map
+	process first half of chapter see feedback map
 	gather and process todos 
 	check backreferences
 

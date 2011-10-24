@@ -374,24 +374,29 @@ segment is classified as the most likely wall for that line segment.
 	%TODO REF MATLAB?
 	%we use the Matlab build in polygon as in section (%TODO)
 
-	The table below represents the types of overlap with the corresponding number of points
+	Table \ref{tab:lwatypes} represents the types of overlap with the corresponding number of points
 	that pass the \emph{in polygon} test and their possible line-wall overlap
 	value.\\ 
 
-	\begin{tabular}{|l||c|c|c|}
-	\hline
-	Type of line-wall overlap 			&	Points in polygon 			& Line-wall overlap & Figure \\
-	\hline
-	\hline
-	No overlap					&	0					& 0		& 10a\\
-	\hline
-	Partial overlap 				&	1					& [0..1]	& 10b\\
-	\hline
-	Full overlap (included)		&	2					& 1		& 10c\\
-	\hline
-	Full overlap (overextended)		&  	0					& 1 		& 10d\\
-	\hline
-	\end{tabular}
+	\begin{table}[ht]
+		\caption{TODO}
+		\label{tab:lwatypes}
+
+		\begin{tabular}{|l||c|c|c|}
+		\hline
+		Type of line-wall overlap 			&	Points in polygon 			& Line-wall overlap & Figure \\
+		\hline
+		\hline
+		No overlap					&	0					& 0		& 10a\\
+		\hline
+		Partial overlap 				&	1					& [0..1]	& 10b\\
+		\hline
+		Full overlap (included)		&	2					& 1		& 10c\\
+		\hline
+		Full overlap (overextended)		&  	0					& 1 		& 10d\\
+		\hline
+		\end{tabular}
+	\end{table}
 
 	\paragraph{No overlap}
 	If the point in polygon test returns 0, the line-wall overlap calculation
@@ -423,7 +428,7 @@ segment is classified as the most likely wall for that line segment.
 	vertical wall sides.\\
 	To determine which of the two vertical wall sides is crossed, we determine
 	on which side the point that doesn't lie in the polygon (v) is on.  This is
-	done by an angle comparison (as in section ?).\\
+	done by an angle comparison.\\
 	First, two groups of two vectors are defined: $dv$, $dc$ and $cw$, $cd$ (see Figure 10b).
 	We measure the angles between the vectors and call them $\angle d$, and
 	$\angle c$. 
@@ -528,24 +533,21 @@ segment is classified as the most likely wall for that line segment.
 \subsection{Results}
 \noindent
 \fig{outputSkylineIm3-3}{}{0.5}
-Let's return to the output of the skyline detector in Figure 1.
-%TODO FIG nummeren \ref{fig:outputSkylineIm3-3.eps}.
+Let's return to the output of the skyline detector in Figure ref{fig:outputskylineFloriande}.
 \fig{outputHoughlines2d}{}{0.5}
 \fig{outputHoughlines3d}{}{0.7}
 \fig{outputMutateBuilding}{}{0.6}
-Figure 3
-%TODO \ref{fig:outputHoughlines2d.eps} 
-shows the top 3 longest Houghlines, the
+Figure \ref{fig:outputHoughlines2d} shows the top 3 longest Houghlines, the
 endpoints are denoted with a black and blue cross. All three line segments lie on the
 building contour.  The left line segment covers only a part of the building wall. The
 middle line segment covers the full wall. The left and middle line segment are connected. The
 right line segment covers the wall until the tree occludes.\\
-Figure %TODO \ref{fig:outputHoughlines3d.eps} 
+Figure \ref{fig:outputHoughlines3d} 
 3 displays the line segments (originated from
 different views) projected on to their associated walls.  For a clear view we've
 only selected the lines that were associated with three specific walls of the building.  
 The red cross in the middle of the line represents the average of its endpoints.\\
-Figure 5 %TODO \ref{fig:outputMutateBuilding.eps} 
+Figure \ref{fig:outputMutateBuilding} 
 displays the updated 3D model. The
 corner points of the walls are adjusted according the calculated wall heights.
 The green plane displays the augmented wall. The left and middle wall are extended
@@ -581,15 +583,16 @@ To conclude, we showed that a Houghline transform is a useful method to detect o
 Existing and novel AI computer vision techniques were powerfully combined resulting in an accurate 3D model based on only a few calibrated 2D images. 
 
 \subsection{Future work}
-As can be seen in Figure 4
-%TODO%TODO
-two line segments appear on the same single wall. This means that they have a double
+%TODO generate a figure with 2 houghlines on wall of tree
+%As can be seen in Figure %\ref{fig:}
+Sometimes two line segments appear on the same single wall. This means that they have a double
 influence on the average wall height, which is unjustified. 
 A simple solution would be to add a normalization pre-process step, so each view
 has only one wall height vote per wall. A more decent solution would be to
 merge the two (or more) line segments to a single line segment. This could be
 achieved with an iterative Hough transform where the \emph{FillGap} parameter is
-increased in each iteration. E.g. for the right wall of the building in Figure 4  %TODO 
+increased in each iteration. E.g. for the right wall of the building in Figure
+??  %TODO 
 %TODO why iterative?? why not big gab as param??
 two iterations would be enough, the \emph{FillGap} parameter needs to be at least as big as the occluding tree in the second iteration.\\
 
@@ -618,12 +621,12 @@ height estimation and the computational costs.
 %TODO vet goed dat ik dus mijn algo different wall heights aan kan, promoten!
 To make the algorithm more generic, the flat roof assumption could be stretched
 or even discarded.  We'll now consider other roof types and discuss what
-adaptations the system should require to handle these.  In Figure 5,
-6 different roof shapes are displayed.\\
+adaptations the system should require to handle these.  In Figure
+\ref{fig:typesOfRoofs}, 6 different roof shapes are displayed.\\
 
 %\figw{typesOfRoofs.png}{}{12cm}
-\fig{typesOfRoofs}{}{0.4}
-Consider the \emph{Gable Roof} in Figure 5, it is a roof consisting of two planes
+\fig{typesOfRoofs}{Different types of roofs}{0.4}
+Consider the \emph{Gable Roof}, it is a roof consisting of two planes
 which are not parallel with the facade of the building. This makes the problem
 of extracting the 3D model more complex, but not infeasible. \\
 Because we assume that the roof images are taken from the ground, the skyline
@@ -676,8 +679,7 @@ this middle point is intersected with all planes spanned by the walls. The line 
 The output of this part of the algorithm is for every wall a bunch of associated line segments originated from different views.\\
 
 in section Results was this text:\\
-The left and middle line segment of Figure 3 %TODO
-%\ref{fig:outputHoughlines2d.eps} 
+The left and middle line segment of Figure \ref{fig:outputHoughlines2d} 
 are
 a good example of the corner problem. Both endpoints that lie on the corner could easily be associated
 with the wrong wall (even if the rough 3D model is very accurate). Fortunately
