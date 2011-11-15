@@ -1,0 +1,6 @@
+    *  Towards Flight Autonomy: Vision-Based Horizon Detection for Micro Air Vehicles (http://www.sciencedirect.com/science/article/pii/S0921889011001874)
+    * C.-C. Chiu and C.-T. Lo. Vision-only automatic flight control for small uavs. Vehicular Technology, IEEE Transactions on, 60(6):2425 –2437, july 2011.
+    * Gui-Qiu Bao, Shen-Shu Xiong, and Zhao-Ying Zhou. Vision-based horizon extraction for micro air vehicle flight control. Instrumentation and Measurement, IEEE Transactions on, 54(3):1067 – 1072, june 2005.
+    * Sub-sampling: Real-time vision for micro air vehicles (http://www.sciencedirect.com/science/article/pii/S0921889011001874)
+
+
