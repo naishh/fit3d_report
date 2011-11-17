@@ -1,9 +1,24 @@
-todotoday:
-laatste todo skyline
-plaatje met 2 houghlines
-preliminaries
+TODO FROM FEEDBACK FRANS
+---------------------------------------------------------------------------------
+explain method of planetary rover localization in more detail
+end related work with: what approach are we going to take
+end related werk with: research question
 
 
+LONG TODOS
+elaborate previous work on skyline detection, see papers skylineimproved
+improve skyline detector 
+
+BIG DECISIONS
+compare new method with or remove old method of skyline detection?
+
+AFTER DECISION skyline
+fig 1a edges witter maken zodat uitgeprint report het goed weergeeft
+
+---------------------------------------------------------------------------------
+
+building wall appearence, extra enter
+top 3 longest Houghlines, heeft een indent teveel
 
 plan to read how to write a thesis (again)
 

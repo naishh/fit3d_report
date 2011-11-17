@@ -1,2 +1,25 @@
+Dear Isaac,
 
-vragen waar floriande voor staat
+I want to finish my thesis within 3 months from now.
+This means that I want to end the practical part within 2 months. For some
+personal reasons I am very serious about this and I have the motivation and time
+to work really hard to reach this goal. 
+
+At this moment I have the feeling you don't have enough time for me to acquire
+this target. I'll discuss some solutions to this problem. Furthermore I
+ask you to think of ideas and solutions about this yourself.
+
+-I think it's easier to put more time on the project if you reserve the time.
+-We could meet, from now on, one scheduled day a week (just 1 hour would be enough).
+-I can come to wherever you are (TNO?), that saves you traveling time.
+-You reserve and schedule 15min time at the half of the week to answer my e-mail.
+-We discuss problems over the phone where possible (faster then typing
+long mails and allows interaction).
+-We could finish the current part together and I can find (or you can help me find)
+somebody else to support me with the second part (door/window detection).
+
+Please let me know what you think of this. And let me know when you can meet.
+
+Kind regards,
+
+Tjerk
