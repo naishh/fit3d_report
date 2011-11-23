@@ -8,6 +8,7 @@ end related werk with: research question
 LONG TODOS
 elaborate previous work on skyline detection, see papers skylineimproved
 improve skyline detector 
+wall selector from 3d->2d projection instead of the complex thing
 
 BIG DECISIONS
 compare new method with or remove old method of skyline detection?

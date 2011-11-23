@@ -1,0 +1,824 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 9">
+<meta name=Originator content="Microsoft Word 9">
+<link rel=File-List href="./tutorial1_fichiers/filelist.xml">
+<link rel=Edit-Time-Data href="./tutorial1_fichiers/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>Point Pattern Matching</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Vincent Paquin</o:Author>
+  <o:LastAuthor>Vincent PAquin</o:LastAuthor>
+  <o:Revision>3</o:Revision>
+  <o:TotalTime>1877</o:TotalTime>
+  <o:Created>2002-03-25T04:17:00Z</o:Created>
+  <o:LastSaved>2002-03-25T04:50:00Z</o:LastSaved>
+  <o:Pages>4</o:Pages>
+  <o:Words>1490</o:Words>
+  <o:Characters>8495</o:Characters>
+  <o:Company>toshiba</o:Company>
+  <o:Lines>70</o:Lines>
+  <o:Paragraphs>16</o:Paragraphs>
+  <o:CharactersWithSpaces>10432</o:CharactersWithSpaces>
+  <o:Version>9.2812</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:HyphenationZone>21</w:HyphenationZone>
+ </w:WordDocument>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+ /* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+h1
+	{mso-style-next:Normal;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:35.4pt;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-font-kerning:0pt;
+	mso-ansi-language:EN-CA;}
+h2
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:14.0pt;
+	font-family:Arial;
+	font-style:italic;}
+h3
+	{mso-style-next:Normal;
+	margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	font-size:13.0pt;
+	font-family:Arial;}
+h4
+	{mso-style-next:Normal;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:35.4pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:4;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:EN-CA;}
+p.MsoBodyTextIndent, li.MsoBodyTextIndent, div.MsoBodyTextIndent
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:35.4pt;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:EN-CA;}
+p.MsoBodyTextIndent2, li.MsoBodyTextIndent2, div.MsoBodyTextIndent2
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:35.4pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+@page Section1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;
+	mso-header-margin:35.4pt;
+	mso-footer-margin:35.4pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+@list l0
+	{mso-list-id:1749958377;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1782078588 67895297 67895299 67895301 67895297 67895299 67895301 67895297 67895299 67895301;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="2050">
+  <o:colormenu v:ext="edit" fillcolor="none"/>
+ </o:shapedefaults></xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=FR-CA link=blue vlink=purple style='tab-interval:35.4pt'>
+
+<div class=Section1>
+
+<h2 style='text-align:justify'><span lang=EN-CA style='color:navy;mso-ansi-language:
+EN-CA'>Point Pattern Matching<o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-CA
+style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<h2 style='text-align:justify'><span lang=EN-CA style='color:navy;mso-ansi-language:
+EN-CA'><a name=_Intro></a>Introduction<o:p></o:p></span></h2>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>Image analysis and pattern
+recognition systems often require to match two sets of points in space. This is
+because the analysed images are raster graphics or the extracted features are
+pixels subset of the original image. There exist a lot of applications and
+many methods that can be used to reach satisfactory results. But in any case the
+problem comes down to this :</span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent style='margin-left:70.8pt'><b><i><span lang=EN-CA>Given
+two sets of points in d-dimensional space, we need to determine whether there
+is a transformation among a specified group of space transformation,
+that maps the first set onto (or satisfactorily close to) the second set of
+points.<o:p></o:p></span></i></b></p>
+
+<p class=MsoBodyTextIndent style='margin-left:70.8pt'><span lang=EN-CA><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>Most of the time the considered
+groups are translations and rigid motions in d&#8209;dimensions. The meaning of
+"satisfactorily close to" depends on the method used and will be detailed
+later.</span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>All of the methods must be robust
+to random perturbations, random point addition or deletion<span
+style="mso-spacerun: yes"></span>, and to scaling.</span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>This tutorial is organized as
+follows. In Section 1, there is an outline of the applications of point pattern
+matching. In Section 2, we will describe 2 methods often given as
+references. These methods are: <a href="#_Branch_and_bound">Branch and Bounded
+Algorithm</a> and an <a href="#_Murtagh">algorithm proposed by F. Murtagh</a>.</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-CA
+style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<h2 style='text-align:justify'><span lang=EN-CA style='color:navy;mso-ansi-language:
+EN-CA'><a name=_Apps></a>Applications<o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-CA
+style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>We encounter point pattern matching problems
+in such diverse fields as machine vision, astronautics, document processing, computational biology and
+computational chemistry. </span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><img src=satellite2.gif align=left> In machine vision this can be used
+to match corners and junction extracted by some detectors from pairs of
+stereoscopic images in order to reconstruct a tri-dimensional scene. <o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>The Institute for Aerospace and
+Astronautics of the Technical University of Berlin uses pattern matching to
+determine TUBSAT satellites attitude. The TUBSAT is equipped with a camera that
+takes pictures of the starry sky. Matching the stars pattern with catalog
+information enable control center to mesure the satellite position and orientation. The
+same method could be used to classify starfield pictures in a catalog or
+matching satellite images of landscape.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>In the disciplines of biology and
+chemistry, it has been used for autoradiograph alignment, pharmacophore
+identification and protein structure alignment.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>It is also used in image registration and
+model-based object recognition.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<h2 style='text-align:justify'><span lang=EN-CA style='color:navy;mso-ansi-language:
+EN-CA'>Methods<o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-CA
+style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<h3 style='text-align:justify'><a name="_Branch_and_bound"></a><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>Branch and bound algorithm<o:p></o:p></span></h3>
+
+<p class=MsoBodyTextIndent><b><span lang=EN-CA>Overview<o:p></o:p></span></b></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>This method, proposed by <a
+href="#_References">Mount, Netanyahu and<span style="mso-spacerun: yes"> 
+</span>Le Moigne</a>, is an approximation algorithm loosely based on a
+geometric branch-and bound approach due to <a href="#_References">Huttenlocher
+and Rucklidge</a>. </span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>As afore mentioned, the goal is to
+find the affine transformations permitting to map one point set (A) on the other (B). For
+the sake of clarity, we will consider only rotation and translation in a two
+dimension space, the extension to higher dimensions being straightforward. The two
+point sets are obtained by feature extractors such as corner and junction
+detectors.</span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>The method roughly consists in
+building and searching a tree where each node is associated with a set of
+transformations contained in some axis-aligned hyperrectangle in the six
+dimensional transformation space. The transformation space can be expressed as
+a 2X2 array representing the rotation matrix and a 2-element column vector
+representing the translation, giving six dimensions. The tree is formed by splitting the nodes
+ until we reach the node that gives us the transformation <b><i>t</i></b>
+that minimize the distance between the transformed set A ( <b><i>t</i></b>(A) )
+and B. We will use the <a href="#_Partial_Hausdorff_">Partial Hausdorff
+Distance</a> to measure this distance. If we fail to find a transformation
+inside the error limits, the pattern doesn’t match.</span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<h1><span lang=EN-CA>Definitions</span></h1>
+
+<p class=MsoBodyTextIndent style='margin-left:53.4pt;text-indent:-18.0pt;
+mso-list:l0 level1 lfo1;tab-stops:list 53.4pt'><![if !supportLists]><span
+lang=EN-CA style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span lang=EN-CA>The hyperrectangles are called cells <b>C</b>.
+Each cell contains a pair of transformations <b><i>t</i><sub>hi</sub></b> and <b><i>t</i><sub>lo</sub></b>
+whose coordinates are the upper and lower bounds on the transformations of the
+cell. Any transformation whose coordinates lie between <b><i>t</i><sub>hi</sub></b>
+and <b><i>t</i><sub>lo</sub></b> is contained in the cell. The status of a cell is either
+<b><i>Active</i></b>, meaning that it is a candidate to provide the searched
+transformation or <b><i>Killed</i></b>, obviously meaning it cannot
+provide the solution. The cell is associated to a set of uncertainty regions,
+one for each point to be matched. </span></p>
+
+<p class=MsoBodyTextIndent style='margin-left:52.8pt'><span lang=EN-CA><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:53.4pt;text-align:justify;text-indent:
+-18.0pt;mso-list:l0 level1 lfo1;tab-stops:list 53.4pt'><![if !supportLists]><span
+lang=EN-CA style='font-family:Symbol;mso-ansi-language:EN-CA'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span lang=EN-CA style='mso-ansi-language:EN-CA'>As
+afore said the transformations are expressed as a 2x2 rotation matrix <b>M</b>
+and a two-element translation vector <b>T</b>. There is a transformation t
+applied to a point <b>a</b> of set A:<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:52.8pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:107.4pt;text-align:justify'><b><i><span
+lang=FR style='mso-ansi-language:FR'>t</span></i></b><span lang=FR
+style='mso-ansi-language:FR'>(<b>a</b>) = <b>Ma</b> + <b>T</b>.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:52.8pt;text-align:justify'><span lang=FR
+style='mso-ansi-language:FR'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:53.4pt;text-align:justify;text-indent:
+-18.0pt;mso-list:l0 level1 lfo1;tab-stops:list 53.4pt'><![if !supportLists]><span
+lang=EN-CA style='font-family:Symbol;mso-ansi-language:EN-CA'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span lang=EN-CA style='mso-ansi-language:EN-CA'>By
+"uncertainty region of a point", we mean the rectangle defined by the two corner
+points obtained by the way of two transformations, <b><i>t</i><sub>hi</sub></b>
+and <b><i>t</i><sub>lo</sub></b> on this point.<o:p></o:p></span></p>
+<center>
+<br>
+<table width=300><tr><td>
+<img src=ub1.gif border=1>
+</td></tr>
+<tr><td>
+<b><i>Building uncertainty regions.</b></i><br>
+Here, <font color=00aa00><b><i>t<sub>lo</sub></b></i></font> is the identity transformation and <font color=0000ff><b><i>t<sub>hi</sub>
+</font></b></i> is the composition of a 90<sup>o</sup> ccw rotation and a translation.
+</td></tr>
+</table>
+</center>
+</br>
+<p class=MsoNormal style='margin-left:52.8pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:53.4pt;text-align:justify;text-indent:
+-18.0pt;mso-list:l0 level1 lfo1;tab-stops:list 53.4pt'><![if !supportLists]><span
+lang=EN-CA style='font-family:Symbol;mso-ansi-language:EN-CA'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span lang=EN-CA style='mso-ansi-language:EN-CA'>The
+size of the uncertainty region is the size of its largest side;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:52.8pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:53.4pt;text-align:justify;text-indent:
+-18.0pt;mso-list:l0 level1 lfo1;tab-stops:list 53.4pt'><![if !supportLists]><span
+lang=EN-CA style='font-family:Symbol;mso-ansi-language:EN-CA'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span lang=EN-CA style='mso-ansi-language:EN-CA'>The
+size of a cell is the largest size among the associated uncertainty regions for
+each point of a set.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-CA
+style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:53.4pt;text-align:justify;text-indent:
+-18.0pt;mso-list:l0 level1 lfo1;tab-stops:list 53.4pt'><![if !supportLists]><span
+lang=EN-CA style='font-family:Symbol;mso-ansi-language:EN-CA'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span lang=EN-CA style='mso-ansi-language:EN-CA'>The
+algorithm is said to be an approximation algorithm because we will use the <a
+href="#_Partial_Hausdorff_">Partial Hausdorff Distance</a> on a parameter a bit
+lower than q and instead of killing a node when its lower <a
+href="#_Partial_Hausdorff_">PHD</a> is not lower than the lowest till now, we
+will now kill them when they wont be <b><i>significantly</i></b> lower. To do this
+we will introduce three new parameters (</span><span lang=EN-CA style='font-family:
+Symbol;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:"Times New Roman";
+mso-ansi-language:EN-CA;mso-char-type:symbol;mso-symbol-font-family:Symbol'><span
+style='mso-char-type:symbol;mso-symbol-font-family:Symbol'>e</span></span><sub><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>a</span></sub><span lang=EN-CA
+style='mso-ansi-language:EN-CA'>, </span><span lang=EN-CA style='font-family:
+Symbol;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:"Times New Roman";
+mso-ansi-language:EN-CA;mso-char-type:symbol;mso-symbol-font-family:Symbol'><span
+style='mso-char-type:symbol;mso-symbol-font-family:Symbol'>e</span></span><sub><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>r</span></sub><span lang=EN-CA
+style='mso-ansi-language:EN-CA'>, and </span><span lang=EN-CA style='font-family:
+Symbol;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:"Times New Roman";
+mso-ansi-language:EN-CA;mso-char-type:symbol;mso-symbol-font-family:Symbol'><span
+style='mso-char-type:symbol;mso-symbol-font-family:Symbol'>e</span></span><sub><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>q</span></sub><span lang=EN-CA
+style='mso-ansi-language:EN-CA'>), respectively absolute error bound, relative
+error bound and quantile error bound. These parameters allow a trade off
+between fastness and robustness.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-CA
+style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:53.4pt;text-align:justify;text-indent:
+-18.0pt;mso-list:l0 level1 lfo1;tab-stops:list 53.4pt'><![if !supportLists]><span
+lang=EN-CA style='font-family:Symbol;mso-ansi-language:EN-CA'>·<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]><span lang=EN-CA style='mso-ansi-language:EN-CA'>The
+weak quantile q’ is defined as q(1 - </span><span lang=EN-CA style='font-family:
+Symbol;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:"Times New Roman";
+mso-ansi-language:EN-CA;mso-char-type:symbol;mso-symbol-font-family:Symbol'><span
+style='mso-char-type:symbol;mso-symbol-font-family:Symbol'>e</span></span><sub><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>q</span></sub><span lang=EN-CA
+style='mso-ansi-language:EN-CA'> ).<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><span style="mso-spacerun:
+yes"> </span><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<h1><a name="_Partial_Hausdorff_"></a><span lang=EN-CA>Partial Hausdorff<span
+style="mso-spacerun: yes">  </span>Distance (PHD)</span></h1>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-CA
+style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>What a daunting name for such a
+simple concept! The Partial Hausdorff Distance between two sets is the k<sup>th</sup>
+smallest distance between a point and its nearest neighbour in the other set.
+Here’s how to compute the Hausdorff Distance between set A and set B:<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:70.8pt;text-align:justify'><b><i><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>For each point of A find its nearest
+neighbour in B, compute the Euclidian distance between each pairs and take the
+k<sup>th</sup> smallest.<o:p></o:p></span></i></b></p>
+
+<p class=MsoNormal style='margin-left:70.8pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>In this method, we express k in
+terms of a quantile 0 </span><span lang=EN-CA style='font-family:Symbol;
+mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:"Times New Roman";
+mso-ansi-language:EN-CA;mso-char-type:symbol;mso-symbol-font-family:Symbol'><span
+style='mso-char-type:symbol;mso-symbol-font-family:Symbol'>&lt;</span></span><span
+lang=EN-CA style='mso-ansi-language:EN-CA'> q<span style="mso-spacerun: yes"> 
+</span></span><span lang=EN-CA style='font-family:Symbol;mso-ascii-font-family:
+"Times New Roman";mso-hansi-font-family:"Times New Roman";mso-ansi-language:
+EN-CA;mso-char-type:symbol;mso-symbol-font-family:Symbol'><span
+style='mso-char-type:symbol;mso-symbol-font-family:Symbol'>£</span></span><span
+lang=EN-CA style='mso-ansi-language:EN-CA'> 1 where k = q|A|. <o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>Now, let’s explain the advantage of
+using the PHD as a distance measure.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>Nothing can guarantee that the two
+sets will have the same number of points. Generally, that won’t be the case.
+Using two different feature extraction methods on the two base images can be
+one reason for this. Another one could be the presence of occlusion. The
+feature points that are absent from the other image are called <a href=outliers.htm>outliers</a>.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>By taking the maximum or the sum of
+the distance set resulting from computing distance between each point in one
+set and its nearest neighbour in the other set, we can obtain a result that
+may be affected by the outliers. By selecting the k<sup>th</sup> smallest
+distance, we can reduce the probability of these measures being affected by
+these <a href=outliers.htm>outliers</a>.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<h4 style='text-align:justify'><span lang=EN-CA>The detailed algorithm</span></h4>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>The inputs are: sets A and B, the
+first cell C<sub>0</sub>, the Hausdorff quantile q and the tree approximation
+parameters </span><span lang=EN-CA style='font-family:Symbol;mso-ascii-font-family:
+"Times New Roman";mso-hansi-font-family:"Times New Roman";mso-char-type:symbol;
+mso-symbol-font-family:Symbol'><span style='mso-char-type:symbol;mso-symbol-font-family:
+Symbol'>e</span></span><sub><span lang=EN-CA>a</span></sub><span lang=EN-CA>, </span><span
+lang=EN-CA style='font-family:Symbol;mso-ascii-font-family:"Times New Roman";
+mso-hansi-font-family:"Times New Roman";mso-char-type:symbol;mso-symbol-font-family:
+Symbol'><span style='mso-char-type:symbol;mso-symbol-font-family:Symbol'>e</span></span><sub><span
+lang=EN-CA>r</span></sub><span lang=EN-CA>, and </span><span lang=EN-CA
+style='font-family:Symbol;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman";mso-char-type:symbol;mso-symbol-font-family:Symbol'><span
+style='mso-char-type:symbol;mso-symbol-font-family:Symbol'>e</span></span><sub><span
+lang=EN-CA>q.<o:p></o:p></span></sub></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>To compute the lower bound of a
+cell on the PHD, we must compute the uncertainty regions for all points in A.
+After that, we compute the distance from those regions to the nearest neighbour
+ in B (this is the shortest distance between the point of b and
+any point of the associated uncertainty region, if the point lies in the region
+then the distance is zero). Collect the k<sup>th</sup> smallest of these distance
+where k=q|A</span><span lang=EN-US style='mso-ansi-language:EN-US'>|</span><span
+lang=EN-CA>.</span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>To compute the upper bound of a
+cell, we use the mean transformation <b><i>t</i><sub>m</sub></b> of the actual
+cell and we return the PHD on the weak quantile between <b><i>t</i><sub>m</sub></b>(A)
+and B. We use <b><i>t</i><sub>m</sub></b> because the best PHD a cell can
+produce is smaller than (or equal to) any sample contained in it.</span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>The algorithm starts with an
+initial cell that is assumed to contain the searched transformation within its
+lower and upper bounds. Its status is <b><i>Active</i></b>. We keep track of
+the smallest PHD.<span style="mso-spacerun: yes">  </span>At the beginning
+PHDbest = </span><span lang=EN-CA style='font-family:Symbol;mso-ascii-font-family:
+"Times New Roman";mso-hansi-font-family:"Times New Roman";mso-char-type:symbol;
+mso-symbol-font-family:Symbol'><span style='mso-char-type:symbol;mso-symbol-font-family:
+Symbol'>¥</span></span><span lang=EN-CA>. </span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>We compute the lower bound of a
+cell on PHD. If the lower bound exceeds PHDBest, we kill the cell. Otherwise, we
+compute the upper bound, and if it is less than PHDBest, we update PHDBest. If
+the PHD doesn’t satisfy the stopping criterion, we split the cell into two new
+cells in order to reduce the size of the uncertainty regions as much as
+possible. The new cells status are set to active and those cells are placed in a priority
+queue sorted by their size in view of the next iteration. We split a cell according to its
+dimension that influences its size the most.</span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>We stop the algorithm when the
+lower bound of a cell is lower than </span><span lang=EN-CA style='font-family:
+Symbol;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:"Times New Roman";
+mso-char-type:symbol;mso-symbol-font-family:Symbol'><span style='mso-char-type:
+symbol;mso-symbol-font-family:Symbol'>e</span></span><sub><span lang=EN-CA>a </span></sub><span
+lang=EN-CA>or when all the cells are killed, which means that the patterns don’t
+match.</span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent><span lang=EN-CA>For best understanding, let's trace
+the algorithm with the following example.</span></p>
+
+<br>
+
+<center>
+<table border=2>
+<tr>
+<td width=300 valign=top><br>We want to find the transform that maps set A
+on set B with a distance <= 0,25 (the threshold)
+</td><td><img src=setA.jpg></td></tr>
+<td width=300 valign=top><br>
+<br>
+<br>B is identical to A, a with rotation and a translation applied to it.
+</td><td><img src=setB.jpg></td></tr>
+<td width=300 valign=top><br>We begin with cell C<sub>0</sub>
+that contains :
+<ul>
+<li>t<sub>hi</sub> (a 2D rotation and a translation)
+<li>t<sub>lo</sub> (a 2D rotation). 
+</ul>
+<br>
+<i>Instead of using a 2X2 rotation matrix and a 2-element translation vector, we use one transform matrix. The six dimensions of a cell are the transforms two first rows. Point of A an B must be expressed as 3-element vector with last component set to one.
+</i>
+</td>
+<td>
+<center><img src=c0.jpg>
+</td>
+</tr>
+<tr><td width=300 valign=top><br><ul>
+<li>We build the uncertainty boxes (orange)
+for each point of A with t<sub>hi</sub>(A) an t<sub>lo</sub>(A). 
+<li>The upper bound will of this Cell will be the PHD from boxes center to their nearest neighbour in B 
+<li>Upper bound = 1,5
+<li>The lower bound is the PHD from boxes to their nearest neighbour in B (here points of B lies on uncertainty boxes, so distance is 0)
+<li>Lower bound = 0;
+</td><td><img src=iter1.jpg></td></tr>
+
+<tr><td width=300 valign=top><br><ul>
+<li>We split the cells acconrding the dimension that impact the most on uncertainty boxes size.  Since (in this case) UBs have only one dimension it will easy. 
+<li>We will cut the translation in two.
+<li>We get C<sub>2</sub>:
+</td>
+<td>
+<center>
+<img src=c2.jpg>
+
+</td>
+</tr>
+
+<tr><td width=300 valign=top><br><ul>
+<li>And C<sub>1</sub>:
+</td>
+<td>
+<center>
+<img src=c1.jpg>
+
+</td>
+</tr>
+
+
+<tr><td width=300 valign=top><br><ul>
+<li>Cell C<sub>1</sub> UBs are Yellow
+<li>Cell C<sub>2</sub> UBs are Orange
+<li>Upper bound of C<sub>2</sub> will be 0,25 (distance from points in B to the center of their respective UB). Lower bound will be 0 (same  reason as above).
+<li>Best Upper bound = 0.25
+<li>Lower bound of C<sub>1</sub> is 1.5 and higher than Best Upper bound. The cell is killed.
+</ul>
+</td><td><img src=iter2.gif></td></tr>
+<tr><td width=300 valign=top><br><ul><li>The transformation that maps A on B 
+will be the center of C<sub>2</sub> because we got an upper bound equal to 2.5 (remember the threshold..)
+</td>
+<td>
+<center>
+<img src=tfinal.jpg>
+</td></tr>
+</table>
+</center>
+
+
+
+
+<h3 style='text-align:justify'><span lang=EN-CA style='mso-ansi-language:EN-CA'><a name="_Murtagh"></a>Murtagh<o:p></o:p></span></h3>
+<p class=MsoBodyTextIndent><span lang=EN-CA>Although this algorithm uses brute force, it introduces the interesting concept: the world view vector of a point. This vector represents the "world" as seen from its associated point. This algorithm was developed to match star patterns, which contain a limited number of points, e.g. the Big Dipper (7 stars). That is why the use of brute force is not a big problem here.</span></p>
+<br>
+<p class=MsoBodyTextIndent><span lang=EN-CA>Let’s explain this algorithm in detail. Remember that we want to map point set A on point set B as well as the transformation that realizes that. First, we must build a "world view vector" for each point <b><i>i</b></i> of the two sets. This vector contains the other n-1 points of the set, represented by their polar coordinates (<b>r</b>,<b>tetha</b>) in respect to <b><i>i</b></i>. The vector is sorted by the amplitude of the angle <b>tetha</b>
+for each point in it. The radius components of all vectors are normalized on the largest <b>r</b> for scale independence. To facilitate the comparisons between the world view vectors, all the angles will be between 0<sup>o</sup> and 360<sup>o</sup> with increments of 1<sup>o</sup>.
+Here's what we do in order to match the sets:</span></p>
+
+<ul><li><p class=MsoBodyTextIndent><span lang=EN-CA>For each point <b><i>i</b></i> in A compare its world vector with each in B. The difference between the xy coordinates of matching point in B and the matching point in A gives us the translation vector. If a certain amount of pairs above a defined threshold  are matching, we have patterns that match.</li></ul></span></p>
+<br><br>
+<center>
+<img src=murtagh1.gif border=1><br>
+<i><b>Building the world view vector V for a point.</b></i>
+</center>
+<br>
+<br>
+<p class=MsoBodyTextIndent><span lang=EN-CA>Rotation is handled as follows. We consider all the possible matchings between A and 360 versions of B: i.e. the "world vector"
+of B would be altogether rotated by 1<sup>o</sup> in successive versions.
+This implies 360 runs of the above algorithm (remember "brute force"...).</span></p>
+
+
+<h3 style='text-align:justify'><span lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></h3>
+
+<h2 style='text-align:justify'><span lang=EN-CA style='mso-ansi-language:EN-CA'><a name=_Conclusion></a>Conclusion<o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-CA
+style='mso-ansi-language:EN-CA'> <o:p></o:p>
+We have presented efficients algorithms for point pattern matching and explained how the succeed in handling
+invariance of the following types: translation, scaling, perturbation, random insertions and deletions, and rotation.
+The approachs we have described has been found to achieve a matching of adequate quality in a efficient and robust manner.
+The first one is based on branch-and-bound search and it allows the user to improve running times by specifying approximate bounds on the relative, absolute, or quantile errors.
+The second is slower but simpler and well adapted to astronomical problems.
+</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-CA
+style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<h2 style='text-align:justify'><span lang=EN-CA style='mso-ansi-language:EN-CA'><a name=_Links></a>Links<o:p></o:p></span></h2>
+
+<p class=MsoNormal><span lang=DE style='mso-ansi-language:DE'>Hausdorff
+Distance<o:p></o:p></span></p>
+
+<p class=MsoBodyTextIndent2><span lang=DE><a
+href="http://www.dai.ed.ac.uk/CVonline/LOCAL_COPIES/CHETVERIKOV/mysquash/node4.html">http://www.dai.ed.ac.uk/CVonline/LOCAL_COPIES/CHETVERIKOV/mysquash/node4.html</a></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt'><span lang=DE style='mso-ansi-language:
+DE'><a href="http://www.cs.cornell.edu/vision/hausdorff/hausmatch.html">http://www.cs.cornell.edu/vision/hausdorff/hausmatch.html</a><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt'><span lang=DE style='mso-ansi-language:
+DE'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-CA style='mso-ansi-language:EN-CA'>Model-based
+object recognition<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><a
+href="http://graphics.lcs.mit.edu/~seth/pubs/taskforce/paragraph3_5_0_0_1.html">http://graphics.lcs.mit.edu/~seth/pubs/taskforce/paragraph3_5_0_0_1.html</a><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><a
+href="http://ais.gmd.de/AS/janus/new/janus/cubefit.html">http://ais.gmd.de/AS/janus/new/janus/cubefit.html</a><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><a
+href="http://www.cs.cf.ac.uk/Dave/AI2/node201.html">http://www.cs.cf.ac.uk/Dave/AI2/node201.html</a><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><a
+href="http://www.dai.ed.ac.uk/CVonline/LOCAL_COPIES/OWENS/LECT13/node5.html">http://www.dai.ed.ac.uk/CVonline/LOCAL_COPIES/OWENS/LECT13/node5.html</a><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=FR style='mso-ansi-language:
+FR'>2D Gel Matching<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><strong><span
+lang=EN-US style='mso-ansi-language:EN-US'><a
+href="http://gelmatching.inf.fu-berlin.de/"><span lang=FR
+style='mso-ansi-language:FR;font-weight:normal'>http://gelmatching.inf.fu-berlin.de/</span></a><o:p></o:p></span></strong></p>
+
+<br>
+<p class=MsoNormal style='text-align:justify'><span lang=FR style='mso-ansi-language:
+FR'>Pharmacophore identification<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><strong><span
+lang=EN-US style='mso-ansi-language:EN-US'><a
+href="http://www.netsci.org/Science/Cheminform/feature02.html"><span lang=FR
+style='mso-ansi-language:FR;font-weight:normal'>http://www.netsci.org/Science/Cheminform/feature02.html</span></a><o:p></o:p></span></strong></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><strong><span
+lang=EN-US style='mso-ansi-language:EN-US'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></strong></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=FR style='mso-ansi-language:
+FR'>Autoradiograph alignment<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span lang=FR
+style='mso-ansi-language:FR'><a
+href="http://www.cse.msu.edu/~dutanico/Rad/match2.html">http://www.cse.msu.edu/~dutanico/Rad/match2.html</a><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span lang=FR
+style='mso-ansi-language:FR'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<h2 style='text-align:justify'><a name="_References"></a><span lang=EN-CA
+style='mso-ansi-language:EN-CA'>References<o:p></o:p></span></h2>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-CA
+style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>D. M. Mount, N.S. Netanyahu, J. Le
+Moigne, Efficient algorithms for robust feature matching. Pattern Recognition
+vol. 32 (1999) pp. 17-38.<o:p></o:p></span></p>
+<br>
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>F. Murtagh,
+A New Approach to Point Pattern Matching. Publications of the Astronomical Society of the Pacific, 1992, in press.
+<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.4pt;text-align:justify'><span
+lang=EN-CA style='mso-ansi-language:EN-CA'>D.P. Huttenlocher, W.J. Rucklidge, A
+multi-resolution technique for comparing images using the Hausdorff distance,
+Proc. IEEE Conf. On Computer Vision and Pattern Recognition, New York, June
+1993, pp. 705-706.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-CA
+style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-CA
+style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify'><span lang=EN-CA
+style='mso-ansi-language:EN-CA'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+</div>
+
+</body>
+
+</html>
