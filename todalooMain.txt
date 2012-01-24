@@ -1,3 +1,20 @@
+BESEFFEN DAT HET BEST LEUK IS NU IK ZO GOED BEZIG BEN (ja lach daar maar ff om ouwe :D)
+
+
+door window
+	intro
+		related work!
+	hibaap
+
+
+
+
+	
+
+
+
+
+
 TODO FROM FEEDBACK FRANS
 ---------------------------------------------------------------------------------
 explain method of planetary rover localization in more detail
@@ -20,11 +37,20 @@ fig 1a edges witter maken zodat uitgeprint report het goed weergeeft
 
 building wall appearence, extra enter
 top 3 longest Houghlines, heeft een indent teveel
-
-plan to read how to write a thesis (again)
-
 inhoudsopgave erin hangen, dat heed volgens mij een ballenbeschermer TOC
 
+todos onderaan ch6_augment3dmodel.tex
+when tired make images
+make new organogram
+	edge detection
+	houghlines
+	houghlines 3d
+	update building
+read parts and rehearse "how to write a thesis"
+THINK PLAN WRITE REVISE
+
+is the rough model introduced yet? explain how it is retrieved  (googlemaps?), what the specs are, how rough is it compare to the real 3d model, etc.
+make nice picture of skyline with projection and the projection lines
 
 chapter 5 skyline
 	write camera calibration
@@ -45,8 +71,6 @@ write big main introduction Introduction (What did I do and why) (WRITE AFTER CO
 	Aim (clear out hypothesis here)
 	Organization of thesis 
 
-
-EASY GOING TODOS WHEN TYRED:
 
 
 WOULD BE NICE TODOS:
@@ -85,3 +109,37 @@ alle alineas een enter eronder, of i i g overal consistent
 % 1) project endpoints (and sometimes end up not agreeing wall)
 % 2) use midpoint of line
 % 3) use tjs algo (line wall overlap)
+
+
+
+
+MATLAB TODO:
+camera calibration
+
+
+IMAGES
+skyline result on the other dataset
+a better projected houghline image where the lines at the right side are
+displayed better
+
+a line comes from the camera center through de image to the building
+(use openscenegraph for this)
+skyline detection without the custom algo (highen contrast, gauss etc) and compair to the
+custom algo
+
+the scene from top where 5 cameras are positioned (maybe rip from
+isaac paper)
+
+MISC
+Edge detection with different thresholds
+and different methods
+
+
+IMAGES FROM PDFS
+outdoor visual... pdf
+page 15
+
+
+CATEGORIE would be nice:
+improve quality of final image where the building is improved
+an image with the skyline AND the houghlines
