@@ -1,0 +1,825 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta name="generator" content="vBulletin 3.7.3" />
+<title>CodeGuru Forums -  Distance between point and line segment</title>
+<style type="text/css">
+<!--
+td, p, li, div
+{
+	font: 10pt verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+.smallfont
+{
+	font-size: 11px;
+}
+.tborder
+{
+	border: 1px solid #808080;
+}
+.thead
+{
+	background-color: #EEEEEE;
+}
+.page
+{
+	background-color: #FFFFFF;
+	color: #000000;
+}
+-->
+</style>
+</head>
+<body class="page">
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr valign="bottom">
+	<td><a href="http://www.codeguru.com/forum/"><img src="http://www.codeguru.com./newimg/images/cg_logo3.gif" alt="CodeGuru Forums" border="0" /></a></td>
+	<td align="right">
+		<div class="smallfont"><div class="pagenav" align="right">
+<table class="tborder" cellpadding="3" cellspacing="1" border="0">
+<tr>
+	<td class="vbmenu_control" style="font-weight:normal">Page 1 of 2</td>
+	
+	
+		<td class="alt2"><span class="smallfont" title="Showing results 1 to 15 of 19"><strong>1</strong></span></td>
+ <td class="alt1"><a class="smallfont" href="printthread.php?s=4692653a6e0a182d2f9b92117d45d3ba&amp;t=194400&amp;pp=15&amp;page=2" title="Show results 16 to 19 of 19">2</a></td>
+	<td class="alt1"><a class="smallfont" href="printthread.php?s=4692653a6e0a182d2f9b92117d45d3ba&amp;t=194400&amp;pp=15&amp;page=2" title="Next Page - Results 16 to 19 of 19">&gt;</a></td>
+	
+	<td class="vbmenu_control" title="printthread.php?s=4692653a6e0a182d2f9b92117d45d3ba&amp;t=194400&amp;pp=15"><a name="PageNav"></a></td>
+</tr>
+</table>
+</div></div>
+		
+		<div class="smallfont"><a href="printthread.php?s=4692653a6e0a182d2f9b92117d45d3ba&amp;t=194400&amp;pp=50">Show 50 post(s) from this thread on one page</a></div>
+		
+	</td>
+</tr>
+</table>
+
+<br />
+
+<div>
+	<a href="http://www.codeguru.com/forum/index.php" accesskey="1"><strong>CodeGuru Forums</strong></a>
+	(<span class="smallfont"><em>http://www.codeguru.com/forum/index.php</em></span>)
+</div>
+<div>
+	- &nbsp; <a href="forumdisplay.php?f=9"><strong>C++  (Non Visual C++ Issues)</strong></a>
+	(<span class="smallfont"><em>http://www.codeguru.com/forum/forumdisplay.php?f=9</em></span>)
+</div>
+<div>
+	- &nbsp; - &nbsp;  <a href="showthread.php?t=194400" accesskey="3"><strong>Distance between point and line segment</strong></a>
+	(<span class="smallfont"><em>http://www.codeguru.com/forum/showthread.php?t=194400</em></span>)
+</div>
+
+<br />
+
+<table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">arah</td>
+			<td class="smallfont" align="right">June 14th, 2002 03:52 PM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+			<div><strong>Distance between point and line segment</strong><br />&nbsp;</div>
+		
+		
+
+		<div>I'm having one of those brain fart days.  :(  (Lack of sleep on a Friday and all that.)<br />
+<br />
+Could anyone please help by sending in a nice and simple algorithm for determining the shortest distance between a point (px,py) and a line segment(x1,y1)-(x2,y2)?  Thanks.  :)</div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">Philip Nicoletti</td>
+			<td class="smallfont" align="right">June 14th, 2002 06:18 PM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+		
+
+		<div>Here is a function that calculates both the distance to the line segment and the distance to the line (assuming infinite extent).<br />
+I have a sample OpenGL graphics project I can attach which tests the function out if you want (as well as a couple of other small &quot;mathematical&quot; tasks such as this).<br />
+<br />
+<div style="margin:20px; margin-top:5px">
+	<div class="smallfont" style="margin-bottom:2px">Code:</div>
+	<hr /><code style="margin:0px" dir="ltr" style="text-align:left">void DistanceFromLine(double cx, double cy, double ax, double ay ,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; double bx, double by, double &amp;distanceSegment,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; double &amp;distanceLine)<br />
+{<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; //<br />
+&nbsp; &nbsp; &nbsp; &nbsp; // find the distance from the point (cx,cy) to the line<br />
+&nbsp; &nbsp; &nbsp; &nbsp; // determined by the points (ax,ay) and (bx,by)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; //<br />
+&nbsp; &nbsp; &nbsp; &nbsp; // distanceSegment = distance from the point to the line segment<br />
+&nbsp; &nbsp; &nbsp; &nbsp; // distanceLine = distance from the point to the line (assuming<br />
+&nbsp; &nbsp; &nbsp; &nbsp; //&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; infinite extent in both directions<br />
+&nbsp; &nbsp; &nbsp; &nbsp; //<br />
+<br />
+/*<br />
+<br />
+Subject 1.02: How do I find the distance from a point to a line?<br />
+<br />
+<br />
+&nbsp; &nbsp; Let the point be C (Cx,Cy) and the line be AB (Ax,Ay) to (Bx,By).<br />
+&nbsp; &nbsp; Let P be the point of perpendicular projection of C on AB.&nbsp; The parameter<br />
+&nbsp; &nbsp; r, which indicates P's position along AB, is computed by the dot product <br />
+&nbsp; &nbsp; of AC and AB divided by the square of the length of AB:<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; (1)&nbsp; &nbsp;  AC dot AB<br />
+&nbsp; &nbsp; &nbsp; &nbsp; r = ---------&nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ||AB||^2<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; r has the following meaning:<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; r=0&nbsp; &nbsp; &nbsp; P = A<br />
+&nbsp; &nbsp; &nbsp; &nbsp; r=1&nbsp; &nbsp; &nbsp; P = B<br />
+&nbsp; &nbsp; &nbsp; &nbsp; r&lt;0&nbsp; &nbsp; &nbsp; P is on the backward extension of AB<br />
+&nbsp; &nbsp; &nbsp; &nbsp; r&gt;1&nbsp; &nbsp; &nbsp; P is on the forward extension of AB<br />
+&nbsp; &nbsp; &nbsp; &nbsp; 0&lt;r&lt;1&nbsp; &nbsp; P is interior to AB<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; The length of a line segment in d dimensions, AB is computed by:<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; L = sqrt( (Bx-Ax)^2 + (By-Ay)^2 + ... + (Bd-Ad)^2)<br />
+<br />
+&nbsp; &nbsp; so in 2D:&nbsp;  <br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; L = sqrt( (Bx-Ax)^2 + (By-Ay)^2 )<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; and the dot product of two vectors in d dimensions, U dot V is computed:<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; D = (Ux * Vx) + (Uy * Vy) + ... + (Ud * Vd)<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; so in 2D:&nbsp;  <br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; D = (Ux * Vx) + (Uy * Vy) <br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; So (1) expands to:<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (Cx-Ax)(Bx-Ax) + (Cy-Ay)(By-Ay)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; r = -------------------------------<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; L^2<br />
+<br />
+&nbsp; &nbsp; The point P can then be found:<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; Px = Ax + r(Bx-Ax)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; Py = Ay + r(By-Ay)<br />
+<br />
+&nbsp; &nbsp; And the distance from A to P = r*L.<br />
+<br />
+&nbsp; &nbsp; Use another parameter s to indicate the location along PC, with the <br />
+&nbsp; &nbsp; following meaning:<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  s&lt;0&nbsp; &nbsp; &nbsp; C is left of AB<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  s&gt;0&nbsp; &nbsp; &nbsp; C is right of AB<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  s=0&nbsp; &nbsp; &nbsp; C is on AB<br />
+<br />
+&nbsp; &nbsp; Compute s as follows:<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (Ay-Cy)(Bx-Ax)-(Ax-Cx)(By-Ay)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; s = -----------------------------<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; L^2<br />
+<br />
+<br />
+&nbsp; &nbsp; Then the distance from C to P = |s|*L.<br />
+<br />
+*/<br />
+<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; double r_numerator = (cx-ax)*(bx-ax) + (cy-ay)*(by-ay);<br />
+&nbsp; &nbsp; &nbsp; &nbsp; double r_denomenator = (bx-ax)*(bx-ax) + (by-ay)*(by-ay);<br />
+&nbsp; &nbsp; &nbsp; &nbsp; double r = r_numerator / r_denomenator;<br />
+//<br />
+&nbsp; &nbsp; double px = ax + r*(bx-ax);<br />
+&nbsp; &nbsp; double py = ay + r*(by-ay);<br />
+//&nbsp; &nbsp;  <br />
+&nbsp; &nbsp; double s =&nbsp; ((ay-cy)*(bx-ax)-(ax-cx)*(by-ay) ) / r_denomenator;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; distanceLine = fabs(s)*sqrt(r_denomenator);<br />
+<br />
+//<br />
+// (xx,yy) is the point on the lineSegment closest to (cx,cy)<br />
+//<br />
+&nbsp; &nbsp; &nbsp; &nbsp; double xx = px;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; double yy = py;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; if ( (r &gt;= 0) &amp;&amp; (r &lt;= 1) )<br />
+&nbsp; &nbsp; &nbsp; &nbsp; {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; distanceSegment = distanceLine;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; &nbsp; &nbsp; else<br />
+&nbsp; &nbsp; &nbsp; &nbsp; {<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; double dist1 = (cx-ax)*(cx-ax) + (cy-ay)*(cy-ay);<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; double dist2 = (cx-bx)*(cx-bx) + (cy-by)*(cy-by);<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (dist1 &lt; dist2)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; xx = ax;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; yy = ay;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; distanceSegment = sqrt(dist1);<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; else<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; xx = bx;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; yy = by;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; distanceSegment = sqrt(dist2);<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; return;<br />
+}</code><hr />
+</div></div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">Anthony Mai</td>
+			<td class="smallfont" align="right">June 15th, 2002 12:02 PM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+		
+
+		<div>Obviously  Philip Nicoletti's code is a bad example, since it used &quot;if&quot; and &quot;else&quot;, No boolean logic should be involved in a simple calculation like determing the distance from a point to a line segment.<br />
+<br />
+Suppose you have points A(xa, ya), B(xb, yb) and C(xc,yc). The distance between point C and line segment AB equals the area of parallelgram ABCC' divided by the length of AB.<br />
+<br />
+So it can be written as simple as:<br />
+    distance = |AB X AC| / sqrt(AB * AB)<br />
+Here X mean cross product of vectors, and * mean dot product of vectors. This applied in both 2 dimentional and three dimentioanl space.<br />
+<br />
+In 2-D it becomes:<br />
+    sqrt(((yb-ya)*(xc-xa)+(xb-xa)*(yc-ya))^2/((xb-xa)^2 + (yb-ya)^2))</div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">Philip Nicoletti</td>
+			<td class="smallfont" align="right">June 15th, 2002 05:08 PM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+		
+
+		<div>Hi Anthony.  Thanks (I think) for your comments on my code.<br />
+I am not really interested in getting into a discussion<br />
+about that, but I will mention something about that later.<br />
+<br />
+I am more interested in the solution algorithm.  Maybe I am<br />
+missing something, but I do not think your solution is correct.<br />
+<br />
+<div style="margin:20px; margin-top:5px; ">
+	<div class="smallfont" style="margin-bottom:2px">Quote:</div>
+	<table cellpadding="3" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td class="alt2">
+			<hr />
+			
+				The distance between point C and line segment AB equals the <br />
+area of parallelgram ABCC' divided by the length of AB.
+			
+			<hr />
+		</td>
+	</tr>
+	</table>
+</div>If I am missing something, please let me know as I am interested<br />
+in these types of small mathematical problems.  Or maybe I am <br />
+mis-interpreting your algorithm.<br />
+<br />
+Some tests. Following is what my code calculates :<br />
+<br />
+A(0,0) , B(1,0) , C(0.707,0.707) : distanceToLine = distanceToSegment = 0.707<br />
+<br />
+A(0,0) , B(1,0) , C(-0.707,0.707) : distanceToLine = 0.707 , distanceToSegment = 1.0<br />
+<br />
+A(0,0) , B(100,100) , C(200,-106) : distanceToLine = distanceToSegment = 216.37<br />
+<br />
+======<br />
+<br />
+As for my use of if statements in the solution.<br />
+<ul><li>notice in calculating the distance from the point to the<br />
+<b>line</b> not <b>line segment</b>, I did not use boolean <br />
+logic.  I did code it in multiple lines instead of one.  I did<br />
+this on purpose, so that the code would follow the given theory<br />
+more closely.  It would be an easy exercise for someone interested<br />
+in the code to change this if desired.<br /></li>
+<li>Maybe there is an simple equation for finding the distance from<br />
+the point to the <b>line segment</b>, but I am not aware of it <br />
+(as I mentioned, I do not think your solution is correct).  The <br />
+algorithm I used for the case of the <b>line</b> yields info on <br />
+whether the closest point is within the line segment or not.  If <br />
+it is not within the line segment, then the closest point is one <br />
+of the end points of the segment. My code was designed to make that <br />
+clear. <br /></li>
+<li>the code does more than just calculated the two distances, it also<br />
+calculates the closest point to the <b>line segment</b> (although I<br />
+did forget to pass those as arguments).<br /></li>
+<li>This was one of the first functions I wrote when learning C++ (I<br />
+had Fortran code which did the same calculations).  Although you did<br />
+not mention it, there <b>are</b> a couple of things I would do differently<br />
+now :<br />
+<br />
+1) I would check the the end points of the line segment are not the same<br />
+(that is, the user really supplied a point only instead of a line segment).<br />
+In which case I would simply return the distance from C to A.  I do not<br />
+really want to have a code that divides by zero !<br />
+<br />
+2) the prototype and typical call for my function is :<br />
+<br />
+<div style="margin:20px; margin-top:5px">
+	<div class="smallfont" style="margin-bottom:2px">Code:</div>
+	<hr /><code style="margin:0px" dir="ltr" style="text-align:left">void DistanceFromLine(double cx, double cy, double ax, double ay ,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; double bx, double by, double &amp;distanceSegment,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; double &amp;distanceLine);<br />
+//<br />
+//<br />
+//<br />
+DistanceFromLine(cx,cy,ax,ay,bx,by,distanceSegment,distanceLine);</code><hr />
+</div>The problem : from the typical call, there is no way to know that<br />
+distanceSegment and distanceLine are modified.  So intead, maybe I<br />
+would do this instead :<br />
+<br />
+<div style="margin:20px; margin-top:5px">
+	<div class="smallfont" style="margin-bottom:2px">Code:</div>
+	<hr /><code style="margin:0px" dir="ltr" style="text-align:left">void DistanceFromLine(double cx, double cy, double ax, double ay ,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; double bx, double by, double *distanceSegment,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; double *distanceLine);<br />
+//<br />
+//<br />
+//<br />
+DistanceFromLine(cx,cy,ax,ay,bx,by,&amp;distanceSegment,&amp;distanceLine);</code><hr />
+</div></li>
+</ul></div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">arah</td>
+			<td class="smallfont" align="right">June 17th, 2002 12:24 PM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+			<div><strong>Thanks.</strong><br />&nbsp;</div>
+		
+		
+
+		<div>Thanks for the help!  It proved three things.<br />
+1) That I was remembering how to calculate this correctly.  While not the prettiest of code, my original routines produced the same results.<br />
+2) That my stuff wasn't working not because of the point to segment distance calculation, but because my line segment placement was thrown off-kilter by my not taking the window-space to OpenGL-space aspect ratios into consideration.  (Stupid of me, I know.  It was just a looooong day.)<br />
+3) That this forum is still full of cool and helpful people.  :)<br />
+<br />
+Again, thanks.  Without your help I'd still be trying to figure out how to fix the wrong thing.</div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">arctanb</td>
+			<td class="smallfont" align="right">June 8th, 2009 07:42 AM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+			<div><strong>Re: Distance between point and line segment</strong><br />&nbsp;</div>
+		
+		
+
+		<div><div style="margin:20px; margin-top:5px; ">
+	<div class="smallfont" style="margin-bottom:2px">Quote:</div>
+	<table cellpadding="3" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td class="alt2">
+			<hr />
+			
+				<div>
+					Originally Posted by <strong>Anthony Mai</strong>
+					(Post 538495)
+				</div>
+				<div style="font-style:italic">Obviously  Philip Nicoletti's code is a bad example, since it used &quot;if&quot; and &quot;else&quot;, No boolean logic should be involved in a simple calculation like determing the distance from a point to a line segment.<br />
+<br />
+Suppose you have points A(xa, ya), B(xb, yb) and C(xc,yc). The distance between point C and line segment AB equals the area of parallelgram ABCC' divided by the length of AB.<br />
+<br />
+So it can be written as simple as:<br />
+    distance = |AB X AC| / sqrt(AB * AB)<br />
+Here X mean cross product of vectors, and * mean dot product of vectors. This applied in both 2 dimentional and three dimentioanl space.<br />
+<br />
+In 2-D it becomes:<br />
+    sqrt(((yb-ya)*(xc-xa)+(xb-xa)*(yc-ya))^2/((xb-xa)^2 + (yb-ya)^2))</div>
+			
+			<hr />
+		</td>
+	</tr>
+	</table>
+</div><br />
+I believe your answer is incorrect - the area of the parallelogram is the det of the 2x2 matrix formed by the points: it should therefore be:<br />
+<br />
+<div style="margin:20px; margin-top:5px">
+	<div class="smallfont" style="margin-bottom:2px">Code:</div>
+	<hr /><code style="margin:0px" dir="ltr" style="text-align:left">(yb-ya)*(xc-xa)-(xb-xa)*(yc-ya)</code><hr />
+</div></div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">nuzzle</td>
+			<td class="smallfont" align="right">June 8th, 2009 09:32 AM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+			<div><strong>Re: Distance between point and line segment</strong><br />&nbsp;</div>
+		
+		
+
+		<div><div style="margin:20px; margin-top:5px; ">
+	<div class="smallfont" style="margin-bottom:2px">Quote:</div>
+	<table cellpadding="3" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td class="alt2">
+			<hr />
+			
+				<div>
+					Originally Posted by <strong>Anthony Mai</strong>
+					(Post 538495)
+				</div>
+				<div style="font-style:italic">Obviously  Philip Nicoletti's code is a bad example, since it used &quot;if&quot; and &quot;else&quot;, No boolean logic should be involved in a simple calculation like determing the distance from a point to a line segment.</div>
+			
+			<hr />
+		</td>
+	</tr>
+	</table>
+</div>Finding the shortest distance to a line segment requires you to consider three distances; One to the line and two to the endpoints. To select the shortest of these requires logical statements because selection always does.</div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">JohnW@Wessex</td>
+			<td class="smallfont" align="right">June 8th, 2009 09:33 AM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+			<div><strong>Re: Distance between point and line segment</strong><br />&nbsp;</div>
+		
+		
+
+		<div>There is this equation,<br />
+<br />
+<a href="http://mathworld.wolfram.com/images/equations/Point-LineDistance2-Dimensional/NumberedEquation8.gif" target="_blank">http://mathworld.wolfram.com/images/...dEquation8.gif</a><br />
+<br />
+<br />
+<a href="http://mathworld.wolfram.com/images/eps-gif/PointLineDistance2DVec_1000.gif" target="_blank">http://mathworld.wolfram.com/images/...2DVec_1000.gif</a><br />
+<br />
+<br />
+<a rel="nofollow" href="http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html" target="_blank">from this website.</a></div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">JohnW@Wessex</td>
+			<td class="smallfont" align="right">June 8th, 2009 09:37 AM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+			<div><strong>Re: Distance between point and line segment</strong><br />&nbsp;</div>
+		
+		
+
+		<div>This may help too.<br />
+<br />
+<a rel="nofollow" href="http://www.worsleyschool.net/science/files/linepoint/distance.html" target="_blank">http://www.worsleyschool.net/science.../distance.html</a></div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">nuzzle</td>
+			<td class="smallfont" align="right">June 8th, 2009 05:10 PM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+			<div><strong>Re: Distance between point and line segment</strong><br />&nbsp;</div>
+		
+		
+
+		<div><div style="margin:20px; margin-top:5px; ">
+	<div class="smallfont" style="margin-bottom:2px">Quote:</div>
+	<table cellpadding="3" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td class="alt2">
+			<hr />
+			
+				<div>
+					Originally Posted by <strong>JohnW@Wessex</strong>
+					(Post 1849367)
+				</div>
+				<div style="font-style:italic">This may help too.</div>
+			
+			<hr />
+		</td>
+	</tr>
+	</table>
+</div>I hope you know the difference between a line and a line segment?</div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">Richard.J</td>
+			<td class="smallfont" align="right">June 8th, 2009 05:15 PM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+			<div><strong>Re: Distance between point and line segment</strong><br />&nbsp;</div>
+		
+		
+
+		<div>can anyone explain why you are digging out a seven year old thread?</div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">arctanb</td>
+			<td class="smallfont" align="right">June 8th, 2009 05:18 PM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+			<div><strong>Re: Distance between point and line segment</strong><br />&nbsp;</div>
+		
+		
+
+		<div><div style="margin:20px; margin-top:5px; ">
+	<div class="smallfont" style="margin-bottom:2px">Quote:</div>
+	<table cellpadding="3" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td class="alt2">
+			<hr />
+			
+				<div>
+					Originally Posted by <strong>Richard.J</strong>
+					(Post 1849498)
+				</div>
+				<div style="font-style:italic">can anyone explain why you are digging out a seven year old thread?</div>
+			
+			<hr />
+		</td>
+	</tr>
+	</table>
+</div>My bad - I was researching how to find the distance between a line segment and a point. I found this on google, implemented the ingenious suggestion of using areas and discovered it to be flawed so registered to post a correction in the spirit of making the web a better place...</div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">nuzzle</td>
+			<td class="smallfont" align="right">June 8th, 2009 05:32 PM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+			<div><strong>Re: Distance between point and line segment</strong><br />&nbsp;</div>
+		
+		
+
+		<div><div style="margin:20px; margin-top:5px; ">
+	<div class="smallfont" style="margin-bottom:2px">Quote:</div>
+	<table cellpadding="3" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td class="alt2">
+			<hr />
+			
+				<div>
+					Originally Posted by <strong>arctanb</strong>
+					(Post 1849500)
+				</div>
+				<div style="font-style:italic">My bad - I was researching how to find the distance between a line segment and a point. I found this on google, implemented the ingenious suggestion of using areas and discovered it to be flawed so registered to post a correction in the spirit of making the web a better place...</div>
+			
+			<hr />
+		</td>
+	</tr>
+	</table>
+</div>It's a good initiative.<br />
+<br />
+Now if people only new the difference between a line and a line segment. :)</div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">arctanb</td>
+			<td class="smallfont" align="right">June 8th, 2009 05:46 PM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+			<div><strong>Re: Distance between point and line segment</strong><br />&nbsp;</div>
+		
+		
+
+		<div><div style="margin:20px; margin-top:5px; ">
+	<div class="smallfont" style="margin-bottom:2px">Quote:</div>
+	<table cellpadding="3" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td class="alt2">
+			<hr />
+			
+				<div>
+					Originally Posted by <strong>nuzzle</strong>
+					(Post 1849503)
+				</div>
+				<div style="font-style:italic">Now if people only new the difference between a line and a line segment. :)</div>
+			
+			<hr />
+		</td>
+	</tr>
+	</table>
+</div>... and indeed a ray ;)<br />
+<br />
+OK I think it's time for me to stop unwittingly bumping this topic</div>
+	</td>
+</tr>
+</table>
+<br /><table class="tborder" cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+	<td class="page">
+
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="bottom">
+			<td style="font-size:14pt">nuzzle</td>
+			<td class="smallfont" align="right">June 8th, 2009 06:16 PM</td>
+		</tr>
+		</table>
+
+		<hr />
+
+		
+			<div><strong>Re: Distance between point and line segment</strong><br />&nbsp;</div>
+		
+		
+
+		<div><div style="margin:20px; margin-top:5px; ">
+	<div class="smallfont" style="margin-bottom:2px">Quote:</div>
+	<table cellpadding="3" cellspacing="0" border="0" width="100%">
+	<tr>
+		<td class="alt2">
+			<hr />
+			
+				<div>
+					Originally Posted by <strong>arctanb</strong>
+					(Post 1849506)
+				</div>
+				<div style="font-style:italic">... and indeed a ray ;)<br />
+<br />
+OK I think it's time for me to stop unwittingly bumping this topic</div>
+			
+			<hr />
+		</td>
+	</tr>
+	</table>
+</div>Well, the problem has an optimal algoritmic solution I think (see for example 3D Game Engine Design by Eberly).<br />
+<br />
+But who knows, maybe someone comes up with something better. This happens too often to risk anything so please keep bumping the thread. :)</div>
+	</td>
+</tr>
+</table>
+<br />
+
+<br />
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr valign="top">
+	<td class="smallfont">All times are GMT -5. The time now is <span class="time">11:59 AM</span>.</td>
+	<td align="right">
+		<div class="smallfont"><div class="pagenav" align="right">
+<table class="tborder" cellpadding="3" cellspacing="1" border="0">
+<tr>
+	<td class="vbmenu_control" style="font-weight:normal">Page 1 of 2</td>
+	
+	
+		<td class="alt2"><span class="smallfont" title="Showing results 1 to 15 of 19"><strong>1</strong></span></td>
+ <td class="alt1"><a class="smallfont" href="printthread.php?s=4692653a6e0a182d2f9b92117d45d3ba&amp;t=194400&amp;pp=15&amp;page=2" title="Show results 16 to 19 of 19">2</a></td>
+	<td class="alt1"><a class="smallfont" href="printthread.php?s=4692653a6e0a182d2f9b92117d45d3ba&amp;t=194400&amp;pp=15&amp;page=2" title="Next Page - Results 16 to 19 of 19">&gt;</a></td>
+	
+	<td class="vbmenu_control" title="printthread.php?s=4692653a6e0a182d2f9b92117d45d3ba&amp;t=194400&amp;pp=15"><a name="PageNav"></a></td>
+</tr>
+</table>
+</div></div>
+		
+		<div class="smallfont"><a href="printthread.php?s=4692653a6e0a182d2f9b92117d45d3ba&amp;t=194400&amp;pp=50">Show 50 post(s) from this thread on one page</a></div>
+		
+	</td>
+</tr>
+</table>
+
+<p class="smallfont" align="center">
+	Powered by vBulletin&reg; Version 3.7.3<br />Copyright &copy;2000 - 2011, Jelsoft Enterprises Ltd.
+	<br />
+	
+</p>
+
+</body>
+</html>

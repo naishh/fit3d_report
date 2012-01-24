@@ -1,0 +1,174 @@
+<html>
+<head>
+<link rel=StyleSheet href="../../pdbstyle.css" type="text/css" media=all>
+<title>Distance between a Point and a Line</title>
+</head>
+<body bgcolor="#ffffff">
+
+<table width=100%><tr><td width=50% nowrap>
+<center>
+<h1>Minimum Distance between <br>a Point and a Line</h1>
+Written by <a href="../">Paul Bourke</a><br>
+October 1988
+</center>
+</td><td valign="bottom" width=50% nowrap>
+<p>
+<b>Contributed implemetations</b><br>
+C source from Damian Coventry: <a href="source.c">C source code</a><br>
+VBA from Brandon Crosby: <a href="source.vba">VBA source code</a><br>
+Dephi from Graham O'Brien: <a href="DistancePointLine.delphi">Delphi version</a><br>
+"R" version from Gregoire Thomas: <a href="pointline.r">pointline.r</a><br>
+JAVA version from Pieter Iserbyt: <a href="DistancePoint.java">DistancePoint.java</a><br>
+LabView implementation from Chris Dancer: <a href="Pointlinesegment.vi.zip">Pointlinesegment.vi.zip</a><br>
+Right side distance by Orion Elenzil: <a href="rightside.txt">rightside</a>
+<p>
+</td></tr></table>
+
+<p><hr><p>
+
+<p align="justify">
+This note describes the technique and gives the solution to finding the
+shortest distance from a point to a line or line segment.
+The equation of a line defined through two points <b>P1</b> (x1,y1) and
+<b>P2</b> (x2,y2) is
+</p>
+<center>
+   <b>P</b> = <b>P1</b> + u (<b>P2</b> - <b>P1</b>)
+</center>
+<p>
+
+<center><IMG SRC="pointline1.gif"></center><p>
+
+<p align="justify">
+The point <b>P3</b> (x3,y3) is closest to the line at the tangent 
+to the line which passes through <b>P3</b>, that is, the dot product 
+of the tangent and line is 0, thus
+</p>
+<center>
+	(<b>P3</b> - <b>P</b>) dot (<b>P2</b> - <b>P1</b>) = 0
+</center>
+<p>
+
+Substituting the equation of the line gives
+<p>
+<center>
+	[<b>P3 </b>- <b>P1</b> - u(<b>P2</b> - 
+	<b>P1</b>)] dot (<b>P2</b> - <b>P1</b>) = 0
+</center>
+<p>
+
+Solving this gives the value of u<p>
+
+<center><IMG SRC="pointline2.gif"></center><p>
+
+<p align="justify">
+Substituting this into the equation of the line gives the point of intersection
+(x,y) of the tangent as
+</p>
+<center>
+x = x1 + u (x2 - x1)<br>
+y = y1 + u (y2 - y1)
+</center>
+<p>
+
+<p align="justify">
+The distance therefore between the point <b>P3</b> and the line is the distance
+between (x,y) above and <b>P3</b>.
+</p>
+
+<b>Notes</b><p>
+<ul>
+<li>The only special testing for a software implementation is to ensure that
+<b>P1</b> and <b>P2</b> are not coincident (denominator in the equation for u
+is 0)
+<p>
+<li>If the distance of the point to a line segment is required then it is only
+necessary to test that u lies between 0 and 1.
+<p>
+<li>The solution is similar in higher dimensions.
+</ul>
+<p>
+
+
+<p><br><br><br><p>
+
+
+<center>
+<h1>Minimum Distance between <br>a Point and a Plane</h1>
+Written by <a href="../">Paul Bourke</a><br>
+March 1996
+</center>
+
+<p><hr><p>
+
+Let <b>P<sub>a</sub></b> =
+(x<sub>a</sub>, y<sub>a</sub>, z<sub>a</sub>)
+be the point in question. 
+<p>
+A plane can be defined by its normal <b>n</b> = (A, B, C)
+and any point on the plane 
+	<b>P<sub>b</sub></b> = (x<sub>b</sub>, y<sub>b</sub>, z<sub>b</sub>)
+<p>
+Any point <b>P</b> = (x,y,z) lies on the plane if it satisfes the following 
+<p>
+<center>
+<a href="../planeeq/">
+	A x + B y + C z + D = 0
+</a>
+</center><p>
+
+<p><center><img src="pointplane1.gif"></center><p>
+
+The minimum distance between P<sub>a</sub> and the plane is given by
+the absolute value of
+<p>
+<table width=100%><tr><td>
+<center>
+(A x<sub>a</sub> + B y<sub>a</sub> + C z<sub>a</sub> + D) / 
+sqrt(A<sup>2</sup> + B<sup>2</sup> + C<sup>2</sup>)
+</center>
+</td><td align=right>
+. . . 1
+</td></tr></table>
+<p>
+To derive this result consider the projection of the line 
+(<b>P<sub>a</sub></b> - <b>P<sub>b</sub></b>) onto the normal of the
+plane <b>n</b>, that is just ||<b>P<sub>a</sub></b> - <b>P<sub>b</sub></b>||
+cos(theta), where theta is the angle between
+(<b>P<sub>a</sub></b> - <b>P<sub>b</sub></b>) and the normal <b>n</b>. This 
+projection is the minimum distance of <b>P<sub>a</sub></b> to the plane.
+<p>
+This can be written in terms of the dot product as<p>
+<center>
+minimum distance = (<b>P<sub>a</sub></b> - <b>P<sub>b</sub></b>) dot <b>n</b>
+ / ||<b>n</b>||
+</center>
+<p>
+That is
+<p>
+<table width=100%><tr><td>
+<center>
+minimum distance = 
+(A (x<sub>a</sub> - x<sub>b</sub>) + 
+ B (y<sub>a</sub> - y<sub>b</sub>) + 
+ C (z<sub>a</sub> - z<sub>b</sub>)) /
+sqrt(A<sup>2</sup> + B<sup>2</sup> + C<sup>2</sup>)
+</center>
+</td><td align=right>
+. . . 2
+</td></tr></table>
+<p>
+Since point (x<sub>b</sub>, y<sub>b</sub>, z<sub>b</sub>) 
+is a point on the plane
+<p>
+<table width=100%><tr><td>
+<center>
+A x<sub>b</sub> + B y<sub>b</sub> + C z<sub>b</sub> + D = 0
+</center>
+</td><td align=right>
+. . . 3
+</td></tr></table>
+<p>
+Substituting equation 3 into equation 2 gives the result shown in equation 1.
+</body><p>
+</html>

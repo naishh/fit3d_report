@@ -1,0 +1,98 @@
+<html>
+<head>
+<link rel=StyleSheet href="../../pdbstyle.css" type="text/css" media=all>
+<title>Intersection point of two lines</title></head>
+<body bgcolor="#ffffff">
+
+<table width=100%><tr><td width=60% valign="top">
+
+<center>
+<h1>Intersection point of two lines<br>(2 dimensions)</h1>
+Written by <a href="../">Paul Bourke</a><br>
+April 1989<p>
+
+</td><td valign="top" width=40%>
+
+<b>Sample source code</b><br>
+<a href="pdb.c">Original C code</a> by Paul Bourke.<br>
+<a href="example.cpp">C++ contribution</a> by Damian Coventry.<br>
+<a href="linesegments.lisp">LISP</a> implementation by Paul Reiners.<br>
+<a href="example2.c">C version</a> for Rockbox firmware by Karl Kurbjun.<br>
+<a href="Helpers.cs">C#</a> version by Olaf Rabbachin.<br>
+<a href="Helpers.vb">VB.net</a> version by Olaf Rabbachin.<br>
+</center>
+
+</td></tr></table>
+
+<p><hr><p>
+
+<p align="justify">
+This note describes the technique and algorithm for determining the
+intersection point of two lines (or line segments) in 2 dimensions.
+</p>
+
+<center><IMG SRC="lineline1.gif"></center><p>
+
+The equations of the lines are<b>
+<p>
+
+<center>
+P<sub>a</sub></b> = <b>P1</b> + u<sub>a</sub> ( <b>P2</b> - <b>P1</b> )<b>
+<p>
+P<sub>b</sub></b> = <b>P3</b> + u<sub>b</sub> ( <b>P4</b> - <b>P3</b> )
+<p>
+</center>
+
+<p align="justify">
+Solving for the point where 
+<b>P<sub>a</sub></b> = <b>P<sub>b</sub></b> gives the following 
+two equations in two unknowns (u<sub>a</sub> and u<sub>b</sub>)
+</p>
+
+<center>
+x1 + u<sub>a</sub> (x2 - x1) = x3 + u<sub>b</sub> (x4 - x3)
+</center>
+<br>
+and
+<br>
+<center>
+y1 + u<sub>a</sub> (y2 - y1) = y3 + u<sub>b</sub> (y4 - y3)
+</center>
+<p>
+
+Solving gives the following expressions for u<sub>a</sub> and u<sub>b</sub>
+<p>
+
+<center><IMG SRC="lineline2.gif"></center><p>
+
+<p align="justify">
+Substituting either of these into the corresponding equation for the line gives the intersection point.
+For example the intersection point (x,y) is
+</p>
+
+<center>
+x = x1 + u<sub>a</sub> (x2 - x1)
+<p>
+y = y1 + u<sub>a</sub> (y2 - y1)
+<p>
+</center>
+
+<b>Notes: </b><p>
+<ul>
+<li>The denominators for the equations for u<sub>a</sub> and u<sub>b</sub> are the same.
+<p>
+<li>If the denominator for the equations for u<sub>a</sub> and u<sub>b</sub> 
+is 0 then the two lines are parallel.
+<p>
+<li>If the denominator and numerator for the equations for u<sub>a</sub> and u<sub>b</sub>
+are 0 then the two lines are coincident.
+<p>
+<li>The equations apply to lines, if the intersection of line segments is
+required then it is only necessary to test if u<sub>a</sub> and u<sub>b</sub> lie between 0 and 1.
+Whichever one lies within that range then the corresponding line segment
+contains the intersection point. If both lie within the range of 0 to 1 then
+the intersection point is within both line segments.
+</ul>
+
+</body>
+</html>
