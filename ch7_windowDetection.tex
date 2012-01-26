@@ -75,12 +75,15 @@ a peak ends on e if {P(e-1),P(e)}={1,0}. I.e. if P = 0011000011100, then two
 peaks are present, there are two peak areas, the first covers positions {3,4}, 
 the second covers {9,10,11}. 
 
-% explain peak extraction
--find max
+Having classified the peak areas, the next step is to extract the peaks.  Each
+peak area has only one peak and, since we used an average smoothing filter, each
+peak area has a concave shape. Consiquently we can find easily extract the peaks
+by locating the max of each peak area.  Having extracted the exact peak
+locations we have drawn the window alignment lines, dotted red and yellow lines
+in Figure % TODO
 
-Because the function is smoothed the maximum peak 
-
-
+The image is now devided in several rectangular areas. The next challenge is to 
+classify the rectangles as a window or non-window area.
 
 
 
