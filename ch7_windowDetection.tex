@@ -41,15 +41,52 @@ that the horizontal Houghlines are projected in the Y direction and the vertical
 Houghlines are projected in the X direction, leaving the data in two groups of 1
 dimensional coordinates.
 
-We calculate two histograms H(orizontal) and V(ertical), containing respectively $w$
-and $h$ bins where $w x h$ is the dimensions of the image.
+We calculate two histograms H(orizontal) and V(ertical), containing respectively
+$w$ and $h$ bins where $w x h$ is the dimensions of the image.  The graphs of
+the histograms are presented in Figure %TODO
 
-peak extraction
+The peaks are located at the positions where an increased number of Houghlines
+start or end.  These are the interested positions as they give us the alignment
+lines of the windows. 
+
+The number of peaks is fare more then the number of alignment lines which makes
+it hard to extract the alignment lines. A common solution would to decrease the
+number of bins of the histograms. A disadvantage of this method is that it also
+decreases the accuracy. Therefor we use the maximum resolution and smooth the
+function using a using a moving average filter with a span of %TODOthe width of 
+The result, red lines Figure %TODO
+, is a smooth function which contains the right number of peaks. Also the peaks
+are located at right positions. But how do we extract the exact position of this
+peaks?
+
+Before we find the peak positions we extract the peak areas by thresholding the
+function, see the black dotted line in Figure %TODO
+% the threshold is set to 20% of max?
+
+We create a binary function P that returns 1 for positions that are contained in
+a peak, i.e. are above the threshold, and 0 otherwise.
+% OPZOEKEn hoe folky dit doet
+%P(x)  { 1, H(x)>t
+%	  { 0, H(x)<=t
+
+We detect the peak areas by searching for the positions where the function
+passes the threshold line. A peak starts on position $s$ if {P(s-1),P(s)}={0,1}
+a peak ends on e if {P(e-1),P(e)}={1,0}. I.e. if P = 0011000011100, then two
+peaks are present, there are two peak areas, the first covers positions {3,4}, 
+the second covers {9,10,11}. 
+
+% explain peak extraction
+-find max
+
+Because the function is smoothed the maximum peak 
+
+
+
 
 
 Images:
 edge image
-example image of start end coordinates houghlines
+example image of start end coordinates Houghlines
 
 
 
