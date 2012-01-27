@@ -1,44 +1,74 @@
 \section{Window detection}
+% TODO explain efficiency of houghline coordinate tranformation (instead of
+% transforming the image
 \label{chap:windowDetection}
 \subsection{Introduction}
-% bruggetje maken, van 3d model een vb applicatie windowdetection
+From the previous section we saw that from a serie of images a 3D model of a
+boulding could be extracted. Furthermore we saw that with the 3D information the
+scene could be viewed from another viewing direction. 
+
+We projected the scene to a frontal view of a building, where a building wall appears
+orthogonal, and show what interesting posibilities this opens.
+One example is robust window detection.
+In this section we present three developed method for robust window detection
+and discuss the effect of the scene tranformation.
+
+We begin with an approach that is invariant to viewing direction.
+Then we present our second method that assumes orthogonal and aligned windows.
+At last we show the power of combining both methods.
+
+
 \subsubsection{Related work}
+%TODO
+
+\subsection{Edge detection and Houghline extraction} 
+% this is decribed in a early chapter.
+Edge detection and Houghline extraction is done as is described in chapter
+%TODO.
+We are interested in the frontal view of the building and it would be straight
+forward to project the original image. However this is very computational
+expensive. To keep the computational cost to a minimum we project only the
+Houghlines. The edge detection and houghline extraction is done on the original
+unprojected image. Leaving the projection done on the Houghline segment
+endpoints. If $h$ is the number of Houghlines the number of projections is $2H$
+When we project the original image this is $wxh$ where w,h are the dimensions of
+the image. To give an indication for dataset %TODO
+this means 600 projections in stead of 1572864.
 
 \subsection{Method I: Connected corner approach} 
+\subsubsection{Situation and assumptions}
+In this approach the windows could be arbitrairly located and don't need
+alignment.
+
 \subsection{Method II: Histogram based approach} 
 \subsubsection{Situation and assumptions}
 In this method we assume the wall containing the windows to be rectified.
 To be more precise we assume the windows to have orthogonal sides.
 Furthermore we assume the windows to be alligned.
 
+\subsubsection{Method}
 The main idea is that we extract the alignment of the windows based on
-histogramming Houghlines on projected coordinates.
-
-input 
-output
-
+calculating a histograms of the Houghlines endpoints.
 
 \paragraph{Alignment lines}
 %explain pipe line
 %(color transform)
 %edge extraction
 %houghline extraction
-histogram based approach, the idea
 We introduce the concept alignment line. We define this as a horizontal or
-vertical line that alignes multiple windows. In image %TODO the green dotted
-green and we represent the alignment lines as two groups, horizontal (red) and
-vertical (green) alignment lines. The intersection of both groups give a good
-indication of the corners of the windows.
-
+vertical line that alignes multiple windows. In Figure%TODO 
+we represent the alignment lines as two groups, horizontal (red) and
+vertical (green) alignment lines.  The combination of both groups give a grid of
+rectangles that are classified as window or non-window.
 The extraction of the alignment lines consist of several steps.
 
 First we extract the coordinates of the endpoints of the Hough transformed line
 segments and store them in two groups, horizontal and vertical (Figure
 \ref{fig:houghlineEndpoints}). 
 
-We project the coordinates to the orthogonal direction of its group. This means
-that the horizontal Houghlines are projected in the Y direction and the vertical
-Houghlines are projected in the X direction, leaving the data in two groups of 1
+We project the coordinates to the axis that is orthogonal to group. This means
+that the horizontal Houghlines are projected to the X axis and the vertical
+Houghlines are projected in the Y axis, leaving the data in two groups of 1
 dimensional coordinates.
 
 We calculate two histograms H(orizontal) and V(ertical), containing respectively
@@ -46,45 +76,45 @@ $w$ and $h$ bins where $w x h$ is the dimensions of the image.  The graphs of
 the histograms are presented in Figure %TODO
 
 The peaks are located at the positions where an increased number of Houghlines
-start or end.  These are the interested positions as they give us the alignment
-lines of the windows. 
+start or end.  These are the interested positions as they are highly correlated
+to the alignment lines of the windows. 
 
-The number of peaks is fare more then the number of alignment lines which makes
-it hard to extract the alignment lines. A common solution would to decrease the
-number of bins of the histograms. A disadvantage of this method is that it also
-decreases the accuracy. Therefor we use the maximum resolution and smooth the
-function using a using a moving average filter with a span of %TODOthe width of 
+As can be seen the number of peaks is fare more then the desired number of alignment lines 
+A common solution would be to decrease the number of bins of the histograms. A
+disadvantage of this method is that this also decreases the accuracy. Therefor
+we keep the maximum resolution and smooth the function using a using a moving
+average filter.
+% with a span of %TODOthe width of 
 The result, red lines Figure %TODO
 , is a smooth function which contains the right number of peaks. Also the peaks
-are located at right positions. But how do we extract the exact position of this
+are located at the right positions. Next step is to calculate the exact positions of these
 peaks?
 
-Before we find the peak positions we extract the peak areas by thresholding the
+Before we find the peak positions we extract the peak \emph{areas} by thresholding the
 function, see the black dotted line in Figure %TODO
 % the threshold is set to 20% of max?
-
 We create a binary function P that returns 1 for positions that are contained in
 a peak, i.e. are above the threshold, and 0 otherwise.
-% OPZOEKEn hoe folky dit doet
+% TODO latex, afkijken locate my plate
 %P(x)  { 1, H(x)>t
 %	  { 0, H(x)<=t
 
 We detect the peak areas by searching for the positions where the function
-passes the threshold line. A peak starts on position $s$ if {P(s-1),P(s)}={0,1}
-a peak ends on e if {P(e-1),P(e)}={1,0}. I.e. if P = 0011000011100, then two
-peaks are present, there are two peak areas, the first covers positions {3,4}, 
+passes the threshold line. 
+If te loop through the values of P we detect a peak start on position $s$ if {P(s-1),P(s)}={0,1}
+and a peak ends on $e$ if {P(e-1),P(e)}={1,0}. 
+I.e. if P = 0011000011100, then two peaks are present. The first covers positions {3,4}, 
 the second covers {9,10,11}. 
 
-Having classified the peak areas, the next step is to extract the peaks.  Each
-peak area has only one peak and, since we used an average smoothing filter, each
-peak area has a concave shape. Consiquently we can find easily extract the peaks
-by locating the max of each peak area.  Having extracted the exact peak
-locations we have drawn the window alignment lines, dotted red and yellow lines
+Having classified the peak areas, the next step is to extract the peak positions. 
+Each peak area has only one peak and, since we used an average smoothing filter, each
+peak area has a concave shape. Consiquently we can easily extract the peaks
+by locating the max of each peak area. 
+On these locations we have drawn the window alignment lines, dotted red and yellow lines
 in Figure % TODO
 
-The image is now devided in several rectangular areas. The next challenge is to 
+The image is now devided in a grid of rectangular areas. The next challenge is to 
 classify the rectangles as a window or non-window area.
-
 
 
 Images:
@@ -92,9 +122,18 @@ edge image
 example image of start end coordinates Houghlines
 
 
+\subsubsection{Future work}
+Some alternative ideas to classify the rectangles as window or non-window
+	count edge pixels in a row pixels
+		many edge pixels classify the row a row of windows
+		collect the rows between the corner points
+	calc the variance of a row
+		hight variance means windows
+		low variance means bricks
+
 
 \subsection{Method III: Feature detection approach}
-	harris corner
+	TODO explain contribution and method of multiscale harris corner detector
 
 \subsection{Fusing the methods}
 
@@ -103,6 +142,9 @@ example image of start end coordinates Houghlines
 \subsection{Conclusion and Future work}
 
 
+%TODO 
+% find a way to compair accuracy window detector
+% compair methods, show robustness
 
 
 % title: Graph Theory and Mean Shift Segmentation Based Classiﬁcation of Building Facades
