@@ -29,9 +29,12 @@ TODO
 \subsection{Edge detection and Houghline extraction} 
 % this is decribed in a early chapter.
 Edge detection and Houghline extraction is done as is described in chapter
-%TODO.
+The result can be seen in Figure \ref{fig:hibaapEdge.eps} and
+\ref{fig:hibaapHough.eps}.
 \fig{hibaapOri.eps}{Original image}{0.4}
 \fig{hibaapEdge.eps}{Result edge detection}{0.4}
+\fig{hibaapHough.eps}{Houghlines with endpoints}{0.4} 
+\subsubsection{efficient Projecting} 
 We are interested in the frontal view of the building and it would be straight
 forward to project the original image, however this is computational
 expensive. To keep the computational cost to a minimum we project only the
@@ -113,7 +116,6 @@ steps.
 We begin by extracting the coordinates of the endpoints of the Hough transformed line
 segments. We store them in two groups, horizontal and vertical (crosses in Figure
 \ref{fig:hibaapHough.eps}). 
-\fig{hibaapHough.eps}{Houghlines with endpoints}{0.4} 
 
 
 We project the coordinates to the axis that is orthogonal to the group. This means
