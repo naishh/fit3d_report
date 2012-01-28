@@ -1,19 +1,19 @@
 \section{Window detection}
-% TODO explain efficiency of Houghline coordinate tranformation (instead of
+% TODO explain efficiency of Houghline coordinate transformation (instead of
 % transforming the image
 \label{chap:windowDetection}
 \subsection{Introduction}
 \fig{datasetIm.eps}{Original image}{0.6}
 \fig{datasetImRectified.eps}{Rectified image}{0.6}
 From the previous section we saw that from a serie of images a 3D model of a
-boulding could be extracted. Furthermore we saw that with the 3D information the
+building could be extracted. Furthermore we saw that with the 3D information the
 scene could be viewed from another viewing direction. 
 
 We projected the scene to a frontal view of a building, where a building wall appears
-orthogonal, and show what interesting posibilities this opens.
+orthogonal, and show what interesting possibilities this opens.
 One example is robust window detection.
 In this section we present three developed method for robust window detection
-and discuss the effect of the scene tranformation.
+and discuss the effect of the scene transformation.
 
 We begin with an approach that is invariant to viewing direction.  Then we
 present our second method that assumes orthogonal and aligned windows.  Then we
@@ -53,17 +53,17 @@ In this method we search for connected corners based on edge information.
 The connected corners give a good indication of the position of the windows as 
 a window consist of a complex structure involving a lot of horizontal and vertical lines.
 
-In this approach the windows could be arbitrairly located and don't need
+In this approach the windows could be arbitrarily located and don't need
 to be aligned.
 %voting
 %the connected lines give a direction
 
 \subsubsection{Method}
 From the edge image we extract two groups of Houghlines, horizontal and
-vertical.  We set the Theta bin ranges in the Houghtransform that control the
+vertical.  We set the Theta bin ranges in the Hough transform that control the
 allowed angles of the Houghlines to extract the two groups.
 
-Often a connected corner is not fully connected or overconnected.
+Often a connected corner is not fully connected or over connected.
 We consider different types of connected corners, see Figure \ref{fig:cCornerTypes} 
 \fig{cCornerTypes}{First row different type of connected corner candidates. Second row the
 result the clean connected corner}{0.4}
@@ -71,15 +71,15 @@ result the clean connected corner}{0.4}
 The algorithm searches for intersections between the horizontal and vertical
 Houghlines.  If the intersection is near the endpoints of the Houghlines the
 lines are ready to form a connected corner.  The lines are first stretched or
-trimmed dependend of the situation. Then a clean connected corner is created by
+trimmed dependent of the situation. Then a clean connected corner is created by
 connecting the line segment endpoints to the intersection.
 The result is shown in the second row Figure \ref{fig:cCornerTypes}.
 \emph{Frans: shall I put a pseudo code algorithm here?}
 
 Because we know the orientation of the connected corner we can estimate where
-a window could be located.  We add a vote in the iddle of the window. This
-coordinate is retrieved using the X coordinate of the midle point of the horizontal line
-and the Y coordinate of the midle point of the vertical line of the connected corner.  
+a window could be located.  We add a vote in the middle of the window. This
+coordinate is retrieved using the X coordinate of the mile point of the horizontal line
+and the Y coordinate of the mile point of the vertical line of the connected corner.  
 This is represented as a blue cross in Figure \ref{fig:cCornerTypes}.
 
 \subsubsection{Results}
@@ -91,7 +91,7 @@ This is represented as a blue cross in Figure \ref{fig:cCornerTypes}.
 \subsubsection{Situation and assumptions}
 In this method we assume the wall containing the windows to be rectified.
 To be more precise we assume the windows to have orthogonal sides.
-Furthermore we assume the windows to be alligned.
+Furthermore we assume the windows to be aligned.
 
 \subsubsection{Method}
 The main idea is that we extract the alignment of the windows based on
@@ -105,7 +105,7 @@ lines}{0.4}
 %edge extraction
 %Houghline extraction
 We introduce the concept alignment line. We define this as a horizontal or
-vertical line that alignes multiple windows. In Figure
+vertical line that aligns multiple windows. In Figure
 \ref{fig:hibaapHist.eps}
 we represent the alignment lines as two groups, horizontal (red) and
 vertical (green) alignment lines.  The combination of both groups give a grid of
@@ -154,19 +154,19 @@ a peak, i.e. are above the threshold, and 0 otherwise.
 
 We detect the peak areas by searching for the positions where the function
 passes the threshold line. 
-If te loop through the values of P we detect a peak start on position $s$ if {P(s-1),P(s)}={0,1}
+If we loop through the values of P we detect a peak start on position $s$ if {P(s-1),P(s)}={0,1}
 and a peak ends on $e$ if {P(e-1),P(e)}={1,0}. 
 I.e. if P = 0011000011100, then two peaks are present. The first covers positions {3,4}, 
 the second covers {9,10,11}. 
 
 Having classified the peak areas, the next step is to extract the peak positions. 
 Each peak area has only one peak and, since we used an average smoothing filter, each
-peak area has a concave shape. Consiquently we can easily extract the peaks
+peak area has a concave shape. Consequently we can easily extract the peaks
 by locating the max of each peak area. 
 On these locations we have drawn the window alignment lines, dotted red and yellow lines
 in Figure \ref{fig:hibaapHist.eps}
 
-The image is now devided in a grid of rectangular areas. The next challenge is to 
+The image is now divided in a grid of rectangular areas. The next challenge is to 
 classify the rectangles as a window or non-window area.
 
 
@@ -181,7 +181,7 @@ Some alternative ideas to classify the rectangles as window or non-window
 
 
 \subsection{Method III: Feature detection approach}
-	TODO explain contribution and method of multiscale harris corner detector
+	TODO explain contribution and method of multi scale harris corner detector
 
 \subsection{Fusing the methods}
 	TODO
@@ -192,8 +192,8 @@ Some alternative ideas to classify the rectangles as window or non-window
 
 
 %TODO 
-% find a way to compair accuracy window detector
-% compair methods, show robustness
+% find a way to compare accuracy window detector
+% compare methods, show robustness
 
 
 % title: Graph Theory and Mean Shift Segmentation Based Classiﬁcation of Building Facades
