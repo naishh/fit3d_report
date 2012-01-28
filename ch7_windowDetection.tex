@@ -39,9 +39,38 @@ this means 600 projections in stead of 1572864.
 
 \subsection{Method I: Connected corner approach} 
 \subsubsection{Situation and assumptions}
+We introduce the concept \emph{connected corner}, this is a corner that is 
+connected to a horizontal and vertical line.  
+In this method we search for connected corners based on edge information.
+The connected corners give a good indication of the position of the windows as 
+a window consist of a complex structure involving a lot of horizontal and vertical lines.
+
 In this approach the windows could be arbitrairly located and don't need
-alignment.
-%TODO
+to be aligned.
+%voting
+%the connected lines give a direction
+
+\subsubsection{Method}
+From the edge image we extract two groups of Houghlines, horizontal and
+vertical.  We set the Theta bin ranges in the Houghtransform that control the
+allowed angles of the Houghlines to extract the two groups.
+
+Often a connected corner is not fully connected or overconnected.
+We consider three types of connected corners, see Figure %TODO
+
+The algorithm searches for intersections between the horizontal and vertical
+Houghlines.  If the intersection is near the endpoints of the Houghlines the
+lines are ready to form a connected corner.  The lines are stretched or cut as
+can be seen in Figure and a connected corner is created. 
+\emph{Frans: shall I put a pseudo code algorithm here?}
+
+Because we know the orientation of the connected corner we can estimate where
+a window could be located.  We add a vote in the iddle of the window. This
+coordinate is derived retrieved using the X coordinate of the horizontal line
+and the Y coordinate of the vertical line of the connected corner.
+
+
+
 
 \subsection{Method II: Histogram based approach} 
 \subsubsection{Situation and assumptions}
@@ -51,7 +80,7 @@ Furthermore we assume the windows to be alligned.
 
 \subsubsection{Method}
 The main idea is that we extract the alignment of the windows based on
-calculating histograms of the Houghlines endpoints.
+calculating histograms of the Houghlines' endpoints.
 
 \fig{hibaapHist.eps}{(smoothed) Histograms and window alignment
 lines}{0.4}

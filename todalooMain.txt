@@ -1,14 +1,15 @@
-BESEFFEN DAT HET BEST LEUK IS NU IK ZO GOED BEZIG BEN (ja lach daar maar ff om ouwe :D)
+GENIET, met muziekje erbij ! 
 
-method II afschrijven
-	plaatjes erinhangen
-		fig houghline end points
+ccorner/tjoint beschrijven
+plaatjes genereren
 
-		\ref{fig:houghlineEndpoints}). 
-		\ref{fig:histAndAlignmentLines}
-texen
-method autocor etc proggen 
-dan ccorner/tjoint beschrijven
+
+generate better result
+	transform gimp
+	change ranges to smaller rates
+	
+new dataset image
+	google?
 
 
 
