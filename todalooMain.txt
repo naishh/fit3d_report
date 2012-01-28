@@ -1,7 +1,15 @@
 BESEFFEN DAT HET BEST LEUK IS NU IK ZO GOED BEZIG BEN (ja lach daar maar ff om ouwe :D)
 
+method II afschrijven
+	plaatjes erinhangen
+		fig houghline end points
 
-door window describen
+		\ref{fig:houghlineEndpoints}). 
+		\ref{fig:histAndAlignmentLines}
+texen
+method autocor etc proggen 
+dan ccorner/tjoint beschrijven
+
 
 
 

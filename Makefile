@@ -5,10 +5,10 @@ TEMPDIR = .tmp
 
 all:
 	latex $(REPORT).tex
-	bibtex $(REPORT)
+	#bibtex $(REPORT)
 	latex $(REPORT).tex
-	latex $(REPORT).tex
-	#evince report.dvi &
+	#latex $(REPORT).tex
+	evince main.dvi
 	rm -f $(TEMPFILES)
 
 pdf:

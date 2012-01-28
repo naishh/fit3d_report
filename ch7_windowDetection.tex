@@ -25,6 +25,8 @@ At last we show the power of combining both methods.
 % this is decribed in a early chapter.
 Edge detection and Houghline extraction is done as is described in chapter
 %TODO.
+\fig{hibaapOri.eps}{Original image}{0.4}
+\fig{hibaapEdge.eps}{Result edge detection}{0.4}
 We are interested in the frontal view of the building and it would be straight
 forward to project the original image. However this is very computational
 expensive. To keep the computational cost to a minimum we project only the
@@ -39,6 +41,7 @@ this means 600 projections in stead of 1572864.
 \subsubsection{Situation and assumptions}
 In this approach the windows could be arbitrairly located and don't need
 alignment.
+%TODO
 
 \subsection{Method II: Histogram based approach} 
 \subsubsection{Situation and assumptions}
@@ -48,32 +51,39 @@ Furthermore we assume the windows to be alligned.
 
 \subsubsection{Method}
 The main idea is that we extract the alignment of the windows based on
-calculating a histograms of the Houghlines endpoints.
+calculating histograms of the Houghlines endpoints.
 
+\fig{hibaapHist.eps}{(smoothed) Histograms and window alignment
+lines}{0.4}
 \paragraph{Alignment lines}
 %explain pipe line
 %(color transform)
 %edge extraction
 %houghline extraction
 We introduce the concept alignment line. We define this as a horizontal or
-vertical line that alignes multiple windows. In Figure%TODO 
+vertical line that alignes multiple windows. In Figure
+\ref{fig:hibaapHist.eps}
 we represent the alignment lines as two groups, horizontal (red) and
 vertical (green) alignment lines.  The combination of both groups give a grid of
-rectangles that are classified as window or non-window.
-The extraction of the alignment lines consist of several steps.
+rectangles that have to be classified as window or non-window.
+First we explain the extraction of the alignment lines which consist of several
+steps.
 
-First we extract the coordinates of the endpoints of the Hough transformed line
-segments and store them in two groups, horizontal and vertical (Figure
-\ref{fig:houghlineEndpoints}). 
+We begin by extracting the coordinates of the endpoints of the Hough transformed line
+segments. We store them in two groups, horizontal and vertical (crosses in Figure
+\ref{fig:hibaapHough.eps}). 
+\fig{hibaapHough.eps}{Houghlines with endpoints}{0.4} 
 
-We project the coordinates to the axis that is orthogonal to group. This means
+
+We project the coordinates to the axis that is orthogonal to the group. This means
 that the horizontal Houghlines are projected to the X axis and the vertical
 Houghlines are projected in the Y axis, leaving the data in two groups of 1
 dimensional coordinates.
 
 We calculate two histograms H(orizontal) and V(ertical), containing respectively
 $w$ and $h$ bins where $w x h$ is the dimensions of the image.  The graphs of
-the histograms are presented in Figure %TODO
+the histograms are presented as small yellow bars in Figure
+\ref{fig:hibaapHist.eps}
 
 The peaks are located at the positions where an increased number of Houghlines
 start or end.  These are the interested positions as they are highly correlated
@@ -85,13 +95,13 @@ disadvantage of this method is that this also decreases the accuracy. Therefor
 we keep the maximum resolution and smooth the function using a using a moving
 average filter.
 % with a span of %TODOthe width of 
-The result, red lines Figure %TODO
+The result, red lines in Figure \ref{fig:hibaapHist.eps}
 , is a smooth function which contains the right number of peaks. Also the peaks
 are located at the right positions. Next step is to calculate the exact positions of these
 peaks?
 
 Before we find the peak positions we extract the peak \emph{areas} by thresholding the
-function, see the black dotted line in Figure %TODO
+function, see the black dotted line in Figure \ref{fig:hibaapHist.eps}
 % the threshold is set to 20% of max?
 We create a binary function P that returns 1 for positions that are contained in
 a peak, i.e. are above the threshold, and 0 otherwise.
@@ -111,7 +121,7 @@ Each peak area has only one peak and, since we used an average smoothing filter,
 peak area has a concave shape. Consiquently we can easily extract the peaks
 by locating the max of each peak area. 
 On these locations we have drawn the window alignment lines, dotted red and yellow lines
-in Figure % TODO
+in Figure \ref{fig:hibaapHist.eps}
 
 The image is now devided in a grid of rectangular areas. The next challenge is to 
 classify the rectangles as a window or non-window area.
@@ -124,12 +134,14 @@ example image of start end coordinates Houghlines
 
 \subsubsection{Future work}
 Some alternative ideas to classify the rectangles as window or non-window
-	count edge pixels in a row pixels
+\begin{itemize}
+	\item count edge pixels in a row pixels
 		many edge pixels classify the row a row of windows
 		collect the rows between the corner points
-	calc the variance of a row
+	\item calc the variance of a row
 		hight variance means windows
 		low variance means bricks
+\end{itemize}
 
 
 \subsection{Method III: Feature detection approach}
