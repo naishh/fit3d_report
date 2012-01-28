@@ -1,8 +1,10 @@
 \section{Window detection}
-% TODO explain efficiency of houghline coordinate tranformation (instead of
+% TODO explain efficiency of Houghline coordinate tranformation (instead of
 % transforming the image
 \label{chap:windowDetection}
 \subsection{Introduction}
+\fig{datasetIm.eps}{Original image}{0.6}
+\fig{datasetImRectified.eps}{Rectified image}{0.6}
 From the previous section we saw that from a serie of images a 3D model of a
 boulding could be extracted. Furthermore we saw that with the 3D information the
 scene could be viewed from another viewing direction. 
@@ -13,13 +15,16 @@ One example is robust window detection.
 In this section we present three developed method for robust window detection
 and discuss the effect of the scene tranformation.
 
-We begin with an approach that is invariant to viewing direction.
-Then we present our second method that assumes orthogonal and aligned windows.
-At last we show the power of combining both methods.
+We begin with an approach that is invariant to viewing direction.  Then we
+present our second method that assumes orthogonal and aligned windows.  Then we
+present a third feature based method.  Finally we show the power of combining
+the methods.
+
 
 
 \subsubsection{Related work}
-%TODO
+TODO
+% tjoint article quoten
 
 \subsection{Edge detection and Houghline extraction} 
 % this is decribed in a early chapter.
@@ -28,9 +33,9 @@ Edge detection and Houghline extraction is done as is described in chapter
 \fig{hibaapOri.eps}{Original image}{0.4}
 \fig{hibaapEdge.eps}{Result edge detection}{0.4}
 We are interested in the frontal view of the building and it would be straight
-forward to project the original image. However this is very computational
+forward to project the original image, however this is computational
 expensive. To keep the computational cost to a minimum we project only the
-Houghlines. The edge detection and houghline extraction is done on the original
+Houghlines. The edge detection and Houghline extraction is done on the original
 unprojected image. Leaving the projection done on the Houghline segment
 endpoints. If $h$ is the number of Houghlines the number of projections is $2H$
 When we project the original image this is $wxh$ where w,h are the dimensions of
@@ -56,20 +61,26 @@ vertical.  We set the Theta bin ranges in the Houghtransform that control the
 allowed angles of the Houghlines to extract the two groups.
 
 Often a connected corner is not fully connected or overconnected.
-We consider three types of connected corners, see Figure %TODO
-\fig{cCornerTypes1}{Connected corner types 1}{0.4}
+We consider different types of connected corners, see Figure \ref{fig:cCornerTypes} 
+\fig{cCornerTypes}{First row different type of connected corner candidates. Second row the
+result the clean connected corner}{0.4}
 
 The algorithm searches for intersections between the horizontal and vertical
 Houghlines.  If the intersection is near the endpoints of the Houghlines the
-lines are ready to form a connected corner.  The lines are stretched or cut as
-can be seen in Figure and a connected corner is created. 
+lines are ready to form a connected corner.  The lines are first stretched or
+trimmed dependend of the situation. Then a clean connected corner is created by
+connecting the line segment endpoints to the intersection.
+The result is shown in the second row Figure \ref{fig:cCornerTypes}.
 \emph{Frans: shall I put a pseudo code algorithm here?}
 
 Because we know the orientation of the connected corner we can estimate where
 a window could be located.  We add a vote in the iddle of the window. This
-coordinate is derived retrieved using the X coordinate of the horizontal line
-and the Y coordinate of the vertical line of the connected corner.
+coordinate is retrieved using the X coordinate of the midle point of the horizontal line
+and the Y coordinate of the midle point of the vertical line of the connected corner.  
+This is represented as a blue cross in Figure \ref{fig:cCornerTypes}.
 
+\subsubsection{Results}
+\fig{cCornerSpilTrans1.eps}{TODO}{0.6}
 
 
 
@@ -89,7 +100,7 @@ lines}{0.4}
 %explain pipe line
 %(color transform)
 %edge extraction
-%houghline extraction
+%Houghline extraction
 We introduce the concept alignment line. We define this as a horizontal or
 vertical line that alignes multiple windows. In Figure
 \ref{fig:hibaapHist.eps}
@@ -157,20 +168,13 @@ The image is now devided in a grid of rectangular areas. The next challenge is t
 classify the rectangles as a window or non-window area.
 
 
-Images:
-edge image
-example image of start end coordinates Houghlines
-
+\subsubsection{Results}
+\fig{hibaapHistSpilTrans.eps}{TODO}{0.4}
 
 \subsubsection{Future work}
 Some alternative ideas to classify the rectangles as window or non-window
 \begin{itemize}
-	\item count edge pixels in a row pixels
-		many edge pixels classify the row a row of windows
-		collect the rows between the corner points
-	\item calc the variance of a row
-		hight variance means windows
-		low variance means bricks
+	\item sum and normalize edge pixels for every block 
 \end{itemize}
 
 
@@ -178,6 +182,7 @@ Some alternative ideas to classify the rectangles as window or non-window
 	TODO explain contribution and method of multiscale harris corner detector
 
 \subsection{Fusing the methods}
+	TODO
 
 \subsection{Results}
 \subsection{Discussion}  % (What do my results mean to me and why)

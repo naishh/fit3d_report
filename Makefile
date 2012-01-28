@@ -8,8 +8,8 @@ all:
 	#bibtex $(REPORT)
 	latex $(REPORT).tex
 	#latex $(REPORT).tex
-	evince main.dvi
 	rm -f $(TEMPFILES)
+	evince main.dvi
 
 pdf:
 	latex $(REPORT).tex

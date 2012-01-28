@@ -1,12 +1,12 @@
 GENIET, met muziekje erbij ! 
 
-ccorner/tjoint beschrijven
-plaatjes genereren
 
 
 generate better result
 	transform gimp
 	change ranges to smaller rates
+
+trim eps bestanden met eps editor
 	
 new dataset image
 	google?
