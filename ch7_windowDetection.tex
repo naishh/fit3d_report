@@ -5,14 +5,14 @@
 \subsection{Introduction}
 \fig{datasetIm.eps}{Original image}{0.6}
 \fig{datasetImRectified.eps}{Rectified image}{0.6}
-From the previous section we saw that from a serie of images a 3D model of a
-building could be extracted. Furthermore we saw that with the 3D information the
-scene could be viewed from another viewing direction. 
+From the previous section we know that from a serie of images a 3D model of a
+building can be extracted. Furthermore we saw that with the 3D information the
+scene could be viewed from another viewing point. 
 
 We projected the scene to a frontal view of a building, where a building wall appears
-orthogonal, and show what interesting possibilities this opens.
+orthogonal, and showed what interesting possibilities this opens.
 One example is robust window detection.
-In this section we present three developed method for robust window detection
+In this section we present three developed methods for robust window detection
 and discuss the effect of the scene transformation.
 
 We begin with an approach that is invariant to viewing direction.  Then we
@@ -28,19 +28,20 @@ TODO
 
 \subsection{Edge detection and Houghline extraction} 
 % this is decribed in a early chapter.
-Edge detection and Houghline extraction is done as is described in chapter
-The result can be seen in Figure \ref{fig:hibaapEdge.eps} and
+Edge detection and Houghline extraction is done as is described in chapter ??
+% TODO
+The results can be seen in Figure \ref{fig:hibaapEdge.eps} and
 \ref{fig:hibaapHough.eps}.
 \fig{hibaapOri.eps}{Original image}{0.4}
 \fig{hibaapEdge.eps}{Result edge detection}{0.4}
 \fig{hibaapHough.eps}{Houghlines with endpoints}{0.4} 
-\subsubsection{efficient Projecting} 
+\subsubsection{Efficient Projecting} 
 We are interested in the frontal view of the building and it would be straight
 forward to project the original image, however this is computational
 expensive. To keep the computational cost to a minimum we project only the
 Houghlines. The edge detection and Houghline extraction is done on the original
-unprojected image. Leaving the projection done on the Houghline segment
-endpoints. If $h$ is the number of Houghlines the number of projections is $2H$
+unprojected image. We only project the Houghline segment
+endpoints. If $h$ is the number of Houghlines, the number of projections is $2h$
 When we project the original image this is $wxh$ where w,h are the dimensions of
 the image. To give an indication for dataset %TODO
 this means 600 projections in stead of 1572864.
@@ -50,10 +51,10 @@ this means 600 projections in stead of 1572864.
 We introduce the concept \emph{connected corner}, this is a corner that is 
 connected to a horizontal and vertical line.  
 In this method we search for connected corners based on edge information.
-The connected corners give a good indication of the position of the windows as 
-a window consist of a complex structure involving a lot of horizontal and vertical lines.
+The connected corners give a good indication of the position of the windows, as 
+a window consists of a complex structure involving a lot of horizontal and vertical lines.
 
-In this approach the windows could be arbitrarily located and don't need
+In this approach the windows could be arbitrarily located and doesn't need
 to be aligned.
 %voting
 %the connected lines give a direction
@@ -65,16 +66,32 @@ allowed angles of the Houghlines to extract the two groups.
 
 Often a connected corner is not fully connected or over connected.
 We consider different types of connected corners, see Figure \ref{fig:cCornerTypes} 
-\fig{cCornerTypes}{First row different type of connected corner candidates. Second row the
+\fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
 result the clean connected corner}{0.4}
 
-The algorithm searches for intersections between the horizontal and vertical
-Houghlines.  If the intersection is near the endpoints of the Houghlines the
-lines are ready to form a connected corner.  The lines are first stretched or
-trimmed dependent of the situation. Then a clean connected corner is created by
+The algorithm searches for close intersections between the horizontal and vertical
+Houghlines.  
+Two intesection point distances are measured $d_h$ for the horizontal and $d_v$
+for the vertical Houghline.  If the intersection fals on both Houghlines
+	associated $D$ is 0.  Otherwise the euclidean distance is measured from the
+	intersection to the closest endpoint. This is done for both Houghlines.  If
+	the intersection fals outside both Houghlines (Figure
+	\ref{fig:cCornerTypes}(IV)) this means $d_h$ >0, $d_v$ >0.  The total
+	distance is calculated by $D=(d_h + d_v)/2$.  D is compared to
+	a \emph{maximum intersection distance} threshold $midT$.  And if $D<=midT$
+	the intersection is close enough to the Houghlines and the lines are ready
+	to form a connected corner.\\
+
+The lines are first stretched or
+trimmed, depending on the situation. Then a clean connected corner is created by
 connecting the line segment endpoints to the intersection.
-The result is shown in the second row Figure \ref{fig:cCornerTypes}.
-\emph{Frans: shall I put a pseudo code algorithm here?}
+The result is shown in the second row in Figure \ref{fig:cCornerTypes}.
+In Figure \ref{fig:cCornerTypes}(I) the intersection fals on one of the
+endpoints of the vertical line, the horizontal line is stretched.  Figure
+\ref{fig:cCornerTypes}(II) shows that the vertical line is trimmed.  In Figure
+\ref{fig:cCornerTypes}(III) both lines are stretched.  At last Figure
+\ref{fig:cCornerTypes}(IV) shows how both lines are trimmed.
+
 
 Because we know the orientation of the connected corner we can estimate where
 a window could be located.  We add a vote in the middle of the window. This
@@ -89,9 +106,9 @@ This is represented as a blue cross in Figure \ref{fig:cCornerTypes}.
 
 \subsection{Method II: Histogram based approach} 
 \subsubsection{Situation and assumptions}
-In this method we assume the wall containing the windows to be rectified.
-To be more precise we assume the windows to have orthogonal sides.
-Furthermore we assume the windows to be aligned.
+In this method we assume that the wall containing the windows is rectified.
+To be more precise we assume the windows have orthogonal sides.
+Furthermore we assume that the windows are aligned.
 
 \subsubsection{Method}
 The main idea is that we extract the alignment of the windows based on
@@ -107,9 +124,9 @@ lines}{0.4}
 We introduce the concept alignment line. We define this as a horizontal or
 vertical line that aligns multiple windows. In Figure
 \ref{fig:hibaapHist.eps}
-we represent the alignment lines as two groups, horizontal (red) and
+we show the alignment lines as two groups, horizontal (red) and
 vertical (green) alignment lines.  The combination of both groups give a grid of
-rectangles that have to be classified as window or non-window.
+rectangles that has to be classified as window or non-window.
 First we explain the extraction of the alignment lines which consist of several
 steps.
 
@@ -120,31 +137,29 @@ segments. We store them in two groups, horizontal and vertical (crosses in Figur
 
 We project the coordinates to the axis that is orthogonal to the group. This means
 that the horizontal Houghlines are projected to the X axis and the vertical
-Houghlines are projected in the Y axis, leaving the data in two groups of 1
+Houghlines are projected in the Y axis, transforming the data in two groups of 1
 dimensional coordinates.
 
 We calculate two histograms H(orizontal) and V(ertical), containing respectively
-$w$ and $h$ bins where $w x h$ is the dimensions of the image.  The graphs of
+$w$ and $h$ bins where $w x h$ is the dimension of the image.  The graphs of
 the histograms are presented as small yellow bars in Figure
-\ref{fig:hibaapHist.eps}
+\ref{fig:hibaapHist.eps}.
 
 The peaks are located at the positions where an increased number of Houghlines
-start or end.  These are the interested positions as they are highly correlated
+start or end.  These are the interesting positions as they are highly correlated
 to the alignment lines of the windows. 
 
-As can be seen the number of peaks is fare more then the desired number of alignment lines 
+It is easy to see that the number of peaks is fare more then the desired number of alignment lines.
 A common solution would be to decrease the number of bins of the histograms. A
 disadvantage of this method is that this also decreases the accuracy. Therefor
-we keep the maximum resolution and smooth the function using a using a moving
+we keep the maximum resolution and smooth the function using a moving
 average filter.
 % with a span of %TODOthe width of 
 The result, red lines in Figure \ref{fig:hibaapHist.eps}
 , is a smooth function which contains the right number of peaks. Also the peaks
-are located at the right positions. Next step is to calculate the exact positions of these
-peaks?
-
+are located at the right positions. Next step is to calculate the exact positions of these peaks.
 Before we find the peak positions we extract the peak \emph{areas} by thresholding the
-function, see the black dotted line in Figure \ref{fig:hibaapHist.eps}
+function. The two thresholds are presented as black dotted lines in Figure \ref{fig:hibaapHist.eps}.
 % the threshold is set to 20% of max?
 We create a binary function P that returns 1 for positions that are contained in
 a peak, i.e. are above the threshold, and 0 otherwise.
@@ -161,7 +176,7 @@ the second covers {9,10,11}.
 
 Having classified the peak areas, the next step is to extract the peak positions. 
 Each peak area has only one peak and, since we used an average smoothing filter, each
-peak area has a concave shape. Consequently we can easily extract the peaks
+peak area has a concave shape. Therefor we can extract the peaks
 by locating the max of each peak area. 
 On these locations we have drawn the window alignment lines, dotted red and yellow lines
 in Figure \ref{fig:hibaapHist.eps}
@@ -169,6 +184,7 @@ in Figure \ref{fig:hibaapHist.eps}
 The image is now divided in a grid of rectangular areas. The next challenge is to 
 classify the rectangles as a window or non-window area.
 
+% TODO kort iets schrijven over
 
 \subsubsection{Results}
 \fig{hibaapHistSpilTrans.eps}{TODO}{0.4}
