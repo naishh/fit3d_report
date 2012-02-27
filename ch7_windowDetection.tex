@@ -1,4 +1,65 @@
 \section{Window detection}
+structure
+-q?
+-intro rows cols
+-
+
+Instead of classifying each rectangle independedly we classify full rows and columns as window or non-window areas.
+
+After this we combine the result to extract the window areas.
+
+Furthermore instead of working with line segment endpoints we take
+each pixel of a Hough linesegment into account.
+
+ 
+
+ A row that contains windows is remarkable by its high amount of
+ vertical houghlines (green). For the columns the number of horizontal houghlines (red) is high at
+ window areas.
+ For each row the number of vertical Houghline pixels that lie in this row are summed up.
+
+ (Remark that with this method both length and amount of houghlines are
+ implicit taken into account.)
+
+ To prevent the effect that the rowsize influences the outcome, this total value is normalized by the size of the row
+
+ %TODO (formula)
+
+ Leaving us with ||R|| (number of rows) scalarvalues that present the probability of a row begin a window area.
+
+ If we take a look at the distribution of R we see two clusters apear: one with high values (the rows that contain windows) and one with low values (non window rows).
+
+ As the height of the values depend on the number of windows, the window types etc. which are unknown, it is not robust to use a manual threhold for classifaction.
+
+ What we know is that there should always be two clusters, therefor we use k-means clustering on the data.
+
+ As the data is 1 dimensional thi
+
+ This is also done for each column (using the horizontal amount of Houghlines pixels).
+
+ A rectangular area $w$ is now classified as a window if k-means classified both R_w and C_w as window areas, see figure
+
+ %todo
+
+  
+
+   
+
+    
+
+	%TODO hougline pixel sum amount  
+
+	(why?)
+	Since we assumed, aligned windows
+	This is to increase evidence and
+
+	 
+
+
+
+
+
+
 % TODO explain efficiency of Houghline coordinate transformation (instead of
 % transforming the image
 \label{chap:windowDetection}
