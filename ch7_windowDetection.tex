@@ -252,19 +252,21 @@ A rectangular area $w$ that is crossed by $R_j$ and $C_k$ is now classified as a
 window if \emph{$k$-means} classified both $R_j$ and $C_k$ as window areas, see
 Figure %todo
 
-For debug purpose and to get more detailed idea of the probabilities behind the
+To get more detailed information about the values behind the
 classification a probabilistic function is developed. 
 $P(R_i) = \frac{R_i}{max(R)}$
 $P(C_i) = \frac{C_i}{max(C)}$
-As you can see P is normalized, this is to ensure the value of the maximum
-probability is exactly 1.
-
+$P(w) = \frac{P(R_i) + P(C_i)}{2}$
+As you can see $P$ is normalized, this is to ensure the value of the maximum
+probability is exactly 1. 
 In Figure %todo
-the rectangels contain a number that is constructed summing up the normalized
-value of $R_
-normalised by its maximum
-probability
-of 
+the values for each rectangle are displayed.
+
+Furthermore we designed a more visual presentation, Figure %todo
+------------------------------------------------------------------------------------
+The whiter the area the more propable a window is classified by b
+
+
 
 Te get 
 To get insight of the probabilities that lie behind 
