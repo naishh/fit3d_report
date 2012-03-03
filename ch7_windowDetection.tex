@@ -12,6 +12,8 @@
 % list of figures
 % - original image
 % -red and green houghlines, with ori figure as background
+% -hibaap with 0.7 times max peak
+% -figure with only the windows as big red rectangular areas
 % -grayvalues voting
 %	- values that fall out of cluster are displayed striped
 % -grayvalues voting with clusterlines
@@ -172,8 +174,7 @@ image in window or not window regions.  Finally these regions are classified
 and combined which gives us the windows.
 
 
-\fig{hibaapHist.eps}{(smoothed) Histograms and window alignment
-lines}{0.4}
+\fig{hibaapHist.eps}{(smoothed) Histograms and window alignment lines}{0.4}
 \paragraph{Extract Window alignment}
 %explain pipe line
 %(color transform)
@@ -205,66 +206,58 @@ Next we calculate two histograms H(orizontal) and V(ertical), containing respect
 $w$ and $h$ bins where $w x h$ is the dimension of the image.  The histograms
 are presented as small yellow bars in Figure \ref{fig:hibaapHist.eps}.
 
-% MOTIVATION
 The peaks are located at the positions where an increased number of Houghlines
 start or end.  These are the interesting positions as they are highly correlated
 to the alignment lines of the windows. 
 
 It is easy to see that the number of peaks is fare more then the desired number of alignment lines.
 A common solution would be to decrease the number of bins of the histograms. A
-disadvantage of this method is that this also decreases the accuracy. Therefor
-we keep the maximum resolution and, instead, smooth the function. The smooth
-function uses a moving average filter.
-% with a span of %TODOthe width of 
+disadvantage of this method is that this comes with a price, it decreases the accuracy. Therefor
+we keep the maximum resolution and, instead, smooth the values using a moving average filter.
 The result, red lines in Figure \ref{fig:hibaapHist.eps}
 , is a smooth function which contains the right number of peaks. Also the peaks
-are located at the right positions. Next step is to calculate the exact positions of these peaks.
+are located at the right positions. Next step is to calculate the exact
+positions of these peaks.
+
 Before we find the peak positions we extract the peak \emph{areas} by thresholding the
-function. The two thresholds are presented as black dotted lines in Figure \ref{fig:hibaapHist.eps}.\\
-% the threshold is set to 20% of max?
+function. To make the threshold invariant to the values we use 0.5 \cdot max Peak. 
+(This value works for most datasets but is made up and can be altered)
+The two thresholds are presented as black dotted lines in Figure \ref{fig:hibaapHist.eps}.\\
 Next we create a binary function P that returns 1 for positions that are contained in
 a peak, i.e. are above the threshold, and 0 otherwise.
 % TODO latex, afkijken locate my plate
 %P(x)  { 1, H(x)>t
 %	  { 0, H(x)<=t
-
-We detect the peak areas by searching for the positions where the function
-passes the threshold line. 
+We detect the peak areas by searching for the positions where P = 1
+(where the function passes the threshold line). 
 If we loop through the values of P we detect a peak-start on position $s$ if ${P(s-1),P(s)}={0,1}$
 and a peak-end on $e$ if ${P(e-1),P(e)}={1,0}$. 
-I.e. if P = 0011000011100, then two peaks are present. The first covers positions $(3,4)$, 
-the second covers $(9,10,11)$. 
+I.e. if P = 0011000011100, then two peaks are present. The first peak covers positions $(3,4)$, 
+the second peak covers $(9,10,11)$.\\
 
 Having classified the peak areas, the next step is to extract the peak positions. 
-Each peak area has only one peak and, since we used an average smoothing filter,the shape of each  
-peak area is concave. Therefor we can extract the peaks
-by locating the max of each peak area. 
-On these locations we have drawn the window alignment lines, dotted red and dotted green lines
-in Figure \ref{fig:hibaapHist.eps}
+Each peak area has only one peak and, since we used an average smoothing filter, the shape of 
+the peaks are often concave. Therefor we extract the peaks by locating the max of each peak area. 
+These locations are used to draw the window alignment lines, they can be seen
+as dotted red lines and dotted green lines in Figure \ref{fig:hibaapHist.eps}
 
 The image is now divided in a grid of rectangular areas. The next challenge is to 
-classify the rectangles as a window or non-window area.
+classify the areas as window and non-window areas: the window classification.
 
 % TODO kort iets schrijven over
 \paragraph{Window classification}
-%motivation
-% situation
-% method
-%\paragraph{Motivation/Situation}
 Instead of classifying each rectangle independedly we classify full rows and
 columns as window or non-window areas.  This approach results in more accurate
 classification as it uses a full row and column as evidence for a singular
-window. Furtermore it makes use the fact that the windows are assumed to be
+window. The method exploits the fact that the windows are assumed to be
 aligned.
 %TODO Ref
-
 A row that contains windows is remarkable by its high amount of vertical
 Houghlines, Figure % todo
 (green). For the columns the number of horizontal Houghlines, Figure %todo
- (red) is high at window areas.  We make use of this property to classify 
- the rows/columns.
+ (red) is high at window areas.  We use this property to classify 
+ the rows/columns and we do this as follows.
 
-%\paragraph{Method}
 For each row the number of vertical Houghline pixels that lie in this row are summed up.
 (Remark that with this method we take both the length of the Houghlines and amount of Houghlines 
 implicitly into account.)
@@ -273,7 +266,7 @@ To prevent the effect that the size of the row influences the outcome, this tota
 is normalized by the size of the row.
 \[\forall Ri\in \{1..numRows\} : R_i = \frac{HoughlinePxCount}{R_i^{width} \cdot R_i^{height}}\]
 
-Leaving us with $||R||$ (number of rows) scalarvalues that give a rank of a row begin a window area or not.
+Leaving us with $||R||$ (number of rows) scalar values that give a rank of a row begin a window area or not.
 This is also done for each column (using the normalized horizontal amount of
 Houghlines pixels) which leaves us with $C$.
 
@@ -282,18 +275,22 @@ high values (the rows/columns that contain windows) and one with low values (non
 rows/columns).  A straight forward approach would be to apply the classification using a
 threshold for this value.  However, as the height of the values depend on
 (unknown) properties like the number of windows, windowtypes etc., the threshold
-would be hard to determine and the method won't be robust. The fact that is
-known is that there should always be two clusters. Hence we use \emph{$k$-means}
-clustering as classification procedure with $k=2$.
+would be hard to determine and the method won't be robust. Instead we use the fact 
+there should always be two clusters and use \emph{$k$-means}
+clustering (with $k=2$) as the classification procedure.
 %todo ref
+This results in a set of Rows and Columns that are classified as window an
+non-window areas.
 
-Next step is to determine the windows.
-A rectangular area $w$ that is crossed by $R_j$ and $C_k$ is now classified as a
+The next step is to determine the actual windows $W$.
+A rectangular area $w\in W$ that is crossed by $R_j$ and $C_k$ is classified as a
 window iff \emph{$k$-means} classified both $R_j$ and $C_k$ as window areas, see
 Figure %todo
+% figure with only the windows as big red rectangular areas
 
-To get more detailed information about the values behind the classification a
-probabilistic function is developed. 
+As the figure gives a binary representation of the windows it is not possible
+to see the detailed information about the values behind the classification.
+Therefor we developed a probabilistic function. 
 \[P(R_i) = \frac{R_i}{max(R)}\]
 \[P(C_i) = \frac{C_i}{max(C)}\]
 \[P(w) = \frac{P(R_i) + P(C_i)}{2}\]
@@ -307,6 +304,7 @@ the probabilities for each rectangle are displayed.
 To get insight about the probabilities that lie behind the individual rows and columns
 we designed another representation in Figure %todo
 The whiter the area the more probable a rectangle is classified as a window.
+%--------------------------------------------------------------------------------------------------
 
 \paragraph{Discussion}
 pro's 
@@ -316,8 +314,6 @@ con's
 The outcome is non-deterministic, as it depends on to the random initialization of the cluster centers.
 % TODO Ref biblograyhf
 
-
-	 
 
 
 \subsubsection{Results}
