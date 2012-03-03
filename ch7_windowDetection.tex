@@ -165,14 +165,16 @@ position has to be equal.  Note that this doesn't mean that all windows have te
 share the same size.
 
 \subsubsection{Method}
-The extraction of the windows is in different steps. First we extract the alignment of the windows, this is based on
-calculating histograms of the Houghlines' endpoints. Then we classify regions as window or not window area.
-Finally these regions are combined to extract the windows.
+The extraction of the windows is done in different steps. 
+First the alignment of the windows is determined, this is based on collecting
+the Houghlines' start and endpoints. Then we use this allignment to devide the
+image in window or not window regions.  Finally these regions are classified
+and combined which gives us the windows.
 
 
 \fig{hibaapHist.eps}{(smoothed) Histograms and window alignment
 lines}{0.4}
-\paragraph{Alignment lines}
+\paragraph{Extract Window alignment}
 %explain pipe line
 %(color transform)
 %edge extraction
@@ -182,24 +184,28 @@ vertical line that aligns multiple windows. In Figure
 \ref{fig:hibaapHist.eps}
 we show the alignment lines as two groups, horizontal (red) and
 vertical (green) alignment lines.  The combination of both groups give a grid of
-rectangles that has to be classified as window or non-window.
-First we explain the extraction of the alignment lines which consist of several
-steps.
+rectangles that we classify as window or non-window areas.\\
+
+% MOTIVATION
+How do we determine this alignment lines? We make use of the fact that among a
+horizontal alignment line a lot of horizontal Houghlines start and end (see red
+crosses in Figure \ref{fig:hibmaapHough.eps}. For the vertical alignment lines
+the number of vertical Houghline start and ends is high (see green crosses in
+Figure \ref{fig:hibmaapHough.eps}.\\
 
 We begin by extracting the coordinates of the endpoints of the Hough transformed line
-segments. We store them in two groups, horizontal and vertical (crosses in Figure
-\ref{fig:hibaapHough.eps}). 
+segments. We store them in two groups, horizontal and vertical% (crosses in Figure \ref{fig:hibaapHough.eps}). 
+We project the coordinates to the axis that is orthogonal to the group. This
+means that for each horizontal Houghline two coordinates are projected to the X
+axis and for each vertical Houghline two coordinates are projected to the Y
+axis. We have now transformed the data in two groups of 1 dimensional
+coordinates which represent the projected position of the Houghlines.\\
 
-
-We project the coordinates to the axis that is orthogonal to the group. This means
-that the horizontal Houghlines are projected to the X axis and the vertical
-Houghlines are projected in the Y axis, transforming the data in two groups of 1
-dimensional coordinates.
-
-We calculate two histograms H(orizontal) and V(ertical), containing respectively
+Next we calculate two histograms H(orizontal) and V(ertical), containing respectively
 $w$ and $h$ bins where $w x h$ is the dimension of the image.  The histograms
 are presented as small yellow bars in Figure \ref{fig:hibaapHist.eps}.
 
+% MOTIVATION
 The peaks are located at the positions where an increased number of Houghlines
 start or end.  These are the interesting positions as they are highly correlated
 to the alignment lines of the windows. 
@@ -240,11 +246,11 @@ The image is now divided in a grid of rectangular areas. The next challenge is t
 classify the rectangles as a window or non-window area.
 
 % TODO kort iets schrijven over
-\subsubsection{Window classification}
+\paragraph{Window classification}
 %motivation
 % situation
 % method
-\paragraph{Motivation/Situation}
+%\paragraph{Motivation/Situation}
 Instead of classifying each rectangle independedly we classify full rows and
 columns as window or non-window areas.  This approach results in more accurate
 classification as it uses a full row and column as evidence for a singular
@@ -258,7 +264,7 @@ Houghlines, Figure % todo
  (red) is high at window areas.  We make use of this property to classify 
  the rows/columns.
 
-\paragraph{Method}
+%\paragraph{Method}
 For each row the number of vertical Houghline pixels that lie in this row are summed up.
 (Remark that with this method we take both the length of the Houghlines and amount of Houghlines 
 implicitly into account.)
