@@ -45,10 +45,7 @@ In this section we present three developed methods for robust window detection
 and discuss the effect of the scene transformation.
 
 We begin with an approach that is invariant to viewing direction.  Then we
-present our second method that assumes orthogonal and aligned windows.  Then we
-present a third feature based method.  Finally we show the power of combining
-the methods.
-
+present our second method that assumes orthogonal and aligned windows.
 
 
 \subsubsection{Related work}
@@ -130,9 +127,6 @@ and the Y coordinate of the middle point of the vertical line of the connected c
 Note that this is officially not allowed as we did not assume orthogonal windows
 neither did we assume the windows to be aligned with the X and Y axis of the
 image.  
-
-\subsubsection{Results}
-\fig{cCornerSpilTrans1.eps}{TODO}{0.6}
 
 \subsubsection{Discussion}
 A disadvantage of this method is that it only finds plausible window centers
@@ -220,7 +214,7 @@ are located at the right positions. Next step is to calculate the exact
 positions of these peaks.
 
 Before we find the peak positions we extract the peak \emph{areas} by thresholding the
-function. To make the threshold invariant to the values we use 0.5 \cdot max Peak. 
+function. To make the threshold invariant to the values we use 0.5 $\cdot$ max Peak. 
 (This value works for most datasets but is made up and can be altered)
 The two thresholds are presented as black dotted lines in Figure \ref{fig:hibaapHist.eps}.\\
 Next we create a binary function P that returns 1 for positions that are contained in
@@ -304,9 +298,10 @@ the probabilities for each rectangle are displayed.
 To get insight about the probabilities that lie behind the individual rows and columns
 we designed another representation in Figure %todo
 The whiter the area the more probable a rectangle is classified as a window.
-%--------------------------------------------------------------------------------------------------
 
-\paragraph{Discussion}
+\subsubsection{Discussion}
+\paragraph{Method I}
+\paragraph{Method II}
 pro's 
 This method is invariant to the height of the values
 As the data is 1 dimensional this method doesn't use 
@@ -317,20 +312,20 @@ The outcome is non-deterministic, as it depends on to the random initialization 
 
 
 \subsubsection{Results}
+Below the results of the different methods on different datasets.
+\fig{cCornerSpilTrans1.eps}{TODO}{0.6}
 \fig{hibaapHistSpilTrans.eps}{TODO}{0.4}
+% todo discuss results
+The results are promissing
+On different dataset 
+oclusion
+
 
 \subsubsection{Future work}
 Some alternative ideas to classify the rectangles as window or non-window
 \begin{itemize}
 	\item sum and normalize edge pixels for every block, large amount of edge pixels means window behind rectangle (working on it right now)
 \end{itemize}
-
-
-\subsection{Method III: Feature detection approach}
-	TODO figure and explain contribution and method of multi scale harris corner detector
-
-\subsection{Fusing the methods}
-	TODO
 
 \subsection{Results}
 \subsection{Discussion}  % (What do my results mean to me and why)
