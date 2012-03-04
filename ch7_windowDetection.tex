@@ -12,7 +12,7 @@
 % list of figures
 % - original image
 % -red and green houghlines, with ori figure as background
-% -hibaap with 0.7 times max peak
+% -hibaap with 0.5 times max peak
 % -figure with only the windows as big red rectangular areas
 % -grayvalues voting
 %	- values that fall out of cluster are displayed striped
@@ -128,25 +128,6 @@ Note that this is officially not allowed as we did not assume orthogonal windows
 neither did we assume the windows to be aligned with the X and Y axis of the
 image.  
 
-\subsubsection{Discussion}
-A disadvantage of this method is that it only finds plausible window centers
-(and for each windowcenter one of the cornerpositions).  It would be more
-useful to find the complete window region. 
-
-%This is difficult as mostly by occlusion or by the angle view the window edges are incomplete
-The big advantage is that this method doesn't require the windows to be aligned.
-Furthermore it's robust to a variation in window sizes. This makes this approach suitable
-for a wide range of window scenes where no or few prior information about the
-	windows is known.
-
-
-\subsubsection{Future work}
-Remove children cc's leaving only parents
-cluster the windows
-
-Connect more parts of the window to form U shaped windows or complete rectangles.\\
-Increase vote when window has small sub windows that are included.\\
-More accurate middle point of window estimation. 
 
 
 \subsection{Method II: Histogram based approach} 
@@ -299,19 +280,10 @@ To get insight about the probabilities that lie behind the individual rows and c
 we designed another representation in Figure %todo
 The whiter the area the more probable a rectangle is classified as a window.
 
-\subsubsection{Discussion}
-\paragraph{Method I}
-\paragraph{Method II}
-pro's 
-This method is invariant to the height of the values
-As the data is 1 dimensional this method doesn't use 
-con's
-The outcome is non-deterministic, as it depends on to the random initialization of the cluster centers.
-% TODO Ref biblograyhf
 
 
 
-\subsubsection{Results}
+\subsection{Results}
 Below the results of the different methods on different datasets.
 \fig{cCornerSpilTrans1.eps}{TODO}{0.6}
 \fig{hibaapHistSpilTrans.eps}{TODO}{0.4}
@@ -320,21 +292,60 @@ The results are promissing
 On different dataset 
 oclusion
 
+\subsection{Discussion}  % (What do my results mean to me and why)
+\paragraph{Method I: Connected corner approach} 
+A disadvantage of this method is that it only finds plausible window centers
+(and for each windowcenter one of the cornerpositions).  It would be more
+useful to find the complete window region. However, for the purpose of estimating
+a peoplecount for a realtime evacuation plan generator, the count of windows
+would be enough.
+
+The big advantage is that this method doesn't require the windows to be aligned.
+Furthermore it's robust to a variation in window sizes. This makes this approach suitable
+for a wide range of window scenes where no or few prior information about the
+	windows is known.
+
+
+
+\paragraph{Method II: Histogram based approach} 
+pro's 
+This method is invariant to the height of the values
+As the data is 1 dimensional this method doesn't use 
+con's
+The outcome is non-deterministic, as it depends on to the random initialization of the cluster centers.
+% TODO Ref biblograyhf
+
+
+\subsection{Conclusion and Future work}
+\subsubsection{Conclusion}
+-
+%todo
 
 \subsubsection{Future work}
-Some alternative ideas to classify the rectangles as window or non-window
-\begin{itemize}
-	\item sum and normalize edge pixels for every block, large amount of edge pixels means window behind rectangle (working on it right now)
-\end{itemize}
+\paragraph{Method I: Connected corner approach} 
+It would be nice to have a clustering algorithm that groups connected corners to
+a window. For this method it would be useful to assume the windowsize as this
+correlates directly to the interclusterdistance.\\
 
-\subsection{Results}
-\subsection{Discussion}  % (What do my results mean to me and why)
-\subsection{Conclusion and Future work}
+It would also be nice to incorporate not only the center of the connected corner
+as a parameter of the cluster space but also the length and position of the of
+the connected corners' horizontal and vertical line parts.  The inter cluster
+distance and the number of grouped connected corner could form a good source for
+the probability that a window is found.
+
+% todo uitzoeken of ik dit niet al doe
+We only developed L-shaped connected corners, it would be nice to connect more
+parts of the window to form U shaped connected corners or even complete rectangles.\\
+The later is difficult because the edges are often incomplete due to for example occlusion 
+or the angle of viewing.
 
 
-%TODO 
-% find a way to compare accuracy window detector
-% compare methods, show robustness
+\paragraph{Method II: Histogram based approach} 
+- 
+% todo
+
+
+
 
 
 % title: Graph Theory and Mean Shift Segmentation Based Classiﬁcation of Building Facades
