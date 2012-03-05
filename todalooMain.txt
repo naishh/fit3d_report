@@ -1,4 +1,16 @@
-GENIET, met muziekje erbij ! 
+GENIET, muziekje erbij ! 
+
+dagdoel
+	commentaar frans verwerken (0.5)
+	alle plaatjes af (1.5u)
+	waarom window detectie, motivatie!
+	alles doorlezen
+	subsections eerst af voor nieuwe beginnen
+	mail isaac results
+	assumptions mooi highlighten
+	todo's
+	
+
 
 
 
@@ -64,6 +76,7 @@ chapter 6 ass
 	check backreferences
 
 chapter ? preliminaries
+	explain Houghlines with theta representation
 
 write big main introduction Introduction (What did I do and why) (WRITE AFTER CONCLUSION)
 	use costins work and refs as inspiration

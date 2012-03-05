@@ -34,22 +34,34 @@
 \subsection{Introduction}
 \fig{datasetIm.eps}{Original image}{0.6}
 \fig{datasetImRectified.eps}{Rectified image}{0.6}
+% todo motivation
+
+In this section we present two developed methods for robust window detection and
+discuss the effect of the scene transformation.
+
+
+
 From the previous section we know that from a serie of images a 3D model of a
 building can be extracted. Furthermore we saw that with the 3D information the
-scene could be viewed from another viewing point. 
+scene could be converted to another viewing point. 
 
 We projected the scene to a frontal view of a building, where a building wall appears
 orthogonal, and showed what interesting possibilities this opens.
-One example is robust window detection.
-In this section we present three developed methods for robust window detection
-and discuss the effect of the scene transformation.
+A frontal view of a building comes with orthogonality and alignment of the
+windows. We exploit this properties to build a to build a robust window detector
+%with a high accuracy for a wide range of scenes.
+This projection also comes with the difficulties which we discuss in \ref{}? %
+todo
+
 
 We begin with an approach that is invariant to viewing direction.  Then we
 present our second method that assumes orthogonal and aligned windows.
 
 
 \subsubsection{Related work}
-TODO
+-
+%todo
+
 % tjoint article quoten
 
 \subsection{Edge detection and Houghline extraction} 
@@ -70,9 +82,15 @@ unprojected image. We only project the Houghline segment
 endpoints. If $h$ is the number of Houghlines, the number of projections is $2h$
 When we project the original image this is $w$ x $h$ where w,h are the dimensions of
 the image. To give an indication for dataset %TODO
-this means 600 projections in stead of 1572864.
+this means 600 projections in stead of 1572864.\\
+\textit{As the backprojection isn't done at the time of writing we 
+we also present the rectified image}
+% todo backprojection
 
 \subsection{Method I: Connected corner approach} 
+%Because the viewing point isn't assumed to be frontal, we we set the 
+% motivation
+
 \subsubsection{Situation and assumptions}
 We introduce the concept \emph{connected corner}, this is a corner that is 
 connected to a horizontal and vertical line.  
@@ -88,10 +106,14 @@ to be aligned to each other neither to the X and Y axis of the image.
 
 \subsubsection{Method}
 From the edge image we extract two groups of Houghlines, horizontal and
-vertical.  We set the $\theta$bin ranges in the Hough transform that control the
-allowed angles of the Houghlines to extract the two groups.
+vertical.  We set the $\theta$ bin ranges in the Hough transform that control the
+allowed angles of the Houghlines to extract the two groups. The horizontal group
+has a range of [-30..0..30] degrees, where 0 presents a horizontal line. The vertical
+group has a range of [80..90..100] degrees. This ranges seem
+to work good on an empirical basis for all datasets.
 
-Next we pair up horizontal and vertical lines to form a connected corner.
+Next we pair up horizontal and vertical lines to discard found edges that are
+not origined from a window. These paired up lines form a connected corner.
 Often a connected corner is not fully connected or over connected.
 We consider different types of connected corners, see Figure \ref{fig:cCornerTypes} 
 \fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
@@ -131,11 +153,24 @@ image.
 
 
 \subsection{Method II: Histogram based approach} 
+\subsubsection{Introduction}
+In this method we assume that the viewing direction of the wall containing the 
+windows is frontal. This assumption makes it possible to exploit the orthogonality and
+alignment of the windows.
+We first determine the aligment of the windows and then exctract the windows.
+
+\paragraph{Occlusion}
+If the image isn't the frontal view of the buildingwall we project the image 
+see section ?%todo section rectification
+This projection comes with some difficulties, occlusion.  In a few cases an
+buiding wall extention (middle of figure \ref{fig:datasetIm.eps}) a drainpipe
+or the building wall self is occluding a part of the window.  The less frontal
+the view, the more occlusion negatively effects the cleaness of the projection.
+To handle this occlusion artefact and to increase accuracy we combininging the
+windows probabilities.  
+
 \subsubsection{Situation and assumptions}
-In this method we assume that the viewing direction of the wall containing the windows is frontal.
-If the image isn't the frontal view of the buildingwall we calculated the frontal projection
-see section %todo section rectification
-To be more precise we assume the windows have orthogonal sides.  Furthermore we
+To be more precise in our assumptoins, we assume the windows have orthogonal sides.  Furthermore we
 assume that the windows are aligned, This means that a row of windows share the
 same height and $y$ position. For a column of windows the width and $x$
 position has to be equal.  Note that this doesn't mean that all windows have te
@@ -287,12 +322,14 @@ The whiter the area the more probable a rectangle is classified as a window.
 Below the results of the different methods on different datasets.
 \fig{cCornerSpilTrans1.eps}{TODO}{0.6}
 \fig{hibaapHistSpilTrans.eps}{TODO}{0.4}
-% todo discuss results
+% todo compair methods and explain the differences
+
 The results are promissing
 On different dataset 
 oclusion
 
 \subsection{Discussion}  % (What do my results mean to me and why)
+% todo discuss resuts 
 \paragraph{Method I: Connected corner approach} 
 A disadvantage of this method is that it only finds plausible window centers
 (and for each windowcenter one of the cornerpositions).  It would be more
@@ -319,6 +356,8 @@ The outcome is non-deterministic, as it depends on to the random initialization 
 \subsection{Conclusion and Future work}
 \subsubsection{Conclusion}
 -
+We showed that projecting the image to a frontal view is a good preprocessing
+step of a robust window detector.
 %todo
 
 \subsubsection{Future work}
@@ -342,7 +381,10 @@ or the angle of viewing.
 
 \paragraph{Method II: Histogram based approach} 
 - 
-% todo
+It would be nice to investigate the effect of the occlusion and to exploit the
+robustness of the window detector under extreme viewing angles.
+For example the viewing angle could be plotted against the percentage of
+correct detected windows.
 
 
 
