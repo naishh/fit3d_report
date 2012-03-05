@@ -120,7 +120,7 @@ We consider different types of connected corners, see Figure \ref{fig:cCornerTyp
 result the clean connected corner}{0.4}
 
 To clean up the lines, the algorithm discards intersections between the
-horizontal and vertical Houghlines that are far. 
+horizontal and vertical Houghlines that are apart. 
 Two intersection point distances are measured: $d_h$ for the horizontal Houghline and $d_v$
 for the vertical Houghline.  If the intersection falls on both associated Houghlines,
 	the total distance $D=0$.  Otherwise the Euclidean distance is measured from the
@@ -225,9 +225,10 @@ A common solution would be to decrease the number of bins of the histograms. A
 disadvantage of this method is that this comes with a price, it decreases the accuracy. Therefor
 we keep the maximum resolution and, instead, smooth the values using a moving average filter.
 The result, red lines in Figure \ref{fig:hibaapHist.eps}
-, is a smooth function which contains the right number of peaks. Also the peaks
-are located at the right positions. Next step is to calculate the exact
-positions of these peaks.
+, is a smooth function which contains the right number of peaks. As can be seen
+in Figure \ref{fig:hibaapHist.eps}, the peaks
+are located at the average positions of the windowedges. Next step is to
+calculate these positions. 
 
 Before we find the peak positions we extract the peak \emph{areas} by thresholding the
 function. To make the threshold invariant to the values we use 0.5 $\cdot$ max Peak. 
