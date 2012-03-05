@@ -12,6 +12,7 @@ dagdoel
 	
 
 
+create cCorner result of image with non frontal viewpoint
 
 
 generate better result

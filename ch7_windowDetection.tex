@@ -23,23 +23,16 @@
 \section{Window detection}
 
 
-
-
-
-
-
 % TODO explain efficiency of Houghline coordinate transformation (instead of
 % transforming the image
 \label{chap:windowDetection}
 \subsection{Introduction}
 \fig{datasetIm.eps}{Original image}{0.6}
 \fig{datasetImRectified.eps}{Rectified image}{0.6}
-% todo motivation
 
 In this section we present two developed methods for robust window detection and
 discuss the effect of the scene transformation.
-
-
+\emph{ todo motivation}
 
 From the previous section we know that from a serie of images a 3D model of a
 building can be extracted. Furthermore we saw that with the 3D information the
@@ -59,7 +52,7 @@ present our second method that assumes orthogonal and aligned windows.
 
 
 \subsubsection{Related work}
--
+\emph{TODO}
 %todo
 
 % tjoint article quoten
@@ -68,11 +61,11 @@ present our second method that assumes orthogonal and aligned windows.
 % this is described in a early chapter.
 Edge detection and Houghline extraction is done as is described in chapter ??
 % TODO
-The results can be seen in Figure \ref{fig:hibaapEdge.eps} and
-\ref{fig:hibaapHough.eps}.
-\fig{hibaapOri.eps}{Original image}{0.4}
-\fig{hibaapEdge.eps}{Result edge detection}{0.4}
-\fig{hibaapHough.eps}{Houghlines with endpoints}{0.4} 
+The results can be seen in Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} and
+\ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.
+\fig{w_Spil1TransCrop1_ImOri.eps}{Rectified image}{0.4}
+\fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.4}
+\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.4} 
 \subsubsection{Efficient Projecting} 
 We are interested in the frontal view of the building and it would be straight
 forward to project the original image, however this is computational
@@ -184,7 +177,7 @@ image in window or not window regions.  Finally these regions are classified
 and combined which gives us the windows.
 
 
-\fig{hibaapHist.eps}{(smoothed) Histograms and window alignment lines}{0.4}
+\fig{w_Spil1TransCrop1_ImHibaap.eps}{(smoothed) Histograms and window alignment lines}{0.4}
 \paragraph{Extract Window alignment}
 %explain pipe line
 %(color transform)
@@ -192,7 +185,7 @@ and combined which gives us the windows.
 %Houghline extraction
 We introduce the concept alignment line. We define this as a horizontal or
 vertical line that aligns multiple windows. In Figure
-\ref{fig:hibaapHist.eps}
+\ref{fig:w_Spil1TransCrop1_ImHibaap.eps}
 we show the alignment lines as two groups, horizontal (red) and
 vertical (green) alignment lines.  The combination of both groups give a grid of
 rectangles that we classify as window or non-window areas.\\
@@ -205,7 +198,7 @@ the number of vertical Houghline start and ends is high (see green crosses in
 Figure \ref{fig:hibmaapHough.eps}.\\
 
 We begin by extracting the coordinates of the endpoints of the Hough transformed line
-segments. We store them in two groups, horizontal and vertical% (crosses in Figure \ref{fig:hibaapHough.eps}). 
+segments. We store them in two groups, horizontal and vertical% (crosses in Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}). 
 We project the coordinates to the axis that is orthogonal to the group. This
 means that for each horizontal Houghline two coordinates are projected to the X
 axis and for each vertical Houghline two coordinates are projected to the Y
@@ -214,7 +207,7 @@ coordinates which represent the projected position of the Houghlines.\\
 
 Next we calculate two histograms H(orizontal) and V(ertical), containing respectively
 $w$ and $h$ bins where $w x h$ is the dimension of the image.  The histograms
-are presented as small yellow bars in Figure \ref{fig:hibaapHist.eps}.
+are presented as small yellow bars in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.
 
 The peaks are located at the positions where an increased number of Houghlines
 start or end.  These are the interesting positions as they are highly correlated
@@ -224,16 +217,16 @@ It is easy to see that the number of peaks is fare more then the desired number 
 A common solution would be to decrease the number of bins of the histograms. A
 disadvantage of this method is that this comes with a price, it decreases the accuracy. Therefor
 we keep the maximum resolution and, instead, smooth the values using a moving average filter.
-The result, red lines in Figure \ref{fig:hibaapHist.eps}
+The result, red lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}
 , is a smooth function which contains the right number of peaks. As can be seen
-in Figure \ref{fig:hibaapHist.eps}, the peaks
+in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}, the peaks
 are located at the average positions of the windowedges. Next step is to
 calculate these positions. 
 
 Before we find the peak positions we extract the peak \emph{areas} by thresholding the
-function. To make the threshold invariant to the values we use 0.5 $\cdot$ max Peak. 
+function. To make the threshold invariant to the values, we set the threshold to 0.5 $\cdot$ max Peak. 
 (This value works for most datasets but is made up and can be altered)
-The two thresholds are presented as black dotted lines in Figure \ref{fig:hibaapHist.eps}.\\
+%The two thresholds are presented as black dotted lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.\\
 Next we create a binary function P that returns 1 for positions that are contained in
 a peak, i.e. are above the threshold, and 0 otherwise.
 % TODO latex, afkijken locate my plate
@@ -250,7 +243,7 @@ Having classified the peak areas, the next step is to extract the peak positions
 Each peak area has only one peak and, since we used an average smoothing filter, the shape of 
 the peaks are often concave. Therefor we extract the peaks by locating the max of each peak area. 
 These locations are used to draw the window alignment lines, they can be seen
-as dotted red lines and dotted green lines in Figure \ref{fig:hibaapHist.eps}
+as dotted red lines and dotted green lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}
 
 The image is now divided in a grid of rectangular areas. The next challenge is to 
 classify the areas as window and non-window areas: the window classification.
@@ -262,12 +255,11 @@ columns as window or non-window areas.  This approach results in more accurate
 classification as it uses a full row and column as evidence for a singular
 window. The method exploits the fact that the windows are assumed to be
 aligned.
-%TODO Ref
 A row that contains windows is remarkable by its high amount of vertical
-Houghlines, Figure % todo
-(green). For the columns the number of horizontal Houghlines, Figure %todo
+Houghlines, Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}
+(green). For the columns the number of horizontal Houghlines
  (red) is high at window areas.  We use this property to classify 
- the rows/columns and we do this as follows.
+ the rows/columns. 
 
 For each row the number of vertical Houghline pixels that lie in this row are summed up.
 (Remark that with this method we take both the length of the Houghlines and amount of Houghlines 
@@ -281,7 +273,12 @@ Leaving us with $||R||$ (number of rows) scalar values that give a rank of a row
 This is also done for each column (using the normalized horizontal amount of
 Houghlines pixels) which leaves us with $C$.
 
-If we take a look at the distribution of $R$ and $C$ we see two clusters apear: one with
+\fig{w_Spil1TransCrop1_ImClassRectBar.eps}{Unnormalized Houghline pixel count of
+the columns (C)}{0.6}
+\fig{w_Spil1TransCrop1_ImClassRectBarh.eps}{Unnormalized Houghline pixel count of
+the rows (R)}{0.6}
+In Figure \ref{fig:w_Spil1TransCrop1_ImClassRectBar.eps} and \ref{fig:w_Spil1TransCrop1_ImClassRectBar.eps} 
+we can take a look at the distribution of $R$ and $C$. We see two clusters apear: one with
 high values (the rows/columns that contain windows) and one with low values (non window
 rows/columns).  A straight forward approach would be to apply the classification using a
 threshold for this value.  However, as the height of the values depend on
@@ -313,21 +310,20 @@ In Figure %todo
 the probabilities for each rectangle are displayed.
 
 To get insight about the probabilities that lie behind the individual rows and columns
-we designed another representation in Figure %todo
+we designed another representation in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscale.eps}
 The whiter the area the more probable a rectangle is classified as a window.
 
+\fig{w_Spil1TransCrop1_ImClassRectGrayscale.eps}{TODO}{0.4}
 
 
 
 \subsection{Results}
 Below the results of the different methods on different datasets.
 \fig{cCornerSpilTrans1.eps}{TODO}{0.6}
-\fig{hibaapHistSpilTrans.eps}{TODO}{0.4}
-% todo compair methods and explain the differences
+\fig{w_Spil1TransCrop1_ImClassRect.eps}{TODO}{0.4}
+\emph{TODO include images other datasets}
+\emph{todo compair methods and explain differences}
 
-The results are promissing
-On different dataset 
-oclusion
 
 \subsection{Discussion}  % (What do my results mean to me and why)
 % todo discuss resuts 
@@ -342,23 +338,26 @@ The big advantage is that this method doesn't require the windows to be aligned.
 Furthermore it's robust to a variation in window sizes. This makes this approach suitable
 for a wide range of window scenes where no or few prior information about the
 	windows is known.
-
+\emph{TODO}
 
 
 \paragraph{Method II: Histogram based approach} 
-pro's 
+\emph{TODO}\\
+pro's \\
 This method is invariant to the height of the values
 As the data is 1 dimensional this method doesn't use 
-con's
+con's\\
 The outcome is non-deterministic, as it depends on to the random initialization of the cluster centers.
+\emph{TODO}\\
 % TODO Ref biblograyhf
+
 
 
 \subsection{Conclusion and Future work}
 \subsubsection{Conclusion}
--
 We showed that projecting the image to a frontal view is a good preprocessing
 step of a robust window detector.
+\emph{TODO}
 %todo
 
 \subsubsection{Future work}
@@ -381,11 +380,11 @@ or the angle of viewing.
 
 
 \paragraph{Method II: Histogram based approach} 
-- 
 It would be nice to investigate the effect of the occlusion and to exploit the
 robustness of the window detector under extreme viewing angles.
 For example the viewing angle could be plotted against the percentage of
 correct detected windows.
+\emph{TODO}
 
 
 
