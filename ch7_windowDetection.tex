@@ -63,9 +63,9 @@ Edge detection and Houghline extraction is done as is described in chapter ??
 % TODO
 The results can be seen in Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} and
 \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.
-\fig{w_Spil1TransCrop1_ImOri.eps}{Rectified image}{0.4}
-\fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.4}
-\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.4} 
+\fig{w_Spil1TransCrop1_ImOri.eps}{Rectified image}{0.45}
+\fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.45}
+\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.45} 
 \subsubsection{Efficient Projecting} 
 We are interested in the frontal view of the building and it would be straight
 forward to project the original image, however this is computational
@@ -110,7 +110,7 @@ not origined from a window. These paired up lines form a connected corner.
 Often a connected corner is not fully connected or over connected.
 We consider different types of connected corners, see Figure \ref{fig:cCornerTypes} 
 \fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
-result the clean connected corner}{0.4}
+result the clean connected corner}{1}
 
 To clean up the lines, the algorithm discards intersections between the
 horizontal and vertical Houghlines that are apart. 
@@ -150,7 +150,7 @@ image.
 In this method we assume that the viewing direction of the wall containing the 
 windows is frontal. This assumption makes it possible to exploit the orthogonality and
 alignment of the windows.
-We first determine the aligment of the windows and then exctract the windows.
+We first determine the alignment of the windows and then extract the windows.
 
 \paragraph{Occlusion}
 If the image isn't the frontal view of the buildingwall we project the image 
@@ -158,26 +158,26 @@ see section ?%todo section rectification
 This projection comes with some difficulties, occlusion.  In a few cases an
 buiding wall extention (middle of figure \ref{fig:datasetIm.eps}) a drainpipe
 or the building wall self is occluding a part of the window.  The less frontal
-the view, the more occlusion negatively effects the cleaness of the projection.
-To handle this occlusion artefact and to increase accuracy we combininging the
+the view, the more occlusion negatively effects the cleanness of the projection.
+To handle this occlusion artefact and to increase accuracy we combining the
 windows probabilities.  
 
 \subsubsection{Situation and assumptions}
-To be more precise in our assumptoins, we assume the windows have orthogonal sides.  Furthermore we
+To be more precise in our assumptions, we assume the windows have orthogonal sides.  Furthermore we
 assume that the windows are aligned, This means that a row of windows share the
 same height and $y$ position. For a column of windows the width and $x$
-position has to be equal.  Note that this doesn't mean that all windows have te
+position has to be equal.  Note that this doesn't mean that all windows have the
 share the same size.
 
 \subsubsection{Method}
 The extraction of the windows is done in different steps. 
 First the alignment of the windows is determined, this is based on collecting
-the Houghlines' start and endpoints. Then we use this allignment to devide the
+the Houghlines' start and endpoints. Then we use this alignment to divide the
 image in window or not window regions.  Finally these regions are classified
 and combined which gives us the windows.
 
 
-\fig{w_Spil1TransCrop1_ImHibaap.eps}{(smoothed) Histograms and window alignment lines}{0.4}
+\fig{w_Spil1TransCrop1_ImHibaap.eps}{(smoothed) Histograms and window alignment lines}{0.45}
 \paragraph{Extract Window alignment}
 %explain pipe line
 %(color transform)
@@ -220,7 +220,7 @@ we keep the maximum resolution and, instead, smooth the values using a moving av
 The result, red lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}
 , is a smooth function which contains the right number of peaks. As can be seen
 in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}, the peaks
-are located at the average positions of the windowedges. Next step is to
+are located at the average positions of the window edges. Next step is to
 calculate these positions. 
 
 Before we find the peak positions we extract the peak \emph{areas} by thresholding the
@@ -273,16 +273,17 @@ Leaving us with $||R||$ (number of rows) scalar values that give a rank of a row
 This is also done for each column (using the normalized horizontal amount of
 Houghlines pixels) which leaves us with $C$.
 
-\fig{w_Spil1TransCrop1_ImClassRectBar.eps}{Unnormalized Houghline pixel count of
-the columns (C)}{0.6}
-\fig{w_Spil1TransCrop1_ImClassRectBarh.eps}{Unnormalized Houghline pixel count of
-the rows (R)}{0.6}
-In Figure \ref{fig:w_Spil1TransCrop1_ImClassRectBar.eps} and \ref{fig:w_Spil1TransCrop1_ImClassRectBar.eps} 
-we can take a look at the distribution of $R$ and $C$. We see two clusters apear: one with
+%\fig{w_Spil1TransCrop1_ImClassRectBar.eps}{Unnormalized Houghline pixel count of
+%the columns (C)}{0.6}
+%\fig{w_Spil1TransCrop1_ImClassRectBarh.eps}{Unnormalized Houghline pixel count of
+%the rows (R)}{0.6}
+%In Figure \ref{fig:w_Spil1TransCrop1_ImClassRectBar.eps} and \ref{fig:w_Spil1TransCrop1_ImClassRectBar.eps} 
+In Figure ? and ? % todo
+we can take a look at the distribution of $R$ and $C$. We see two clusters appear: one with
 high values (the rows/columns that contain windows) and one with low values (non window
 rows/columns).  A straight forward approach would be to apply the classification using a
 threshold for this value.  However, as the height of the values depend on
-(unknown) properties like the number of windows, windowtypes etc., the threshold
+(unknown) properties like the number of windows, window types etc., the threshold
 would be hard to determine and the method won't be robust. Instead we use the fact 
 there should always be two clusters and use \emph{$k$-means}
 clustering (with $k=2$) as the classification procedure.
@@ -310,17 +311,17 @@ In Figure %todo
 the probabilities for each rectangle are displayed.
 
 To get insight about the probabilities that lie behind the individual rows and columns
-we designed another representation in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscale.eps}
+we designed another representation in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}
 The whiter the area the more probable a rectangle is classified as a window.
 
-\fig{w_Spil1TransCrop1_ImClassRectGrayscale.eps}{TODO}{0.4}
+\fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{TODO}{0.45}
 
 
 
 \subsection{Results}
 Below the results of the different methods on different datasets.
-\fig{cCornerSpilTrans1.eps}{TODO}{0.6}
-\fig{w_Spil1TransCrop1_ImClassRect.eps}{TODO}{0.4}
+\fig{cCornerSpilTrans1.eps}{TODO}{0.45}
+\fig{w_Spil1TransCrop1_ImClassRect.eps}{TODO}{0.45}
 \emph{TODO include images other datasets}
 \emph{todo compair methods and explain differences}
 
@@ -329,9 +330,9 @@ Below the results of the different methods on different datasets.
 % todo discuss resuts 
 \paragraph{Method I: Connected corner approach} 
 A disadvantage of this method is that it only finds plausible window centers
-(and for each windowcenter one of the cornerpositions).  It would be more
+(and for each window center one of the corner positions).  It would be more
 useful to find the complete window region. However, for the purpose of estimating
-a peoplecount for a realtime evacuation plan generator, the count of windows
+a people count for a real-time evacuation plan generator, the count of windows
 would be enough.
 
 The big advantage is that this method doesn't require the windows to be aligned.
@@ -363,8 +364,8 @@ step of a robust window detector.
 \subsubsection{Future work}
 \paragraph{Method I: Connected corner approach} 
 It would be nice to have a clustering algorithm that groups connected corners to
-a window. For this method it would be useful to assume the windowsize as this
-correlates directly to the interclusterdistance.\\
+a window. For this method it would be useful to assume the window size as this
+correlates directly to the inter-cluster distance.\\
 
 It would also be nice to incorporate not only the center of the connected corner
 as a parameter of the cluster space but also the length and position of the of

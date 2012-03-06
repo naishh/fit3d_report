@@ -1,29 +1,23 @@
 GENIET, muziekje erbij ! 
 
-dagdoel
-	commentaar frans verwerken (0.5)
-	alle plaatjes af (1.5u)
-	waarom window detectie, motivatie!
-	alles doorlezen
+
+todo window detection:
+	put work in context, 
+		related work, 
+		waarom window detectie, motivatie!
+	eps border googlen matlab 
+		eps remove border of image
+	commentaar frans verwerken 
+	meer dataset plaatjes generen
 	subsections eerst af voor nieuwe beginnen
 	mail isaac results
 	assumptions mooi highlighten
 	todo's
+	alles doorlezen
 	
-
-
-create cCorner result of image with non frontal viewpoint
-
-
-generate better result
-	transform gimp
-	change ranges to smaller rates
-
-trim eps bestanden met eps editor
-	
-new dataset image
-	google?
-
+	matlab:
+		create cCorner result of image with non frontal viewpoint
+		ingezoomed plaatje probabilities
 
 
 
