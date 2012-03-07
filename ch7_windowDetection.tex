@@ -286,15 +286,15 @@ Leaving us with $||R||$ (number of rows) scalar values that give a rank of a row
 This is also done for each column (using the normalized horizontal amount of
 Houghlines pixels) which leaves us with $C$.
 
-%\fig{w_Spil1TransCrop1_ImClassRectBar.eps}{Unnormalized Houghline pixel count of
-%the columns (C)}{0.6}
-%\fig{w_Spil1TransCrop1_ImClassRectBarh.eps}{Unnormalized Houghline pixel count of
-%the rows (R)}{0.6}
-%In Figure \ref{fig:w_Spil1TransCrop1_ImClassRectBar.eps} and \ref{fig:w_Spil1TransCrop1_ImClassRectBar.eps} 
-In Figure ? and ? % todo
-we can take a look at the distribution of $R$ and $C$. We see two clusters appear: one with
+\fig{w_Spil1TransCrop1_ImClassRectBarh.eps}{Normalized vertical Houghline pixel count of
+the rows (R)}{0.6}
+If we examine the distribution of $R$ and $C$, we see two clusters appear: one with
 high values (the rows/columns that contain windows) and one with low values (non window
-rows/columns).  A straight forward approach would be to apply the classification using a
+rows/columns). For a concrete example we displayed the of $R$ in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectBarh.eps}.
+Its easy to see that the high values, row 4,5,7,8,10 and 11, correspond to the
+six window row areas in Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps} 
+
+A straight forward approach would be to apply the classification using a
 threshold for this value.  However, as the height of the values depend on
 (unknown) properties like the number of windows, window types etc., the threshold
 would be hard to determine and the method won't be robust. Instead we use the fact 
@@ -326,7 +326,7 @@ then the system nows for 50 percent sure it is a window, compared to its best wi
 To get insight about the probabilities that lie behind the individual rows and columns
 we designed another representation in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}
 The whiter the area the more probable a rectangle is classified as a window.
-\fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{TODO}{0.45}
+\fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification probabilities, white means high.}{0.45}
 
 
 
@@ -346,6 +346,7 @@ A disadvantage of this method is that it only finds plausible window centers
 useful to find the complete window region. However, for the purpose of estimating
 a people count for a real-time evacuation plan generator, the count of windows
 would be enough.
+% todo ref
 
 The big advantage is that this method doesn't require the windows to be aligned.
 Furthermore it's robust to a variation in window sizes. This makes this approach suitable
