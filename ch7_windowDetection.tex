@@ -1,3 +1,12 @@
+% set ignorecase
+
+
+
+% todo's
+% iets schrijven over datasets
+
+
+
 %TODO pipeline rectification process
 %
 % 		motion estimation
@@ -43,8 +52,7 @@ orthogonal, and showed what interesting possibilities this opens.
 A frontal view of a building comes with orthogonality and alignment of the
 windows. We exploit this properties to build a to build a robust window detector
 %with a high accuracy for a wide range of scenes.
-This projection also comes with the difficulties which we discuss in \ref{}? %
-todo
+This projection also comes with some difficulties which we discuss in \ref{lab:occlusion}
 
 
 We begin with an approach that is invariant to viewing direction.  Then we
@@ -57,12 +65,8 @@ present our second method that assumes orthogonal and aligned windows.
 
 % tjoint article quoten
 
-\subsection{Edge detection and Houghline extraction} 
-% this is described in a early chapter.
-Edge detection and Houghline extraction is done as is described in chapter ??
-% TODO
-The results can be seen in Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} and
-\ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.
+\subsection{Projection}
+
 \fig{w_Spil1TransCrop1_ImOri.eps}{Rectified image}{0.45}
 \fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.45}
 \fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.45} 
@@ -74,11 +78,20 @@ Houghlines. The edge detection and Houghline extraction is done on the original
 unprojected image. We only project the Houghline segment
 endpoints. If $h$ is the number of Houghlines, the number of projections is $2h$
 When we project the original image this is $w$ x $h$ where w,h are the dimensions of
-the image. To give an indication for dataset %TODO
+the image. To give an indication, for the \emph{Spil} dataset %TODO
 this means 600 projections in stead of 1572864.\\
-\textit{As the backprojection isn't done at the time of writing we 
+\emph{As the backprojection isn't done at the time of writing we 
 we also present the rectified image}
 % todo backprojection
+
+
+\subsection{Edge detection and Houghline extraction}
+% this is described in a early chapter.
+Edge detection and Houghline extraction is done as is described in chapter 
+\emph{(not included chapter)} % todo
+The results can be seen in Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} and
+\ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.
+
 
 \subsection{Method I: Connected corner approach} 
 %Because the viewing point isn't assumed to be frontal, we we set the 
@@ -149,17 +162,19 @@ image.
 \subsubsection{Introduction}
 In this method we assume that the viewing direction of the wall containing the 
 windows is frontal. This assumption makes it possible to exploit the orthogonality and
-alignment of the windows.
-We first determine the alignment of the windows and then extract the windows.
+alignment of the windows. We first determine the alignment of the windows and
+then extract the windows. 
 
 \paragraph{Occlusion}
+\emph{Wat is een goed plek voor dit stuk tekst?}
+\label{lab:occlusion}
 If the image isn't the frontal view of the buildingwall we project the image 
 see section ?%todo section rectification
 This projection comes with some difficulties, occlusion.  In a few cases an
 buiding wall extention (middle of figure \ref{fig:datasetIm.eps}) a drainpipe
-or the building wall self is occluding a part of the window.  The less frontal
+or the building wall itself is occluding a part of the window.  The less frontal
 the view, the more occlusion negatively effects the cleanness of the projection.
-To handle this occlusion artefact and to increase accuracy we combining the
+To handle this occlusion artefact and to increase accuracy we combine the
 windows probabilities.  
 
 \subsubsection{Situation and assumptions}
