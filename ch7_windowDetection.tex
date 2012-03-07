@@ -4,6 +4,7 @@
 
 % todo's
 % iets schrijven over datasets
+% rectification is not always accurate, explain consequences
 
 
 
@@ -19,10 +20,8 @@
 
 
 % list of figures
-% - original image
-% -red and green houghlines, with ori figure as background
-% -hibaap with 0.5 times max peak
-% -figure with only the windows as big red rectangular areas
+% -cCorner 
+% -bar and barh
 % -grayvalues voting
 %	- values that fall out of cluster are displayed striped
 % -grayvalues voting with clusterlines
@@ -263,7 +262,6 @@ as dotted red lines and dotted green lines in Figure \ref{fig:w_Spil1TransCrop1_
 The image is now divided in a grid of rectangular areas. The next challenge is to 
 classify the areas as window and non-window areas: the window classification.
 
-% TODO kort iets schrijven over
 \paragraph{Window classification}
 Instead of classifying each rectangle independedly we classify full rows and
 columns as window or non-window areas.  This approach results in more accurate
@@ -308,27 +306,26 @@ non-window areas.
 
 The next step is to determine the actual windows $W$.
 A rectangular area $w\in W$ that is crossed by $R_j$ and $C_k$ is classified as a
-window iff \emph{$k$-means} classified both $R_j$ and $C_k$ as window areas, see
-Figure %todo
-% figure with only the windows as big red rectangular areas
+window iff \emph{$k$-means} classified both $R_j$ and $C_k$ as window areas. These are displayed in 
+ Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps} as green rectangles.
+
+The last step is to group a set of windows that belong to eachother. This is done by 
+grouping adjacent positively classified rectangles. These are displayed as red
+rectangles in Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps}.
 
 As the figure gives a binary representation of the windows it is not possible
-to see the detailed information about the values behind the classification.
+to see the probabilities behind the classification.
 Therefor we developed a probabilistic function. 
 \[P(R_i) = \frac{R_i}{max(R)}\]
 \[P(C_i) = \frac{C_i}{max(C)}\]
 \[P(w) = \frac{P(R_i) + P(C_i)}{2}\]
 As you can see $P$ is normalized, this is to ensure the value of the maximum
 probability is exactly 1. The results can now be relatively interpreted, e.g. if the rectangle's $P=0.5$
-then the system nows for 50 percent sure it is a window compared to its best window ($P=1$).
-
-In Figure %todo
-the probabilities for each rectangle are displayed.
+then the system nows for 50 percent sure it is a window, compared to its best window ($P=1$).
 
 To get insight about the probabilities that lie behind the individual rows and columns
 we designed another representation in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}
 The whiter the area the more probable a rectangle is classified as a window.
-
 \fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{TODO}{0.45}
 
 
