@@ -35,15 +35,12 @@
 % transforming the image
 \label{chap:windowDetection}
 \subsection{Introduction}
-\fig{datasetIm.eps}{Original image}{0.6}
-\fig{datasetImRectified.eps}{Rectified image}{0.6}
 
-In this section we present two developed methods for robust window detection and
-discuss the effect of the scene transformation.
+In this section we present two developed methods for robust window detection .
 \emph{ todo motivation}
 
-From the previous section we know that from a serie of images a 3D model of a
-building can be extracted. Furthermore we saw that with the 3D information the
+From the previous section we know that from a serie of images, a 3D model of a
+building can be extracted. Furthermore we saw that using this 3D model the
 scene could be converted to another viewing point. 
 
 We projected the scene to a frontal view of a building, where a building wall appears
@@ -53,9 +50,10 @@ windows. We exploit this properties to build a to build a robust window detector
 %with a high accuracy for a wide range of scenes.
 This projection also comes with some difficulties which we discuss in \ref{lab:occlusion}
 
-
-We begin with an approach that is invariant to viewing direction.  Then we
-present our second method that assumes orthogonal and aligned windows.
+We start with discussing related work and putting our work in context.  Then we
+begin with a window detection approach that is invariant to viewing direction.
+After this we present our second method that assumes orthogonal and aligned
+windows.  Finally we show and discuss results. 
 
 
 \subsubsection{Related work}
@@ -64,15 +62,15 @@ present our second method that assumes orthogonal and aligned windows.
 
 % tjoint article quoten
 
-\subsection{Projection}
 
+\subsection{Efficient Projecting} 
+\fig{w_spil6ImOri.eps}{Original image}{0.6}
 \fig{w_Spil1TransCrop1_ImOri.eps}{Rectified image}{0.45}
 \fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.45}
 \fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.45} 
-\subsubsection{Efficient Projecting} 
-We are interested in the frontal view of the building and it would be straight
-forward to project the original image, however this is computational
-expensive. To keep the computational cost to a minimum we project only the
+As we are interested in the frontal view of the building, it would be straight
+forward to project the original image. However this is computational
+very expensive as each pixel needs to be projected. To keep the computational cost to a minimum we project only the
 Houghlines. The edge detection and Houghline extraction is done on the original
 unprojected image. We only project the Houghline segment
 endpoints. If $h$ is the number of Houghlines, the number of projections is $2h$
@@ -82,14 +80,6 @@ this means 600 projections in stead of 1572864.\\
 \emph{As the backprojection isn't done at the time of writing we 
 we also present the rectified image}
 % todo backprojection
-
-
-\subsection{Edge detection and Houghline extraction}
-% this is described in a early chapter.
-Edge detection and Houghline extraction is done as is described in chapter 
-\emph{(not included chapter)} % todo
-The results can be seen in Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} and
-\ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.
 
 
 \subsection{Method I: Connected corner approach} 
@@ -110,19 +100,24 @@ to be aligned to each other neither to the X and Y axis of the image.
 %the connected lines give a direction
 
 \subsubsection{Method}
-From the edge image we extract two groups of Houghlines, horizontal and
+\paragraph{Edge detection and Houghline extraction}
+Edge detection is done as is described in chapter 
+\emph{(not included chapter)} % todo
+From the edge image we extract two different groups of Houghlines, horizontal and % todo why?
 vertical.  We set the $\theta$ bin ranges in the Hough transform that control the
 allowed angles of the Houghlines to extract the two groups. The horizontal group
 has a range of [-30..0..30] degrees, where 0 presents a horizontal line. The vertical
 group has a range of [80..90..100] degrees. This ranges seem
 to work good on an empirical basis for all datasets.
+The results can be seen in Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} and
+ \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.
 
 Next we pair up horizontal and vertical lines to discard found edges that are
 not origined from a window. These paired up lines form a connected corner.
 Often a connected corner is not fully connected or over connected.
-We consider different types of connected corners, see Figure \ref{fig:cCornerTypes} 
+We consider different types of connected corners, see Figure \ref{fig:cCornerTypes}.
 \fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
-result the clean connected corner}{1}
+result the clean connected corner}{0.5}
 
 To clean up the lines, the algorithm discards intersections between the
 horizontal and vertical Houghlines that are apart. 
@@ -142,7 +137,7 @@ trimmed, depending on the situation. The results are shown in the second row in
 Figure \ref{fig:cCornerTypes}.
 In Figure \ref{fig:cCornerTypes}(I)  the horizontal line is stretched.  Figure
 \ref{fig:cCornerTypes}(II) shows that the vertical line is trimmed.  In Figure
-\ref{fig:cCornerTypes}(III) both lines are stretched.  At last Figure
+\ref{fig:cCornerTypes}(III) both lines are stretched.  At last, Figure
 \ref{fig:cCornerTypes}(IV) shows how both lines are trimmed.
 
 
@@ -153,8 +148,8 @@ This coordinate is retrieved using the X coordinate of the middle point of the h
 and the Y coordinate of the middle point of the vertical line of the connected corner.  
 Note that this is officially not allowed as we did not assume orthogonal windows
 neither did we assume the windows to be aligned with the X and Y axis of the
-image.  
-
+image. However on a empirical basis most crosses lie within the original window
+which is enough. Results are found in the Result section.
 
 
 \subsection{Method II: Histogram based approach} 
@@ -164,17 +159,6 @@ windows is frontal. This assumption makes it possible to exploit the orthogonali
 alignment of the windows. We first determine the alignment of the windows and
 then extract the windows. 
 
-\paragraph{Occlusion}
-\emph{Wat is een goed plek voor dit stuk tekst?}
-\label{lab:occlusion}
-If the image isn't the frontal view of the buildingwall we project the image 
-see section ?%todo section rectification
-This projection comes with some difficulties, occlusion.  In a few cases an
-buiding wall extention (middle of figure \ref{fig:datasetIm.eps}) a drainpipe
-or the building wall itself is occluding a part of the window.  The less frontal
-the view, the more occlusion negatively effects the cleanness of the projection.
-To handle this occlusion artefact and to increase accuracy we combine the
-windows probabilities.  
 
 \subsubsection{Situation and assumptions}
 To be more precise in our assumptions, we assume the windows have orthogonal sides.  Furthermore we
@@ -207,14 +191,15 @@ rectangles that we classify as window or non-window areas.\\
 % MOTIVATION
 How do we determine this alignment lines? We make use of the fact that among a
 horizontal alignment line a lot of horizontal Houghlines start and end (see red
-crosses in Figure \ref{fig:hibmaapHough.eps}. For the vertical alignment lines
+crosses in Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}. For the vertical alignment lines
 the number of vertical Houghline start and ends is high (see green crosses in
-Figure \ref{fig:hibmaapHough.eps}.\\
+Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.\\
 
 We begin by extracting the coordinates of the endpoints of the Hough transformed line
-segments. We store them in two groups, horizontal and vertical% (crosses in Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}). 
-We project the coordinates to the axis that is orthogonal to the group. This
-means that for each horizontal Houghline two coordinates are projected to the X
+segments. We store them in two groups, horizontal and vertical.% (crosses in Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}). 
+We discard the dimension that is least informative by project the coordinates to
+the axis that is orthogonal to its group. 
+This means that for each horizontal Houghline two coordinates are projected to the X
 axis and for each vertical Houghline two coordinates are projected to the Y
 axis. We have now transformed the data in two groups of 1 dimensional
 coordinates which represent the projected position of the Houghlines.\\
@@ -232,14 +217,13 @@ A common solution would be to decrease the number of bins of the histograms. A
 disadvantage of this method is that this comes with a price, it decreases the accuracy. Therefor
 we keep the maximum resolution and, instead, smooth the values using a moving average filter.
 The result, red lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}
-, is a smooth function which contains the right number of peaks. As can be seen
-in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}, the peaks
+, is a smooth function which contains the right number of peaks. The peaks
 are located at the average positions of the window edges. Next step is to
-calculate these positions. 
+calculate the peak areas and after this the peak positions. 
 
 Before we find the peak positions we extract the peak \emph{areas} by thresholding the
 function. To make the threshold invariant to the values, we set the threshold to 0.5 $\cdot$ max Peak. 
-(This value works for most datasets but is made up and can be altered)
+(This value works for most datasets but is made up and can be altered).
 %The two thresholds are presented as black dotted lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.\\
 Next we create a binary function P that returns 1 for positions that are contained in
 a peak, i.e. are above the threshold, and 0 otherwise.
@@ -257,7 +241,7 @@ Having classified the peak areas, the next step is to extract the peak positions
 Each peak area has only one peak and, since we used an average smoothing filter, the shape of 
 the peaks are often concave. Therefor we extract the peaks by locating the max of each peak area. 
 These locations are used to draw the window alignment lines, they can be seen
-as dotted red lines and dotted green lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}
+as dotted red lines and dotted green lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.
 
 The image is now divided in a grid of rectangular areas. The next challenge is to 
 classify the areas as window and non-window areas: the window classification.
@@ -266,7 +250,9 @@ classify the areas as window and non-window areas: the window classification.
 Instead of classifying each rectangle independedly we classify full rows and
 columns as window or non-window areas.  This approach results in more accurate
 classification as it uses a full row and column as evidence for a singular
-window. The method exploits the fact that the windows are assumed to be
+window. 
+
+The method exploits the fact that the windows are assumed to be
 aligned.
 A row that contains windows is remarkable by its high amount of vertical
 Houghlines, Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}
@@ -290,16 +276,19 @@ Houghlines pixels) which leaves us with $C$.
 the rows (R)}{0.6}
 If we examine the distribution of $R$ and $C$, we see two clusters appear: one with
 high values (the rows/columns that contain windows) and one with low values (non window
-rows/columns). For a concrete example we displayed the of $R$ in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectBarh.eps}.
+rows/columns). For a concrete example we displayed the values of $R$ in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectBarh.eps}.
 Its easy to see that the high values, row 4,5,7,8,10 and 11, correspond to the
-six window row areas in Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps} 
+six window row areas in Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps}.
 
-A straight forward approach would be to apply the classification using a
-threshold for this value.  However, as the height of the values depend on
-(unknown) properties like the number of windows, window types etc., the threshold
-would be hard to determine and the method won't be robust. Instead we use the fact 
-there should always be two clusters and use \emph{$k$-means}
-clustering (with $k=2$) as the classification procedure.
+How do we determine which value is classified as high?  A straight forward
+approach would be to apply a threshold, for example 0.5 would work fine.
+However, as the variation of the values depend on (unknown) properties like the
+number of windows, window types etc., the threshold maybe classify insufficient
+in another scene.  Hence working with the threshold wouldn't be robust. 
+
+Instead we use the fact that a row is either filled with windows or not, hence
+there should always be two clusters.  We use \emph{$k$-means} clustering (with
+$k=2$) as the classification procedure.
 %todo ref
 This results in a set of Rows and Columns that are classified as window an
 non-window areas.
@@ -321,7 +310,8 @@ Therefor we developed a probabilistic function.
 \[P(w) = \frac{P(R_i) + P(C_i)}{2}\]
 As you can see $P$ is normalized, this is to ensure the value of the maximum
 probability is exactly 1. The results can now be relatively interpreted, e.g. if the rectangle's $P=0.5$
-then the system nows for 50 percent sure it is a window, compared to its best window ($P=1$).
+then the system nows for 50 percent sure it is a window, compared to its best window ($P=1$). 
+And, as the normalisation implies this, there are always one or more window with $P=1$. 
 
 To get insight about the probabilities that lie behind the individual rows and columns
 we designed another representation in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}
@@ -331,15 +321,26 @@ The whiter the area the more probable a rectangle is classified as a window.
 
 
 \subsection{Results}
-Below the results of the different methods on different datasets.
-\fig{cCornerSpilTrans1.eps}{TODO}{0.45}
-\fig{w_Spil1TransCrop1_ImClassRect.eps}{TODO}{0.45}
-\emph{TODO include images other datasets}
+We tested both methods on different datasets.
+\fig{w_spil6cCornerImEdge.eps}{Edge detection}{0.6}
+\fig{w_spil6cCornerImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}% todo theta contstrain
+\fig{w_spil6cCornercCorner.eps}{Found connected corners}{0.6}
+\fig{w_spil6cCornerWindows.eps}{Connected corner as windows}{0.6}
+\fig{cCornerSpilTrans1.eps}{Found connected corners on the rectified image}{0.45}
+\fig{w_Spil1TransCrop1_ImClassRect.eps}{Classified rectangles}{0.45}
+
+\fig{w_SpilFrontal6345_crop1_ImOri.eps}{Original Image}{0.6}
+\fig{w_SpilFrontal6345_crop1_ImHibaap.eps}{Window alignment lines and histograms}{0.6}
+\fig{w_SpilFrontal6345_crop1_ImClassRect.eps}{Classified rectangles}{0.6}
+
+
+
+\emph{TODO include images other datasets} \\
 \emph{todo compair methods and explain differences}
 
 
 \subsection{Discussion}  % (What do my results mean to me and why)
-% todo discuss resuts 
+\emph{ todo discuss resuts }
 \paragraph{Method I: Connected corner approach} 
 A disadvantage of this method is that it only finds plausible window centers
 (and for each window center one of the corner positions).  It would be more
@@ -356,16 +357,22 @@ for a wide range of window scenes where no or few prior information about the
 
 
 \paragraph{Method II: Histogram based approach} 
-\emph{TODO}\\
-pro's \\
-This method is invariant to the height of the values
-As the data is 1 dimensional this method doesn't use 
-con's\\
-The outcome is non-deterministic, as it depends on to the random initialization of the cluster centers.
+One drawback is that the outcome is non-deterministic, as it depends on to the
+random initialization of the cluster centers.
+
 \emph{TODO}\\
 % TODO Ref biblograyhf
 
-
+\paragraph{Occlusion}
+\label{lab:occlusion}
+If the image isn't the frontal view of the buildingwall we project the image 
+see section ?%todo section rectification
+This projection comes with some difficulties, occlusion.  In a few cases an
+buiding wall extention (middle of figure \ref{fig:w_spil6ImOri.eps}) a drainpipe
+or the building wall itself is occluding a part of the window.  The less frontal
+the view, the more occlusion negatively effects the cleanness of the projection.
+However, this occlusion artefact is in most cases no problem as the system
+combines the windows probabilities.  
 
 \subsection{Conclusion and Future work}
 \subsubsection{Conclusion}
