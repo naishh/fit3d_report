@@ -247,7 +247,7 @@ The image is now divided in a grid of rectangular areas. The next challenge is t
 classify the areas as window and non-window areas: the window classification.
 
 \paragraph{Window classification}
-Instead of classifying each rectangle independedly we classify full rows and
+Instead of classifying each rectangle independently we classify full rows and
 columns as window or non-window areas.  This approach results in more accurate
 classification as it uses a full row and column as evidence for a singular
 window. 
@@ -298,7 +298,7 @@ A rectangular area $w\in W$ that is crossed by $R_j$ and $C_k$ is classified as 
 window iff \emph{$k$-means} classified both $R_j$ and $C_k$ as window areas. These are displayed in 
  Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps} as green rectangles.
 
-The last step is to group a set of windows that belong to eachother. This is done by 
+The last step is to group a set of windows that belong to each other. This is done by 
 grouping adjacent positively classified rectangles. These are displayed as red
 rectangles in Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps}.
 
@@ -311,7 +311,7 @@ Therefor we developed a probabilistic function.
 As you can see $P$ is normalized, this is to ensure the value of the maximum
 probability is exactly 1. The results can now be relatively interpreted, e.g. if the rectangle's $P=0.5$
 then the system nows for 50 percent sure it is a window, compared to its best window ($P=1$). 
-And, as the normalisation implies this, there are always one or more window with $P=1$. 
+And, as the normalization implies this, there are always one or more window with $P=1$. 
 
 To get insight about the probabilities that lie behind the individual rows and columns
 we designed another representation in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}
@@ -323,7 +323,7 @@ The whiter the area the more probable a rectangle is classified as a window.
 \subsection{Results}
 We tested both methods on different datasets.
 \fig{w_spil6cCornerImEdge.eps}{Edge detection}{0.6}
-\fig{w_spil6cCornerImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}% todo theta contstrain
+\fig{w_spil6cCornerImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}% todo theta constrain
 \fig{w_spil6cCornercCorner.eps}{Found connected corners}{0.6}
 \fig{w_spil6cCornerWindows.eps}{Connected corner as windows}{0.6}
 \fig{cCornerSpilTrans1.eps}{Found connected corners on the rectified image}{0.45}
@@ -340,7 +340,7 @@ We tested both methods on different datasets.
 
 
 \subsection{Discussion}  % (What do my results mean to me and why)
-\emph{ todo discuss resuts }
+\emph{ todo discuss results }
 \paragraph{Method I: Connected corner approach} 
 A disadvantage of this method is that it only finds plausible window centers
 (and for each window center one of the corner positions).  It would be more

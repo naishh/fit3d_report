@@ -5,8 +5,6 @@ todo window detection:
 	put work in context, 
 		related work, 
 		waarom window detectie, motivatie!
-	eps border googlen matlab 
-		eps remove border of image
 	commentaar frans verwerken 
 	meer dataset plaatjes generen
 	subsections eerst af voor nieuwe beginnen
