@@ -11,6 +11,8 @@ todo window detection:
 		waarom window detectie, motivatie!
 	commentaar frans verwerken 
 	meer dataset plaatjes generen
+	discuss drain pipe fig 7
+	discuss missing windows
 	subsections eerst af voor nieuwe beginnen
 	mail isaac results
 	assumptions mooi highlighten
