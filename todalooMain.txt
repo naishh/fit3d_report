@@ -1,5 +1,9 @@
 GENIET, muziekje erbij ! 
 
+TODO window detection FROM FEEDBACK FRANS
+
+
+
 
 todo window detection:
 	put work in context, 
