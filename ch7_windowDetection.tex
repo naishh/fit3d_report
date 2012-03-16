@@ -43,12 +43,10 @@ From the previous section we know that from a serie of images, a 3D model of a
 building can be extracted. Furthermore we saw that using this 3D model the
 scene could be converted to another viewing point. 
 
-We projected the scene to a frontal view of a building, where a building wall appears
-orthogonal, and showed what interesting possibilities this opens.
-A frontal view of a building comes with orthogonality and alignment of the
-windows. We exploit this properties to build a to build a robust window detector
-%with a high accuracy for a wide range of scenes.
-This projection also comes with some difficulties which we discuss in \ref{lab:occlusion}
+For accurate and robust window detection we projected the scene to a frontal
+view of a building, where a building wall appears orthogonal. This frontal
+view enables us to assume orthogonality and alignment of the windows. We
+exploit this properties to build a to build a robust window detector.
 
 We start with discussing related work and putting our work in context.  Then we
 begin with a window detection approach that is invariant to viewing direction.
@@ -63,23 +61,13 @@ windows.  Finally we show and discuss results.
 % tjoint article quoten
 
 
-\subsection{Efficient Projecting} 
+% todo find good location in thesis for this
 \fig{w_spil6ImOri.eps}{Original image}{0.6}
 \fig{w_Spil1TransCrop1_ImOri.eps}{Rectified image}{0.45}
 \fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.45}
 \fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.45} 
-As we are interested in the frontal view of the building, it would be straight
-forward to project the original image. However this is computational
-very expensive as each pixel needs to be projected. To keep the computational cost to a minimum we project only the
-Houghlines. The edge detection and Houghline extraction is done on the original
-unprojected image. We only project the Houghline segment
-endpoints. If $h$ is the number of Houghlines, the number of projections is $2h$
-When we project the original image this is $w$ x $h$ where w,h are the dimensions of
-the image. To give an indication, for the \emph{Spil} dataset %TODO
-this means 600 projections in stead of 1572864.\\
-\emph{As the backprojection isn't done at the time of writing we 
-we also present the rectified image}
-% todo backprojection
+
+
 
 
 \subsection{Method I: Connected corner approach} 
@@ -156,7 +144,7 @@ which is enough. Results are found in the Result section.
 \subsubsection{Introduction}
 In this method we assume that the viewing direction of the wall containing the 
 windows is frontal. This assumption makes it possible to exploit the orthogonality and
-alignment of the windows. We first determine the alignment of the windows and
+alignment of the windows.  We first determine the alignment of the windows and
 then extract the windows. 
 
 
@@ -407,6 +395,25 @@ For example the viewing angle could be plotted against the percentage of
 correct detected windows.
 \emph{TODO}
 
+
+
+
+
+
+% todo put in appendix or in a chapter devoted to projecting/rectifying
+\subsection{Efficient Projecting} 
+As we are interested in the frontal view of the building, it would be straight
+forward to project the original image. However this is computational
+very expensive as each pixel needs to be projected. To keep the computational cost to a minimum we project only the
+Houghlines. The edge detection and Houghline extraction is done on the original
+unprojected image. We only project the Houghline segment
+endpoints. If $h$ is the number of Houghlines, the number of projections is $2h$
+When we project the original image this is $w$ x $h$ where w,h are the dimensions of
+the image. To give an indication, for the \emph{Spil} dataset %TODO
+this means 600 projections in stead of 1572864.\\
+% todo good location
+However for the purpose of display we also presented the rectified images.
+% todo backprojection
 
 
 
