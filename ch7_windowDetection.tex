@@ -56,7 +56,7 @@ Semantic interpretation of urban scenes is used in a wide range of applications.
 	the building surface.\\
 
 \paragraph{Historical buildings documentation and deformation analysis}
-	In some field, Historical buildings are documentated, complex
+	In some field Historical buildings are documentated, complex
 structures that are contained on the facades are recorded and reconstructed.
 	Window detection plays a central role. 
 	Another field of research is the analysis of building deformation in areas containing old buildings.
@@ -71,7 +71,7 @@ be tracked over time for an accurate deformation analysis.
 	simulation to be realistic it is importand to have a model that is of high
 	visual quality and has sufficient semantic detail.  Other applications that
 	require semantic 3d models are virtual tourism, visual
-	impact analysis, driving simulation, military simulation 
+	impact analysis, driving simulation and military simulation 
 	systems.\\
 %todo afbeelding uit pag 3 halen en hier plakken
 http://www.rgi.nl/downloads/files/Shi Pu.pdf
@@ -107,26 +107,34 @@ discuss only specific related work, window detection.
 
 [REFINING BUILDING FACADE MODELS WITH IMAGES, www.isprs.org/proceedings/XXXVIII/3-W4/pub/CMRT09_217.pdf]
 Pu and Vosselman use laser images together with Hough line extraction to reconstruct facade details.  
-They alse matched these details to improve the alignment of the 3d model.
-One of the matching models was based on comparison of model edges with the extracted Hough lines.
+They solve inconsistency between laser and image data and improve the alignment of a 3d model with a matching algorithm.
+On one of the matching strategies they compared the edges of a 3d model to Hough lines of the ground images.
 They disambiguated the lines comparing the angle, location and length difference of the model edge with the extracted Houghlines.
-These properties are also used in our window detector.\\
+These disambiguation criterea are also implicitly used in our window detector.\\
 They also detected windows that provided a significant better alignment of the 3d model.
-Unfortunatelly the windows where extracted from the holes from laserpoints of a wall, these image where far from accurate.\\
-The work of Vosselman provides a usefull practical application of window detection.
-And it amplifies the need for a robust window detection technique that doesn't require laserdata.\\
+The windows where extracted from the holes from laserpoints of a wall, these results where far from accurate.\\
+The work of Vosselman provides a usefull practical application of window
+detection and it amplifies the need for a robust window detection technique that
+doesn't require laserdata.\\
 
 
 
-[Image-based procedural modeling of Facades]
+Another interesting research is done by Muller et all,
+%TODO REF
+they use symmetry detection combined with shape grammars for the task of window detection.
+%[Image-based procedural modeling of Facades]
+%todo insert an image of this paper of the nice geometry (ingevallen raam)
+Yet another approach is to describe the windows with Haar like features and fet them into a (Ada boost) cascaded classifier
+%todo ref
+%[Window detection in facades]
 
-%[Window detection in facades] (?)
-% cascade 
-
+A more specific feature approach is the work of 
+%NEW PAPERS 
 [A model-based method for buildig reconstruction]
 brute force matching of window primiteves
 
-%NEW PAPERS 
+
+Morgen deze papers checken:
 [Extraction and Integration of Window in a 3D Building Model
 from Ground View images]
 http://nguyendangbinh.org/Proceedings/CVPR/2004/DATA/PS4_16.PDF
