@@ -100,33 +100,71 @@ http://www.rgi.nl/downloads/files/Shi Pu.pdf
 %todo
 
 
-related work:
-%intro
-Lots of research is done on semantical interpretation of urban scenes. We
-discuss only specific related work, window detection.
 
+
+
+
+As we explained window detection plays an importand role in the interpretation of 
+urban scenes.  In this section we present two developed methods for robust
+window detection.
+
+From the previous section we know that from a serie of images, a 3D model of a
+building can be extracted. Furthermore we saw that using this 3D model the
+scene could be converted to another viewing point. 
+
+For accurate and robust window detection we projected the scene to a frontal
+view of a building, where a building wall appears orthogonal. This frontal
+view enables us to assume orthogonality and alignment of the windows. We
+exploit this properties to build a to build a robust window detector.
+
+We start with discussing related work and putting our work in context.  Then we
+begin with a window detection approach that is invariant to viewing direction.
+After this we present our second method that assumes orthogonal and aligned
+windows.  Finally we show and discuss results. 
+
+
+\subsubsection{Related work}
+A large amount of research is done on semantical interpretation of urban scenes. First we
+discuss related work that has a big overlap with this research in detail.
+After this, we briefly discuss research on window detection that uses a very different approach.
+
+
+\paragraph{Simmilar approaches}
 [REFINING BUILDING FACADE MODELS WITH IMAGES, www.isprs.org/proceedings/XXXVIII/3-W4/pub/CMRT09_217.pdf]
 Pu and Vosselman use laser images together with Hough line extraction to reconstruct facade details.  
 They solve inconsistency between laser and image data and improve the alignment of a 3d model with a matching algorithm.
-On one of the matching strategies they compared the edges of a 3d model to Hough lines of the ground images.
-They disambiguated the lines comparing the angle, location and length difference of the model edge with the extracted Houghlines.
-These disambiguation criterea are also implicitly used in our window detector.\\
-They also detected windows that provided a significant better alignment of the 3d model.
+In one of the matching strategies they compare the edges of a 3d model to Hough lines of ground images.
+They matched the lines by comparing the angle, location and length difference of the model edges with the extracted Houghlines.
+These criterea are also part of our approaches.\\
+They also detected windows and used this to provided a significant better alignment of the 3d model.
 The windows where extracted from the holes from laserpoints of a wall, these results where far from accurate.\\
-The work of Vosselman provides a usefull practical application of window
+To summarise, the work of Vosselman provides a usefull practical application of window
 detection and it amplifies the need for a robust window detection technique that
-doesn't require laserdata.\\
+is independed of laserdata.\\
 
-
-
+\paragraph{Other approaches}
+%[Image-based procedural modeling of Facades]
+We now discuss research general 
 Another interesting research is done by Muller et all,
 %TODO REF
-they use symmetry detection combined with shape grammars for the task of window detection.
-%[Image-based procedural modeling of Facades]
+they use a interesting way to detect the symmetry in the building. The symmetrie is detected in two directions, vertical (floors) and horizontal (window rows).
+The use shape grammars to devide the building wall in tiles, windows, doors etc.
+The results are used to derive a 3d model of high 3d visual quality.
 %todo insert an image of this paper of the nice geometry (ingevallen raam)
-Yet another approach is to describe the windows with Haar like features and fet them into a (Ada boost) cascaded classifier
+
+[Detection of windows and doors from thermal images by grouping geometrical features]
+[http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5764737]
+%todo insert image
+In %todo ref
+with a thermal camera they detect heat leakage on building walls as a indicator for doors or windows
+They use l-shaped features using a set of \emph{steerable filters}
+they group the windows using \emph{perceptual organisation rules}.
+
+Another approach applied by, %todo ref
+describes the windows with Haar like features which are fet into a (Ada boost) cascaded classifier.
 %todo ref
 %[Window detection in facades]
+
 
 A more specific feature approach is the work of 
 %NEW PAPERS 
@@ -148,18 +186,6 @@ gradient projection and a color descriptor for refining results
 
 % handige note
 \paragraph{Facade classification}
-In the last decade many different facade classification techniques
-are proposed. Pu and Vosselman [11] 
-[REFINING BUILDING FACADE MODELS WITH IMAGES, www.isprs.org/proceedings/XXXVIII/3-W4/pub/CMRT09_217.pdf]
-fused laser data
-and close-range images to reconstruct building facade details.
-They extracted windows and doors in both close-range optical
-and laser images by using Hough lines. Detected windows
-and doors helped them to register close-range optical and laser
-images. That shows the importance of the facade classification
-study in three-dimensional city modeling.
-
-
 That shows the importance of the facade classification
 study in three-dimensional city modeling. Burochin et al. [3]
 proposed a segmentation method to detect repetitive structures
@@ -198,31 +224,7 @@ use Houghlines
 
 
 
-
-As we explained window detection plays an importand role in the interpretation of 
-urban scenes.  In this section we present two developed methods for robust
-window detection.
-
-From the previous section we know that from a serie of images, a 3D model of a
-building can be extracted. Furthermore we saw that using this 3D model the
-scene could be converted to another viewing point. 
-
-For accurate and robust window detection we projected the scene to a frontal
-view of a building, where a building wall appears orthogonal. This frontal
-view enables us to assume orthogonality and alignment of the windows. We
-exploit this properties to build a to build a robust window detector.
-
-We start with discussing related work and putting our work in context.  Then we
-begin with a window detection approach that is invariant to viewing direction.
-After this we present our second method that assumes orthogonal and aligned
-windows.  Finally we show and discuss results. 
-
-
-\subsubsection{Related work}
-\emph{TODO}
-%todo window detection related work
-
-% tjoint article quoten
+% todo tjoint article quoten
 
 
 % todo find good location in thesis for this
