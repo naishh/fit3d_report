@@ -46,34 +46,160 @@ This chapter is about one of the tasks of semantic urban scenes interpretation, 
 Semantic interpretation of urban scenes is used in a wide range of applications.
 
 \paragraph{3d City models} 
-	 Manual creation of 3d models is a time consuming and expensive procedure.
-	 Therefor semantic models are used for semi automatic 3d
-	 reconstruction/modelling.  Furthermore the semantic understanding is used
-	 to increase the level of details in threedimensional city models which are
-	 generated from aerial or satellite imagery.  Some other applications can
-	 automatically extract a CAD-like model of the building surface.\\
+	Manual creation of 3d models is a time consuming and expensive procedure.
+	Therefor semantic models are used for semi automatic 3d
+	reconstruction/modelling [Procedural Modeling of Buildings].  
+	The semantic understanding is also used in three-dimensional
+	city models which are generated from aerial or satellite imagery.  The detected
+	(doors and) windows are maped to the model to increase the level of detail. 
+	Some other applications can automatically extract a CAD-like model of
+	the building surface.\\
+
+\paragraph{Historical buildings documentation and deformation analysis}
+	In some field Historical buildings are documentated, complex
+structures that are contained on the facades are recorded and reconstructed.
+	Window detection plays a central role. 
+	Another field of research is the analysis of building deformation in areas containing old buildings.
+Window detection provides information about the region of interest that could
+be tracked over time for an accurate deformation analysis.
+[A SEMI-AUTOMATIC IMAGE-BASED MEASUREMENT SYSTEM]
+
 
 \paragraph{Interactive 3d models}
 	There are some virtual training applications that are designed for
-	emergency response who requires interaction with a 3d model.  For the
+	emergency response who require interaction with a 3d model.  For the
 	simulation to be realistic it is importand to have a model that is of high
 	visual quality and has sufficient semantic detail.  Other applications that
-	require semantic 3d models are virtual tourism, urban planning, visual
-	impact analysis, driving simulation, military simulation and navigation
+	require semantic 3d models are virtual tourism, visual
+	impact analysis, driving simulation and military simulation 
 	systems.\\
+%todo afbeelding uit pag 3 halen en hier plakken
+http://www.rgi.nl/downloads/files/Shi Pu.pdf
 
 
+\paragraph{Building recognition and urban planning}
+	Building recognition is done using large image datasets where the
+	buildings are mostly described by local information descriptors.  For a
+	more accurate disambiguation, other types of contextual information are
+	desired.  The semantical interpretation (by for example window
+	detection) can provide this need.
+	An other application in this field is urban planning where semantic 3d
+	models are used to provide importand references to the city scenes from the
+	street level.
 \paragraph{Augmented reality}
 	Some mobile platforms apply augmented reality using facade and window
-	detection to make a accurate overlay of the building. An example overlay is
-	the same building but 200 years earlier.  Semantical information is used to
-	not only indentify a respective building, but also find his exact location
-	in the image.  An other application in this field that require semantic 3d
-	models is position estimation. This can also be combined with navigation
-	systems. 
+	detection to make a accurate overlay of the building. An example overlay is the
+	same building but 200 years earlier.  Semantical information is used to not
+	only indentify a respective building, but also find his exact location in the
+	image.  The accuracy and realistic level of the 3d model are vital for a
+	successfull simulation.  And because the applications are mobile, very fast
+	building understanding algorithms are required.  Window
+	detection could play an importand role in these processes.\\
+
+%\paragraph{laser systems}
+%todo
 
 
-Window detection plays an importand role in the interpretation of semantic
+related work:
+%intro
+Lots of research is done on semantical interpretation of urban scenes. We
+discuss only specific related work, window detection.
+
+[REFINING BUILDING FACADE MODELS WITH IMAGES, www.isprs.org/proceedings/XXXVIII/3-W4/pub/CMRT09_217.pdf]
+Pu and Vosselman use laser images together with Hough line extraction to reconstruct facade details.  
+They solve inconsistency between laser and image data and improve the alignment of a 3d model with a matching algorithm.
+On one of the matching strategies they compared the edges of a 3d model to Hough lines of the ground images.
+They disambiguated the lines comparing the angle, location and length difference of the model edge with the extracted Houghlines.
+These disambiguation criterea are also implicitly used in our window detector.\\
+They also detected windows that provided a significant better alignment of the 3d model.
+The windows where extracted from the holes from laserpoints of a wall, these results where far from accurate.\\
+The work of Vosselman provides a usefull practical application of window
+detection and it amplifies the need for a robust window detection technique that
+doesn't require laserdata.\\
+
+
+
+Another interesting research is done by Muller et all,
+%TODO REF
+they use symmetry detection combined with shape grammars for the task of window detection.
+%[Image-based procedural modeling of Facades]
+%todo insert an image of this paper of the nice geometry (ingevallen raam)
+Yet another approach is to describe the windows with Haar like features and fet them into a (Ada boost) cascaded classifier
+%todo ref
+%[Window detection in facades]
+
+A more specific feature approach is the work of 
+%NEW PAPERS 
+[A model-based method for buildig reconstruction]
+brute force matching of window primiteves
+
+
+Morgen deze papers checken:
+[Extraction and Integration of Window in a 3D Building Model
+from Ground View images]
+http://nguyendangbinh.org/Proceedings/CVPR/2004/DATA/PS4_16.PDF
+
+[Windows Detection Using K-means in CIE-Lab Color Space]
+instead of canny they use the gradient 
+threshold at the hor and vertical projected gradient (doe ik ook)
+use colors to say inside or outside
+gradient projection and a color descriptor for refining results
+
+
+% handige note
+\paragraph{Facade classification}
+In the last decade many different facade classification techniques
+are proposed. Pu and Vosselman [11] 
+[REFINING BUILDING FACADE MODELS WITH IMAGES, www.isprs.org/proceedings/XXXVIII/3-W4/pub/CMRT09_217.pdf]
+fused laser data
+and close-range images to reconstruct building facade details.
+They extracted windows and doors in both close-range optical
+and laser images by using Hough lines. Detected windows
+and doors helped them to register close-range optical and laser
+images. That shows the importance of the facade classification
+study in three-dimensional city modeling.
+
+
+That shows the importance of the facade classification
+study in three-dimensional city modeling. Burochin et al. [3]
+proposed a segmentation method to detect repetitive structures
+like windows in close-range optical images. For segmentation
+they defined a model by considering shape and reflectance
+Fig. 1. Overview of the proposed approach (Facade1 test image, segmentation
+result with facade graph, and classification result of the algorithm
+respectively.)
+of a window, then they applied matching process to find
+correspondence between model and image. In [2], Ali et
+al. gave summary of the researches on window detection.
+They also proposed a window detection system based on
+cascade classifiers. In a following study, Ali et al. proposed
+a system to detect windows in laser scanner data. The laser
+Therefore, they use these variations to detect windows [1]. Lee
+and Nevatia [8] proposed a robust system to detect windows in
+optical images. They extracted window boundaries searching
+for structures that satisfy regularity and symmetry rules. In
+addition to that, they extract three-dimensional models of
+windows by searching for image features. Teboul et al. [13]
+used shape grammars towards fixed tree representations which
+are able to capture a wide variety of building topologies
+for detailed facade segmentation. They obtained very high
+performance even for buildings which are partially occluded
+or which appears under different illumination conditions.
+
+
+[REFINING BUILDING FACADE MODELS WITH IMAGES, www.isprs.org/proceedings/XXXVIII/3-W4/pub/CMRT09_217.pdf]
+use Houghlines
+
+
+%A Model-Based Method For Building Reconstruction
+	%make 3d models and recover the geometry of a building
+
+
+
+
+
+
+As we explained window detection plays an importand role in the interpretation of 
 urban scenes.  In this section we present two developed methods for robust
 window detection.
 
