@@ -1,6 +1,7 @@
 GENIET, muziekje erbij ! 
 
 TODO window detection FROM FEEDBACK FRANS
+	image of florande in report
 
 
 

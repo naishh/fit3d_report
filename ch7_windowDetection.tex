@@ -35,13 +35,10 @@
 % transforming the image
 \label{chap:windowDetection}
 \subsection{Introduction}
-\emph{ todo motivation}
 % todo
 % papers die ik al heb geprint lezen
 % digitale papers in map papers lezen
-
-
-This chapter is about one of the tasks of semantic urban scenes interpretation, Window detection. 
+This chapter is about one of the tasks of semantic urban scene interpretation, Window detection. 
 %explain what semantic 3d model is
 Semantic interpretation of urban scenes is used in a wide range of applications.
 
@@ -56,12 +53,12 @@ Semantic interpretation of urban scenes is used in a wide range of applications.
 	the building surface.\\
 
 \paragraph{Historical buildings documentation and deformation analysis}
-	In some field Historical buildings are documentated, complex
-structures that are contained on the facades are recorded and reconstructed.
-	Window detection plays a central role. 
+	In some field, Historical buildings are documentated. The complex
+	structures that are contained in the facades are recorded and reconstructed.
+	Window detection plays a central role in this. 
 	Another field of research is the analysis of building deformation in areas containing old buildings.
-Window detection provides information about the region of interest that could
-be tracked over time for an accurate deformation analysis.
+	Window detection provides information about the region of interest that could
+	be tracked over time for an accurate deformation analysis.
 [A SEMI-AUTOMATIC IMAGE-BASED MEASUREMENT SYSTEM]
 
 
@@ -76,16 +73,18 @@ be tracked over time for an accurate deformation analysis.
 %todo afbeelding uit pag 3 halen en hier plakken
 http://www.rgi.nl/downloads/files/Shi Pu.pdf
 
-
 \paragraph{Building recognition and urban planning}
 	Building recognition is done using large image datasets where the
-	buildings are mostly described by local information descriptors.  For a
-	more accurate disambiguation, other types of contextual information are
-	desired.  The semantical interpretation (by for example window
-	detection) can provide this need.
-	An other application in this field is urban planning where semantic 3d
+	buildings are mostly described by local information descriptors.  
+	Some approaches try to describe the 3D building with laser range data. Some methods fuse the laser data with
+	ground images. However those generated 3D models are a mesh structure which doesn't make the facade strucure explicit.
+	For a more accurate disambiguation, other types of contextual information are
+	desired.  The semantical interpretation of the facade can provide this need.
+	In this context, window detection can be used as a strong discriminator.\\
+	Building recognition is used in the field of urban planning where the semantic 3d
 	models are used to provide importand references to the city scenes from the
 	street level.
+
 \paragraph{Augmented reality}
 	Some mobile platforms apply augmented reality using facade and window
 	detection to make a accurate overlay of the building. An example overlay is the
@@ -94,28 +93,13 @@ http://www.rgi.nl/downloads/files/Shi Pu.pdf
 	image.  The accuracy and realistic level of the 3d model are vital for a
 	successfull simulation.  And because the applications are mobile, very fast
 	building understanding algorithms are required.  Window
-	detection could play an importand role in these processes.\\
-
-%\paragraph{laser systems}
-%todo
-
-
-
-
+	detection plays an importand role in these processes.\\
 
 
 As we explained window detection plays an importand role in the interpretation of 
 urban scenes.  In this section we present two developed methods for robust
 window detection.
 
-From the previous section we know that from a serie of images, a 3D model of a
-building can be extracted. Furthermore we saw that using this 3D model the
-scene could be converted to another viewing point. 
-
-For accurate and robust window detection we projected the scene to a frontal
-view of a building, where a building wall appears orthogonal. This frontal
-view enables us to assume orthogonality and alignment of the windows. We
-exploit this properties to build a to build a robust window detector.
 
 We start with discussing related work and putting our work in context.  Then we
 begin with a window detection approach that is invariant to viewing direction.
@@ -125,29 +109,72 @@ windows.  Finally we show and discuss results.
 
 \subsubsection{Related work}
 A large amount of research is done on semantical interpretation of urban scenes. First we
-discuss related work that has a big overlap with this research in detail.
-After this, we briefly discuss research on window detection that uses a very different approach.
+discuss related work that has a big overlap with our research in detail.
+After this, we briefly discuss research on window detection that uses very
+different approaches.
 
 
 \paragraph{Simmilar approaches}
-[REFINING BUILDING FACADE MODELS WITH IMAGES, www.isprs.org/proceedings/XXXVIII/3-W4/pub/CMRT09_217.pdf]
-Pu and Vosselman use laser images together with Hough line extraction to reconstruct facade details.  
+[REFINING BUILDING FACADE MODELS WITH IMAGES]
+%www.isprs.org/proceedings/XXXVIII/3-W4/pub/CMRT09_217.pdf]
+Pu and Vosselman %todo ref
+use laser images together with Hough line extraction to reconstruct facade details.  
 They solve inconsistency between laser and image data and improve the alignment of a 3d model with a matching algorithm.
 In one of the matching strategies they compare the edges of a 3d model to Hough lines of ground images.
 They matched the lines by comparing the angle, location and length difference of the model edges with the extracted Houghlines.
-These criterea are also part of our approaches.\\
+These criterea is also used in our approaches.\\
 They also detected windows and used this to provided a significant better alignment of the 3d model.
 The windows where extracted from the holes from laserpoints of a wall, these results where far from accurate.\\
-To summarise, the work of Vosselman provides a usefull practical application of window
+The work of Vosselman provides a usefull practical application of window
 detection and it amplifies the need for a robust window detection technique that
 is independed of laserdata.\\
 
+
+[Windows Detection Using K-means in CIE-Lab Color Space]
+In %todo ref
+Recky and Leberl made a window detector that is build on the primary work of Lee and Nevatia (which is discussed next)
+%todo ref
+
+%todo
+In order to be able to assume aligned windows they rectify the facade.  After this they apply a threshold on an orthogonal projection of the extracted edges. 
+For example they use a vertical edge projection to establish the horizontal division of the windows.
+This is very simmilar to our approach, although we only project line segment endpoints.\\
+The next step, labeling the areas containing windows, is however very different as they use color to disambiguate the windows.
+To be more precise they convert the image to CIE-Lab color space and use k-means to classify the windows.
+Although this method is robust, both color transformation and k-means clustering are very computational expensive.
+In our method we use the same source, edge information, for the window alignment and for the window labeling.
+As we don't require color transformation and only apply math on line segment
+endpoints, our algorithm performs in realtime.
+
+[Lee, Nevatia, Extraction and Integration of Window in a 3D Building Model
+from Ground View images]
+%http://nguyendangbinh.org/Proceedings/CVPR/2004/DATA/PS4_16.PDF
+As in the work of Reky and Leberl
+%todo ref
+Lee and Nevatia 
+%todo ref
+perform orthogonal edge projection to find the window alignment.
+As different shape of windows can exist in the same column, they use the window alignment as a hypothesis. 
+Then, using this hypothesis, they perform a refinement for each window independedly.
+Although this comes with accurate results, the iterative refinement is a computational expensive procedure.
+Therefor we do not consider the refinement process in our research.
+
+%%NEW PAPERS 
+%[A model-based method for buildig reconstruction]
+	%brute force matching of window primiteves
+	%make 3d models and recover the geometry of a building
+
+
 \paragraph{Other approaches}
-%[Image-based procedural modeling of Facades]
-We now discuss research general 
-Another interesting research is done by Muller et all,
+
+
+
+
+
+[Image-based procedural modeling of Facades]
+Muller et all,
 %TODO REF
-they use a interesting way to detect the symmetry in the building. The symmetrie is detected in two directions, vertical (floors) and horizontal (window rows).
+use an interesting way to detect the symmetry in the building. The symmetry is detected in two directions, vertical (floors) and horizontal (window rows).
 The use shape grammars to devide the building wall in tiles, windows, doors etc.
 The results are used to derive a 3d model of high 3d visual quality.
 %todo insert an image of this paper of the nice geometry (ingevallen raam)
@@ -155,70 +182,49 @@ The results are used to derive a 3d model of high 3d visual quality.
 [Detection of windows and doors from thermal images by grouping geometrical features]
 [http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5764737]
 %todo insert image
-In %todo ref
-with a thermal camera they detect heat leakage on building walls as a indicator for doors or windows
-They use l-shaped features using a set of \emph{steerable filters}
-they group the windows using \emph{perceptual organisation rules}.
-
-Another approach applied by, %todo ref
-describes the windows with Haar like features which are fet into a (Ada boost) cascaded classifier.
+Using a thermal camera, Sirmacek,  
 %todo ref
-%[Window detection in facades]
+detects heat leakage on building walls as a indicator for doors or windows
+L-shaped features are applied using a set of \emph{steerable filters}.
+The windows are grouped using \emph{perceptual organisation rules}.
+
+[Window detection in facades]
+Ali et all %todo ref
+describes the windows with Haar like features which are fet into a (Ada boost) cascaded decision tree.
 
 
-A more specific feature approach is the work of 
-%NEW PAPERS 
-[A model-based method for buildig reconstruction]
-brute force matching of window primiteves
 
 
-Morgen deze papers checken:
-[Extraction and Integration of Window in a 3D Building Model
-from Ground View images]
-http://nguyendangbinh.org/Proceedings/CVPR/2004/DATA/PS4_16.PDF
 
-[Windows Detection Using K-means in CIE-Lab Color Space]
-instead of canny they use the gradient 
-threshold at the hor and vertical projected gradient (doe ik ook)
-use colors to say inside or outside
-gradient projection and a color descriptor for refining results
 
 
 % handige note
-\paragraph{Facade classification}
-That shows the importance of the facade classification
-study in three-dimensional city modeling. Burochin et al. [3]
-proposed a segmentation method to detect repetitive structures
-like windows in close-range optical images. For segmentation
-they defined a model by considering shape and reflectance
-Fig. 1. Overview of the proposed approach (Facade1 test image, segmentation
-result with facade graph, and classification result of the algorithm
-respectively.)
-of a window, then they applied matching process to find
-correspondence between model and image. In [2], Ali et
-al. gave summary of the researches on window detection.
-They also proposed a window detection system based on
-cascade classifiers. In a following study, Ali et al. proposed
-a system to detect windows in laser scanner data. The laser
-Therefore, they use these variations to detect windows [1]. Lee
-and Nevatia [8] proposed a robust system to detect windows in
-optical images. They extracted window boundaries searching
-for structures that satisfy regularity and symmetry rules. In
-addition to that, they extract three-dimensional models of
-windows by searching for image features. Teboul et al. [13]
-used shape grammars towards fixed tree representations which
-are able to capture a wide variety of building topologies
-for detailed facade segmentation. They obtained very high
-performance even for buildings which are partially occluded
-or which appears under different illumination conditions.
-
-
-[REFINING BUILDING FACADE MODELS WITH IMAGES, www.isprs.org/proceedings/XXXVIII/3-W4/pub/CMRT09_217.pdf]
-use Houghlines
-
-
-%A Model-Based Method For Building Reconstruction
-	%make 3d models and recover the geometry of a building
+% \paragraph{Facade classification}
+% That shows the importance of the facade classification
+% study in three-dimensional city modeling. Burochin et al. [3]
+% proposed a segmentation method to detect repetitive structures
+% like windows in close-range optical images. For segmentation
+% they defined a model by considering shape and reflectance
+% Fig. 1. Overview of the proposed approach (Facade1 test image, segmentation
+% result with facade graph, and classification result of the algorithm
+% respectively.)
+% of a window, then they applied matching process to find
+% correspondence between model and image. In [2], Ali et
+% al. gave summary of the researches on window detection.
+% They also proposed a window detection system based on
+% cascade classifiers. In a following study, Ali et al. proposed
+% a system to detect windows in laser scanner data. The laser
+% Therefore, they use these variations to detect windows [1]. Lee
+% and Nevatia [8] proposed a robust system to detect windows in
+% optical images. They extracted window boundaries searching
+% for structures that satisfy regularity and symmetry rules. In
+% addition to that, they extract three-dimensional models of
+% windows by searching for image features. Teboul et al. [13]
+% used shape grammars towards fixed tree representations which
+% are able to capture a wide variety of building topologies
+% for detailed facade segmentation. They obtained very high
+% performance even for buildings which are partially occluded
+% or which appears under different illumination conditions.
 
 
 
@@ -308,15 +314,22 @@ which is enough. Results are found in the Result section.
 
 \subsection{Method II: Histogram based approach} 
 \subsubsection{Introduction}
-In this method we assume that the viewing direction of the wall containing the 
-windows is frontal. This assumption makes it possible to exploit the orthogonality and
-alignment of the windows.  We first determine the alignment of the windows and
-then extract the windows. 
+From the previous chapter we know that from a serie of images, a 3D model of a
+building can be extracted. Furthermore we saw that using this 3D model the
+scene could be converted to another viewing point. 
+
+%todo instead of frontal: rectified
+For accurate and robust window detection we projected the scene to a frontal
+view of a building, where a building wall appears orthogonal. This frontal
+view enables us to assume orthogonality and alignment of the windows. We
+exploit this properties to build a robust window detector.
+First we determine the the alignment of the windows and
+then we label the areas that contain the windows. 
 
 
 \subsubsection{Situation and assumptions}
 To be more precise in our assumptions, we assume the windows have orthogonal sides.  Furthermore we
-assume that the windows are aligned, This means that a row of windows share the
+assume that the windows are aligned. This means that a row of windows share the
 same height and $y$ position. For a column of windows the width and $x$
 position has to be equal.  Note that this doesn't mean that all windows have the
 share the same size.
@@ -503,6 +516,8 @@ a people count for a real-time evacuation plan generator, the count of windows
 would be enough.
 % todo ref
 
+% todo works on multiple window types
+
 The big advantage is that this method doesn't require the windows to be aligned.
 Furthermore it's robust to a variation in window sizes. This makes this approach suitable
 for a wide range of window scenes where no or few prior information about the
@@ -511,6 +526,7 @@ for a wide range of window scenes where no or few prior information about the
 
 
 \paragraph{Method II: Histogram based approach} 
+% todo also works on multiple window types
 One drawback is that the outcome is non-deterministic, as it depends on to the
 random initialization of the cluster centers.
 
