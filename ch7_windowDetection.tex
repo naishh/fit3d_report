@@ -28,13 +28,15 @@
 
 
 \section{Window detection}
+\subsection{New since 28-3-20012}
+Future work -> Window alignment refinement
 
 
 % TODO explain efficiency of Houghline coordinate transformation (instead of
 % transforming the image
 \label{chap:windowDetection}
 \subsection{Introduction}
-This chapter is about one of the tasks of semantic urban scene interpretation, Window detection. 
+This chapter deals with one of the tasks of semantic urban scene interpretation, Window detection. 
 Semantic interpretation of urban scenes is used in a wide range of applications.
 
 \paragraph{3d City models} 
@@ -93,22 +95,24 @@ Semantic interpretation of urban scenes is used in a wide range of applications.
 	desired.  The semantical interpretation of the facade can provide this need.
 	In this context, window detection can be used as a strong discriminator.\\
 
+%TODO write big part about what is new /different / importand in my approach
+
 
 We can conclude that window detection plays an important role in the
 interpretation of urban scenes and is applied in a wide range of domains.  This
-section is about two developed methods for robust window detection.
+chapter presents two developed methods for robust window detection.
 
 We start with discussing related work and putting our work in context.  Then we
-begin with a window detection approach that is invariant to viewing direction.
+describe a window detection approach that is invariant to viewing direction.
 After this we present our second method that assumes orthogonal and aligned
 windows.  Finally we show and discuss results. 
 
 
 \subsection{Related work}
 A large amount of research is done on semantical interpretation of urban scenes. First we
-discuss related work that has a big overlap with our research in detail.
+discuss related work that has a big overlap with our approach in detail.
 After this, we briefly discuss the research that is done on window detection
-using approaches from a different point of view.
+using other approaches.
 
 
 \subsubsection{Similar approaches}
@@ -117,7 +121,7 @@ use laser images together with Hough line extraction to reconstruct facade detai
 They match the lines by comparing the angle, location and length difference of the model edges with the extracted Houghlines.  These criteria is also used in our approach.\\
 They also detect windows and use them to provide a significant better alignment of the 3d model.
 The windows are extracted from the holes from laser points of a wall, these results where far from accurate.\\
-To summarize, the work of Pu and Vosselman provides a useful practical application of window detection and it amplifies the need for a robust window detection technique that is independed of laser data.\\
+To summarize, the work of Pu and Vosselman provides a useful practical application of window detection and it amplifies the need for a robust window detection technique that is independent of laser data.\\
 
 
 In \cite{Recky_kmeans} Recky et all developed a window detector that is build on
@@ -125,6 +129,7 @@ the primary work of Lee and Nevatia \cite{Lee_extraction} (which is discussed
 next).
 In order to be able to assume aligned windows they rectify the facade.  After this they apply a threshold on an orthogonal projection of the extracted edges. 
 For example they use a vertical edge projection to establish the horizontal division of the windows.
+% todo sentence below in differnet alinea and more detail
 This is very similar to our approach, although we only project line segment endpoints.\\
 The next step, labeling the areas containing windows, is however very different as they use color to disambiguate the windows.
 To be more precise, they convert the image to CIE-Lab color space and use k-means to classify the windows.
@@ -138,10 +143,7 @@ As in the work of Recky et all \cite{Recky_kmeans} Lee et all
 perform orthogonal edge projection to find the window alignment.  As different
 shape of windows can exist in the same column, they use the window alignment as
 a hypothesis.  Then, using this hypothesis, they perform a refinement for each
-window independedly.
-Although this comes with accurate results, the iterative refinement is a
-computational expensive procedure.  Therefor we do not consider the refinement
-process in our research.
+window independently. More on this in Future research.
 
 %%NEW PAPERS 
 %[A model-based method for building reconstruction]
@@ -226,8 +228,10 @@ The connected corners give a good indication of the position of the windows, as
 a window consists of a complex structure involving a lot of connected horizontal
 and vertical lines. 
 
-In this approach the windows could be arbitrarily located and they don't need
+In this approach the viewing direction is not required to be frontal.
+The windows could be arbitrarily located and they don't need
 to be aligned to each other neither to the X and Y axis of the image.
+
 %voting
 %the connected lines give a direction
 
@@ -239,31 +243,29 @@ From the edge image we extract two different groups of Houghlines, horizontal an
 vertical.  We set the $\theta$ bin ranges in the Hough transform that control the
 allowed angles of the Houghlines to extract the two groups. The horizontal group
 has a range of [-30..0..30] degrees, where 0 presents a horizontal line. The vertical
-group has a range of [80..90..100] degrees. This ranges seem
-to work good on an empirical basis for all datasets.
-The results can be seen in Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} and
+group has a range of [80..90..100] degrees. These ranges seem
+to work well on an empirical basis for all datasets.
+The results of two images can be seen in Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} and
  \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.
 
 \paragraph{Extract connected corners}
-Next we pair up horizontal and vertical lines to discard found edges that are
-not origined from a window. These paired up lines form a connected corner.
-Often a connected corner is not fully connected or over connected.
-We consider different types of connected corners, see Figure \ref{fig:cCornerTypes}.
 \fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
-result the clean connected corner}{0.5}
+result the clean connected corner}{0.5} As windows contain complex structures
+the amount of horizontal and vertical houghlines is large at these locations.
+A horizontal and vertical line is often connected in a corner of a window.  In
+this approach we pair up these horizontal and vertical lines to determine
+\emph{connected corners} that indicate a window.
 
-To clean up the lines, the algorithm discards intersections between the
-horizontal and vertical Houghlines that are apart. 
-Two intersection point distances are measured: $d_h$ for the horizontal Houghline and $d_v$
-for the vertical Houghline.  If the intersection falls on both associated Houghlines,
-	the total distance $D=0$.  Otherwise the Euclidean distance is measured from the
-	intersection to the closest endpoint. This is done for both Houghlines.  If
-	the intersection falls outside both Houghlines (Figure
-	\ref{fig:cCornerTypes}(IV)) ($d_h>0$ and $d_v>0$), the total
-	distance is calculated by $D=(d_h + d_v)/2$.\\
-	Next $D$ is compared to
-	a \emph{maximum intersection distance} threshold $midT$.  And if $D<=midT$,
-	the intersection is close enough to form a connected corner.\\
+Often a connected corner contains a small gap or an extension wich we tollerate,
+these cases are illustrated in Figure \ref{fig:cCornerTypes} in the top row.
+A horizontal gap a vertical and horizontal gap and a vertical alongation. The
+cleaned up corners are given in the bottom row.  When the horizontal and
+vertical lines intersect, the gap distance is $D=0$.  When the lines do not
+intersect, the distance between the intersection point and the endpoint of the
+lines is measured, this is illustrated as dotted lines in Figure
+\ref{fig:cCornerTypes}.  Next, $D$ is compared to a \emph{maximum intersection
+distance} threshold $midT$.  And if $D<=midT$, the intersection is close enough
+to form a connected corner.\\
 
 After two Houghlines are classified as a connected corner, they are stretched or
 trimmed, depending on the situation. The results are shown in the second row in
@@ -272,6 +274,7 @@ In Figure \ref{fig:cCornerTypes}(I)  the horizontal line is stretched.  Figure
 \ref{fig:cCornerTypes}(II) shows that the vertical line is trimmed.  In Figure
 \ref{fig:cCornerTypes}(III) both lines are stretched.  At last, Figure
 \ref{fig:cCornerTypes}(IV) shows how both lines are trimmed.
+%todo nieuw fig maken cCornerTypes: rood is horizontaal ook onderste rij
 
 
 \paragraph{Extract window areas}
@@ -524,15 +527,14 @@ the view, the more occlusion negatively effects the cleanness of the projection.
 However, this occlusion artefact is in most cases no problem as the system
 combines the windows probabilities.  
 
-\subsection{Conclusion and Future work}
-\subsubsection{Conclusion}
+\subsection{Conclusion}
 We showed that projecting the image to a frontal view is a good preprocessing
 step of a robust window detector.
 \emph{TODO}
 %todo
 
-\subsubsection{Future work}
-\paragraph{Method I: Connected corner approach} 
+\subsection{Future work}
+\subsubsection{Method I: Connected corner approach} 
 It would be nice to have a clustering algorithm that groups connected corners to
 a window. For this method it would be useful to assume the window size as this
 correlates directly to the inter-cluster distance.\\
@@ -550,12 +552,27 @@ The later is difficult because the edges are often incomplete due to for example
 or the angle of viewing.
 
 
-\paragraph{Method II: Histogram based approach} 
+\subsubsection{Method II: Histogram based approach} 
 It would be nice to investigate the effect of the occlusion and to exploit the
 robustness of the window detector under extreme viewing angles.
 For example the viewing angle could be plotted against the percentage of
 correct detected windows.
 \emph{TODO}
+
+% todo 
+
+\paragraph{Window alignment refinement}
+To get more accurate result or to handle scenes with poor window alligment a refinement procedure could be applied.
+As mentioned in the related work, Lee et all \cite{Lee_extraction} applied window refinement.
+Although this comes with accurate results, the iterative refinement is a
+computational expensive procedure. 
+It would be nice to have a dynamic system that is aware of this 
+accuracy and computational time trade of. A system that only refines the results when the recources are available.
+For example if a car is driving and uses window detection for building recognition the refinement is disabled.
+But if the car is lowering speed the refinement procedure could be activated.
+Resulting in accurate building recognition which opens the door for augmented reality.
+
+
 
 
 

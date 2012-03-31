@@ -19,6 +19,7 @@ similar
 organisation
 series (instead of serie)
 extension
+independENT
 
 TAAL FEEDBACK:
 goed kijken of werkwoorden in enkel of meervout staan
