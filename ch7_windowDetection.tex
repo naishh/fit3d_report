@@ -28,9 +28,14 @@
 
 
 \section{Window detection}
-\subsection{New since 28-3-20012}
+\subsection{Updated/New since 28-3-20012}
+explanation diff types of connected corners
 Future work -> Window alignment refinement
+nummeric evaluation of connected corner result in Discussion 
 
+\subsection{Q}
+Is it useful to include the connected corner result of the occluding tree?
+\ref{fig:w_Dirk5_ImcCorner_cCorner.eps}
 
 % TODO explain efficiency of Houghline coordinate transformation (instead of
 % transforming the image
@@ -267,24 +272,25 @@ lines is measured, this is illustrated as dotted lines in Figure
 distance} threshold $midT$.  And if $D<=midT$, the intersection is close enough
 to form a connected corner.\\
 
-After two Houghlines are classified as a connected corner, they are stretched or
+After two Houghlines are classified as a connected corner, they are extended or
 trimmed, depending on the situation. The results are shown in the second row in
 Figure \ref{fig:cCornerTypes}.
-In Figure \ref{fig:cCornerTypes}(I)  the horizontal line is stretched.  Figure
+In Figure \ref{fig:cCornerTypes}(I)  the horizontal line is extended.  Figure
 \ref{fig:cCornerTypes}(II) shows that the vertical line is trimmed.  In Figure
-\ref{fig:cCornerTypes}(III) both lines are stretched.  At last, Figure
+\ref{fig:cCornerTypes}(III) both lines are extended.  At last, Figure
 \ref{fig:cCornerTypes}(IV) shows how both lines are trimmed.
 %todo nieuw fig maken cCornerTypes: rood is horizontaal ook onderste rij
 
 
 \paragraph{Extract window areas}
-To retrieve the actual windows, each connected corners is mirrored on its
+To retrieve the actual windows, each connected corner is mirrored along its
 diagonal. The connected corner now contains four sides which form a 
 quadrangle window area.
 All quadrangles are filled and displayed in Figure
 \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps} and
 \ref{fig:w_Dirk5_ImcCorner_windowFilled.eps}.
 
+%todo numeric evaluation of the windows
 
 
 \subsection{Method II: Histogram based approach} 
@@ -499,6 +505,11 @@ We tested both methods on different datasets.
 
 \subsection{Discussion}  % (What do my results mean to me and why)
 \emph{ todo discuss results }
+Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled} contains 110 windows of which
+are 109 detected, this is 99\%. Furthermore there are some False Positive areas,
+this is about 3 \%.  The window on the right top isn't detected, this is because
+he is smaller then our minimum window width.
+
 \paragraph{Method I: Connected corner approach} 
 % todo ref
 The big advantage of this method is that it doesn't require the windows to be aligned.
