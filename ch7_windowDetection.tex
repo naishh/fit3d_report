@@ -3,6 +3,8 @@
 
 
 % todo's
+% zoeken op houghline endpoint(s)
+% 
 % iets schrijven over datasets
 % rectification is not always accurate, explain consequences
 
@@ -29,11 +31,12 @@
 
 \section{Window detection}
 \subsection{Updated/New since 28-3-20012}
-explanation different types of connected corners
-Future research-> Window alignment refinement
-Discussion -> nummeric evaluation of connected corner result in 
-ik werk niet meer met houghline eindpunten maar met de gehele lijn.
-ipv rectangular areas, en rows, gebruik ik nu blocks en blockrows
+al het commentaar verwerkt\\
+explanation different types of connected corners\\
+Future research-> Window alignment refinement\\
+Discussion -> nummeric evaluation of connected corner result in \\
+ik werk niet meer met houghline eindpunten maar met de gehele lijn.\\
+ipv rectangular areas, en rows, gebruik ik nu blocks en blockrows\\
 
 \subsection{Q}
 Is it useful to include the connected corner result of the occluding tree?
@@ -78,8 +81,9 @@ Semantic interpretation of urban scenes is used in a wide range of applications.
 	buildings.
 	Other applications that require semantic 3d models are virtual tourism,
 	visual impact analysis, driving simulation and military simulation systems.
-%todo afbeelding uit pag 3 halen en hier plakken
-%http://www.rgi.nl/downloads/files/Shi Pu.pdf
+	%todo met bram checken hoe ik png in kan laden
+	%\fig{p_simulation_people.png}{1}{Simulation environment}
+	%http://www.rgi.nl/downloads/files/Shi Pu.pdf
 
 \paragraph{Augmented reality}
 	Some mobile platforms apply augmented reality using facade and window
@@ -136,9 +140,7 @@ In \cite{Recky_kmeans} Recky et all developed a window detector that is build on
 the primary work of Lee and Nevatia \cite{Lee_extraction} (which is discussed
 next).
 In order to be able to assume aligned windows they rectify the facade.  After this they apply a threshold on an orthogonal projection of the extracted edges. 
-For example they use a vertical edge projection to establish the horizontal division of the windows.
-% todo sentence below in differnet alinea and more detail
-This is very similar to our approach, although we only project line segment endpoints.\\
+For example they use a vertical edge projection to establish the horizontal division of the windows which is very similar to our approach,.\\
 The next step, labeling the areas containing windows, is however very different as they use color to disambiguate the windows.
 To be more precise, they convert the image to CIE-Lab color space and use k-means to classify the windows.
 Although this method is robust, both color transformation and k-means clustering are very computational expensive.
@@ -224,10 +226,6 @@ describe the windows with Haar like features which are fed into a (Ada boost) ca
 
 
 \subsection{Method I: Connected corner approach} 
-% todo begin with motivation
-
-%Because the viewing point isn't assumed to be frontal, we we set the 
-
 \subsubsection{Situation and assumptions}
 We introduce the concept \emph{connected corner}, this is a corner that is 
 connected to a horizontal and vertical line.  
@@ -240,14 +238,11 @@ In this approach the viewing direction is not required to be frontal.
 The windows could be arbitrarily located and they don't need
 to be aligned to each other neither to the X and Y axis of the image.
 
-%voting
-%the connected lines give a direction
-
 \subsubsection{Method}
 \paragraph{Edge detection and Houghline extraction}
 Edge detection is done as is described in chapter 
 \emph{(not included chapter)} % todo
-From the edge image we extract two different groups of Houghlines, horizontal and % todo why?
+From the edge image we extract two different groups of Houghlines, horizontal and 
 vertical.  We set the $\theta$ bin ranges in the Hough transform that control the
 allowed angles of the Houghlines to extract the two groups. The horizontal group
 has a range of [-30..0..30] degrees, where 0 presents a horizontal line. The vertical
@@ -301,14 +296,12 @@ From the previous chapter we know that from a series of images, a 3D model of a
 building can be extracted. Furthermore we saw that using this 3D model the
 scene could be converted to another viewing point. 
 
-%todo instead of frontal: rectified
 For accurate and robust window detection we projected the scene to a frontal
 view of a building, where a building wall appears orthogonal. This frontal
 view enables us to assume orthogonality and alignment of the windows. We
 exploit this properties to build a robust window detector. First we determine
 the the alignment of the windows and then we label the areas that contain the
 windows. 
-
 
 \subsubsection{Situation and assumptions}
 To be more precise in our assumptions, we assume the windows have orthogonal sides.  Furthermore we
@@ -318,7 +311,8 @@ position has to be equal.  Note that this doesn't mean that all windows have the
 share the same size.
 
 \subsubsection{Method}
-The extraction of the windows is done in different steps. First we rectify the image to ensure the assumptions are valid.
+The extraction of the windows is done in different steps. First we rectify the 
+image making the assumptions are valid. The rectification process is done as described in chapter \emph{TODO REF}
 Then the alignment of the windows is determined, this is based on a histogram 
 of the Houghlines'. We use this alignment to divide the
 image in window or not window regions.  Finally these regions are classified
@@ -503,7 +497,7 @@ We tested both methods on different datasets.
 
 % old dataset:
 %\fig{w_spil6cCornerImEdge.eps}{Edge detection}{0.6}
-%\fig{w_spil6cCornerImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}% todo theta constrain
+%\fig{w_spil6cCornerImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}
 %\fig{w_spil6cCornercCorner.eps}{Found connected corners}{0.6}
 %\fig{w_spil6cCornerWindows.eps}{Connected corner as windows}{0.6}
 %\fig{cCornerSpilTrans1.eps}{Found connected corners on the rectified image}{0.45}
@@ -557,7 +551,6 @@ fortunately it resulted in the same classification.
 % todo test this on different runs and say something about sensitivity
 
 \emph{TODO}\\
-% TODO Ref biblograyhf
 
 \paragraph{Occlusion}
 \label{lab:occlusion}
