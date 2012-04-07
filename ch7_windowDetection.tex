@@ -3,22 +3,8 @@
 
 
 % todo's
-% zoeken op houghline endpoint(s)
-% 
-% iets schrijven over datasets
 % rectification is not always accurate, explain consequences
 
-
-
-%TODO pipeline rectification process
-%
-% 		motion estimation
-% 		scale estimation
-% 			produces MAP
-% 		plane fitter
-% 			produces normal of wall
-% 		edgeIm or houghlines reprojection
-%
 
 
 % list of figures
@@ -221,6 +207,55 @@ describe the windows with Haar like features which are fed into a (Ada boost) ca
 \fig{w_Spil1TransCrop1_ImOri.eps}{Rectified image}{0.45}
 \fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.45}
 \fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.45} 
+
+
+
+
+\subsection{Facade rectification}
+
+%todo rehearse shortly the motivation
+steps
+% todo ref fit3d
+
+fit3d
+
+	Setting up the dataset	
+		We begin by taking a facade and taking a series of 6 or more consecutive images of the scene.
+		The images have enough overlap, by taking a maximum camera center displacement of the 3m in the real world.
+		%The images are taken with the same zoom and lightning parameters
+		%todo example img: thumbnail filmstrip with 6 floriande images
+
+	Motion estimation / ego motion
+		We want to estimate the motion of the camera between the frames.
+		This is done in a few steps.
+
+		First we extract about 25k SIFT features of each frame.
+		Then we use SIFT descriptors to describe and match the features within the consecutive frames.
+		Not all features will overlap in the frames therefor RANSAC is used to robustly remove the outliers.
+		After this an 8 point algorithm together with a voting mechanism is used to 
+
+
+		ransac, outlier rejection
+
+		converting the images to features
+		This is done 
+		The first step
+		In we find features
+
+		scale ambiguity
+	The relation 
+
+	scale estimation / refinement 
+		
+		produces point cloud 
+	plane fitter
+		produces fitted plane (wallnormal)
+	reprojection of the houghlines by projecting endpoints
+
+
+
+TODO pipeline rectification process
+
 
 
 

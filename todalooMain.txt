@@ -1,27 +1,15 @@
 GENIET, muziekje erbij ! 
 
-TODO window detection FROM FEEDBACK FRANS
-	image of florande in report
 
 
 
 
 todo window detection:
-	put work in context, 
-		related work, 
-		waarom window detectie, motivatie!
-	commentaar frans verwerken 
-	meer dataset plaatjes generen
+	fit3d rectification uitleggen
+	occlusion uitgebreid uitleggen, door occlusie stenen wand is venster van raam niet zichtbaar en gaat brick over in weerspiegeling raam wat ongeveer zelfde kleur heeft
+
 	discuss drain pipe fig 7
-	discuss missing windows
-	subsections eerst af voor nieuwe beginnen
-	mail isaac results
-	assumptions mooi highlighten
-	todo's
-	alles doorlezen
-	
 	matlab:
-		create cCorner result of image with non frontal viewpoint
 		ingezoomed plaatje probabilities
 
 
