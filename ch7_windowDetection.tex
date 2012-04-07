@@ -212,44 +212,54 @@ describe the windows with Haar like features which are fed into a (Ada boost) ca
 
 
 \subsection{Facade rectification}
+There are two methods to facade rectifation.
+i---------------------
+Using a point to point correspondence.
+click 4 Corners 
+%however this method is bad, drugs are badddddd
+\emph{why?}
 
+%intro
+We use the \emph{fit3d toolbox} to extract a 3d model from a series of frames.
+The 3d model is used to rectify the facade.
+
+We briefly explain the methods that are used. 
 %todo rehearse shortly the motivation
 steps
 % todo ref fit3d
 
-fit3d
 
-	Setting up the dataset	
+	\paragraph{Setting up the dataset}
 		We begin by taking a facade and taking a series of 6 or more consecutive images of the scene.
 		The images have enough overlap, by taking a maximum camera center displacement of the 3m in the real world.
 		%The images are taken with the same zoom and lightning parameters
 		%todo example img: thumbnail filmstrip with 6 floriande images
 
-	Motion estimation / ego motion
+	\paragraph{Motion estimation}
 		We want to estimate the motion of the camera between the frames.
 		This is done in a few steps.
 
 		First we extract about 25k SIFT features of each frame.
 		Then we use SIFT descriptors to describe and match the features within the consecutive frames.
 		Not all features will overlap in the frames therefor RANSAC is used to robustly remove the outliers.
-		After this an 8 point algorithm together with a voting mechanism is used to 
+		After this an 8-point algorithm together with a voting mechanism is used to extract the camera motion.
 
+	\paragraph{Motion refinement}
+		The frames where mathed one by one which returns a motion estimation that is not accurate enough.
+		Therefore a 3-frame match is done which gives more accurate motion estimation.
+		This result comes with a certain amount of reprojection error, this error is minimized
+		using a numerical iterative method called \emph{bundle adjustment}.
+		The result is a very accurate motion estimation.
 
-		ransac, outlier rejection
+	\paragraph{3D point cloud}
+		The next step is to use this motion data to obtain a set of 3D points (corresponding to the selected image features).
+		For this a linear triangulation method is used. 
 
-		converting the images to features
-		This is done 
-		The first step
-		In we find features
-
-		scale ambiguity
-	The relation 
-
-	scale estimation / refinement 
-		
-		produces point cloud 
-	plane fitter
+	\paragraph{Plane fiting}
+	%todo
+		walls
 		produces fitted plane (wallnormal)
+
 	reprojection of the houghlines by projecting endpoints
 
 
