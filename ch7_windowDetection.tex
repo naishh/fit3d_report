@@ -211,65 +211,6 @@ describe the windows with Haar like features which are fed into a (Ada boost) ca
 
 
 
-\subsection{Facade rectification}
-There are two methods to facade rectifation.
-i---------------------
-Using a point to point correspondence.
-click 4 Corners 
-%however this method is bad, drugs are badddddd
-\emph{why?}
-
-%intro
-We use the \emph{fit3d toolbox} to extract a 3d model from a series of frames.
-The 3d model is used to rectify the facade.
-
-We briefly explain the methods that are used. 
-%todo rehearse shortly the motivation
-steps
-% todo ref fit3d
-
-
-	\paragraph{Setting up the dataset}
-		We begin by taking a facade and taking a series of 6 or more consecutive images of the scene.
-		The images have enough overlap, by taking a maximum camera center displacement of the 3m in the real world.
-		%The images are taken with the same zoom and lightning parameters
-		%todo example img: thumbnail filmstrip with 6 floriande images
-
-	\paragraph{Motion estimation}
-		We want to estimate the motion of the camera between the frames.
-		This is done in a few steps.
-
-		First we extract about 25k SIFT features of each frame.
-		Then we use SIFT descriptors to describe and match the features within the consecutive frames.
-		Not all features will overlap in the frames therefor RANSAC is used to robustly remove the outliers.
-		After this an 8-point algorithm together with a voting mechanism is used to extract the camera motion.
-
-	\paragraph{Motion refinement}
-		The frames where mathed one by one which returns a motion estimation that is not accurate enough.
-		Therefore a 3-frame match is done which gives more accurate motion estimation.
-		This result comes with a certain amount of reprojection error, this error is minimized
-		using a numerical iterative method called \emph{bundle adjustment}.
-		The result is a very accurate motion estimation.
-
-	\paragraph{3D point cloud}
-		The next step is to use this motion data to obtain a set of 3D points (corresponding to the selected image features).
-		For this a linear triangulation method is used. 
-
-	\paragraph{Plane fiting}
-	%todo
-		walls
-		produces fitted plane (wallnormal)
-
-	reprojection of the houghlines by projecting endpoints
-
-
-
-TODO pipeline rectification process
-
-
-
-
-
 \subsection{Method I: Connected corner approach} 
 \subsubsection{Situation and assumptions}
 We introduce the concept \emph{connected corner}, this is a corner that is 
@@ -335,47 +276,140 @@ All quadrangles are filled and displayed in Figure
 \ref{sec:results}.
 
 
+
+
+
+
+
+
+
+
+\subsection{Facade rectification}
+In order to explain our second method of window detection
+we need the windows on the facade to be orthogonal and aligned.
+Therefore we rectify the facade, this can be achieved in two ways.\\
+
+The first rectification method uses point to point correspondences. This 
+requires annotation of the cornerpoints of the facade that are mapped with the
+corners of a rectangle.  The downside of this method is that it isn't very accurate.\\
+\emph{Isaac/Frans, do you know how I can explain why?}\\
+Furthermore the annotation of the cornerpoints is unknown and should be
+detected automaticaly with high accuracy.
+
+The second method involves the extraction of a 3D plane of the facade. This 
+method is more accurate and sophisticated. It involves a comprehensive process
+which is done multiple times by other researchers.
+% todo ref fit3d
+Therefore we used existing existing software, I. Estebans \emph{FIT3D toolbox},
+to extract the 3D model from a series of frames.  And used one of the planes of
+the 3D model to rectify the facade, making it ready for robust window
+detection.
+
+We calculate the motion between a series of frames in order to extract a
+pointcloud of matching features. This pointcloud is used to extract a plane
+which is used to rectify the facade by a projection process. We now explain the
+steps in more detail.
+
+We began by taking a series of 6 or more consecutive images of a scene.
+The images are chronologic and have sufficient overlap. 
+% todo figure
+
+%The images are taken with the same zoom and lightning parameters
+%todo example img: thumbnail filmstrip with 6 floriande images
+
+We calculated the motion of the camera between the frames in a few steps
+First we extract about 25k SIFT features of each frame.  Then we use
+SIFT descriptors to describe and match the features within the consecutive
+frames.  Not all features will overlap in the frames therefor RANSAC is used to
+robustly remove the outliers.  After this an 8-point algorithm together with a
+voting mechanism is used to extract the camera motion.
+
+The frames where mathed one by one which returns a motion estimation that is not accurate enough.
+Therefore a 3-frame match is done which gives more accurate motion estimation.
+This result comes with a certain amount of reprojection error, this error is minimized
+using a numerical iterative method called \emph{bundle adjustment}.
+The result is a very accurate motion estimation.
+
+The next step is to use this motion data to obtain a set of 3D points
+(corresponding to the selected image features).  For this a linear triangulation
+method is used. 
+
+Next a RANSAC driven planefitter is used to accuratly fit a plane through
+the 3D points. 
+%todo figure
+
+\paragraph{Efficient Projecting} 
+Now we extracted the 3D plane of the facade, the next challenge is to rectify the facade. 
+
+It would be straight forward to rectify the full image. However this is computational
+very expensive as each pixel needs to be projected and rotated. To keep the
+computational cost to a minimum we project only the Houghlines endpoints. 
+This is allowed because the projective transformation we apply preserves the straightness of the lines.
+
+This leaves the edge detection and Houghline extraction to be applied on the 
+unrectified image. 
+If $h$ is the number of Houghlines, the number of projections is $2h$
+When we project the original image this is $w$ x $h$ where $w$,$h$ are the dimensions of
+the image. To give an indication, for the \emph{Spil} dataset %TODO
+this means 600 projections in stead of 1572864: a factor of almost 3k faster.\\
+
+%This is done by performing a projection and rotation.
+
+The Houghline endpoints are projected to the 3D plane we extracted.
+This is done on the same way as the skyline detection, by sending rays from the camera center
+trough the houghline endpoints and calculating the intersection with the 3D plane.
+The result is a 3D point cloud where each point is labeled to there corresponding Houghline.
+I
+The next step is to rotate the camera in a way that the facade (and the Houghlines) are seen
+upfront. This means the viewing direction (z-axis) of the camera needs
+to be equivalent to the normal of the facade plane. Lets denote the
+unit vector spanning the original viewing direction as $z$ and the
+unit vector spanning the desired viewing direction/normal of the facade $z'$.
+We calculated a rotation matrix using the axis-angle representation.
+This presentation uses a unit vector $u$ indicating the direction of a directed axis, and an
+angle describing the magnitude of the rotation about this axis.
+This axis is orthogonal to $z$ and $z'$ and can therefore be
+calculated by $u = cross(z,z')$ where cross defines the cross product of
+two vectors.
+The magnitude of the rotation $\alpha$ is equivalent to the angle $z$ between $z'$ given $u$. $\alpha$ and $u$ are used to create a
+rotation matrix $R$ which is aplied to the 3D point cloud.
+The result is a set of rectified houghlines.
+
+For the purpose of representation we also calculated a full rectification
+of the image, see Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}.
+%todo fig unrectified with houghlines
+%todo fig rectified with houghlines
+
+
 \subsection{Method II: Histogram based approach} 
 \subsubsection{Introduction}
-From the previous chapter we know that from a series of images, a 3D model of a
+From the previous section we saw that from a series of images, a 3D model of a
 building can be extracted. Furthermore we saw that using this 3D model the
-scene could be converted to another viewing point. 
-
-For accurate and robust window detection we projected the scene to a frontal
-view of a building, where a building wall appears orthogonal. This frontal
-view enables us to assume orthogonality and alignment of the windows. We
-exploit this properties to build a robust window detector. First we determine
-the the alignment of the windows and then we label the areas that contain the
-windows. 
+scene could be converted to a frontal view of a building, where a building wall
+appears orthogonal.  This frontal view enables us to assume orthogonality and
+alignment of the windows. 
+We exploit this properties to build a robust window detector. First we determine
+the alignment of the windows and then we label and group the areas that
+contain the windows. 
 
 \subsubsection{Situation and assumptions}
-To be more precise in our assumptions, we assume the windows have orthogonal sides.  Furthermore we
-assume that the windows are aligned. This means that a row of windows share the
-same height and $y$ position. For a column of windows the width and $x$
-position has to be equal.  Note that this doesn't mean that all windows have the
-share the same size.
+To be more precise in our assumptions, we assume the windows have orthogonal
+sides.  Furthermore we assume that the windows are aligned. This means that a
+row of windows share the same height and $y$ position. For a column of windows
+the width and $x$ position has to be equal.  Note that this doesn't mean that
+all windows have the share the same size.
 
 \subsubsection{Method}
 The extraction of the windows is done in different steps. First we rectify the 
-image making the assumptions are valid. The rectification process is done as described in chapter \emph{TODO REF}
+image making the assumptions are valid. The rectification process is done as
+described in the previous section. 
+
+%todo
 Then the alignment of the windows is determined, this is based on a histogram 
 of the Houghlines'. We use this alignment to divide the
 image in window or not window regions.  Finally these regions are classified
 and combined which gives us the windows.
 
-
-% todo put in appendix or in a chapter devoted to projecting/rectifying
-\paragraph{Efficient Projecting} 
-As we are interested in the frontal view of the building, it would be straight
-forward to project the original image. However this is computational
-very expensive as each pixel needs to be projected. To keep the computational cost to a minimum we project only the
-Houghlines. The edge detection and Houghline extraction is done on the original
-unprojected image. We only project the Houghline segment
-endpoints. If $h$ is the number of Houghlines, the number of projections is $2h$
-When we project the original image this is $w$ x $h$ where w,h are the dimensions of
-the image. To give an indication, for the \emph{Spil} dataset %TODO
-this means 600 projections in stead of 1572864.\\
-However for the purpose of display we also presented the rectified images.
 
 
 \fig{w_Spil1TransCrop1_ImHibaap.eps}{(smoothed) Histograms and window alignment lines}{0.45}
