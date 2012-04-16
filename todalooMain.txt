@@ -1,22 +1,43 @@
 GENIET, muziekje erbij ! 
 
-dagdoel
-11;00 report
-12;00 linked in aanmaken
-13:00 lunch
-14:00 report
-16:00 coden
+ma: 
+rect af
+inventarisatie tijd feedback verw skyline detect
+todo's af
+pseudo prog (2u)
 
+di:
+feedback verw skyline detect
+pseudo prog (2u)
 
+wo:
+alles samenvoegen en lijmen
+pseudo prog (2u)
+generate result images window detection
+
+do: 
+write new method classRect
+
+vr:
+uitloop/afronden
+mail isaac om te vragen of ihj facade rectification wilt nakijken
 
 todo window detection:
-	fit3d rectification uitleggen
-	occlusion uitgebreid uitleggen, door occlusie stenen wand is venster van raam niet zichtbaar en gaat brick over in weerspiegeling raam wat ongeveer zelfde kleur heeft
+	rectification hfdst afmaken (1u)
+	pseudo methode beschrijven (8u)
+	pseudo methode proggen (8u)
+	todos 
 
-	discuss drain pipe fig 7
-	matlab:
+other:
+	feedback verwerken skyline detectie (?)
+	alles samenvoegen en lijmen (?)
+
+
+matlab plaatjes
+	ransac plane fitter, kruisjes en plane
+	window detection
 		ingezoomed plaatje probabilities
-
+	
 
 
 
