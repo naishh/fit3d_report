@@ -1,13 +1,25 @@
 GENIET, muziekje erbij ! 
 
+overdag GEEN facebook en mail ALLEEN in pauze
+hierin ben ik eerlijk naar mijzelf en gun ik mezelf mijn doelen te halen
+Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
+1) mijzelf vergeven 
+2) contact maken met ik ben sterk
+3) ik gun mijzelf mijn doel te halen
+4) FOCUS op scriptie
+
+
+
+PLANNING
 ma: 
-rect af
-inventarisatie tijd feedback verw skyline detect
-todo's af
+x rect af
+x inventarisatie tijd feedback verw skyline detect
 pseudo prog (2u)
+feedback verw skyline detect
 
 di:
 feedback verw skyline detect
+todo's ch7 af
 pseudo prog (2u)
 
 wo:
@@ -29,8 +41,9 @@ todo window detection:
 	todos 
 
 other:
-	feedback verwerken skyline detectie (?)
-	alles samenvoegen en lijmen (?)
+	FB skyline detectie (8)
+	FB improve 3d model (4)
+	alles samenvoegen en lijmen (3)
 
 
 matlab plaatjes

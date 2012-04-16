@@ -3,7 +3,6 @@
 
 
 % todo's
-% rectification is not always accurate, explain consequences
 
 
 
@@ -68,9 +67,7 @@ Semantic interpretation of urban scenes is used in a wide range of applications.
 	buildings.
 	Other applications that require semantic 3d models are virtual tourism,
 	visual impact analysis, driving simulation and military simulation systems.
-	%todo met bram checken hoe ik png in kan laden
-	%\fig{p_simulation_people.png}{1}{Simulation environment}
-	%http://www.rgi.nl/downloads/files/Shi Pu.pdf
+	\fig{p_simulation_people.eps}{Simulation environment}{0.3}
 
 \paragraph{Augmented reality}
 	Some mobile platforms apply augmented reality using facade and window
@@ -128,6 +125,8 @@ the primary work of Lee and Nevatia \cite{Lee_extraction} (which is discussed
 next).
 In order to be able to assume aligned windows they rectify the facade.  After this they apply a threshold on an orthogonal projection of the extracted edges. 
 For example they use a vertical edge projection to establish the horizontal division of the windows which is very similar to our approach,.\\
+%raises a to many floats error
+%\fig{p_projection_profiles.eps}{Projection profiles of See and Nevatias work}{0.5}
 The next step, labeling the areas containing windows, is however very different as they use color to disambiguate the windows.
 To be more precise, they convert the image to CIE-Lab color space and use k-means to classify the windows.
 Although this method is robust, both color transformation and k-means clustering are very computational expensive.
@@ -154,6 +153,7 @@ symmetry is detected in the vertical (floors) and horizontal (window
 rows) direction.
 The use shape grammars to divide the building wall in tiles, windows, doors etc.
 The results are used to derive a 3d model of high 3d visual quality.
+\figs{label_window_nice_geometry}{p_window_nice_geometry1.eps}{p_window_nice_geometry2.eps}{original texture}{reconstruction}{Results of Muller et all}{0.2}{0.2}
 %todo insert an image of this paper of the nice geometry (ingevallen raam)
 
 Using a thermal camera, Sirmacek \cite{Sirmacek_thermal}
@@ -204,11 +204,13 @@ describe the windows with Haar like features which are fed into a (Ada boost) ca
 
 
 % todo find good location in thesis for this
-\fig{w_spil6ImOri.eps}{Original image}{0.6}
-\fig{w_Spil1TransCrop1_ImOri.eps}{Rectified image}{0.45}
-\fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.45}
-\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.45} 
 
+% TODO IMPORTAND UNCOMMENT THESE
+% \fig{w_spil6ImOri.eps}{Original image}{0.6}
+% \fig{w_Spil1TransCrop1_ImOri.eps}{Rectified image}{0.45}
+% \fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.45}
+% \fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.45} 
+% 
 
 
 
