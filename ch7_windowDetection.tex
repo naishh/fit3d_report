@@ -22,14 +22,15 @@ Future research-> Window alignment refinement\\
 Discussion -> nummeric evaluation of connected corner result in \\
 ik werk niet meer met houghline eindpunten maar met de gehele lijn.\\
 ivm onduidelijkheid rijen en pixelrijen gebruik ik nu ipv rectangular areas, en rows, : blocks en blockrows\\
-Facade rectification
+Facade rectification\\
+Improved window alignment lines\\
 
 \subsection{Q}
 Is it useful to include the connected corner result of the occluding tree?
 \ref{fig:w_Dirk5_ImcCorner_cCorner.eps}
 Zal ik de presentatie met de blokken met grijswaarden weglaten?
 
-% TODO explain efficiency of Houghline coordinate transformation (instead of
+% todo explain efficiency of Houghline coordinate transformation (instead of
 % transforming the image
 \label{chap:windowDetection}
 \subsection{Introduction}
@@ -67,7 +68,8 @@ Semantic interpretation of urban scenes is used in a wide range of applications.
 	buildings.
 	Other applications that require semantic 3d models are virtual tourism,
 	visual impact analysis, driving simulation and military simulation systems.
-	\fig{p_simulation_people.eps}{Simulation environment}{0.3}
+	% todo uncomment this
+	%\fig{p_simulation_people.eps}{Simulation environment}{0.1}
 
 \paragraph{Augmented reality}
 	Some mobile platforms apply augmented reality using facade and window
@@ -91,7 +93,7 @@ Semantic interpretation of urban scenes is used in a wide range of applications.
 	desired.  The semantical interpretation of the facade can provide this need.
 	In this context, window detection can be used as a strong discriminator.\\
 
-%TODO write big part about what is new /different / importand in my approach
+%todo write big part about what is new /different / importand in my approach
 
 
 We can conclude that window detection plays an important role in the
@@ -126,7 +128,7 @@ next).
 In order to be able to assume aligned windows they rectify the facade.  After this they apply a threshold on an orthogonal projection of the extracted edges. 
 For example they use a vertical edge projection to establish the horizontal division of the windows which is very similar to our approach,.\\
 %raises a to many floats error
-%\fig{p_projection_profiles.eps}{Projection profiles of See and Nevatias work}{0.5}
+\fig{p_projection_profiles.eps}{Projection profiles of Lee and Nevatias work}{0.1}
 The next step, labeling the areas containing windows, is however very different as they use color to disambiguate the windows.
 To be more precise, they convert the image to CIE-Lab color space and use k-means to classify the windows.
 Although this method is robust, both color transformation and k-means clustering are very computational expensive.
@@ -153,8 +155,7 @@ symmetry is detected in the vertical (floors) and horizontal (window
 rows) direction.
 The use shape grammars to divide the building wall in tiles, windows, doors etc.
 The results are used to derive a 3d model of high 3d visual quality.
-\figs{label_window_nice_geometry}{p_window_nice_geometry1.eps}{p_window_nice_geometry2.eps}{original texture}{reconstruction}{Results of Muller et all}{0.2}{0.2}
-%todo insert an image of this paper of the nice geometry (ingevallen raam)
+\figsSmall{label_window_nice_geometry}{p_window_nice_geometry1.eps}{p_window_nice_geometry2.eps}{Results of Muller et all}{original texture}{reconstruction}
 
 Using a thermal camera, Sirmacek \cite{Sirmacek_thermal}
 detects heat leakage on building walls as an indicator for doors or windows.
@@ -200,12 +201,11 @@ describe the windows with Haar like features which are fed into a (Ada boost) ca
 
 
 
-% todo tjoint article quoten
 
 
 % todo find good location in thesis for this
 
-% TODO IMPORTAND UNCOMMENT THESE
+% todo IMPORTAND UNCOMMENT THESE
 % \fig{w_spil6ImOri.eps}{Original image}{0.6}
 % \fig{w_Spil1TransCrop1_ImOri.eps}{Rectified image}{0.45}
 % \fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.45}
@@ -354,13 +354,12 @@ Houghline extraction on the unrectified image.)\\
 
 If $h$ is the number of Houghlines, the number of projections is $2h$
 When we rectify the full image the number of projection is $w$ x $h$, where $w$,$h$ are the width and height of
-the image. To give an indication, for the \emph{Spil} dataset %TODO
+the image. To give an indication, for the \emph{Spil} dataset %todo
 this means we apply 600 projections in stead of 1572864: a factor of almost 3k faster.\\
 
 
 The Houghline endpoints are projected to the 3D plane we extracted in the same
-way as we explained in chapter %todo 
-(Skyline detection). To wrapup, we send
+way as we explained in chapter \ref{chap:skylinedetection}. To wrapup, we send
 rays from the camera center trough the houghline endpoints and calculated the
 intersection with the 3D plane.  The result is a 3D point cloud where each
 point is labeled to there corresponding Houghline.\\
@@ -431,22 +430,23 @@ and combined which gives us the windows.
 We introduce the concept alignment line. We define this as a horizontal or
 vertical line that aligns multiple windows. In Figure
 \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}
+%todo update img
 we show the alignment lines as two groups, horizontal (red) and
 vertical (green) alignment lines.  The combination of both groups give a grid of
 rectangles that we classify as window or non-window areas.\\
 
 % MOTIVATION
 How do we determine this alignment lines? We make use of the fact that among a
-horizontal alignment line a lot of horizontal Houghlines start and end (see red
-crosses in Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}. For the vertical alignment lines
-the number of vertical Houghline start and ends is high (see green crosses in
-Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.\\
+horizontal alignment line a lot of horizontal Houghlines are present, see
+Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}. For the vertical alignment lines
+the number of vertical Houghline is high, see green lines in Figure
+\ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.\\
 
 We begin by extracting the pixelcoordinates of Hough transformed line
 segments. We store them in two groups, horizontal and vertical.% (crosses in Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}). 
 We discard the dimension that is least informative by projecting the coordinates to
 the axis that is orthogonal to its group. 
-This means that for each horizontal Houghline the coordinates are projected to the X
+This means that for each horizontal Houghline the coordinates on the line are projected to the X
 axis and for each vertical Houghline the coordinates are projected to the Y
 axis. We have now transformed the data in two groups of 1 dimensional
 coordinates which represent the projected position of the Houghlines.\\
@@ -462,7 +462,7 @@ to the alignment lines of the windows.
 It is easy to see that the number of peaks is far more then the desired number of alignment lines.
 Therefore we smooth the values using a moving average filter.
 The result, red lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}
-, is a smooth function which contains the right number of peaks. The peaks
+, is a smooth \emph{projection profile} which contains the right number of peaks. The peaks
 are located at the average positions of the window edges. Next step is to
 calculate the peak areas and after this the peak positions. 
 
@@ -472,7 +472,7 @@ function. To make the threshold invariant to the values, we set the threshold to
 %The two thresholds are presented as black dotted lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.\\
 Next we create a binary list of peaks P, P returns 1 for positions that are contained in
 a peak, i.e. are above the threshold, and 0 otherwise.
-% TODO latex, afkijken locate my plate
+% todo latex, afkijken locate my plate
 %P(x)  { 1, H(x)>t
 %	  { 0, H(x)<=t
 We detect the peak areas by searching for the positions where P = 1
@@ -486,11 +486,56 @@ Having segmented the peak areas, the next step is to extract the peak positions.
 Each peak area has only one peak and, since we used an average smoothing filter, the shape of 
 the peaks are often concave. Therefore we extract the peaks by locating the max of each peak area. 
 These locations are used to draw the window alignment lines, they can be seen
+% todo check this
 as dotted red lines and dotted green lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.
+
+
+\paragraph{Improved window alignment lines}
+As you can see in Figure
+a few window alignment lines are not found.
+
+% todo occlusion uitgebreid uitleggen, door occlusie stenen wand is venster van raam niet zichtbaar en gaat brick over in weerspiegeling raam wat ongeveer zelfde kleur heeft
+
+The right side of the window frame of the first 4 windows is occluded by the
+wall.  The reflection of the window has about the same color as the bricks of
+the wall, this means that if the window frame is missing the edge detector
+doesn't find a strong edge.
+This can be seen in the edge image, and at the low height of the peaks (%todo color
+) at these positions.
+
+This means we have to find another way to detect this window alignment.
+For the vertical alignment lines we only took vertical lines into account.
+
+Lets examine the projection profile of the \emph{horizontal} Houghlines
+projected on the X axis, $X_h$.
+On the positions of the desired vertical aligmnent lines there appears to be a 
+big decrease or increase of $X_h$ at the window frame. This is because on these
+positions a window containing (a large amount of horizontal lines) starts or end.
+
+We detect these big decrease or increases by creating a new pseudo peak profile
+$\rho_x$ that takes the absolute of the derivative of $X_h$.
+\[\rho_x = abs( X_{h}')\]
+%--------------------------------------------------------------------------------------------------------------
+
+
+
+%todo
+%this is new and so far not done in previous research
+
+% todo in related work zeggen wat ik anders doe
+% todo zoomed image of projection profile graphs
+
+
+
+
+
+
+
 
 The image is now divided in a new grid of blocks based on these
 alignment lines. The next challenge is to classify the blocks as window and
 non-window areas: the window classification.
+
 
 \paragraph{Window classification}
 Instead of classifying each block independently, we classify full rows and
@@ -548,7 +593,7 @@ The last step is to group a set of windows that belong to each other. This is do
 grouping adjacent positively classified rectangles. These are displayed as red
 rectangles in Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps}.
 
-% TODO binary presentatie weglaten?
+% todo binary presentatie weglaten?
 % As the figure gives a binary representation of the windows it is not possible
 % to see the probabilities behind the classification.
 % Therefore we developed a kind of probabilistic function. 
@@ -602,7 +647,7 @@ We tested both methods on different datasets.
 
 
 
-\emph{TODO include images other datasets} \\
+\emph{todo include images other datasets} \\
 \emph{todo compair methods and explain differences}
 
 
@@ -621,7 +666,7 @@ The big advantage of this method is that it doesn't require the windows to be al
 Furthermore it's robust to a variation in window sizes and types. This makes
 this approach suitable for a wide range of window scenes where no or few prior
 information about the windows is known.
-\emph{TODO}
+\emph{todo}
 
 
 \paragraph{Method II: Histogram based approach} 
@@ -641,7 +686,7 @@ fortunately it resulted in the same classification.
 
 % todo test this on different runs and say something about sensitivity
 
-\emph{TODO}\\
+\emph{todo}\\
 
 \paragraph{Occlusion}
 \label{lab:occlusion}
@@ -658,12 +703,11 @@ combines the windows probabilities.
 % todo nummeriek concluderen
 %We showed that projecting the image to a frontal view is a good preprocessing
 %step of a robust window detector.
-\emph{TODO}
+\emph{todo}
 %todo
 
 \subsection{Future research}
 \subsubsection{Method I: Connected corner approach} 
-
 It would be nice to group the connected corner to groups of subwindows.
 The big window that contains subwindows could be found by calculating the convex hull of the red areas in 
 Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps}.
@@ -676,7 +720,6 @@ the connected corners' horizontal and vertical line parts.  The inter cluster
 distance and the number of grouped connected corner could form a good source for
 the probability of the subwindow.\\
 
-% todo uitzoeken of ik dit niet al doe
 We only developed L-shaped connected corners, it would be nice to connect more
 parts of the window to form U shaped connected corners or even complete rectangles.\\
 The later is difficult because the edges are often incomplete due to for example occlusion 
@@ -684,13 +727,12 @@ or the angle of viewing.
 
 
 \subsubsection{Method II: Histogram based approach} 
-It would be nice to investigate the effect of the occlusion and to exploit the
+It would be nice to investigate the effect of the occlusion and to examine the
 robustness of the window detector under extreme viewing angles.
 For example the viewing angle could be plotted against the percentage of
 correct detected windows.
-\emph{TODO}
+% todo  more..
 
-% todo 
 
 \paragraph{Window alignment refinement}
 To get more accurate result or to handle scenes with poor window alligment a refinement procedure could be applied.
@@ -709,32 +751,3 @@ evidence which could be provided by feature based methods.  For example a
 \emph{multiscale Harris corner detector} could help an accurate alignment or
 refinement of the windows.
 
-
-
-
-
-
-
-% todo backprojection
-
-
-
-
-% title: Graph Theory and Mean Shift Segmentation Based Classiﬁcation of Building Facades
-% 
-% Most of the previous algorithms are computationally expensive and not suitable for real time applications. Because
-% of the requirements of real-time applications robust and fast
-% classiﬁcation of facades is still an open research topic
-% 
-% 
-% Image-based Procedural Modeling of Facades
-% 
-% 
-% 
-% refs:
-% (canny edge detector:)
-% 
-% Canny, J., 1986. A computational approach to edge detection.
-% IEEE Transactions on pattern analysis and machine intelli-
-% gence pp. 679–698.
-% 

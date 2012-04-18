@@ -10,6 +10,8 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 
+
+
 PLANNING
 ma: 
 x rect af
@@ -50,6 +52,10 @@ matlab plaatjes
 	ransac plane fitter, kruisjes en plane
 	window detection
 		ingezoomed plaatje probabilities
+	if no concentration
+		Image of cConer types rood groen goed
+		filmstript 6 consecutive frames
+	
 	
 
 
