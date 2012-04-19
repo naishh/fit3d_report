@@ -24,6 +24,7 @@ ik werk niet meer met houghline eindpunten maar met de gehele lijn.\\
 ivm onduidelijkheid rijen en pixelrijen gebruik ik nu ipv rectangular areas, en rows, : blocks en blockrows\\
 Facade rectification\\
 Improved window alignment lines\\
+Window classification, method II\\
 
 \subsection{Q}
 
@@ -508,6 +509,7 @@ We detect these big decrease or increases by creating a new pseudo peak profile
 $\rho_x$ that takes the absolute of the derivative of $X_h$.
 \[\rho_x = abs( X_{h}')\]
 %--------------------------------------------------------------------------------------------------------------
+% todo schrijven over peak merging
 
 
 
@@ -599,13 +601,23 @@ we designed another representation in Figure \ref{fig:w_Spil1TransCrop1_ImClassR
 The whiter the area the more probable a rectangle is classified as a window.
 
 \paragraph{Window classification, method II}
-The previous function used a uniform
-As the previous function combined uniform
-Improved window alignment 
+If we take a look at figure
+%todo figure from classrect with smoothed Xh
+we see that $X_h$ (the amount of horizontal houghlines) has two shapes that
+repeat:  At the location where a window is present $X_h$ is concave whereas at
+non-windowareas $X_h$ is convex. This is because lots of
+horizontal lines are found at certain window positions (the window centers) and few
+are found at positions that are far away from these certain positions, which are the
+centers of non-window areas (that lie between windows).  The shapetype of $X_h$ is
+used as a cue for our second window classifier.\\
 
-signchange in derivative
-the function is concave at window, convex at non window
-this is tested by looking at the signchange of the derivative
+This shapetype of $X_h$ is detected as follows:
+As in \textbf{improved window alignment}, the first step is to examine the derivative of $X_h$, blue line in figure % todo.
+We investigate the positions where $X_{h}'$ changes from sign, these are the peaks or valleys of $X_h$. $X_h$ is concave at the sign changes from positive to negative (+,-) and $X_h$ is convex if the sign changes (-,+).\\
+
+We expect one sign change per block, however it is possible that multiple sign changes occur. In this case we smooth $X_h$ again and repeat the algorithm until for each block a max of one signchange is found. \\
+
+Now we detected the shape type (concave or convex) we can directly classify the blockrows and blockcolumns as windowareas and non-windowareas. The windows are determined as the previous classifier by combining the (positively classified) window areas blockrows and blockcolumns.\\
 
 
 \subsection{Results}
