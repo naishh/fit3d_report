@@ -16,20 +16,22 @@
 
 \section{Window detection}
 \subsection{Updated/New since 28-3-2012}
-alle feedback verwerkt\\
-explanation different types of connected corners\\
-Future research-> Window alignment refinement\\
-Discussion -> nummeric evaluation of connected corner result in \\
-ik werk niet meer met houghline eindpunten maar met de gehele lijn.\\
-ivm onduidelijkheid rijen en pixelrijen gebruik ik nu ipv rectangular areas, en rows, : blocks en blockrows\\
+Meeste feedback verwerkt\\
+Explanation different types of connected corners\\
+Future research - Window alignment refinement\\
+Discussion - nummeric evaluation of connected corner result\\
+Ik werk niet meer met houghline eindpunten maar met de gehele lijn.\\
+Ivm onduidelijkheid rijen en pixelrijen gebruik ik nu ipv rectangular areas, en rows, : blocks en blockrows\\
 Facade rectification\\
 Improved window alignment lines\\
 Window classification, method II\\
+results\\
+Future research\\
+Results\\
 
 \subsection{Q}
+Ik heb mijn oude methode van window alignment line detectie en classificatie laten staan. Is dit verstandig?
 
-% todo explain efficiency of Houghline coordinate transformation (instead of
-% transforming the image
 \label{chap:windowDetection}
 \subsection{Introduction}
 This chapter deals with one of the tasks of semantic urban scene interpretation, Window detection. 
@@ -132,6 +134,8 @@ Although this method is robust, both color transformation and k-means clustering
 In our method we use the same source, edge information, for the window alignment and for the window labeling.
 As we don't require color transformation and only apply math on line segment
 endpoints, our algorithm performs in real-time.
+Furthermore we use an advanced window alignment process where we take both horizontal and vertical projection profiles into account.
+Our window classification is based on a higher level of shape interpretation of these functions.
 
 As in the work of Recky et all \cite{Recky_kmeans} Lee et all
 \cite{Lee_extraction}
@@ -333,7 +337,7 @@ method.
 
 Next a RANSAC based planefitter is used to accuratly fit a plane through
 the 3D points. 
-%todo figure
+\emph{todo example figure}
 
 \paragraph{Efficient Projecting} 
 Now we extracted the 3D plane of the facade, the next challenge is to use this in order to rectify the facade.\\
@@ -427,7 +431,7 @@ vertical line that aligns multiple windows. In Figure
 %todo update img
 we show the alignment lines as two groups, horizontal (red) and
 vertical (green) alignment lines.  The combination of both groups give a grid of
-rectangles that we classify as window or non-window areas.\\
+blocks that we classify as window or non-window areas.\\
 
 % MOTIVATION
 How do we determine this alignment lines? We make use of the fact that among a
@@ -485,43 +489,35 @@ as dotted red lines and dotted green lines in Figure \ref{fig:w_Spil1TransCrop1_
 
 
 \subsubsection{Improved window alignment}
-As you can see in Figure 
-% todo
-a few window alignment lines are not found.
+As you can see in Figure \ref{fig:w_Spil1TransImproved_Xv.eps}
+a few window alignment lines are not found and a few lines ar found at wrong locations.
 
+Lets explain the missing alignment lines.
 The right side of the window frame of the first 4 windows is occluded by the
-wall.  The reflection of the window has about the same color as the bricks of
-the wall, this means that if the window frame is missing the edge detector
-doesn't find a strong edge.
-This can be seen in the edge image, and at the low height of the peaks (%todo color
-) at these positions.
+wall. This is because the original image is not a frontal image.
+The reflection of the window has about the same color as the bricks of
+the wall, this means that the edge detector
+doesn't find a strong edge on positions where the window frame is missing.
+This artefact can be seen in the edge image Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} few or no edges are present, and
+at the low height of the peaks in Figure \ref{fig:Spil1TransImproved_Xv.eps} at these positions.
 
-This means we have to find another way to detect this window alignment.
-For the vertical alignment lines we only took vertical lines into account.
+This means we have to find another way to detect the window alignment on these positions.
+For the vertical alignment we only took vertical lines into account.
 
-Lets examine the projection profile of the \emph{horizontal} Houghlines
-projected on the X axis, $X_h$.
+In this method we also examine the projection profile of the \emph{horizontal} Houghlines
+projected on the X axis, $X_h$, Figure \ref{fig:w_Spil1TransImproved_Xh.eps}.
 On the positions of the desired vertical aligmnent lines there appears to be a 
 big decrease or increase of $X_h$ at the window frame. This is because on these
 positions a window containing (a large amount of horizontal lines) starts or end.
 
-We detect these big decrease or increases by creating a new pseudo peak profile
-$\rho_x$ that takes the absolute of the derivative of $X_h$.
-\[\rho_x = abs( X_{h}')\]
-%--------------------------------------------------------------------------------------------------------------
-% todo schrijven over peak merging
+We detect these big decreases or increases by creating a new pseudo peak profile
+$D$ that takes the absolute of the derivative of $X_h$, , Figure \ref{fig:w_Spil1TransImproved_Xh.eps}.
+\[D = abs( X_{h}')\]
 
+We apply the same peaklocation detection as the previous method but combine the results.
+Sometimes the same window alignment line is found by both methods, Figure \ref{fig:w_Spil1TransImproved_Xvh.eps}.  We merge the peaks by discarding peaks that are close to eachother, the result can be seen in Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.ep}.
 
-
-%todo
-%this is new and so far not done in previous research
-
-% todo in related work zeggen wat ik anders doe
 % todo zoomed image of projection profile graphs
-
-
-
-
 
 The image is now divided in a new grid of blocks based on these
 alignment lines. The next challenge is to classify the blocks as window and
@@ -576,12 +572,12 @@ This results in a set of Rows and Columns that are classified as window an
 non-window areas.
 
 The next step is to determine the actual windows $W$.
-A rectangular area $w\in W$ that is crossed by $R_j$ and $C_k$ is classified as a
+A block $w\in W$ that is crossed by $R_j$ and $C_k$ is classified as a
 window iff \emph{$k$-means} classified both $R_j$ and $C_k$ as window areas. These are displayed in 
  Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps} as green rectangles.
 
 The last step is to group a set of windows that belong to each other. This is done by 
-grouping adjacent positively classified rectangles. These are displayed as red
+grouping adjacent positively classified blocks. These are displayed as red
 rectangles in Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps}.
 
 % todo binary presentatie weglaten?
@@ -598,11 +594,10 @@ rectangles in Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps}.
 
 To get insight about the probabilities that lie behind the individual blockrows and blockcolumns,
 we designed another representation in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}
-The whiter the area the more probable a rectangle is classified as a window.
+The whiter the area the more probable a block is classified as a window.
 
 \paragraph{Window classification, method II}
-If we take a look at figure
-%todo figure from classrect with smoothed Xh
+If we take a look at Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}
 we see that $X_h$ (the amount of horizontal houghlines) has two shapes that
 repeat:  At the location where a window is present $X_h$ is concave whereas at
 non-windowareas $X_h$ is convex. This is because lots of
@@ -612,19 +607,20 @@ centers of non-window areas (that lie between windows).  The shapetype of $X_h$ 
 used as a cue for our second window classifier.\\
 
 This shapetype of $X_h$ is detected as follows:
-As in \textbf{improved window alignment}, the first step is to examine the derivative of $X_h$, blue line in figure % todo.
-We investigate the positions where $X_{h}'$ changes from sign, these are the peaks or valleys of $X_h$. $X_h$ is concave at the sign changes from positive to negative (+,-) and $X_h$ is convex if the sign changes (-,+).\\
+As in \textbf{improved window alignment}, the first step is to examine the derivative of $X_h$, blue line in Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}.
+We investigate the positions where $D=X_{h}'$ changes from sign, these are the peaks or valleys of $X_h$. $X_h$ is concave at the sign changes from positive to negative (+,-) and $X_h$ is convex if the sign changes (-,+).\\
 
-We expect one sign change per block, however it is possible that multiple sign changes occur. In this case we smooth $X_h$ again and repeat the algorithm until for each block a max of one signchange is found. \\
+We expect one sign change per block, however it is possible that multiple sign changes occur. In this case we smooth $X_h$ again and repeat the algorithm until for each block a maximum of one signchange is found. \\
 
-Now we detected the shape type (concave or convex) we can directly classify the blockrows and blockcolumns as windowareas and non-windowareas. The windows are determined as the previous classifier by combining the (positively classified) window areas blockrows and blockcolumns.\\
+Now we have detected the shape type (concave or convex), we can directly classify the blockrows and blockcolumns as windowareas and non-windowareas. The windows are determined as the previous classifier by combining the (positively classified) blockrows and blockcolumns.\\
 
+For the sake of representation only blockcolumns are presented, the method for the blockrows is almost the same, the projection profiles are projected to the Y-axis.
 
 \subsection{Results}
 % todo discuss drain pipe
 % todo occlusion uitgebreid uitleggen, door occlusie stenen wand is venster van raam niet zichtbaar en gaat brick over in weerspiegeling raam wat ongeveer zelfde kleur heeft
 \label{sec:results}.
-We tested both methods on different datasets.
+We tested all methods on different datasets.
 
 \newpage
 \fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification probabilities, white means high.}{0.45}
@@ -644,12 +640,18 @@ We tested both methods on different datasets.
 %\fig{cCornerSpilTrans1.eps}{Found connected corners on the rectified image}{0.45}
 
 %todo caption onderstaand fig
-\fig{w_Spil1TransCrop1_ImClassRect.eps}{Classified rectangles}{0.45}
+\fig{w_Spil1TransCrop1_ImClassRect.eps}{Classified windows}{0.45}
 
 \fig{w_SpilFrontal6345_crop1_ImOri.eps}{Original Image}{0.6}
 \fig{w_SpilFrontal6345_crop1_ImHibaap.eps}{Window alignment lines and histograms}{0.6}
 \fig{w_SpilFrontal6345_crop1_ImClassRect.eps}{Classified rectangles}{0.6}
 
+\fig{w_Spil1TransImproved_Xv.eps}{Improved window alignment: Xh: total amount of overlapping horizontal Houghlines at each x position}{0.7}
+\fig{w_Spil1TransImproved_Xh.eps}{Improved window alignment: Using the shape of the horizontal houghlines amount as window alignment}{0.7}
+\fig{w_Spil1TransImproved_Xvh.eps}{Improved window alignment: Both methods combined}{0.7}
+\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Window classification method II:Concave and convex shapes on window/nonwindow locations}{0.7}
+\fig{w_Spil1TransImproved_windows.eps}{Window classification method II:extracted windows}{0.7}
+\fig{w_Spil1TransImproved_windowsGrouped.eps}{Window classification method II:groupde windows}{0.7}
 
 
 \emph{todo include images other datasets} \\
@@ -665,7 +667,6 @@ are 109 detected, this is 99\%. Furthermore there are some False Positive areas,
 this is about 3 \%.  The window on the right top isn't detected, this is because
 he is smaller then our minimum window width.
 
-
 % todo ref
 The big advantage of this method is that it doesn't require the windows to be aligned.
 Furthermore it's robust to a variation in window sizes and types. This makes
@@ -675,6 +676,13 @@ information about the windows is known.
 
 
 \paragraph{Method II: Histogram based approach} 
+We described a basic method of window alignment and build a significat improvement.
+If we compair the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
+with the improved method (Figure \ref{w_Spil1TransImproved_Xvh.eps}) we see that the improved method detected each window alignment with an maximum error of 3px whereas the basic method has a 15px error.
+Its hard to say something about the basic classification method because the window alignment lines had to large error.
+The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsGrouped.eps}, classified 100 percent of the windows correct.
+
+
 %todo
 %\% of the windows are found
 %\% of the windows are wrongly classified
@@ -684,12 +692,10 @@ information about the windows is known.
 
 
 % todo also works on multiple window types
-It could be a drawback that the outcome is non-deterministic, as it depends on to the
+It could be a drawback that the outcome of method I is non-deterministic, as it depends on to the
 random initialization of the cluster centers. Our results could be correct by
 coincidence.  To exclude this artefact, we ran the cluster algorithm 10 times,
 fortunately it resulted in the same classification.
-
-% todo test this on different runs and say something about sensitivity
 
 \emph{todo}\\
 
@@ -738,6 +744,13 @@ For example the viewing angle could be plotted against the percentage of
 correct detected windows.
 % todo  more..
 
+\paragraph{Window alignment: peak merging}
+We merged the result of the horizontal and vertical houghlines and discarded
+peaks that where close.  A more accurate result would be achieved if close peaks
+where averaged.  The challenge is to determine if both methods are talking about
+the same peak. And how to handle multiple close peaks, e.g. if 4 peaks
+are close then peak 1 could be different then peak 4.  Assuming some knowledge,
+like maximum and minimum window size, would help to solve this problem.
 
 \paragraph{Window alignment refinement}
 To get more accurate result or to handle scenes with poor window alligment a refinement procedure could be applied.

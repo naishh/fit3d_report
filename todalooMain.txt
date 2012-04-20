@@ -10,36 +10,14 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 
+aan eind vd vrijdag:
+	ispell
+	mail isaac om te vragen of ihj facade rectification wilt nakijken
 
 
-PLANNING
-ma: 
-x rect af
-x inventarisatie tijd feedback verw skyline detect
-pseudo prog (2u)
-feedback verw skyline detect
 
-di:
-feedback verw skyline detect
-todo's ch7 af
-pseudo prog (2u)
-
-wo:
-alles samenvoegen en lijmen
-pseudo prog (2u)
-generate result images window detection
-
-do: 
-write new method classRect
-
-vr:
-uitloop/afronden
-mail isaac om te vragen of ihj facade rectification wilt nakijken
 
 todo window detection:
-	rectification hfdst afmaken (1u)
-	pseudo methode beschrijven (8u)
-	pseudo methode proggen (8u)
 	todos 
 
 other:
