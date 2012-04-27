@@ -1,0 +1,69 @@
+\chapter{Conclusions} % Write in your own chapter title
+\label{Chapter7}
+\lhead{Chapter 7. \emph{Conclusions}} % Write in your own chapter title to set the page header
+In this thesis, we proposed a method that maintains a balance between control
+by developers and autonomous, learning AI. The method is a novel combination of
+hierarchical task network planning and reinforcement learning. Various
+handcrafted strategies were encoded in an HTN within a commercial game
+environment called \emph{Killzone 3}.\\
+We showed that it is possible to learn the best strategy with respect to a
+fixed opponent and that, when a different fixed opponent is introduced, the
+method has the ability to change its counterstrategy accordingly. Initially the
+method can be trained offline against a baseline to bootstrap it e.g. before
+shipment. From that basis, it has the ability to learn against a different
+fixed opponent as humans apply their strategies against it.
+
+What was somewhat surprising is the good performance of the simple handcrafted
+strategies against the baseline, which is the current C++ version in
+\emph{Killzone 3}. We think this is because the C++ baseline has the ability to
+change its priorities during an episode and often flip flops between them
+without first finishing one, whereas our method selects a single strategy at
+the start of an episode using the HTN-planner and sticks to this strategy
+during the entire episode. Details like how to approach a certain area with a
+squad do vary between episodes, but the high level strategy remains the same.
+Without proper heuristics that can aid in making decisions on when to
+(partially) switch your strategy or sufficient information about the
+environment encoded in the state without blowing up the state space, it might
+be better to stick to the plan constructed at start.
+A potential pitfall lurks in the design of the hierarchical task network. As
+stated in chapter \ref{Chapter5}, when a branch is unable to decompose due to
+failing preconditions the sibbling branch that gets decomposed because of the
+recursive nature of the algorithm might not be optimal.
+Currently the method does not support multiple learnable tasks in the tasklist
+within a single branch. This would cause several values to return under a
+branch and the method has no way of coping with that. Although the current
+strategies do not require this type of structure, more complex strategies
+might. A possible solution would be to apply some linear function to the values
+returned, but this might not be as trivial as it sounds in terms of desired
+behavior.
+
+Some other points for future work are the following. Currently the static state
+holds the faction and the map on which the episode is played. It might be
+interesting to add some features about the enemy which can discriminate between
+the strategies the enemy plays. Features like the amount of enemy squads and
+the size of the squads, or how agressive the enemy is during attacks. These
+features could paint a profile of the enemy that allows for more specific
+behavior which require less adjustments during online learning resulting in
+faster convergence.\\
+Another area that might be interesting for further investigation is to treat
+the problem like a full MDP, thus moving away from the contextual bandit
+approach. The main challenge would lie in defining the state space such that it
+will not blow up i.e. determining all the relevant variables that describe the
+environment.
+
+
+% pros/discussion
+%  - see three questions at intro answered in results (*)
+%  - surprising that strategies won against c++ version (*)
+
+% cons/discussion
+%  - no replanning/adjustments during episode, pre plan everything on highest level
+%  - pitfalls of the hierarchy w.r.t. suboptimality 
+%  - exploration in hierarchies, long test times, tweaking alpha/epsilon
+%  - one learnable method per level in the hierarchy
+
+% future work
+%  - opponent modeling, store preferences in state
+%  - replanning during episodes
+%  - explore relations between hierarchy and rl
+%  - develop strategies for the other game modes and observe performance

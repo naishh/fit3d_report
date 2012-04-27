@@ -1,0 +1,266 @@
+\chapter{Background}
+\label{Chapter2}
+\lhead{Chapter 2. \emph{Background}}
+This chapter describes the theory of two well known fields within AI called
+Reinforcement Learning and Hierarchical Task Network Planning onto which the
+proposed method is based.
+
+\section{Reinforcement Learning}
+Reinforcement learning is a sub-area of machine learning concerned with how an
+agent ought to take actions in an environment so as to maximize its long term
+reward signal. This agent learns the mapping of situations to actions in order
+to maximize an expected reward~\cite{sutton}.  Instead of learning by example,
+as is the case with supervised learning, learning desired behavior occurs using
+past knowledge (experience) from the environment. The current knowledge of an
+agent about its environment is often referred to as a state. When a state
+represents the environment such that it is \emph{sufficient statistic} for the
+history, it satisfies the so called Markov property.
+
+\subsection{Markov Decision Process}
+A Markov Decision Process (MDP) is a reinforcement learning task which
+satisfies the Markov property. When the number of states in an environment of
+an agent are finite the MDP is a finite MDP. Formally the finite MDP is a tuple
+$(S,A,P,R)$, where:
+\begin{itemize}
+\item{$S$ is the finite state space and $s \in S$ is a state the agent can
+observe.}
+\item{$A$ is the action space and $a \in A$ is an action that can be performed
+by the agent.}
+\item{$P$ holds the transition function. When an agent performs action $a$, the
+environment makes a transition $s \rightarrow s'$, between the current state
+$s$ and its successor state $s'$ with a probability $P(s'|s,a)$.}
+\item{$R$ is the reward function defined as $R:S \times A \mapsto \mathbb{R}$,
+which returns an expected reward $r$ each time an action $a$ is performed from
+$s$. }
+\end{itemize}
+A policy $\pi$ defines the learning agent's way of behaving at a given time (a
+mapping between states and actions) and is formally defined as $\pi : S \mapsto
+A$, so when an agent is in a certain state $s$ it can perform action $a =
+\pi(s)$. The objective of an agent is to maximize the \emph{return}, i.e. the
+cumulative (discounted) reward.
+
+\subsection{Value Functions}
+A value function describes the expected discounted return of an agent to be in a certain
+state. It is defined with respect to a certain policy $\pi$. A state-value
+function has a value $v$ for every state, so for $s \in S$ there exists a value
+$v = V^\pi(s)$. Formally the state-value function is defined as:
+\begin{eqnarray}
+V^\pi(s) & = & \sum_{s'} P(s'|s,\pi(s)) ~ \Big[R(s'|s,\pi(s)) + \gamma V^\pi(s')\Big],
+\end{eqnarray}
+where $s,s' \in S$ and $\gamma$ is the discount value~\cite{sutton}. This has
+been proven by Bellman (1957) and is therefore called the Bellman equation. The
+value function $V$ is optimal, denoted as $V^*$, when it maximizes the expected
+return in all states $s$.
+\begin{eqnarray}
+V^*(s) & = & max_a \sum_{s'} P(s'|s,a) ~ \Big[R(s'|s,a) + \gamma V^*(s')\Big].
+\end{eqnarray}
+An optimal policy is denoted as $\pi^*$ and it is always greedy with respect to
+$V^*$, $max_\pi V^\pi(s)$.  Similarly, there exists an action-value function.
+This determines the value of taking action $a$ in state $s$ and thereafter
+following policy $\pi$, which is formally defined as:
+\begin{eqnarray}
+Q^\pi(s,a) & = & \sum_{s'} P(s'|s,a) ~ \Big[R(s'|s,a) + \gamma Q^\pi(s',\pi(s'))\Big].
+\end{eqnarray}
+The optimal action-value function $Q^*(s,a)$ satisfies the equation:
+\begin{eqnarray}
+Q^*(s,a) & = & \sum_{s'} P(s'|s,a) ~ \Big[R(s'|s,a) + \gamma max_{a'}~Q^*(s',a')\Big].
+\end{eqnarray}
+Note that there can potentially exist many optimal policies.
+
+\subsection{Reinforcement Learning Algorithms}
+The algorithms used in reinforcement learning try to construct an optimal
+policy for an unknown MDP. They start with an initial state $s_0$ and on each
+time step $t$ perform an action $a \in A$ on $s$ that is executable in $s$. For
+episodic tasks, this will change $s$ to $s'$ and a reward $r$ is received until
+$s'$ is terminal, in which case the $s'$ is reset to a (new) $s_0$. For
+continuing tasks $s'$ is never terminal, meaning the episode will continue
+indefinitely.
+\\ \\
+In Q-learning, a well known algorithm \cite{sutton}, when $s$ is observed, $a$
+is chosen, $r$ is received and $s'$ observed an update is performed:
+\begin{equation}
+Q_t(s,a) = (1-\alpha_t)Q_{t-1}(s,a) + \alpha_t\Big[r + \gamma max_{a'}~Q_{t-1}(s',a')\Big],
+\label{eq:qlearn}
+\end{equation}
+Where $\alpha_t$ is the learning parameter, that typically decreases with time
+$t$, which determines how much influence the update has on the current value.
+As $Q_t(s,a)$ reaches optimal values, the learning rate should decrease to 0.
+
+\subsection{Action Selection Algorithms}
+The simplest action selection rule is to select the action with the highest
+expected value. This rule will always \emph{exploit} current knowledge and
+never \emph{explore} actions with a lower immediate reward which may end up
+being better. A simple alternative that does explore is called
+$\epsilon-$Greedy. This method, in a greedy manner, exploits the maximum
+expected value with a probability of $1-\epsilon$ and explores with a
+probability of $\epsilon$ by selecting a random action.
+
+\subsection{Contextual Bandit Problem}
+A standard textbook problem in reinforcement learning is the $n$-Armed Bandit
+Problem.  The $n$-Armed Bandit Problem works on a round-by-round basis.  On
+each round:
+\begin{enumerate}
+\item{A policy chooses arm $a$ from $1,\ldots,n$.}
+\item{The world reveals reward $r_a$ of the chosen arm.}
+\end{enumerate}
+As information is accumulated over multiple rounds (or episodes), a good policy
+might converge on a good choice of arm. So each episode a single action is
+chosen and the reward $r_a$ is observed. In the Contextual Bandit Problem also
+a single action is chosen per episode, but the action may differ depending on
+the context or the environment. Indeed the Contextual Bandit Problem includes
+context in the form of a state.\footnote{An example of this type of problem is
+targeted advertisement e.g. the selection of ads alongside an email. The state
+$s$ holds a vector of keywords from the mail, the action $a$ is one of many ads
+and the reward $r$ wether the ad is clicked on.}
+
+\section{Hierarchical Task Networks}
+Whereas reinforcement learning provides a framework to compute an optimal
+policy, the action set can be defined using a Hierarchical Task Network (HTN).
+An HTN distinguishes two types of tasks: \emph{primitive} tasks or actions that
+can be executed directly, and \emph{compound} tasks which are composed of a set of
+simpler tasks. Instead of a single action, as is the case in conventional RL, a
+decomposed HTN plan consists of a specific sequence of primitive actions. These
+specific sequences are encoded within the structure of the HTN itself and
+reduce the action space compared to conventional RL.
+
+\subsection{HTN-planner}
+The objective of an HTN-planner \cite{shop, shop2} is to produce a sequence of
+actions that can solve a particular planning problem. HTN planning occurs by
+recursively decomposing compound tasks into smaller tasks. Eventually this
+process results in a sequence of primitive tasks (a plan), which need no
+further decomposition and can be executed directly. To construct a plan, the
+planner takes a planning problem and a planning domain. A planning problem is
+formulated as a compound task that is to be decomposed combined with a set of
+facts that describe the current world state. Planning domains describe the
+problem in a hierarchy composed of compound and primitive tasks.
+
+\subsection{Example}
+Figure \ref{fig:htnexample} shows a travel example domain and figure
+\ref{fig:htnstate} shows an example planning state. Suppose our planning
+problem is \verb|((travel-to uptown))|. The HTN-planner will begin calling the
+compound task \verb|travel-to| with \verb|uptown| as argument. Next
+the preconditions of the first branch are evaluated. In this case, as \verb|(>= 30 60)| 
+evaluates to false, the walking branch is chosen. This results in a
+decomposed plan consisting of a single primitive task: \verb|((!walk downtown uptown))|, a long walk indeed.
+\begin{figure}[!ht]
+\centering
+\begin{verbatim}
+(:method (travel-to ?y)                         // method name
+    (branch_taxi                                // branch name
+        (and (at ?x)                            // preconditions
+             (distance ?x ?y ?d)
+             (have-cash ?cash)
+             (= ?fare (* ?d 1.5))
+             (eval (>= ?cash ?fare))
+        )
+        (    (!hail-taxi ?x)                    // primitive task
+             (drive-taxi ?x ?y)                 // compound task
+             (@set-cash ?cash (- ?cash ?fare))  // operator
+        )
+    )
+
+    (branch_walking                             // branch name
+        (at ?x)                                 // precondition
+        (!walk ?x ?y)                           // primitive task
+    )
+)
+
+(:operator (@set-cash ?old ?new)                // operator name
+    ((have-cash ?old))                          // to remove
+    ((have-cash ?new))                          // to add
+)
+\end{verbatim}
+\caption{HTN planning domain}
+\label{fig:htnexample}
+\end{figure}
+
+Matching preconditions is similar to the matching process of Prolog
+\cite{bratko}. Note that the planner will always try to decompose the highest
+branch first.  If the preconditions are met, it will decompose this branch
+further until it either cannot decompose any further, or a precondition fails.
+In the former case the planner would try to find a reduction for the compound
+task \verb|drive-taxi ?x ?y|, which is not defined in this example. In the
+latter, the planner will backtrack and try the second branch in this example
+\verb|branch_walking|.
+\begin{figure}[!ht]
+\centering
+\begin{verbatim}
+1.  ((at downtown)
+2.   (have-cash 30)
+3.   (distance downtown uptown 40))
+\end{verbatim}
+\caption{HTN initial state}
+\label{fig:htnstate}
+\end{figure}
+
+\subsection{Formal Description}
+This section defines the syntax and semantics used in the HTN planner. It uses
+the same first-order-logic definitions of variable and constant symbols,
+function and predicate symbols, terms, atoms, conjuncts, most-general unifiers
+(mgu's) as SHOP \cite{shop}, an HTN-planner developed in Java. However, for the
+purpose of this thesis, some additional definitions are introduced.
+
+\subsubsection{State}
+A \emph{state} is a set of ground atoms, and an \emph{axiom set} is a set of
+Horn clauses\footnote{Note that the HTN-planner of Killzone 3 does not support
+axioms.}. If $S$ is a state and $X$ is an axiom set, then $S \cup X$
+\emph{satisfies} a conjunct $C$ if there is a substitution $u$ (called a
+\emph{satisfier}) such that $S \cup X \vDash C^u$. $u$ is a \emph{most general
+satisfier} if a satisfier $v$ can be expressed by $v = uw$, where $w$ is
+another substitution. Note that the state $s$ in RL differs from state $S$ in
+the HTN-planner. $s$ defines world properties which are static during an
+episode, whereas $S$ is an internal state within the HTN-planner that is
+dynamic and thus can change during an episode.
+\subsubsection{Task}
+A \emph{task} is a list of the form $(s~t_1~t_2~\dots~t_n)$, where $s$, the
+task's name, is a task symbol and $t_1, t_2, \dots, t_n$,  the task's
+arguments, are terms. The task is \emph{primitive} if $s$ is a primitive task
+symbol and \emph{compound} otherwise.
+\subsubsection{Operator}
+An \emph{operator}\footnote{In Killzone 3, we \emph{emulated} the operators
+that manipulate the world state during planning using specific \emph{call}
+functions. Note that these functions are not backtrack-safe and for consistent
+world state manipulation, operators should be implemented.} is an expression
+that has the form $(\verb|:operator|~h~D~A)$, where $h$ (the \emph{head}) is a
+primitive task, and $D$ and $A$ (the \emph{deletions} and \emph{additions}) are
+sets of atoms containing no variable symbols other than those in $h$. \\ The
+intent of an operator $o = (\verb|:operator|~h~D~A)$ is to specify that $h$ can
+be accomplished by modifying the current state of the world to remove every
+atom in $D$ and add every atom in $A$. More specifically, if $t$ is a primitive
+task and there is an mgu $u$ for $t$ and $h$ such that $h^u$ is ground, then
+$o$ is applicable to $t$, and the list $(h^u)$ is a simple plan for $t$. If we
+execute this plan in some state $S$, it produces the state $h^u(S) = o^u(S) =
+(S - D)^u \cup A^u$.
+\subsubsection{Method}
+A \emph{method} is an expression that has the form $(\verb|:method|~h~B)$,
+where $h$, the method's head, is a compound task, $B = \{b \in B:b = (C~T)\}$
+is an \emph{ordered} list of \emph{branches}, where $C$ (\emph{precondition} of
+a branch) is a conjunct, and $T$ (the \emph{tail} of a branch) is a task list.
+Note that the order of the branches is fixed. \\
+The intent of a method $m = (\verb|:method|~h~b_1~\dots~b_n)$ is to specify
+that if the current state of the world satisfies one of $C \in b_i$, then $h$
+can be accomplished by performing the tasks in $T \in b_i$ in the order given.
+More specifically, let $S$ be a state, $X$ be an axiom set, and $t$ be a task
+atom.  Suppose there is an mgu $u$ that unifies $t$ with $h$, and suppose $S
+\cup X \vDash C^u$. Then $m$ is applicable to $t$ in $S \cup X$, and the result
+of applying $m$ to $t$ is the set of tasks lists $R = \{(T^u)^v : \textrm{$v$
+is an mgs for $C^u$ from $S$}\}$. Each task list $r \in R$ is a \emph{simple
+reduction} of $t$ by $m$ in $S \cup X$.
+\subsubsection{Plan}
+A \emph{plan} is a list of heads of ground operator instances. If $p$ is a plan
+and $S$ is a state, then $p(S)$ is the state produced by starting with $S$ and
+executing the operator instances in the order that their heads appear in $p$.
+\subsubsection{Planning Problem}
+A \emph{planning problem} is a tuple $P = (S,T,D)$, where $S$ is a state, $T$
+is a task list and $D$ is a set of axioms, operators and methods. Let
+$\Pi(S,T,D)$ be the set of all plans for $T$ from $S$ in $D$. We can define
+$\Pi(S,T,D)$ recursively as follows.\\ 
+If $T$ is empty, then $\Pi(S,T,D)$ contains exactly one plan, namely the empty
+plan. Otherwise, let $t \in T$ be the first task atom, and $R = T - t$, the
+remaining task atoms. There are three cases.  $(1)$ If $t$ is primitive and
+there is a simple plan $p$ for $t$, then $\Pi(S,T,D) =
+\{\textrm{\emph{append}}(p,q) : q \in \Pi(p(S),R,D)\}$.  $(2)$ If $t$ is
+primitive and there is no simple plan for $t$, then $\Pi(S,T,D) = \emptyset$.
+$(3)$ If $t$ is compound, then $\Pi(S,T,D) =
+\bigcup\{\Pi(S,\textrm{\emph{append}}(r,R),D) : \textrm{$r$ is a simple
+reduction of $t$}\}$.

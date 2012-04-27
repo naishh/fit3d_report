@@ -1,0 +1,171 @@
+% Chapter 6 
+\chapter{Experiments and Results} % Write in your own chapter title 
+\label{Chapter6} \lhead{Chapter 6. \emph{Experiments and Results}} % Write in your own chapter title to set the page header
+In this chapter we empirically analyze the method using the \emph{Killzone 3}
+environment. We devised three different experiments that will answer our
+questions posed in the first chapter:
+\begin{enumerate}
+\item{Can we encode good strategies into a hierarchical task network?}
+\item{Is it possible to learn the best strategy with respect to a fixed opponent?}
+\item{Is it possible to adapt to a different fixed opponent?} 
+\end{enumerate}
+The first is a training run against the baseline, which is the current C++
+strategy version, on various maps. The second is a comparison between the
+method and averaged reward data from the strategies against the baseline.
+Finally we apply the trained version from the first experiment to a different
+fixed opponent and observe its adaptive capabilities.
+
+
+\section{Settings}
+For our experiments we used three different multiplayer maps MP01, MP02 and
+MP03. Most experiments were run on MP01, also known as \emph{Corinth
+Highway}\footnote{Killzone 3's exo mounting was disabled for both teams as exos
+were introduced after the strategies were developed.}. Figure \ref{fig:mp01}
+shows a top view of MP01, on the left we can see the ISA base and on the right
+the HGH base. In the center we can see the capturable areas CH1, CH2 and CH3.
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=420px]{MP1_Marked_WZ.eps}
+\caption{Corinth Highway (MP01)}
+\label{fig:mp01}
+\end{figure}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=420px]{MP2_Marked_WZ.eps}
+\caption{Pyrrhus Crater (MP02)}
+\label{fig:mp02}
+\end{figure}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=420px]{MP3_Marked_WZ.eps}
+\caption{Bilgarsk Boulevard (MP03)}
+\label{fig:mp03}
+\end{figure}
+Figure \ref{fig:mp02} and \ref{fig:mp03} show two more maps, with the
+captureable areas more widespread across the map. The detached images in figure
+\ref{fig:mp03} represent different floors of the map, in this case both the ISA
+and HGH bases are located on the first floor.  As can be seen in all the
+figures, the maps are symmetric with respect to the starting positions for both
+teams in order to ensure a fair battle.  Each episode had a timelimit of $10$
+minutes and $16$ bots divided over two factions or teams ($8$ versus $8$).
+
+
+\section{Training}
+The method was trained against the baseline, which is the current C++ strategy
+implementation, for $150$ episodes on three different multiplayer maps averaged
+over $3$ runs. During training, the learning-rate $\alpha$ was set to $1/4$ and
+exploration-rate $\epsilon$ started at $1.0$ and gradually decayed to $0.1$
+after each episode.\footnote{To compute the decay-rate $d$ we used $d =
+(\epsilon_f / \epsilon_s)^{1/E}$, where $\epsilon_s$ is the start
+exploration-rate, $\epsilon_f$ is the final exploration-rate and $E$ is the
+amount of episodes.} Figure \ref{fig:training} shows the maximum reward gained
+after each episode for the three different multiplayer maps. As stated in
+chapter \ref{Chapter4}, the reward is defined as $r = m - e$. In the case of
+\emph{capture and hold} it represents the amount of time capturable areas were
+under our control minus the areas that were under enemy control. Thus when $r >
+0$ indicates a win and $r = 50$ is the maximum score achievable, meaning the
+capturable areas were never under enemy control.
+\begin{figure}[!ht]
+\centering
+\includegraphics[height=250px]{training.eps}
+\caption{Method vs Baseline}
+\label{fig:training}
+\end{figure}
+By examining the weights corresponding to this graph, it showed that on all
+three maps the \emph{divide and conquer} substrategies are most successful.
+This is probably due to the parallel nature of the strategy. As each area is
+assigned a designated squad at start and points are gained per timestep for
+captured areas.
+
+
+\section{Comparison}
+To determine how well the trained weights reflect the real success of the
+strategies, we compare it to the averaged rewards for each of the individual
+strategies against the baseline.  Figure \ref{fig:weights} shows the weight
+distribution obtained for the different strategies during training against the
+baseline on MP01 and figure \ref{fig:avg} shows the rewards per strategy
+averaged over $10$ episodes. 
+\begin{figure}[ht]
+\centering
+\subfigure[Weight distribution]{
+\includegraphics[height=130px]{weights-baseline.eps}
+\label{fig:weights}
+}
+\subfigure[Averaged rewards]{
+\includegraphics[height=130px]{real.eps}
+\label{fig:avg}
+}
+\label{fig:comparison}
+\caption[Comparison]{\subref{fig:weights} shows the weight distribution after
+training against the baseline. \subref{fig:avg} shows the average rewards of
+the strategies.}
+\end{figure}
+From these results we can conclude that the method is consistent with the
+averaged rewards w.r.t. the \emph{divide and conquer} strategies (indicated in
+blue). For the other strategies, bigger differences can be observed as not
+every strategy is explored as thoroughly due to the decreasing
+exploration-rate. Furthermore, these differences are the result of fluctuations
+in the rewards of the strategies itself per episode. Some episodes the strategy
+performed better than others.  These fluctuations can also be seen in figure
+\ref{fig:training}, e.g. the red line from episode $100$ to $150$ jumping up
+and down between $40$ and $50$. The \emph{stream roll} type strategies were
+most ``unstable'', e.g. \emph{area021} varied from $-24$ to $18$ against the
+baseline.\\\\
+The figure below shows the weight distribution of two training runs on the map
+MP02 (\emph{Pyrrhus Crater}). MP02 was chosen as the capture points are further
+away from eachother, see figure \ref{fig:mp02}. 
+\begin{figure}[ht]
+\centering
+\subfigure[ISA]{
+\includegraphics[height=130px]{mp02-isa.eps}
+\label{fig:isa}
+}
+\subfigure[HGH]{
+\includegraphics[height=130px]{mp02-hgh.eps}
+\label{fig:hgh}
+}
+\label{fig:isahgh}
+\caption[HGH vs ISA]{\subref{fig:isa} shows the weight distribution after
+training against the baseline on ISA side. \subref{fig:avg} shows the weight distribution after
+training against the baseline on HGH side.}
+\end{figure}
+As both factions always start on the same side of the map, we expect to see
+some mirrored behavior in the area capturing sequence for \emph{capture and
+split} and \emph{steam roll}. The substrategies of \emph{divide and conquer}
+barely show a difference as they capture each area simultaniously. On the left
+figure \ref{fig:isa} the ISA faction was trained against the baseline and on
+the right figure \ref{fig:hgh} the HGH faction was trained against the
+baseline. A clear mirrored behavior can be seen in \emph{area201\_sqd212} and
+\emph{area201\_sqd111}. Both start at area $2$ and the ISA faction first
+captures area $1$, whereas the HGH faction first captures area $0$. This
+mirrored behavior is however not shown for the \emph{steam roll} sub strategies
+as they are more unstable as stated above.
+
+
+\section{Adaptability}
+To determine the adaptability against a different fixed opponent we chose the
+best strategy according to figure \ref{fig:weights}, strategy \emph{sqd121} as
+the new adversary. For this experiment $\alpha$ was set to $1/3$ to allow for
+more agressive changes and $\epsilon$ was fixed at $1/3$ in order to prevent
+getting stuck in local optima. Figure \ref{fig:sqd121} shows the new weight
+distribution after $20$ episodes against \emph{sqd121} on MP01.
+\begin{figure}[ht]
+\centering
+\subfigure[Against baseline]{
+\includegraphics[height=130px]{weights-baseline.eps}
+\label{fig:baseline}
+}
+\subfigure[Against sqd121]{
+\includegraphics[height=130px]{area210_sqd111.eps}
+\label{fig:sqd121}
+}
+\label{fig:adaptability}
+\caption[Adaptability]{\subref{fig:baseline} shows the weight distribution
+after training against the baseline. \subref{fig:sqd121} shows the weight
+distribution after adapting to fixed opponent sqd121.}
+\end{figure}
+Most \emph{stream roll} strategies dropped further below zero, indicating more
+loss and the \emph{divide and conquer} strategies hover around zero as they
+are equally strong.  The strategies \emph{area201\_sqd212} and
+\emph{area210\_sqd111} pose decent counters and show that the algorithm adapted
+to the different fixed opponent.

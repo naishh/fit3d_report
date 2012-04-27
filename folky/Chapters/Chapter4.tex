@@ -1,0 +1,184 @@
+\chapter{Domain} % Write in your own chapter title
+\label{Chapter4}
+\lhead{Chapter 4. \emph{Domain}} % Write in your own chapter title to set the page header
+\section{Guerrilla}
+Guerrilla is a game development studio, based in the heart of Amsterdam, the
+Netherlands. It was formed at the beginning of 2000 as a result of a merger
+between 3 separate Dutch-based developers. The company now employs 130
+developers, designers and artists, encompassing 20 different nationalities. The
+first game released by Guerrilla, Shellshock: Nam '67 was developed for the PC,
+Xbox and PlayStation 2 and published by Eidos Interactive. In 2004, Guerrilla
+signed an exclusive deal with Sony Computer Entertainment. Under that deal,
+Guerrilla developed games exclusively for Sony's consoles (PlayStation 2,
+PlayStation 3 and the PlayStation portable). After the release of Killzone for
+the PlayStation 2 (2004), the company was acquired by Sony Computer
+Entertainment in 2005. It went on to release Killzone: Liberation for
+PlayStation Portable (2006), and KillZone 2 (2009). At the time of writing this
+thesis, the company just released a new title for the PlayStation 3 called
+Killzone 3.
+
+\section{Killzone 3}
+Killzone 3 (KZ3) is a first-person shooter (FPS) game. Figure
+\ref{fig:killzone} shows a typical ingame scenario from KZ3 as viewed by the
+player.
+\begin{figure}[!ht]
+\centering
+\includegraphics[height=230px]{kz3fps.eps}
+\caption{Killzone 3 ingame first-person view}
+\label{fig:killzone}
+\end{figure}
+Like most 3D shooters, KZ3 offers a variety of playing possibilities with
+friends or online. It distinguishes three different modes: Singleplayer,
+cooperative play and multiplayer. This thesis focuses on the multiplayer mode.
+
+\subsection{Multiplayer}
+A Multiplayer online game is a multiplayer video game which is played via a
+game server over the Internet, with other human players around the world.
+Players either compete against each other (individually or in teams/clans) or
+cooperate with each other against a common enemy (e.g. an AI). In contrast to
+singleplayer mode, the game is played on one single stage only. Since these
+games are not centered around one player, when a player dies, the game is not
+restarted. Instead, these games continue and the player that died will have the
+opportunity to rejoin the game. \\
+A multiplayer game mode is defined by a set of rules and regulations that
+specify game objectives, win/lose scenarios and conditions for scoring and
+ranking on team and individual basis. For any game mode, points are rewarded
+for killing enemies. However, many game modes define multiple different
+(primary) objectives and therefore require different strategies to win. The
+nature and amount of objectives vary among the different game modes and can
+even be different for the opposing teams. For instant in the symmetric game
+mode ``Bodycount'', the teams have to kill as many players in the opposing team
+as possible, where each kill gains a point. In the game mode ``Assasination'',
+a non-symmetric mode, team one has to assassinate a single key player in team
+two, which team two has to defend. For this thesis, we will create strategies
+for the symmetric game mode ``Capture and Hold''. 
+
+\subsubsection{Capture and Hold}
+In this game mode, there are three key areas on the map that can be captured
+by either team. To gain control over an area, players must stand within the
+capture radius of the area and must make sure that no enemy soldiers are within
+capture range of that same area during the capture process. If a team succeeds
+in keeping away the enemy long enough, the area will change ownership to the
+capturing team. Once an area is captured the team receives points for each
+time step the area is under their control.  If the maximum amount of points is
+gained (defined by the game) the team wins or, alternatively, if the time limit
+is reached the team with the most points wins. When both teams have the same
+amount of points the game results in a draw.
+
+%\subsubsection{Bodycount}
+%\subsubsection{Assasination}
+%\subsubsection{Search and Destroy}
+%\subsubsection{Search and Retrieve}
+%\subsubsection{Capture and Hold}
+
+\subsection{Multiplayer AI Design Overview}
+Singleplayer and coop AI differ greatly from multiplayer AI. The reason for
+this difference is that NPCs found in singleplayer games, have a different role
+from those in multiplayer games.\\
+In order to put the multiplayer bot behavior -- at a strategic level -- in
+perspective, this section gives a general overview of the entire AI
+architecture \cite{killzone2,killzone2-presentation}.  Figure
+\ref{fig:designoverview} shows a simplified overview of the AI hierarchy as
+defined in Killzone 3.
+\begin{figure}[!ht]
+\centering
+\includegraphics[height=250px]{DesignOverview.eps}
+\caption{Simplified design overview of the AI architecture}
+\label{fig:designoverview}
+\end{figure}
+The top layer shows the decision system at the strategic level, often referred
+to as commander or general\footnote{``\emph{Strategy without tactics is the
+slowest route to victory. Tactics without strategy is the noise before
+defeat.}'' -- Sun Tzu.}. This is the level where the method, proposed in
+Chapter \ref{Chapter5}, is focused on.  The subsections below will explain
+each layer in more detail (though still at high level). Note that both the
+commander and the group are concepts within the AI architecture, they do not
+represent actual entities in the virtual world.
+\subsubsection{Individual}
+The individuals define the actual NPCs. They observe their surroundings through
+visual and auditive stimuli modeled after how humans observe the world. This
+prevents stupid mistakes such as an NPC ``mysteriously'' knowing that an enemy
+is behind him. These observations about the world are stored in a world fact
+database. The world fact database is local and different for each individual
+and used by the HTN-planner to create behavorial plans using orders.  These
+orders include reloading weapon, firing weapon, going in cover, blind fire,
+etc.
+\subsubsection{Group}
+A group, as the name implies, defines a set of individuals. These individuals
+form a small military unit often referred to as a squad\footnote{The terms
+squad and group are used interchangeable throughout this thesis.}.  The group
+is responsible for e.g. defending an area or capturing a strategic point.
+Groups are both created and controlled at the commander layer using commands.
+Each group also uses a unique world fact database which stores information such
+as where each individual is located and which group it belongs to. The squad is
+responsible for the coherency of the individuals that belong to it during
+movement.
+\subsubsection{Commander}
+The commander is the top layer in the AI. Its actions are performed on the
+strategic level. The commander is responsible for the following tasks:
+\begin{itemize}
+\item{Squad creation}
+\item{NPC to squad allocation}
+\item{Commands for squads}
+\end{itemize}
+The commands that can be sent to squads include: Going to a certain waypoint,
+attacking an entity, defending a marker or entity. The squads, in turn, can
+report back the status of their progress. These commands form the primitive
+actions which, when put in the right sequence, form a sensible plan. We
+expanded the HTN architecture to support the commands above for the commander
+such that we can encode a strategy in a domain. Given this domain, the
+HTN-planner can construct a plan at the start of e.g. a \emph{capture and hold}
+game. Figure \ref{fig:ch-example} shows how the command sequence of a squad
+capturing an area is build.
+\begin{figure}[!ht]
+\centering
+\begin{verbatim}
+(:method (capture_areas ?inp_area_list)
+  (branch_areas_captured
+    (and (call eq (call get_list_length ?inp_area_list) 0)
+         (= ?squad_index (call get_last_created_squad_index))
+         (= ?squad (call get_squad ?squad_index))
+    )
+    (    (!end_command_sequence ?squad)
+    )
+  )
+  
+  (branch_capture_area
+    (and (= ?area_index (call get_list_item ?inp_area_list 0))
+         (= ?area_list (call remove_list_item ?inp_area_list 0))
+         (= ?squad_index (call get_last_created_squad))
+         (= ?squad (call get_squad ?squad_index))
+    )
+    (    (!order_squad_custom ?squad capture ?area_index)
+         (!order_squad_custom ?squad advance ?area_index auto)
+         (capture_areas ?area_list)
+    )
+  )
+)
+\end{verbatim}
+\caption{Area capture example domain}
+\label{fig:ch-example}
+\end{figure}
+The method requires a list of areas indices as argument and orders a squad to
+capture the area and advance. While there are still areas that require
+capturing, the method assigns a squad. Finally an ``end of command sequence''
+is given.
+\\\\
+Applying the HTN-planner at this layer separates the domain language from the
+problem solver. This separation allows for the application of reinforcement
+learning integrated within the HTN-planner. Integrating the RL algorithm on
+this level enables machine learning the best strategies across multiple game
+modes against various fixed opponents.
+\subsubsection{C++ Strategy Implementation}
+Currently the strategical logic is implemented in C++. This is done using an
+objective based approach. An objective is implemented as a C++ class which
+defines the desired amount of bots and squads to be accomplished. Some examples
+of objectives are:
+\begin{itemize}
+\item{Attack Entity}
+\item{Defend Marker}
+\item{Escort Entity}
+\end{itemize}
+Every logical update, the objectives and their importances are computed using
+hardcoded heuristics and squads get assigned or reassigned to these objectives.
+This process continues until the game is over.

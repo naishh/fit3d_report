@@ -1,0 +1,66 @@
+% Chapter 1
+\chapter{Introduction} % Write in your own chapter title
+\label{Chapter1}
+\lhead{Chapter 1. \emph{Introduction}} % Write in your own chapter title to set the page header
+The main goal of Artificial Intelligence (AI) in commercial video games is to
+provide a rich gaming experience for the end user. Providing this experience
+requires a careful balance between encoding prior knowledge, control by
+developers and autonomous, learning AI. 
+
+\section{Objective}
+This thesis proposes a method that maintains a balance between encoding prior
+knowledge, control by developers and autonomous, learning AI. The method
+proposed is a novel combination of Hierarchical Task Network (HTN) planning and
+Reinforcement Learning (RL). The HTN provides the structure to encode a variety
+of strategies, whereas RL allows for learning the best strategy against a fixed
+opponent. The method is empirically analyzed by applying it on the strategic
+level of the video game called \emph{Killzone 3} (KZ3). KZ3 is a first-person
+shooter (FPS), a genre of computer games where the player's viewing perspective
+is shown through the eyes of their virtual character.
+
+\section{Contributions}
+In this thesis, we try to answer the following questions:
+\begin{enumerate}
+\item{Can we encode good strategies into a hierarchical task network?}
+\item{Is it possible to learn the best strategy with respect to a fixed opponent?}
+\item{Is it possible to adapt to a different fixed opponent?} 
+\end{enumerate}
+The first allows for a clear separation of domain language and problem solver
+aswell as easy redesign of certain handcrafted strategies by the developer. The
+second and third enable a richer, more personal gaming experience. By building
+a learning mechanism on top of the HTN-Planner, the best (w.r.t. the current
+fixed opponent) handcrafted strategy can be learned while keeping control over
+the individual strategies, see chapter \ref{Chapter5} for the method proposed.
+
+\section{Environment}
+The environment in which the proposed method is implemented and tested is a
+commercial first-person shooter called Killzone 3 developed by
+\emph{Guerrilla}. KZ3 provides a good, real world test bed as its regarded as a
+typical, high quality FPS game throughout the world. See chapter
+\ref{Chapter4} for a detailed description.
+
+\section{Scope}
+In a typical FPS game there are several game modes, each with different
+objectives that a team has to achieve to win the game. For the scope of this
+thesis, the implementation is applied to the game mode called \emph{Capture and
+Hold}.  However, it should be noted that the proposed method itself can be
+applied to all existing game modes.\\
+The objective of \emph{Capture and Hold} is to gain control over the key areas
+on the map that can be captured by either team. To gain control over an area,
+players must stand within the capture radius of the area and make sure that no
+enemy soldiers are within capture range of that same area during the capture
+process. If a team succeeds in keeping away the enemy long enough, the area
+will change ownership to the capturing team. Once an area is captured the team
+receives points for each time step the area is under their control. If the
+maximum amount of points is gained (defined by the game) the team wins or,
+alternatively, if the time limit is reached the team with the most points wins.
+When both teams have the same amount of points the game results in a draw.
+
+\section{Overview}
+Chapter \ref{Chapter2} explains the background required for the proposed
+method, chapter \ref{Chapter3} discusses related work from both the gaming
+industry and academic world. In chapter \ref{Chapter4} the domain (Killzone 3)
+is explained in detail and chapter \ref{Chapter5} introduces the proposed
+method.  Experiments and results are presented in chapter \ref{Chapter6} and
+finally the conclusions, discussion and future work are given in chapter
+\ref{Chapter7}.

@@ -1,0 +1,198 @@
+\chapter{Related Work} % Write in your own chapter title
+\label{Chapter3}
+\lhead{Chapter 3. \emph{Related work}} % Write in your own chapter title to set the page header
+This chapter describes some related AI techniques used in both the gaming
+industry and the academic world. These techniques are not all directly related
+to the method proposed in this thesis, but also show the current state of the
+art within the gaming industry and the academic world.
+\section{Game Industry}
+\subsection{F.E.A.R.}
+First Encounter Assault Recon (F.E.A.R.), a first-person shooter developed by
+Monolith Productions and published by Vivendi, was released in 2005. The game's
+story revolves around a supernatural phenomenon, which F.E.A.R. -- a fictional
+special forces team -- is called to contain. The player assumes the role of
+F.E.A.R.'s Point Man, who possesses superhuman reflexes, and must uncover the
+secrets of a paranormal menace in the form of a little girl. F.E.A.R. was one
+of the first games in which the AI developers were able to separate their
+domain language from the problem solver using a technique called Goal-Oriented
+Action Planning \cite{fear} with the STRIPS \cite{russell} planner. However,
+this system was only applied on the individual level of the NPCs, the level
+which controls the reactive behavior of a single NPC.
+\subsubsection{Goal-Oriented Action Planning}
+F.E.A.R. applies a Goal-Oriented Action Planner (GOAP) for its decision making
+logic. An agent in F.E.A.R. constantly selects its most relevant goal to
+control its behavior. At each logic time step, the most relevant or best goal (a
+desired state of the world) is selected and a sequence of actions (plan) is
+constructed which is able to satisfy that goal most effectively. The formalized
+process of searching for a sequence of actions that satisfies a goal used in
+F.E.A.R. closely resembles an automated planner called STRIPS.
+\subsubsection{STRIPS}
+STRIPS was developed at Stanford University in 1970. STRIPS is an acronym for
+STanford Research Institute Problem Solver \cite{russell} and can be seen as
+the predecessor of the HTN-planner. The crucial difference between STRIPS and
+an HTN-planner is that in the former, the reasoning process takes place at the
+level of the actions (operator space) whereas in the latter the reasoning
+process takes place at the level of the tasks (plan space) \cite{htnstrips,
+htnstrips2, htnstrips3}. STRIPS consists of goals and actions where goals
+describe some desired state of the world we want to reach, and actions are
+defined in terms of preconditions and effects. An action may only execute if
+all of its preconditions are met.  Each action changes the state (conjunction
+of literals) of the world in some way.  The STRIPS planner applied to F.E.A.R.
+assigns costs to actions and tries to find a shortest path within the action
+space using A* to construct its plan. In order to achieve the desired behavior,
+one has to tweak these cost values such that A* finds the ``right'' path. This
+turns out to be a precise and tedious task in practice.
+
+\subsection{Halo 2}
+Halo 2 is a first-person shooter video game developed by Bungie Studios.
+Released for the Xbox video game console on November 9, 2004. The player
+alternatively assumes the roles of the human Master Chief and the alien Arbiter
+in a 26th century conflict between the human UNSC and genocidal Covenant.
+Players fight enemies on foot, or with a collection of alien and human
+vehicles.
+\subsubsection{Hierarchical Finite State Machine}
+The control structure of Halo 2 uses a hierarchical finite state machine (HFSM)
+or, more specifically, behavior tree or behavior DAG (Directed Acyclic Graph)
+\cite{halo3}. A finite state machine is a behavior model composed of a finite
+number of states, transitions between those states and actions similar to a
+flow graph. An HFSM imposes a hierarchy on the model, where non-leaf states
+make decisions about which children to run and leaf states perform a certain
+action, see Figure
+\ref{fig:hfsm}.
+\begin{figure}[!ht]
+\centering
+\includegraphics[height=200px]{hfsm.eps}
+\caption{Hierarchical Finite State Machine}
+\label{fig:hfsm}
+\end{figure}
+There are two general approaches in the decision making of the non-leaf
+behavior and at different times Halo 2 uses them both:
+\begin{itemize}
+\item{The parent makes the decision based upon the conditions using custom
+code.}
+\item{The children compete with each other, with the parent making the final
+choice based upon child behavior desire-to-run or relevancy.}
+\end{itemize}
+The different characters in Halo 2 can all have different behaviors. However,
+as most basic behaviors are shared, the game uses custom behaviors. Each
+character uses the same HFSM scheme, but specific characters trigger different
+children. One of the main differences between an HFSM and an HTN is the domain
+language.  The domain language of an HFSM is not strictly defined, leaving a
+lot of design decisions to the programmer. Whereas the HTN domain language is
+well defined, giving a solid framework to apply reinforcement learning on.
+
+\section{Academic Work}
+\subsection{High Level Reinforcement Learning in Strategy Games} 
+As human players rapidly discover and exploit the weaknesses of hard coded
+strategies in games, this paper presents a reinforcement learning approach for
+learning a policy that switches between high-level strategies \cite{rl-rts-1}.
+The testbed for this paper is \verb|Civilization IV|, a complex strategy
+game\footnote{Strategy video games are a genre of video game that emphasize
+skillful thinking and planning to achieve victory. They emphasize strategic,
+tactical, and sometimes logistical challenges.} in which players evolve a
+culture through the ages.
+\subsubsection{Model-based Q-learning: Dyna-Q}
+Q-learning is a model-free method, meaning it learns a policy directly, without
+first obtaining the model parameters (transition and reward functions). An
+alternative is to use a model-based method that learns the model parameters and
+uses the model definition to learn a policy.
+Dyna-Q is a method that can learn the model and the Q-values at the same time.
+Thus, the agent learns both the Q-values and the model through acting in the
+environment. This model is then used to simulate the environment and the
+Q-values are updated accordingly \cite{rl-rts-1}. As the model becomes a better
+representation of the problem, the Q-values become more accurate and
+convergance will occur more quickly. See algorithm \ref{alg:dynaq}.
+\begin{algorithm}
+	\caption{\emph{Dyna-Q}$(Q,r,s,a)$: Returns updated Q-values, $Q$}
+	\begin{algorithmic}[1]
+	\REQUIRE The Q-values, $Q$, immediate reward $r$, state $s$ and action $a$
+	\medskip
+	\STATE $Q(s,a) \leftarrow Q(s,a) + \alpha(r + \gamma Q(s',a') - Q(s,a))$
+	\STATE $P(s'|s,a) \leftarrow \textrm{\emph{updatePAverage}}(s,a,s')$
+	\STATE $R(s,a) \leftarrow \textrm{\emph{updateRAverage}}(s,a)$
+	\FOR{$i = 0$ \TO $N$}
+		\STATE $s' \leftarrow \textrm{\emph{randomPreviouslySeenS}}()$
+		\STATE $a' \leftarrow \textrm{\emph{randomPreviouslyTakenA}}(s')$
+		\STATE $s'' \leftarrow \textrm{\emph{sampleFromModel}}(s',a')$
+		\STATE $r' \leftarrow \textrm{\emph{fromModel}}(s',a')$
+		\STATE $Q(s',a') \leftarrow Q(s',a') + \alpha(r + \gamma Q(s'',a'') - Q(s',a'))$
+	\ENDFOR
+	\RETURN $Q$
+	\end{algorithmic}
+\label{alg:dynaq}
+\end{algorithm}
+First the regular Q-learning update is performed and the probability and reward
+models are updated as averages given the new information. The model sampling
+occurs in the for-loop. For some designated number of iterations $N$ the model
+is sampled and the Q-values are updated accordingly.
+
+\subsubsection{Civilization as MDP}
+The statespace is defined as a set of four state features\footnote{State
+features can improve the speed of learning assuming the individual features are
+independent of eachother.}: population difference, land difference, military
+power difference and remaining land. These features, $f_1,\ldots,f_4$ are
+discretized into three different values:
+\begin{displaymath}
+f_i = \left\{ \begin{array}{ll}
+2 & \textrm{if \emph{diff}} > 10\\
+1 & \textrm{if} -10 < \textrm{\emph{diff}} < 10\\
+0 & \textrm{if \emph{diff}} < -10
+\end{array} \right.
+\end{displaymath}
+Where \emph{diff} represents the difference in value between the agent and the
+opponent.\\
+An action is a choice of strategy that is built-in into the game. The action
+space was limited to four different actions.  Each action represents a
+different type of play of the game: Agressive and expansive, financial and
+organized, etc.\\
+The immediate reward is defined as the step based score of the game. That is
+the difference of the agent's total score and the opponent's total score.
+\\\\
+Although this approach works reasonably well for the Civilization game, in a
+first-person shooter (FPS) game, the gameplay is much more fast-paced and
+changes occur in rapid succession. In order to cope with this properly, more
+detailed world information needs to be encoded within the state. The main
+challenges can therefore be found in properly modelling the FPS as an MDP
+without blowing up the state-action space. Another problem is the partial
+observability within the FPS, the enemy location can only be acquired through
+scouting the environment by individual agents.
+
+
+\subsection{HTN for Encoding Strategic Game AI}
+The paper presents a case study for HTN-Planning on a strategic level in the
+game called Unreal Tournament\footnote{A first-person shooter video game
+co-developed by Epic Games and Digital Extremes. It was published in 1999 by GT
+Interactive.} (UT) \cite{ut}. The game mode to which the case study is applied
+is called domination. In domination, there are fixed locations in the world
+that can be captured by letting a team member step into a location. The team
+gets a point for every five seconds that each domination location remains under
+the control of that team. The game is won by the first team that gets a
+pre-specified amount of points.
+
+\subsubsection{Strategies}
+Two different strategies were encoded in the HTNs. The first strategy is called
+\emph{Control Half Plus One Points}. This strategy selects half plus one of the
+domination locations and sets bots to capture these points. The second strategy
+\emph{Control All Points} requires that the team consists of at least two
+members. It calls for two members to capture all domination locations and
+patrol between them. The remaining team members are assigned to search and
+destroy tasks.
+
+\subsubsection{Architecture}
+In order to compute the HTN for the grand strategies the Java based SHOP
+Planner\cite{shop} is applied. An event-driven program encoded in the Javabot
+FSMs allows the individual bots to react to the environment while contributing
+to the grand task at hand. 
+
+Differentiating between strategies appears to be performed manually instead of
+using some adaptive method or heuristic.
+
+\subsection{Neural Networks and Evolving AI in FPS Games}
+Other approaches to optimize bot behavior in FPS games involve the application
+of neural networks and evolutionary algorithms. Although there have been
+successfull attemps in applying these methods \cite{ENNQ3,hclfps,ECBU}, the
+main problem remains the loss of control over the bots as they converge to the
+(local) optimal, without some form of granuality. Aside from that, neural
+networks require many offline training rounds and it can be difficult to
+understand what is going on when they become large. Making them hard to debug
+during development.

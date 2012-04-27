@@ -1,0 +1,253 @@
+\chapter{Approach}
+\label{Chapter5}
+\lhead{Chapter 5. \emph{Approach}}
+This Chapter introduces the learning algorithm and the hand crafted strategies
+for Killzone 3's multiplayer game mode \emph{capture and hold}. The proposed
+method is a modified version of the HTN planner combined with a simple form of
+reinforcement learning, a basic description follows. At the start of a
+multiplayer game of Killzone 3 (e.g. \emph{capture and hold}), a strategy is
+constructed using the HTN planner which was either selected at random during
+exploration or greedily during exploitation. The strategy is executed and at
+the end of the round or episode, its reward is observed and the value of the
+weight belonging to the strategy is updated accordingly. So each episode a
+single action is chosen and executed, depending on environmental variables,
+making this a contextual bandit problem.
+
+\section{Learning AI}
+As stated in Chapter \ref{Chapter2}, the ordering of branches of the methods in
+the original HTN planner is fixed. This fixed ordering makes sense if there is
+a clear order in which a planning problem should be decomposed given a state
+$S$ and an axiom set $X$. At the strategic level of the Killzone 3 AI, there
+exist methods for which there is no clear ordering of their branches
+beforehand. That is, given some method $m = (\verb|:method|~h~b_1~\dots~b_n)$
+from the strategic domain, the order in which $C$ from $(C~T) \in b_i \forall
+i$ is entailed for some mgu $u$ that unifies $t^u \in T$ with $h$ such that $S
+\cup X \vDash C^u$, cannot be defined in terms of $S$ and $X$ alone. This
+section proposes an algorithm that can adapt the ordering by applying
+reinforcement learning.
+
+\subsection{Branch Ordering and Selection}
+%TODO: announce that only one learnable method can be used in a branch
+By assigning weights (or values) $w$ to each branch $b_{im}$ in a method $m$ we
+can sort the branches on their respective weight in descending order and execute
+the first branch whose preconditions are met. A branch is a tuple $b_{im} =
+(C_{im}~T_{im}~w(s)_{im})$, where $C_{im}$ holds the preconditions, $T_{im}$
+holds the task list and $w(s)_{im}$ is a weight for a certain contextual state
+$s$. As explained in chapter \ref{Chapter2}, state $s$ defines world properties
+which are static during an episode (the map onto which the episode is played
+and the team or faction), whereas $S$ is a world state defining potential
+non-static properties during an episode. During exploration by e.g.
+$\epsilon-$\emph{Greedy}, branches are randomly selected, while during
+exploitation branches are sorted by their weight in descending order and the
+first branch for which precondition $C_{im}$ is met can be further decomposed.
+\\ \\
+Given the Q-learning update rule in \ref{eq:qlearn}, we will now present how we
+apply an adapted version in our algorithm. As our problem is modelled as a
+contextual bandit problem, we only chose one action per episode:
+\begin{eqnarray}
+Q_t(s,a) & = & (1-\alpha_t)Q_{t-1}(s,a) + \alpha_t\Big[r + \gamma max_{a'}~Q_{t-1}(s',a')\Big] \\
+         & = & (1-\alpha_t)Q_{t-1}(s,a) + \alpha_t\Big[r + 0\Big] \\
+         & = & Q_{t-1}(s,a) - \alpha_t Q_{t-1}(s,a) + \alpha_t r \\
+         & = & Q_{t-1}(s,a) + \alpha_t\Big[r - Q_{t-1}(s,a)\Big]
+\end{eqnarray}
+As such there is no transition from $s$ to $s'$ within an episode, reducing the
+right term in the square brackets to $0$. At the end of an episode, a branch
+update occurs by observing the immediate reward $r$ on the current leafnode
+after which the highest value is propagated upwards to the rootnode:
+\begin{equation}
+w(s)_{im} = \left\{ \begin{array}{ll}
+w(s)_{im} + \alpha\Big[r - w(s)_{im}\Big] & \textrm{if $w(s)_{im}$ is a leafnode}\\
+\textrm{\emph{max}}_{c \in \textrm{\emph{children}}(m)} w(s)_{ic} & \textrm{otherwise}
+\end{array} \right.
+\label{eq:update}
+\end{equation}
+Where $\alpha$ denotes the learning rate, $c$ denotes a child method under
+parent $m$ and $i$ the branch index, with $im$ or $ic$ uniquely identifying the
+action. Thus equation \ref{eq:update} successfully implements the reinforcement
+learning update rule within an hierarchical environment.
+
+\subsection{Pruning the Action Space}
+As stated in chapter \ref{Chapter2}, the HTN is able to define the action set
+for RL. Instead of allowing all possible sequence of actions to be chosen, as
+is the case in regular reinforcement learning, a plan (specific sequence of
+primitive tasks) is encoded using the HTN. This greatly reduces the action
+space, allowing only sensible sequences of tasks to be executed as defined by
+the prior knowledge of the developer or expert.
+
+The pruning of the action space does come at a potential cost. Figure
+\ref{fig:htngraph} shows a graphical depiction of the HTN planner in action,
+the nodes represent (composite) methods and the edges represent the branches of
+a method. The planner starts at the root node and tries to decompose the
+\emph{ordered} branches from the highest weight to the lowest at each level in
+the tree in a depth first manner.
+\begin{figure}[!ht]
+\centering
+\includegraphics[height=150px]{htngraph.eps}
+\caption{HTN Graph}
+\label{fig:htngraph}
+\end{figure}
+In this case, the most left leaf-node cannot be reduced as its preconditions
+are not met. The planner performs a backtrack and tries to decompose its
+sibling, which is of weight $2$, whereas the best leaf-node would be the most
+right node with a weight of $3$. This is the potential pitfall that is the
+result of pruning the action space by HTN encoding and it is up to the prior
+knowledge of the developer to ensure a proper encoding. The sibling nodes
+should have a contextual relation with each other that enforces equal
+constraints. In this case, the parent node of the node with weight $5$ should
+have this constraint resulting in the right most node with weight $3$.
+
+\section{Implementation}
+The method is implemented using two algorithms \emph{execute-plan} and
+\emph{seek-plan}. The method first tries to find a plan, executes it
+and performs the weight update.
+\subsection{Execute Plan}
+Algorithm \ref{alg:executeplan} first calls subroutine \emph{seek-plan} which
+returns a plan $p$ and its traversed path of weights $W$ (in reverse order) in
+the form of a list that require updates. If the method corresponding to
+$w(s)_m \in W$ is a leaf-node, the immediate reward update is applied,
+otherwise the \emph{max} weight of the children of $m$ is assigned to $w(s)_m$.
+This propagates the highest weight to the root node, making sure the best path
+is selected during exploitation. The method $c$ variable is used for keeping
+track of the child method.
+
+\begin{algorithm}
+	\caption{\emph{execute-plan}$(S,T,D)$: Executes a plan and updates the weights}
+	\begin{algorithmic}[1]
+	\REQUIRE The state $S$, task list $T$ and $D$ a set of operators, axioms and methods
+	\medskip
+	\STATE $(p,W) \leftarrow$ \emph{seek-plan}$(S,T,D,nil,nil)$
+	\STATE observe world state $s$
+	\STATE run episode with plan $p$, observe reward $r$
+	\STATE method $c \leftarrow nil$
+	\FORALL{$w(s)_m \in W$}
+		\IF{\emph{is-leaf}$(m)$}
+			\STATE $w(s)_m \leftarrow w(s)_m + \alpha [r - w(s)_m]$
+			\STATE $c \leftarrow m$
+		\ELSE
+			\STATE $w(s)_m \leftarrow \textrm{\emph{max}}(\{w(s)_c : w(s)_{ic} \in \textrm{\emph{branches}}(c)\})$
+			\STATE $c \leftarrow m$
+		\ENDIF
+	\ENDFOR
+	\end{algorithmic}
+\label{alg:executeplan}
+\end{algorithm}
+Next, the episode (simulation) is executed with plan $p$ applied and reward $r$
+is observed at the end of the episode. This reward is a numerical value and
+defined as follows:
+\begin{equation}
+r = m - e,
+\label{eq:reward}
+\end{equation}
+where $m$ defines the mission points of the current team and $e$ the mission
+points of the enemy.\footnote{The actual formula for computing mission points in
+Killzone 3 varies per game mode. In the case of \emph{capture and hold}, mission
+points are assigned per timestep to teams that control captureable areas.}
+This results in a reward $r \in [-50,50]$, where $r < 0$ indicates a loss and
+$r > 0$ indicates a victory and $r = 0$ indicates a draw.  Finally the
+traversed weight path is updated according to equation \ref{eq:update}.
+
+\subsection{Seek Plan}
+The subroutine \emph{seek-plan} shown in Algorithm \ref{alg:seekplan} returns a
+tuple $(p,W)$, where $p$ is the plan found and $W$ the corresponding list of
+weights of the traversed path in reverse order.
+\begin{algorithm}
+	\caption{\emph{seek-plan}$(S,T,D,p,W)$: Returns a plan and the weigths of the learnable methods along the path}
+	\begin{algorithmic}[1]
+	\REQUIRE The state $S$, task list $T$ and $D$ a set of operators, axioms and methods, $p$ the plan, $W$ the set of weights of the learnable methods found in the traversed path
+	\medskip
+	\IF{$t = nil$}
+		\RETURN $(p,W)$
+	\ENDIF
+	\STATE $t \leftarrow$ first task in $T$, $R \leftarrow T - t$
+	\IF{$t$ is primitive}
+		\IF{there is a simple plan $q$ for $t$}
+			\RETURN \emph{seek-plan}$(q(S),R,D,\textrm{\emph{append}}(p,q),W)$
+		\ELSE
+			\RETURN $\bot$
+		\ENDIF
+	\ELSE
+		\STATE observe callstack $c$
+		\FORALL{$m \in D$ that can reduce $t$ in $S$}
+		\IF{$m$ is learnable}
+			\STATE sort branches on $w_{im_c}$ in descending order
+		\ENDIF
+		\STATE $r \leftarrow$ reduction of $t$ using $m$ in $S$
+		\STATE $(p', W') \leftarrow \textrm{\emph{seek-plan}}(S, \textrm{\emph{append}}(r,R),D,p,\textrm{\emph{append}}(w_{im_c},W))$
+		\IF{$p' \neq \bot$}
+			\RETURN $(p', W')$
+		\ENDIF
+		\ENDFOR
+	\ENDIF
+	\end{algorithmic}
+\label{alg:seekplan}
+\end{algorithm}
+The algorithm is an extended version of the HTN planner which was already
+available in Killzone 3. It recursively decomposes the given task list $T$
+using state $S$ and the set of operators $D$ until the entire plan consists of
+primitive actions only. Along the way it stores the weights $w \in W$ that
+require updating. Since a method $m$ can be used in different domains, the
+corresponding runtime callstack $c$ of method $m$ is used to discriminate
+between the different contexts. Thus the callstack and method provide a unique
+key for a weight.
+
+\section{Strategies}
+For this thesis, three main strategies were developed for the game mode
+\emph{capture and hold} using three areas, namely: Steam Roll, Capture and
+Split, Divide and Conquer. Each of the strategies contains multiple variations
+which determine area capturing sequences, number of squads and relative sizes
+of the squads. The domain file for the \emph{capture and hold} strategies is
+listed in appendix \ref{AppendixA}.
+\subsection{Steam Roll}
+The strategy \emph{steam roll} is depicted in Figure \ref{fig:steamroll}. In
+this strategy, a single squad \verb|A| is created and sequentially traverses
+each of the areas that require capturing. In this case, the squad captures the
+areas in the following sequence: $1,2,3$. Variations on this strategy are the
+different capture sequences of the areas, indicated by \emph{areaXYZ}, where
+\emph{XYZ} can be any permutation of $1,2,3$.
+\begin{figure}[!ht]
+\centering
+\includegraphics[height=200px]{SteamRoll.eps}
+\caption{Strategy: Steamroll}
+\label{fig:steamroll}
+\end{figure}
+The created squad is indeed very strong and will most likely capture the area
+it's going for. However, its squad can only capture a single area at a time,
+making it a slow strategy. Secondly, the captured areas will be left undefended
+completely.
+
+\subsection{Capture and Split}
+This strategy creates three squads instead of a single squad as is the case in
+\emph{steam roll}. First the three squads capture a single area together. Next
+a single squad stays behind and the remaining squads go to the second area and
+capture it, where the second squad also stays behind and the third squad
+finally captures the last area. 
+\begin{figure}[!ht]
+\centering
+\includegraphics[height=250px]{ConquerAndDivide.eps}
+\caption{Strategy: Capture and Split}
+\label{fig:candd}
+\end{figure}
+This strategy poses two variables along which it can differ, capture sequences
+as in \emph{steam roll}, and the various number of individuals per squad. A
+specific strategy from \emph{capture and split} is thus defined as
+\emph{areaXYZ\_sqdABC}, where \emph{areaXYZ} is equally defined as in
+\emph{steam roll} and \emph{sqdABC} defines the distribution of the individuals
+among the squads. For instance \emph{sqd121} means that the individuals are
+divided over the squads as $\{\frac{1}{4}, \frac{2}{4}, \frac{1}{4}\}$. See
+Figure \ref{fig:candd} for an example of this strategy.
+
+\subsection{Divide And Conquer}
+The last strategy is shown in Figure \ref{fig:dandc}. \emph{Divide and conquer}
+divides its forces into three squads and tries to capture each of the areas in
+parallel. This strategy also has the ability to vary along the squad
+distributions like \emph{capture and split}. A variation of this strategy is
+thus defined as \emph{sqdABC}.
+\begin{figure}[!ht]
+\centering
+\includegraphics[height=220px]{DivideAndConquer.eps}
+\caption{Strategy: Divide and Conquer}
+\label{fig:dandc}
+\end{figure}
+This type of strategy, when successful, will capture each of the areas the fastest.
+However, each with a much weaker force that can be overrun by the enemy with less
+effort than the previous strategies.
