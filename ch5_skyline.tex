@@ -145,7 +145,7 @@ Because of the accuracy disadvantage of this method we took another approach in
 detecting edges. We tested different edge detecting types. 
 
 The output of the different edge detection techniques was studied on an empirical
-basis and the Canny edge detector came with the most promising results. This is
+basis and the Canny edge detector \cite{Canny} came with the most promising results. This is
 probably because Canny is a more advanced edge detector.  It uses two
 thresholds, one to detect strong and one to detect weak edges. It includes the weak edges in the
 output, but only if they are connected to strong edges. In Table \ref{tab:edge} %ref
@@ -238,13 +238,13 @@ We emphasize the effect of different thresholds of the edge detector on the
 \figs{outputskylineFloriande}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The
 output of the edge detector and the skyline detector.}{The output of the edge
 detector}{The output of the skyline detector. The skyline elements are marked
-red}
+red}{14cm}{14cm}
 
 \pagebreak
 \figs{outputskylineSpil}{outputSkylineSpil-Im13-thresh030.eps}{outputSkylineSpil-Im13-thresh070.eps}{The
 skyline detector on two different thresholds}{Because of the streetlight, a
 large part of the building is not detected. Threshold=0.3}{The desired part of
-the building is detected.  Threshhold=0.7}
+the building is detected.  Threshhold=0.7}{14cm}{14cm}
 
 \pagebreak
 \fig{outputSkylineSpil-Im1-thresh070}{The output of the skyline detector with a

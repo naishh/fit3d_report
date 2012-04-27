@@ -1,10 +1,10 @@
 \newcommand{\code}[1]{\texttt{#1}}
 
 \newcommand{\fig}[3]{
-	%\begin{figure}[p]
 	\begin{figure}[!ht]
 	\centering
 	\includegraphics[scale=#3]{img/#1}
+	%\includegraphics[width=420px]{img/#1}
 	\caption{#2}
 	\label{fig:#1}
 	\end{figure}
@@ -35,6 +35,23 @@
 	}
 	\subfigure[#6]{
 		\includegraphics[width=14cm]{img/#3}
+		\label{fig:#3}
+	}
+	\caption{#4}
+	\label{fig:#1}
+	\end{figure}
+}
+\newcommand{\figsSmall}[6]{
+	\begin{figure}[!ht]
+	\centering
+	\subfigure[#5]{
+		% width=14cm
+		\includegraphics[width=5cm]{img/#2}
+		\label{fig:#2}
+	}
+	\subfigure[#6]{
+		% width=14cm
+		\includegraphics[width=5cm]{img/#3}
 		\label{fig:#3}
 	}
 	\caption{#4}
