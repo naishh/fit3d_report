@@ -4,6 +4,12 @@
 
 % todo's
 
+% PRIMAIRE todos:
+% 
+
+% SECUNDAIRE todos:
+% classificatie methode met probs en met derivitave met elkaar vergelijken
+
 
 
 % list of figures
@@ -15,42 +21,20 @@
 
 
 \section{Window detection}
-\subsection{Updated/New since 28-3-2012}
-<<<<<<< HEAD
-alle feedback verwerkt\\
-uitleg veranderd different types of connected corners\\
-Future research-> Window alignment refinement\\
-Discussion -> nummeric evaluation of connected corner result in \\
-ik werk niet meer met houghline eindpunten maar met de gehele lijn.\\
-ivm onduidelijkheid rijen en pixelrijen gebruik ik nu ipv rectangular areas, en rows, : blocks en blockrows\\
-nieuwe sectie geschreven Facade rectification
-
-\subsection{Questions}
-Is it useful to include the connected corner result of the occluding tree?
-\ref{fig:w_Dirk5_ImcCorner_cCorner.eps}
-=======
-Meeste feedback verwerkt\\
-Explanation different types of connected corners\\
-Future research - Window alignment refinement\\
-Discussion - nummeric evaluation of connected corner result\\
-Ik werk niet meer met houghline eindpunten maar met de gehele lijn.\\
-Ivm onduidelijkheid rijen en pixelrijen gebruik ik nu ipv rectangular areas, en rows, : blocks en blockrows\\
-Facade rectification\\
-Improved window alignment lines\\
-Window classification, method II\\
-results\\
-Future research\\
-Results\\
-
-\subsection{Q}
-Ik heb mijn oude methode van window alignment line detectie en classificatie laten staan. Is dit verstandig?
->>>>>>> 0ab897224fed8bf000e3d180b397b690862fdd54
-
 \label{chap:windowDetection}
 \subsection{Introduction}
-This chapter deals with one of the tasks of semantic urban scene interpretation, Window detection. 
 Semantic interpretation of urban scenes is used in a wide range of applications.
+We deal with an important aspect of semantic urban scene interpretation, Window detection. 
 
+% thesis outline:
+This chapter is organised as follows, we start with an variety applications that
+use semantic interpretation of urban scenes.  Then we discuss related work and
+put our work in context.  Next we describe our first window detection approach
+that is invariant to viewing direction.  After this we present a facade
+rectification method. Next this method is used for our second method that assumes
+orthogonal and aligned windows.  Finally we show and discuss results. 
+
+\subsection{Applications}
 \paragraph{3d City models} 
 	Manual creation of 3d models is a time consuming and expensive procedure.
 	Therefore semantic models are used for semi automatic 3d
@@ -86,13 +70,16 @@ Semantic interpretation of urban scenes is used in a wide range of applications.
 
 \paragraph{Augmented reality}
 	Some mobile platforms apply augmented reality using facade and window
-	detection to make a accurate overlay of the building. An example overlay is the
+	detection to make an accurate overlay of the building. An example overlay is the
 	same building but 200 years earlier.  Semantical information is used to not
 	only identify a respective building, but also find his exact location in the
 	image.  The accuracy and realistic level of the 3d model are vital for a
 	successful simulation.  And because the applications are mobile, very fast
-	building understanding algorithms are required.  Window
-	detection plays an important role in these processes.
+	building understanding algorithms are required.  Window detection plays an
+	important role in these processes as the size and location of the windows
+	supply an effective descriptor that can be used for robust and fast building
+	identification.  Furthermore it provides an accuratly alignment of the
+	overlay.
 
 \paragraph{Building recognition and urban planning}
 	Building recognition is used in the field of urban planning where the semantic 3d
@@ -110,16 +97,12 @@ Semantic interpretation of urban scenes is used in a wide range of applications.
 
 
 We can conclude that window detection plays an important role in the
-interpretation of urban scenes and is applied in a wide range of domains.  This
-chapter presents two developed methods for robust window detection.
+interpretation of urban scenes and is applied in a wide range of domains.  
 
-We start with discussing related work and putting our work in context.  Then we
-describe a window detection approach that is invariant to viewing direction.
-After this we present our second method that assumes orthogonal and aligned
-windows.  Finally we show and discuss results. 
 
 
 \subsection{Related work}
+%---------------------
 A large amount of research is done on semantical interpretation of urban scenes. First we
 discuss related work that has a big overlap with our approach in detail.
 After this, we briefly discuss the research that is done on window detection
