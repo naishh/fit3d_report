@@ -10,15 +10,8 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 
-aan eind vd vrijdag:
-	ispell
-	mail isaac om te vragen of ihj facade rectification wilt nakijken
 
 
-
-
-todo window detection:
-	todos 
 
 other:
 	FB skyline detectie (8)

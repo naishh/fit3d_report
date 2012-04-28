@@ -9,6 +9,7 @@
 
 % SECUNDAIRE todos:
 % classificatie methode met probs en met derivitave met elkaar vergelijken
+% iets zeggen over complexiteit
 
 
 
@@ -101,68 +102,133 @@ interpretation of urban scenes and is applied in a wide range of domains.
 
 
 
-\subsection{Related work}
+% todo in state of art een lijn creeren, opbouwen, in context plaatsen, theoretisch afwimplene
+\subsection{State of the art window detection} % related work
+A large amount of research is done on semantical interpretation of urban scenes. 
+First we briefly discuss the research that is done on window detection using
+approaches that differ of our approach.  After this, we discuss state of the art
+window detection that has a big overlap with our approach in detail.
+
+\subsubsection{Alternative approaches on window detection}
+Muller et all \cite{Muller_procedural} detect symmetry in the building. The
+symmetry is detected in the vertical (floors) and horizontal (window
+rows) direction.
+They use shape grammars to divide the building wall in tiles, windows, doors etc.
+The results are used to derive a 3d model of high 3d visual quality.
+\figsSmall{label_window_nice_geometry}{p_window_nice_geometry1.eps}{p_window_nice_geometry2.eps}{Results of Muller et all}{original texture}{reconstruction}
+Although they achieved some interesting results their method has some
+disadvantages.  As their method is fully based on detecting symmetrie, they have
+to assume repeating and aligned windows.  Furthermore they matched template window
+objects which they predefine, this constraints the variety of windows that could
+be matched.  At last they use expensive algorithms that make it impossible for the system
+to run in real time.  \\
+
+Using a thermal camera, Sirmacek \cite{Sirmacek_thermal}
+detects heat leakage on building walls as an indicator for doors or windows.
+Windows are detected with L-shaped features as set of \emph{steerable filters}.
+The windows are grouped using \emph{perceptual organization rules}:
+they search and group intersecting L-shapes to close a window. A shape is
+determined closed if it can seperate an inside region from the outside.
+%todo afflammen
+
+Ali et all \cite{Ali_facades} describe the windows with \emph{Haar} like
+features, the featerus are combined using a cascading classifier. The cascading
+classifier which can be seen as a decision tree is learned using the \emph{Ada
+boost} algorithm.  They also use the window detection to determine the region of
+the facade.
+
+Although this method is used a lot in computer vision, it is not the most
+promissing approach to window detection because it is supervised.  This means
+that it requires a large dataset in which every window must be accurately
+annotated.  Furthermore the cascader is always overfitted to the learning data
+and is sensitive to scale, making it hard to generalise (detect windows that are
+not included in the dataset).  A more general descriptor of the window is
+desirable.\\
+% todo research question
+
+% todo loopt niet heeeelemaal lekker
+To investigate this, we developed two methods on which one method doesn't
+require repeating nor aligned windows.  One of the main targets of our research
+was to have low requirements on the input data.  Our system doesn't need need
+a large annotated dataset. Furthermore we took the images with a mobile phone
+and decided to extract the windows from the image space only, this makes us
+independent of additional expensive data like heat or laser range images.
+Furthermore our algorithms work in real time. \\
+% todo
+
+This doesn't mean the previous work on window detection using laser or heat
+images isn't of good use.  Instead we learned a lot from the previous research
+as they have to match the laser or heat data to the real image space.  This
+matching process involves a description (semantical annotation) of the facade.
+Let's explain a method of that kind and discuss other approaches that are more
+similar to our approach.\\
+
 %---------------------
-A large amount of research is done on semantical interpretation of urban scenes. First we
-discuss related work that has a big overlap with our approach in detail.
-After this, we briefly discuss the research that is done on window detection
-using other approaches.
-
-
 \subsubsection{Similar approaches}
-Pu and Vosselman \cite{Pu_refiningbuilding}
-use laser images together with Hough line extraction to reconstruct facade details.  They solve inconsistency between laser and image data and improve the alignment of a 3d model with a matching algorithm.  In one of the matching strategies they compare the edges of a 3d model to Hough lines of ground images.
-They match the lines by comparing the angle, location and length difference of the model edges with the extracted Houghlines.  These criteria is also used in our approach.\\
-They also detect windows and use them to provide a significant better alignment of the 3d model.
-The windows are extracted from the holes from laser points of a wall, these results where far from accurate.\\
-To summarize, the work of Pu and Vosselman provides a useful practical application of window detection and it amplifies the need for a robust window detection technique that is independent of laser data.\\
+Pu and Vosselman \cite{Pu_refiningbuilding} combine laser range images with
+ground images to reconstruct facade details.  They solve inconsistency between
+laser and image data and improve the alignment of a 3d model with a matching
+algorithm.  In one of the matching strategies they compare the edges of a 3d
+model to extracted Hough lines of both ground and laser range images.  They
+match the lines by comparing the angle, location and length differences. These
+criteria are also used in our approach.\\
+
+They also detect windows and use them to provide a significant better alignment
+of the 3d model.  As windows have a high reflection, they form hole like shapes
+in the laser range images.  These holes are directly used to extract the
+windows, unfortunatelly the results where far from accurate.\\
+
+The work of Pu and Vosselman \cite{Pu_refiningbuilding} provides a useful
+practical application of window detection and it amplifies the need for a robust
+window detection technique that is independent of laser range data.\\
 
 
-In \cite{Recky_kmeans} Recky et all developed a window detector that is build on
+Recky et all \cite{Recky_kmeans} developed a window detector that is build on
 the primary work of Lee and Nevatia \cite{Lee_extraction} (which is discussed
 next).
-In order to be able to assume aligned windows they rectify the facade.  After this they apply a threshold on an orthogonal projection of the extracted edges. 
-For example they use a vertical edge projection to establish the horizontal division of the windows which is very similar to our approach,.\\
-%raises a to many floats error
+In order to project edges they rectify the facade. 
+The edges are projected into their orthogonal direction, a function is developed that counts the amount of projected edges the 'Projection profile', Figure \ref{fig:p_projection_profiles.eps}.
 \fig{p_projection_profiles.eps}{Projection profiles of Lee and Nevatias work}{0.4}
-The next step, labeling the areas containing windows, is however very different as they use color to disambiguate the windows.
+A threshold is applied to indicate the window boundaries and alignment.
+For example they use a vertical edge projection to establish the horizontal division of the windows.\\
+The next step, they labeling the areas containing windows and use color to disambiguate the windows.
 To be more precise, they convert the image to CIE-Lab color space and use k-means to classify the windows.
 Although this method is robust, both color transformation and k-means clustering are very computational expensive.
-In our method we use the same source, edge information, for the window alignment and for the window labeling.
-As we don't require color transformation and only apply math on line segment
-endpoints, our algorithm performs in real-time.
-Furthermore we use an advanced window alignment process where we take both horizontal and vertical projection profiles into account.
-Our window classification is based on a higher level of shape interpretation of these functions.
+Furthermore the classification based on color is sensitive to the change in lightning conditions.
+
 
 As in the work of Recky et all \cite{Recky_kmeans} Lee et all
 \cite{Lee_extraction}
 perform orthogonal edge projection to find the window alignment.  As different
-shape of windows can exist in the same column, they use the window alignment as
+shapes of windows can exist in the same column, they only use the window alignment as
 a hypothesis.  Then, using this hypothesis, they perform a refinement for each
-window independently. More on this in Future research.
+window independently. 
+Although this comes with accurate results, the iterative refinement is a
+computational expensive procedure and therefore not suitable for our application. \\
+
+\subsubsection{Our work in context}
+The window alignment procedure in \cite{Recky_kmeans} and \cite{Lee_extraction}
+is very robust.  Therefor we decided to use this method as a basis and improved
+the alignment algorithm furthermore we build a different window classification method.  
+
+For both window alignment and classification we use the same source, edge information.
+This means we don't require color transformation and only apply transformation on line
+segment endpoints. This makes our algorithm invariant to lightning conditions and
+perform in real-time.  
+	
+	In the previous work \cite{Recky_kmeans} and \cite{Lee_extraction} they use
+	a single projection profile for each direction.  We improved the window
+	alignment process by fusing two projection profiles for each direction.
+	E.g. for the determination of the window row alignment we fuse both
+	horizontal and vertical projection profiles.  Furthermore we build
+	a alternative window classification procedure which is based on a higher
+	level of shape interpretation of these projection profiles.
+
 
 %%NEW PAPERS 
 %[A model-based method for building reconstruction]
 	%brute force matching of window primitives
 	%make 3d models and recover the geometry of a building
-
-
-\subsubsection{Other approaches}
-Muller et all \cite{Muller_procedural} detect symmetry in the building. The
-symmetry is detected in the vertical (floors) and horizontal (window
-rows) direction.
-The use shape grammars to divide the building wall in tiles, windows, doors etc.
-The results are used to derive a 3d model of high 3d visual quality.
-\figsSmall{label_window_nice_geometry}{p_window_nice_geometry1.eps}{p_window_nice_geometry2.eps}{Results of Muller et all}{original texture}{reconstruction}
-
-Using a thermal camera, Sirmacek \cite{Sirmacek_thermal}
-detects heat leakage on building walls as an indicator for doors or windows.
-Windows are detected with L-shaped features as set of \emph{steerable filters}.
-The windows are grouped using \emph{perceptual organization rules}.
-
-Ali et all \cite{Ali_facades}
-describe the windows with Haar like features which are fed into a (Ada boost) cascaded decision tree.
-
 
 
 
