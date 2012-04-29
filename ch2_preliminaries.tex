@@ -1,5 +1,54 @@
 % DRAFT
 \section{Preliminaries on Computer Vision}
+
+% todo do ordering of subsections
+\subsection{Edge detection}
+\label{sec:edge}
+%todo
+
+\subsection{Hough transform}
+	A widely used method for extracting line segments is the Hough transform
+	\cite{Hough}.
+	In the Hough transform, the main idea is to consider the characteristics of a
+	straight line not as its image points $(x1, y1)$, $(x2, y2)$, but in
+	terms of the parameters of the straight line formula $y = mx + b$. i.e., the
+	slope parameter $m$ and the intercept parameter $b$.\\
+	The Hough transform transforms the line $y = mx + b$ 
+	to a point $(b,m)$ in parameter space.
+	E.g. the following images is transformed into the Hough $(r,\theta)$ parameter space.
+	
+	%todo introduce the accumulator array,
+	%todo transform gif to eps 
+	\fig{HoughTransform_edge.eps}
+	\fig{HoughTransform_peaks1.eps}
+	\fig{HoughTransform_peaks2.eps}
+	 
+	 As you can see the eight separate straight line segments in \ref{fig:HoughTransform_edge.eps} 
+	 a curve is generated for 
+	 in polar space for each edge point in cartesian space. 
+	 
+	 The accumulator array, when viewed as an intensity image, looks like 
+
+	% todo image of hough peaks matlab manual
+	
+
+
+	%todo include r and theta
+
+	% secundairy todo add other paramater space
+	% also explain why we use the angle parameter space
+	% to devide the lines
+
+
+\subsubsection{Direction ordering}
+% explain  something like:
+% From the edge image we extract two different groups of Houghlines, horizontal and 
+% vertical.  We set the $\theta$ bin ranges in the Hough transform that control the
+% allowed angles of the Houghlines to extract the two groups. The horizontal group
+% has a range of [-30..0..30] degrees, where 0 presents a horizontal line. The vertical
+
+
+
 % HOUGH TRANSFORM komt hier
 \subsection{Fit3d toolbox}
 The fit3D toolbox \cite{Fit3d} 

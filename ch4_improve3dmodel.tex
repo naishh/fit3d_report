@@ -103,16 +103,23 @@ An example of the 3D model can be seen in Figure \ref{fig:outputHoughlines3d}.
 	Future work section.\\
 
 \subsubsection{Hough transform}
+	%todo rever to preliminaries and remove redundand info 
+	% uit elkaar trekken
 	A widely used method for extracting line segments is the Hough transform
 	\cite{Hough}.
 	We regard this as a suitable method because as it is
 	used a lot for this kind of problems. This is probably because it is unique
 	in its low complexity (compared to other (iterative) methods like
 	\emph{RANSAC}).\\
-	In the Hough transform, the main idea is to consider the characteristics of a
-	straight line not as its image points $(x1, y1)$, $(x2, y2)$, etc., but in
-	terms of the parameters of the straight line formula $y = mx + b$. i.e., the
-	slope parameter $m$ and the intercept parameter $b$.\\
+
+
+
+%todo
+
+
+
+
+
 	The input of a Hough transform is a binary image, in our case the output of 
 	the skyline detector (chapter \ref{chap:skylinedetection}).\\
 	If a pixel is classified as a skyline pixel (a pixel that lies on the
