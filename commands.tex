@@ -26,6 +26,21 @@
 	\end{figure}
 }
 
+\newcommand{\figsHor}[6]{
+	\begin{figure}[!ht]
+	\centering
+	\subfigure[#5]{
+		\includegraphics[width=6cm]{img/#2}
+		\label{fig:#2}
+	}
+	\subfigure[#6]{
+		\includegraphics[width=6cm]{img/#3}
+		\label{fig:#3}
+	}
+	\caption{#4}
+	\label{fig:#1}
+	\end{figure}
+}
 \newcommand{\figs}[6]{
 	\begin{figure}[!ht]
 	\centering

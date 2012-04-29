@@ -7,6 +7,7 @@
 %todo
 
 \subsection{Hough transform}
+\label{sec:prelimHough}
 \subsubsection{Theory}
 	A widely used method for extracting line segments is the Hough transform
 	\cite{Hough}.
@@ -35,9 +36,9 @@
 	
 	%todo introduce the accumulator array,
 	%todo transform gif to eps 
-	\fig{HoughTransform_edge.eps}
-	\fig{HoughTransform_peaks1.eps}
-	\fig{HoughTransform_peaks2.eps}
+	\fig{HoughTransform_edge.eps}{An input image, consisting of eight straight lines, for the Hough transform}{0.5}
+	\figsHor{HoughTransform_peaks}{HoughTransform_peaks1.eps}{HoughTransform_peaks2.eps}{Hough transform} {$(r, \theta)$ values}{$(r, \theta)$ accumulator array (quantized)}
+
 	 
 	 As you can see for every edge point 
 	 in Figure \ref{fig:HoughTransform_edge.eps} 
@@ -65,17 +66,19 @@
 
 	These positions are found by looking for local maxima in the accumulator array.
 
+\subsubsection{$\theta$ constrained Hough transform}
+The accumulator array consist of two dimensions $r$ and $\theta$.
+$\theta$ typically ranges from $[-90..90)$ resulting in 180 unique bins.
+Note that a line with $(r, \theta) = (t,j)$ can also be represent by the identical $(-t, j-90)$, e.g. $(4, 135)$ == $(-4, 45)$.
+This makes it possible to represent every line with the interval $[-90..90)$.\\
 
-
-\subsubsection{Direction ordering}
-% todo
-%top down processing of the human mind
-
-% explain  something like:
-% From the edge image we extract two different groups of Houghlines, horizontal and 
-% vertical.  We set the $\theta$ bin ranges in the Hough transform that control the
-% allowed angles of the Houghlines to extract the two groups. The horizontal group
-% has a range of [-30..0..30] degrees, where 0 presents a horizontal line. The vertical
+Sometimes we want to find lines that have a certain angle.
+For example the skyline of a building will appear about horizontal, furthermore with window detection one would like to detect edges in the horizontal and vertical directions.
+This can easily achieved by adjusting the $\theta$ range.
+For example if one would detect lines in the horizontal direction of
+a photograph of a building taken by a user, $\theta = [-10..0..10]$.Although
+only $\theta = 0$ presents a perfect horizontal line we broaden the interval
+because the user hardly ever holds the camera exactly orthogonal.
 	
 \subsubsection{Matlab parameters}
 We used a standard Matlab implementation of the Hough transform for straight lines.  This implementation comes with some interesting parameters:\\
@@ -98,10 +101,11 @@ For more complicated shapes, the
 It uses a feature that votes for a particular position, orientation and/or scaling of a certain predefined shape.  The shapes are predefined in a look-up table.
 
 
+% todo
+%\subsubsection{Complexity of Hough transform}
 
 
 
-% HOUGH TRANSFORM komt hier
 \subsection{Fit3d toolbox}
 The fit3D toolbox \cite{Fit3d} 
 TODO explain structure by motion etc.

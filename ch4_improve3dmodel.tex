@@ -111,37 +111,31 @@ An example of the 3D model can be seen in Figure \ref{fig:outputHoughlines3d}.
 	used a lot for this kind of problems. This is probably because it is unique
 	in its low complexity (compared to other (iterative) methods like
 	\emph{RANSAC}).\\
-
-
-
-%todo
-
-
-
-
-
+	For a detailed explanation of the Hough transform please read \ref{sec:prelimHough}.
 	The input of a Hough transform is a binary image, in our case the output of 
-	the skyline detector (chapter \ref{chap:skylinedetection}).\\
+	the skyline detector (chapter \ref{sec:skylinedetection}).\\
 	If a pixel is classified as a skyline pixel (a pixel that lies on the
 	skyline according the skyline detector), the Hough transform increases
-	a vote value for every valid line ($m$,$b$ pair) that crosses this
-	particular pixel.  Lines ($m$, $b$ pairs) that receive a large amount of votes
+	a vote value for every valid line $(r,\theta)$ pair that crosses this
+	particular pixel.  
+	Lines $(r,\theta)$ pairs that receive a large amount of votes
 	contain a large amount of skyline pixels.\\
 	Because the algorithm detects straight lines containing only skyline pixels it is
 	most likely that it returns parts of the skyline and therefore the building
-	contour. \\ The Hough transform is implemented in \emph{Matlab} and has
-	some useful extra functions.The algorithm can optionally return the start
+	contour. \\ 
+	The Hough transform is implemented in \emph{Matlab} which has
+	some useful extra functions. The algorithm can optionally return the start
 	and endpoint of the found lines which is very useful as it helps us to
 	associate which part of the building is described by the line.\\
 	Furthermore it has the parameter \emph{FillGap} that specifies the distance
-	between two line segments associated with the same $m$,$b$ pair.  When this
+	between two line segments associated with the same $(r,\theta)$ pair.  When this
 	inter line segment distance is less then the \emph{FillGap} parameter, it
 	merges the line segments into a single line segment. In our application
 	this parameter is of particular interest when we want to merge lines that
 	are interrupted by for example an occluding tree.\\
-	Results of the Hough transform on the 2D output of the skyline detector are
+	Results of the Hough transform on the output of the skyline detector are
 	displayed and evaluated in the Result section.
-
+	%todo ref
 
 
 \subsection{Project the skyline to the building}

@@ -95,9 +95,6 @@ orthogonal and aligned windows.  Finally we show and discuss results.
 	desired.  The semantical interpretation of the facade can provide this need.
 	In this context, window detection can be used as a strong discriminator.\\
 
-%todo write big part about what is new /different / important in my approach
-
-
 We can conclude that window detection plays an important role in the
 interpretation of urban scenes and is applied in a wide range of domains.  
 
@@ -265,14 +262,23 @@ to be aligned to each other neither to the X and Y axis of the image.
 
 \subsubsection{Method}
 \paragraph{Edge detection and Houghline extraction}
-Edge detection is done as is described in section 
+Edge detection is done as it is described in section 
 \ref{sec:edge}
-From the edge image we extract two different groups of Houghlines, horizontal and 
-vertical.  We set the $\theta$ bin ranges in the Hough transform that control the
-allowed angles of the Houghlines to extract the two groups. The horizontal group
-has a range of [-30..0..30] degrees, where 0 presents a horizontal line. The vertical
-group has a range of [80..90..100] degrees. These ranges seem
-to work well on an empirical basis for all datasets.
+We extract two groups of Houghlines which fall in the two window directions 
+horizontal and vertical.
+This is done by controling the allowed angles, $\theta$ bin ranges, in the Hough transform.
+The horizontal group has a range of $\theta = [-30..0..30)$ degrees, where $\theta = 0$ presents a horizontal line. 
+The vertical group has a range of $\theta = [80..90..100)$ degrees. 
+
+We use ranges because 1)
+the user hardly ever holds the camera exactly orthogonal.
+2) we work with unrectified facades, meaning we deal with perspective distortion.
+To be more concrete, if the user takes a photo (Figure \ref{fig:cameraPitch.eps} with a certain Yaw \= 0, the horizontal lines become skew.
+The range of the vertical group is smaller as the user 
+often takes photo with a low pitch
+\fig{cameraPitch.eps}{Pitch roll and yaw of the camera}{0.5}
+%-----------------------
+
 The results of two images can be seen in Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} and
  \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.
 

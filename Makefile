@@ -9,7 +9,7 @@ all:
 	latex $(REPORT).tex
 	latex $(REPORT).tex
 	rm -f $(TEMPFILES)
-	evince main.dvi
+	#evince main.dvi
 	xgdvi main.dvi
 
 pdf:
