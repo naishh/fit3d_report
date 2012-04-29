@@ -7,15 +7,31 @@
 %todo
 
 \subsection{Hough transform}
+\subsubsection{Theory}
 	A widely used method for extracting line segments is the Hough transform
 	\cite{Hough}.
 	In the Hough transform, the main idea is to consider the characteristics of a
 	straight line not as its image points $(x1, y1)$, $(x2, y2)$, but in
 	terms of the parameters of the straight line formula $y = mx + b$. i.e., the
-	slope parameter $m$ and the intercept parameter $b$.\\
+	slope parameter $m$ and the intercept parameter $b$.
+
+
 	The Hough transform transforms the line $y = mx + b$ 
 	to a point $(b,m)$ in parameter space.
-	E.g. the following images is transformed into the Hough $(r,\theta)$ parameter space.
+	With this representation it is impossible to describe a vertical line as 
+	the slope $m$ is infinite.
+	Therefore it is better to use a different pair of parameters, denoted $r$ and $\theta$ .  These are the Polar Coordinates.
+
+	The parameter $r$ represents the distance between the origin and the line  and $\theta$ is the angle of the vector orthogonal to the line.
+	Using this parameterization, the equation of the line can be written as
+
+\[	    y = \left(-{\cos\theta\over\sin\theta}\right)x + \left({r\over{\sin\theta}}\right) \]
+
+	\[r = x \cos \theta+y\sin \theta \]
+	
+	This means that a straigth line in $(x,y)$ space appears as a sinusoidal
+	curve in the Hough parameter $(r,\theta)$ space.  Let's see an example, the
+	following image is transformed into the space $(r,\theta)$.
 	
 	%todo introduce the accumulator array,
 	%todo transform gif to eps 
@@ -23,29 +39,65 @@
 	\fig{HoughTransform_peaks1.eps}
 	\fig{HoughTransform_peaks2.eps}
 	 
-	 As you can see the eight separate straight line segments in \ref{fig:HoughTransform_edge.eps} 
-	 a curve is generated for 
-	 in polar space for each edge point in cartesian space. 
-	 
-	 The accumulator array, when viewed as an intensity image, looks like 
-
-	% todo image of hough peaks matlab manual
+	 As you can see for every edge point 
+	 in Figure \ref{fig:HoughTransform_edge.eps} 
+	 a curve is generated in $(r,\theta)$ space in Figure 
+\ref{fig:HoughTransform_peaks1.eps}.
+	 On eight positions (white dots) the number of intersecting sinusoidal
+	 curves is high, these position correspond to the eight separate straight
+	 line segments in Figure \ref{fig:HoughTransform_edge.eps} .
 	
+	This makes the problem of detecting straigth lines in finding peaks in the 
+	Hough parameter $(r,\theta)$.
 
+\subsubsection{Implementation}
+	The input of a Hough transform is a binary image, in our research it is the output of 
+	the skyline detector (\ref{sec:skylinedetection}) or in the case of window
+	detection (\ref{sec:windowDetection}) the output of an edge image.\\
 
-	%todo include r and theta
+	The Houghtransform develops an accumulator array of a quantized parameter space $(r, \theta)$.
 
-	% secundairy todo add other paramater space
-	% also explain why we use the angle parameter space
-	% to devide the lines
+	It loops through the binary image and for each positive value 
+	it generates all possible lines, quantized $(r, \theta)$ pairs, that intersect with this point.
+	For each candidate it increases a vote in the accumulator array.
+	Lines $(r, \theta)$ that receive a large amount of votes
+	i.e. the dots in Figure \ref{fig:HoughTransform_peaks1.eps} are the found straigth lines in the $(x,y)$ space.
+
+	These positions are found by looking for local maxima in the accumulator array.
+
 
 
 \subsubsection{Direction ordering}
+% todo
+%top down processing of the human mind
+
 % explain  something like:
 % From the edge image we extract two different groups of Houghlines, horizontal and 
 % vertical.  We set the $\theta$ bin ranges in the Hough transform that control the
 % allowed angles of the Houghlines to extract the two groups. The horizontal group
 % has a range of [-30..0..30] degrees, where 0 presents a horizontal line. The vertical
+	
+\subsubsection{Matlab parameters}
+We used a standard Matlab implementation of the Hough transform for straight lines.  This implementation comes with some interesting parameters:\\
+
+	The \emph{minimum length} parameter specifies the minimum length that a line must have to be valid. This is especially interesting if we want to detect a large straight skyline or if we want to discard lines that are to small to form for example a window.\\
+
+	Furthermore it contains the parameter \emph{FillGap} that specifies the distance
+	between two line segments associated with the same $(r, theta)$ pair
+	When this inter line segment distance is less then the \emph{FillGap} parameter, it merges the line segments into a single line segment. In our application this parameter is of particular interest when we want to merge lines that are interrupted by for example an occluding tree or street lamp.\\
+
+
+\subsubsection{Other shapes}
+The Hough transform isn't bound to finding straight lines, in fact it could be
+applied to any space which can be represented by a set of parameters.  For
+instance, a circle can be transformed into a set of three parameters, $(x,y,r)$
+representing its center and radius, this makes the Hough space three
+dimensional. 
+For more complicated shapes, the 
+\emph{Generalised Hough transform} is used.
+It uses a feature that votes for a particular position, orientation and/or scaling of a certain predefined shape.  The shapes are predefined in a look-up table.
+
+
 
 
 
