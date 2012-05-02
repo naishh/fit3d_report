@@ -432,7 +432,7 @@ $\alpha$ and $u$ are used to create a rotation matrix $R$ which is applied to th
 The result is a set of rectified 3D points that are grouped tot their Houghlines.
 
 \subsubsection{Results}
-For the purpose of representation we also calculated a full rectification
+For the purpose of displaying the figures and showing the results we also calculated a full rectification
 of the image, see Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}.
 %todo fig unrectified with Houghlines
 %todo fig rectified with Houghlines
@@ -457,15 +457,11 @@ the width and $x$ position has to be equal.  Note that this doesn't mean that
 all windows have the share the same size.
 
 \subsubsection{Method}
-The extraction of the windows is done in different steps. First we rectify the 
-image making the assumptions are valid. The rectification process is done as
-described in the previous section. 
-
-%todo
-Then the alignment of the windows is determined, this is based on a histogram 
-of the Houghlines'. We use this alignment to divide the
-image in window or not window regions.  Finally these regions are classified
-and combined which gives us the windows.
+The extraction of the windows is done in different steps, first we rectify the
+image as described in the previous section.  Then the alignment of the windows
+is determined, this is based on a histogram of the Houghlines'. We use this
+alignment to divide the image in window or not window regions.  Finally these
+regions are classified and combined which gives us the windows.
 
 
 
@@ -487,7 +483,7 @@ blocks that we classify as window or non-window areas.\\
 How do we determine this alignment lines? We make use of the fact that among a
 horizontal alignment line a lot of horizontal Houghlines are present, see
 Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}. For the vertical alignment lines
-the number of vertical Houghline is high, see green lines in Figure
+the number of vertical Houghlines is high, see green lines in Figure
 \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.\\
 
 We begin by extracting the pixel coordinates of Hough transformed line
@@ -541,20 +537,18 @@ as dotted red lines and dotted green lines in Figure \ref{fig:w_Spil1TransCrop1_
 \subsubsection{Improved window alignment}
 As you can see in Figure \ref{fig:w_Spil1TransImproved_Xv.eps}
 a few window alignment lines are not found and a few lines are found at wrong locations.
-
 Lets explain the missing alignment lines.
 The right side of the window frame of the first 4 windows is occluded by the
 wall. This is because the original image is not a frontal image.
 The reflection of the window has about the same color as the bricks of
 the wall, this means that the edge detector
 doesn't find a strong edge on positions where the window frame is missing.
-This artefact can be seen in the edge image Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} few or no edges are present, and
+This artefact can be seen in the edge image Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps}, few or no edges are present, and
 at the low height of the peaks in Figure \ref{fig:w_Spil1TransImproved_Xv.eps} at these positions.
+This means we have to find another way to detect the window alignment on these positions.\\
 
-This means we have to find another way to detect the window alignment on these positions.
 For the vertical alignment we only took vertical lines into account.
-
-In this method we also examine the projection profile of the \emph{horizontal} Houghlines
+In this method we examine the projection profile of the \emph{horizontal} Houghlines
 projected on the X axis, $X_h$, Figure \ref{fig:w_Spil1TransImproved_Xh.eps}.
 On the positions of the desired vertical alignment lines there appears to be a 
 big decrease or increase of $X_h$ at the window frame. This is because on these
@@ -563,8 +557,28 @@ positions a window containing (a large amount of horizontal lines) starts or end
 We detect these big decreases or increases by creating a new pseudo peak profile
 $D$ that takes the absolute of the derivative of $X_h$, , Figure \ref{fig:w_Spil1TransImproved_Xh.eps}.
 \[D = abs( X_{h}')\]
+Next we extract the locations of the peaks as the previous method.
 
-We apply the same peak location detection as the previous method but combine the results.
+\subsubsection{Fusing the window alignment methods}
+We have presented two window alignment methods, next we fuse the methods to
+gain a robust window alignment.
+
+
+A window alignment position is either found by one method or by both methods.
+
+If the window alignment is found by one method we cannot back it up with the other method, therefor 
+we increase the threshold from 0.5*max peak to 0.7*max peak to make it more certain and 
+The target is to have as little as possible false positives but don't mis alignment locations.
+
+Otherwise, if the window alignment position is found by both methods, often the peaks are located very close 
+to eachother. How do we know 
+Sometimes the peaks are shifted 
+%--------------------------------------------------------------------------------------------------------------------------------
+
+why?
+solution: (tradeof)
+
+
 Sometimes the same window alignment line is found by both methods, Figure \ref{fig:w_Spil1TransImproved_Xvh.eps}.  We merge the peaks by discarding peaks that are close to each other, the result can be seen in Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}.
 
 % todo zoomed image of projection profile graphs
