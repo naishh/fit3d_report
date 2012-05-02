@@ -249,38 +249,38 @@ change in illumination and perform in real-time.
 
 \subsection{Method I: Connected corner approach} 
 \subsubsection{Situation and assumptions}
+A window consists of a complex structure involving a lot of connected horizontal
+and vertical lines, we use this property to detect the windows. 
 We introduce the concept \emph{connected corner}, this is a corner that is 
 connected to a horizontal and vertical line.  
-In this method we search for connected corners based on edge information.
-The connected corners give a good indication of the position of the windows, as 
-a window consists of a complex structure involving a lot of connected horizontal
-and vertical lines. 
+The search for these connected corners is based on edge information.
+The connected corners give a good indication of the position of the windows, 
 
 In this approach the viewing direction is not required to be frontal.
 The windows could be arbitrarily located and they don't need
 to be aligned to each other neither to the X and Y axis of the image.
+As such the windows are detected individually.
 
 \subsubsection{Method}
 \paragraph{Edge detection and Houghline extraction}
-Edge detection is done as it is described in section 
-\ref{sec:edge}
-We extract two groups of Houghlines which fall in the two window directions 
-horizontal and vertical.
+Edge detection is done as it is described in section \ref{sec:edge}.
+From the edge images two groups of Houghlines are extracted. 
+The groups fall in the two window directions horizontal and vertical.
 This is done by controling the allowed angles, $\theta$ bin ranges, in the Hough transform.
 The horizontal group has a range of $\theta = [-30..0..30)$ degrees, where $\theta = 0$ presents a horizontal line. 
 The vertical group has a range of $\theta = [80..90..100)$ degrees. 
 
-We use ranges because 1)
-the user hardly ever holds the camera exactly orthogonal.
-2) we work with unrectified facades, meaning we deal with perspective distortion.
-To be more concrete, if the user takes a photo (Figure \ref{fig:cameraPitch.eps} with a certain Yaw \= 0, the horizontal lines become skew.
-The range of the vertical group is smaller as the user 
-often takes photo with a low pitch
+We use these ranges because 1) the user hardly ever holds the camera exactly
+orthogonal.  2) we work with unrectified facades, meaning we deal with
+perspective distortion.  To be more concrete, if the user takes a photo (Figure
+\ref{fig:cameraPitch.eps} with a certain Yaw \= 0, the horizontal lines become
+skew.  The range of the vertical group is smaller then the horizontal group as
+the user often takes photo with a low pitch value and a high yaw.
 \fig{cameraPitch.eps}{Pitch roll and yaw of the camera}{0.5}
-%-----------------------
 
-The results of two images can be seen in Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} and
+The results of the edge detection and the Hough transform of two images can be seen in Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} and
  \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.
+% todo unrectified images
 
 \paragraph{Extract connected corners}
 \fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
@@ -292,11 +292,11 @@ this approach we pair up these horizontal and vertical lines to determine
 
 Often a connected corner contains a small gap or an extension which we tolerate,
 these cases are illustrated in Figure \ref{fig:cCornerTypes} in the top row.
-A horizontal gap a vertical and horizontal gap and a vertical elongation. The
+A horizontal gap, a vertical and horizontal gap and a vertical elongation. The
 cleaned up corners are given in the bottom row.  When the horizontal and
 vertical lines intersect, the gap distance is $D=0$.  When the lines do not
-intersect, the distance between the intersection point and the endpoint of the
-lines is measured, this is illustrated as dotted lines in Figure
+intersect, the distance $D$ between the intersection point $P_i$ and the endpoint $P_e$ of the
+line is measured $D = ||P_i-P_e||$, this is illustrated as dotted lines in Figure
 \ref{fig:cCornerTypes}.  Next, $D$ is compared to a \emph{maximum intersection
 distance} threshold $midT$.  And if $D<=midT$, the intersection is close enough
 to form a connected corner.\\
@@ -309,6 +309,7 @@ In Figure \ref{fig:cCornerTypes}(I)  the horizontal line is extended.  Figure
 \ref{fig:cCornerTypes}(III) both lines are extended.  At last, Figure
 \ref{fig:cCornerTypes}(IV) shows how both lines are trimmed.
 %todo nieuw fig maken cCornerTypes: rood is horizontaal ook onderste rij
+%ook  point Pe en point Pi erbij, (dotted lines)
 
 
 \paragraph{Extract window areas}
@@ -337,25 +338,30 @@ Therefore we rectify the facade, which can be achieved in a simple or complex wa
 The simple rectification method uses point to point correspondences. This 
 requires annotation of the corner points of the facade that are mapped with the
 corners of a rectangle. This mapping is used to calculate a transformation matrix. 
- The downside of this method is that it isn't very accurate.\\
-\emph{Isaac/Frans, do you know how I can explain why?}\\
+ The downside of this method is that it isn't very accurate.
+This is because it only uses four point to point correspondences 
+ and doesnt take the camera lens distortion into account.
+ Another downside is that it requires (manual) annotation of the corner points.
+A more accurate and fully automatic method is desired .\\
 
 The second method involves the extraction of a 3D plane of the facade. This 
 method is more complex and gives more accurate results. It involves a
 comprehensive process and lots of research is done in this area. 
-Given the related work, the automity of this module and our focus on the annotational part
+Given the related work, the automity of this module and our focus on the annotational part,
 we used existing software to apply the window rectification.
 % todo ref fit3d
-We used I. Estebans \emph{FIT3D toolbox}, which extracts a 3D model from a
+I. Estebans \emph{FIT3D toolbox} comes with an addon which extracts a 3D model from a
 series of frames.  One of the planes of the 3D model was used to rectify the
 facade, making it ready for robust window detection. 
 
-Using the \emph{FIT3D toolbox} we calculated the motion between a series of frames in order to extract a
-point cloud of matching features. This point cloud is used to extract a plane.
-which is used to rectify the facade by a projection process.  We now explain the steps in more detail.
+Using this addon of the \emph{FIT3D toolbox} we calculated the motion between a
+series of frames in order to extract a point cloud of matching features. This
+point cloud is used to extract a plane.  which is used to rectify the facade by
+a projection process.  We now explain the steps in more detail.
 
 \subsubsection{Method: 3D plane extraction}
-We started by taking a series 6 consecutive consequent (steady zoom, lightning, etc. parameters) images of a scene.
+We started by taking a series of 6 consecutive consequent (steady zoom, lightning, etc. parameters) images of a scene.
+% todo images! 
 The images are chronological and have sufficient overlap. 
 % todo figure
 %The images are taken with the same zoom and lightning parameters
@@ -364,8 +370,9 @@ We calculated the motion of the camera between the frames in a few steps
 First we extract about 25k SIFT features of each frame.  Then we use
 SIFT descriptors to describe and match the features within the consecutive
 frames.  Not all features will overlap or match in the frames therefor RANSAC is used to
-robustly remove the outliers.  After this an 8-point algorithm together with a
-voting mechanism is used to extract the camera motion.
+robustly remove the outliers.  After this an \emph{8-point algorithm} together with a
+voting mechanism is used to extract the camera motion. For details please read
+%todo ref isaacs paper
 
 The frames where matched one by one which returns an estimation of the camera
 motion that is not accurate enough.  Therefore a 3-frame match is done which
@@ -375,7 +382,7 @@ iterative method called \emph{bundle adjustment}.  The final result is a very
 accurate estimation of the camera motion.
 
 The next step is to use this camera motion to obtain a set of 3D points
-(corresponding to the matching image features).  This is achieved using linear triangulation
+(corresponding to the matching image features).  This is achieved using \emph{linear triangulation}
 method. 
 
 Next a RANSAC based plane fitter is used to accurately fit a plane through
@@ -403,7 +410,7 @@ The Houghline endpoints are projected to the 3D plane we extracted in the same
 way as we explained in chapter \ref{chap:skylinedetection}. To wrap up, we send
 rays from the camera center trough the houghline endpoints and calculated the
 intersection with the 3D plane.  The result is a 3D point cloud where each
-point is labeled to there corresponding Houghline.\\
+point is labeled to their corresponding Houghline.\\
 
 The next step is to transform the facade (and therefore the Houghlines) are
 seen upfront. Instead of transforming the facade we rotate and translate the camera. 

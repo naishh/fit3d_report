@@ -10,19 +10,14 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 
-
-
-
-other:
-	FB skyline detectie (8)
-	FB improve 3d model (4)
-	alles samenvoegen en lijmen (3)
-
-
-matlab plaatjes
+matlab plaatjes	
+	houghlines in unrectified img
+	rood groen Pe en Pi cCorner
+	fit3dr reeks plaatjes 	, puntenwolk etc.
 	ransac plane fitter, kruisjes en plane
+
 	window detection
-		ingezoomed plaatje probabilities
+		ingezoomed plaatje 'probabilities'
 	if no concentration
 		Image of cConer types rood groen goed
 		filmstript 6 consecutive frames
