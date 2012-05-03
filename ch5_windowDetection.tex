@@ -564,30 +564,36 @@ Next we extract the locations of the peaks as the previous method.
 \subsubsection{Fusing the window alignment methods}
 We have presented two window alignment methods, next we fuse the methods to
 gain a robust window alignment.
+The target is to have as few as possible false positives while detecting all alignment locations.\\
 
+If a window alignment position is found by both methods, often the peaks are
+located very close to eachother, see Figure
+\ref{fig:w_Spil1TransImproved_Xvh.eps}.  If this is the case, the peaks should
+form a group.  Sometimes the peaks indicate the same window alignment but have
+some disparity.  This is often the case when horizontal lines stop at the inside
+of a window frame while the vertical edges are located at the outer side of the
+window frame (the disparity is exactly the size of the windowframe part).  Yet,
+in other cases close peaks indicate different windows that are just hapen to be
+located closely.  To apply a proper grouping of the peaks the challenge is to
+distinguish these two cases.
 
-A window alignment position is either found by one method or by both methods.
+First we decrease the total number of found window alignment locations and make 
+the result more robust by increasing the individual thresholds (from 0.5*max
+peak to 0.7*max peak). 
+After this we groupe the peaks, we first take the average of the maximum window frame part and the minimum window
+distance, the maximum peak group distance $G$.
+Next we compare all peaks and if the distance between two peaks is lower than
+$G$, we discard the peak with the least evidence (lowest peak). The result,
+a set of unique peaks, can be seen in Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}.
 
-If the window alignment is found by one method we cannot back it up with the other method, therefor 
-we increase the threshold from 0.5*max peak to 0.7*max peak to make it more certain and 
-The target is to have as little as possible false positives but don't mis alignment locations.
-
-Otherwise, if the window alignment position is found by both methods, often the peaks are located very close 
-to eachother. How do we know 
-Sometimes the peaks are shifted 
-%--------------------------------------------------------------------------------------------------------------------------------
-
-why?
-solution: (tradeof)
-
-
-Sometimes the same window alignment line is found by both methods, Figure \ref{fig:w_Spil1TransImproved_Xvh.eps}.  We merge the peaks by discarding peaks that are close to each other, the result can be seen in Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}.
+Note that the advanced peak grouping is only required for the vertical alignment
+of the windows: The horizontal inter window distance is often big enough to not
+be mistaken by a window frame part.
 
 % todo zoomed image of projection profile graphs
-
 The image is now divided in a new grid of blocks based on these
-alignment lines. The next challenge is to classify the blocks as window and
-non-window areas: the window classification. We developed two different methods.
+alignment. The next challenge is to classify the blocks as window and
+non-window areas: the window classification, we developed two different methods for this.
 
 
 \paragraph{Window classification, method I}
@@ -807,13 +813,14 @@ For example the viewing angle could be plotted against the percentage of
 correct detected windows.
 % todo  more..
 
-\paragraph{Window alignment: peak merging}
-We merged the result of the horizontal and vertical Houghlines and discarded
+\paragraph{Window alignment: peak grouping}
+We fused the result of the horizontal and vertical Houghlines and discarded
 peaks that where close.  A more accurate result would be achieved if close peaks
-where averaged.  The challenge is to determine if both methods are talking about
-the same peak. And how to handle multiple close peaks, e.g. if 4 peaks
-are close then peak 1 could be different then peak 4.  Assuming some knowledge,
-like maximum and minimum window size, would help to solve this problem.
+where averaged, the height of the peak could be used as a weight.\\
+We used a manual maxium peak group distance ($G$), this value could also be automatically derived from the image
+by for example taking a percentage of the window, or by detecting the size of the window frame parts.\\ 
+It is challenging to handle multiple close peaks, e.g. if 4 peaks
+are close, then peak 1 could indicate the same window as peak 2 but inidicate a different window then peak 4. The location of the close peaks: inside, at the border, or outside the window could add important evidence, some methods of the window classification could be used to detect these values.
 
 \paragraph{Window alignment refinement}
 To get more accurate result or to handle scenes with poor window alignment a refinement procedure could be applied.
