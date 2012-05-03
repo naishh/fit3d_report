@@ -239,11 +239,6 @@ change in illumination and perform in real-time.
 
 
 
-% todo find good location in thesis for this
-\fig{w_spil6ImOri.eps}{Original image}{0.6}
-\fig{w_Spil1TransCrop1_ImOri.eps}{Rectified image}{0.45}
-\fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.45}
-\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.45} 
 
 
 
@@ -278,9 +273,8 @@ skew.  The range of the vertical group is smaller then the horizontal group as
 the user often takes photo with a low pitch value and a high yaw.
 \fig{cameraPitch.eps}{Pitch roll and yaw of the camera}{0.5}
 
-The results of the edge detection and the Hough transform of two images can be seen in Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps} and
- \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.
-% todo unrectified images
+The results of the edge detection and the Hough transform of two images can be seen in Figure \ref{fig:w_Dirk6_ImEdge.eps} and
+ \ref{fig:w_Dirk6_ImHoughResult.eps}.
 
 \paragraph{Extract connected corners}
 \fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
@@ -330,6 +324,8 @@ All quadrangles are filled and displayed in Figure
 
 
 \subsection{Facade rectification}
+\fig{w_spil6ImOri.eps}{Original image}{0.6}
+\fig{w_Spil1TransCrop1_ImOri.eps}{Rectified image}{0.45}
 \subsubsection{Introduction}
 In order to apply our second method of window detection
 we need the windows on the facade to be orthogonal and aligned.
@@ -432,11 +428,18 @@ $\alpha$ and $u$ are used to create a rotation matrix $R$ which is applied to th
 The result is a set of rectified 3D points that are grouped tot their Houghlines.
 
 \subsubsection{Results}
-For the purpose of displaying the figures and showing the results we also calculated a full rectification
-of the image, see Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}.
+%todo
+%For the purpose of displaying the figures and showing the results we also calculated a full rectification
+%of the image, see Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}.
+
 %todo fig unrectified with Houghlines
 %todo fig rectified with Houghlines
 
+\newpage
+\fig{w_Dirk6_ImEdge.eps}{Edge detection}{0.6}
+\fig{w_Dirk6_ImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}
+\fig{w_Dirk6_ImcCorner_cCorner.eps}{Found connected corners}{0.6}
+\fig{w_Dirk6_ImcCorner_windowFilled.eps}{Window regions}{0.6}
 
 \subsection{Method II: Histogram based approach} 
 \subsubsection{Introduction}
@@ -465,7 +468,6 @@ regions are classified and combined which gives us the windows.
 
 
 
-\fig{w_Spil1TransCrop1_ImHibaap.eps}{(smoothed) Histograms and window alignment lines}{0.45}
 \paragraph{Extract Window alignment}
 %explain pipe line
 %(color transform)
@@ -686,14 +688,10 @@ For the sake of representation only blockcolumns are presented, the method for t
 \label{sec:results}.
 We tested all methods on different datasets.
 
-\newpage
+\fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.45}
+\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.45} 
+\fig{w_Spil1TransCrop1_ImHibaap.eps}{(smoothed) Histograms and window alignment lines}{0.45}
 \fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification probabilities, white means high.}{0.45}
-
-\fig{w_Dirk6_ImEdge.eps}{Edge detection}{0.6}
-\fig{w_Dirk6_ImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}
-\fig{w_Dirk6_ImcCorner_cCorner.eps}{Found connected corners}{0.6}
-\fig{w_Dirk6_ImcCorner_windowFilled.eps}{Window regions}{0.6}
-
 
 
 % old dataset:
