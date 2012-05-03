@@ -1,26 +1,6 @@
 % set ignorecase
 
 
-
-% todo's
-
-% PRIMAIRE todos:
-% 
-
-% SECUNDAIRE todos:
-% classificatie methode met probs en met derivitave met elkaar vergelijken
-% iets zeggen over complexiteit
-
-
-
-% list of figures
-% -bar and barh in fig mergen
-% -grayvalues voting
-%	- values that fall out of cluster are displayed striped
-% -grayvalues voting with clusterlines
-% 	- or clustervalues in colored bar graph
-
-
 \section{Window detection}
 \label{sec:windowDetection}
 \subsection{Introduction}
@@ -664,10 +644,20 @@ certainty is exactly 1. The results can now be relatively interpreted, e.g. if t
 then the system nows for 50 percent sure it is a window, compared to its best window ($P=1$). 
 And, as the normalization implies this, there is at least one window with $P=1$. 
 
-The measure of certainty is graphically shown in Figure
-\ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps},  the whiter the
-area the more certain a block is classified as a window.
-\fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification probabilities, white means high.}{0.45}
+\fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification measure of certainty, white means high.}{0.45}
+
+The visualization of the measure of certainty is shown in Figure
+\ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps},  
+the whiter the area the higher the measure of certainty.
+
+The stripe patterns support that the classification process exist of individual row and column classification.
+The bright rows and columns indicate window blockrows and blockcolumns
+whereas the dark rows and columns indicate non-window areas.
+The area of window positions is particularly white, as it 
+intersects a bright (positively classified) row and column.
+One can compare this result to the windows in the original image 
+(Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}).
+
 
 \paragraph{Window classification, method II}
 If we take a look at Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}
@@ -717,9 +707,9 @@ We tested all methods on different datasets.
 \fig{w_Spil1TransImproved_Xv.eps}{Improved window alignment: Xh: total amount of overlapping horizontal Houghlines at each x position}{0.7}
 \fig{w_Spil1TransImproved_Xh.eps}{Improved window alignment: Using the shape of the horizontal Houghlines amount as window alignment}{0.7}
 \fig{w_Spil1TransImproved_Xvh.eps}{Improved window alignment: Both methods combined}{0.7}
-\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Window classification method II:Concave and convex shapes on window/nonwindow locations}{0.7}
-\fig{w_Spil1TransImproved_windows.eps}{Window classification method II:extracted windows}{0.7}
-\fig{w_Spil1TransImproved_windowsGrouped.eps}{Window classification method II:groupde windows}{0.7}
+\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Window classification method II: Concave and convex shapes on window/nonwindow locations}{0.7}
+\fig{w_Spil1TransImproved_windows.eps}{Window classification method II: extracted windows}{0.7}
+\fig{w_Spil1TransImproved_windowsGrouped.eps}{Window classification method II: grouped windows}{0.7}
 
 
 \emph{todo include images other datasets} \\
@@ -746,9 +736,9 @@ information about the windows is known.
 \paragraph{Method II: Histogram based approach} 
 We described a basic method of window alignment and build a significant improvement.
 If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
-with the improved method (Figure \ref{fig:w_Spil1TransImproved_Xvh.eps}) we see that the improved method detected each window alignment with an maximum error of 3px whereas the basic method has a 15px error.
-Its hard to say something about the basic classification method because the window alignment lines had to large error.
-The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsGrouped.eps}, classified 100 percent of the windows correct.
+with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps}) we see that the improved method detected each window alignment with an maximum error of 3 pixels whereas the basic method has an error of 15 pixels.
+Its hard to say something about the basic classification method because the window alignment lines had a large error.
+The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 percent of the windows correct.
 
 
 %todo
@@ -762,11 +752,12 @@ The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsG
 % todo also works on multiple window types
 It could be a drawback that the outcome of method I is non-deterministic, as it depends on to the
 random initialization of the cluster centers. Our results could be correct by
-coincidence.  To exclude this artefact, we ran the cluster algorithm 10 times,
-fortunately it resulted in the same classification.
+coincidence.  To exclude this artefact, we ran the cluster algorithm 10 times on all datasets, fortunately it resulted in consistent classifications.
+%todo other datasets 
 
 \emph{todo}\\
 
+%todo is dit nog recent?
 \paragraph{Occlusion}
 \label{lab:occlusion}
 If the image isn't the frontal view of the building wall we project the image 
@@ -776,7 +767,7 @@ building wall extension (middle of figure \ref{fig:w_spil6ImOri.eps}) a drainpip
 or the building wall itself is occluding a part of the window.  The less frontal
 the view, the more occlusion negatively effects the cleanness of the projection.
 However, this occlusion artefact is in most cases no problem as the system
-combines the windows probabilities.  
+combines the full blockrows and blockcolumns.  
 
 \subsection{Conclusion}
 % todo nummeriek concluderen
@@ -813,7 +804,7 @@ For example the viewing angle could be plotted against the percentage of
 correct detected windows.
 % todo  more..
 
-\paragraph{Window alignment: peak grouping}
+\paragraph{Window alignment: Peak grouping}
 We fused the result of the horizontal and vertical Houghlines and discarded
 peaks that where close.  A more accurate result would be achieved if close peaks
 where averaged, the height of the peak could be used as a weight.\\

@@ -9,7 +9,30 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 4) FOCUS op scriptie
 
 
+ch 5 WINDOW DETECTION
 
+PRIMAIRE todos:
+todos afgaan in file
+plaatjes verplaatsen resultaten->methode 
+plaatjes verplaatsen resultaten->appendix 
+other datasets, nee eerst skyline detectie etc af!
+
+SECUNDAIRE todos:
+l-shape ref, pag 24 frans fb
+classificatie methode met probs en met derivitave met elkaar vergelijken
+iets zeggen over complexiteit
+
+
+list of figures
+-bar and barh in fig mergen
+-grayvalues voting
+  - values that fall out of cluster are displayed striped
+-grayvalues voting with clusterlines
+	- or clustervalues in colored bar graph
+
+
+
+---------------------------------------------------------------------------------
 matlab plaatjes	
 	fit3dr reeks plaatjes 	, puntenwolk etc.
 	ransac plane fitter, kruisjes en plane
@@ -17,7 +40,6 @@ matlab plaatjes
 	window detection
 		ingezoomed plaatje 'probabilities'
 	if no concentration
-		Image of cConer types rood groen goed
 		filmstript 6 consecutive frames
 	
 	
