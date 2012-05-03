@@ -652,21 +652,22 @@ The last step is to group a set of windows that belong to each other. This is do
 grouping adjacent positively classified blocks. These are displayed as red
 rectangles in Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps}.
 
-% todo binary presentatie weglaten?
-% As the figure gives a binary representation of the windows it is not possible
-% to see the probabilities behind the classification.
-% Therefore we developed a kind of probabilistic function. 
-% \[P(R_i) = \frac{R_i}{max(R)}\]
-% \[P(C_i) = \frac{C_i}{max(C)}\]
-% \[P(w) = \frac{P(R_i) + P(C_i)}{2}\]
-% As you can see $P$ is normalized, this is to ensure the value of the maximum
-% probability is exactly 1. The results can now be relatively interpreted, e.g. if the rectangle's $P=0.5$
-% then the system nows for 50 percent sure it is a window, compared to its best window ($P=1$). 
-% And, as the normalization implies this, there are always one or more window with $P=1$. 
+As the figure gives a binary representation of the windows it is not possible
+to see how certain a block is classification.
+To get insight about this we developed a measure of certainty function.
 
-To get insight about the probabilities that lie behind the individual blockrows and blockcolumns,
-we designed another representation in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}
-The whiter the area the more probable a block is classified as a window.
+\[P(R_i) = \frac{R_i}{max(R)}\]
+\[P(C_i) = \frac{C_i}{max(C)}\]
+\[C(w) = \frac{P(w^{R_i}) + P(w^{C_i})}{2}\]
+As you can see $C$ is normalized, this is to ensure the value of the maximum
+certainty is exactly 1. The results can now be relatively interpreted, e.g. if the rectangle's $P=0.5$
+then the system nows for 50 percent sure it is a window, compared to its best window ($P=1$). 
+And, as the normalization implies this, there is at least one window with $P=1$. 
+
+The measure of certainty is graphically shown in Figure
+\ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps},  the whiter the
+area the more certain a block is classified as a window.
+\fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification probabilities, white means high.}{0.45}
 
 \paragraph{Window classification, method II}
 If we take a look at Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}
@@ -697,7 +698,6 @@ We tested all methods on different datasets.
 \fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.45}
 \fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.45} 
 \fig{w_Spil1TransCrop1_ImHibaap.eps}{(smoothed) Histograms and window alignment lines}{0.45}
-\fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification probabilities, white means high.}{0.45}
 
 
 % old dataset:
