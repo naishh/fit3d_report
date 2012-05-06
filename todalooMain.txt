@@ -11,14 +11,14 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 matlab plaatjes	
-	fit3dr reeks plaatjes 	, puntenwolk etc.
-	ransac plane fitter, kruisjes en plane
-
 	window detection
 		ingezoomed plaatje 'probabilities'
-	if no concentration
-		Image of cConer types rood groen goed
-		filmstript 6 consecutive frames
+
+	fit3dr filmstript 6 consecutive frames
+		plaatjes in 3d
+		puntenwolk etc.
+	ransac plane fitter, kruisjes en plane
+
 	
 	
 
