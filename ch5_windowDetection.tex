@@ -705,24 +705,42 @@ We tested all methods on different datasets.
 
 \fig{w_SpilFrontal6345_crop1_ImOri.eps}{Original Image}{0.6}
 \fig{w_SpilFrontal6345_crop1_ImHibaap.eps}{Window alignment lines and histograms}{0.6}
-\fig{w_SpilFrontal6345_crop1_ImClassRect.eps}{Classified rectangles}{0.6}
+\fig{w_SpilFrontal6345_crop1_ImClassRect.eps}{Classification method I: Grouped windows}{0.6}
 
+
+Results of the Anne dataset:\\
 \fig{w_Spil1TransImproved_Xv.eps}{Improved window alignment: Xh: total amount of overlapping horizontal Houghlines at each x position}{0.7}
 \fig{w_Spil1TransImproved_Xh.eps}{Improved window alignment: Using the shape of the horizontal Houghlines amount as window alignment}{0.7}
 \fig{w_Spil1TransImproved_Xvh.eps}{Improved window alignment: Both methods combined}{0.7}
-\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Window classification method II: Concave and convex shapes on window/nonwindow locations}{0.7}
-\fig{w_Spil1TransImproved_windows.eps}{Window classification method II: extracted windows}{0.7}
-\fig{w_Spil1TransImproved_windowsGrouped.eps}{Window classification method II: grouped windows}{0.7}
+\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Classification method II: Concave and convex shapes on window/nonwindow locations}{0.7}
+\fig{w_Spil1TransImproved_windowsGrouped.eps}{Classification method II: the extracted windows, red:the grouping}{0.7}
 
 
 
 % todo 
 % make im of grapscale prob
 
-\fig{w_Dirk4Trans_ImOri.eps}{Dataset:Dirk, original image} 
-\fig{w_Dirk4Trans_ImHibaap_Xvh.eps}{Dataset:Dirk, window alignment lines}
-\fig{w_Dirk4Trans_ImClassRect.eps}Dataset:Dirk, window alignment lines}
+% todo make a diagram, histogram -> alignment lines -> window classification etc.
 
+%todo
+% iets zeggen over dataset Dirk
+% more realistic dataset, with a occluding tree and some light spots created by the sun 
+% not all windows are aligned
+% dat grouping in beide classificatiemethoden hetzelfde is
+
+Results of the Dirk dataset:\\
+\newpage
+\fig{w_Dirk4_ImOri_Unrectified.eps}{Original, (unrectified) image, }{0.45}
+\fig{w_Dirk4Trans_ImOri.eps}{Rectified image, the windows differ in size, type and shape and are partially unaligned}{0.45}
+\fig{w_Dirk4Trans_ImHibaap_Xvh.eps}{Vertical window alignment lines based on Xv and D}{0.45}
+\fig{w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}{Vertical window alignment lines based on Xv and D zoomed}{0.45}
+\fig{w_Dirk4Trans_ImClassRect.eps}{Classification method II: Grouped windows}{0.45}
+
+% todo discuss/ interpret results of dirk dataset (aanvullende kracht van methoden etc.)
+% to much alignment lines, beter to much than to few
+% reason, the two doors below bicycles on the left side
+% especially the horizontal division of the lowest row of windows is amazing, refer to
+% \ref{fig:w_Dirk4Trans_ImHoughResult.eps}
 
 
 \emph{todo include images other datasets} \\
