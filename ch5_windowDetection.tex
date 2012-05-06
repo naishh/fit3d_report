@@ -1,26 +1,6 @@
 % set ignorecase
 
 
-
-% todo's
-
-% PRIMAIRE todos:
-% 
-
-% SECUNDAIRE todos:
-% classificatie methode met probs en met derivitave met elkaar vergelijken
-% iets zeggen over complexiteit
-
-
-
-% list of figures
-% -bar and barh in fig mergen
-% -grayvalues voting
-%	- values that fall out of cluster are displayed striped
-% -grayvalues voting with clusterlines
-% 	- or clustervalues in colored bar graph
-
-
 \section{Window detection}
 \label{sec:windowDetection}
 \subsection{Introduction}
@@ -567,30 +547,36 @@ Next we extract the locations of the peaks as the previous method.
 \subsubsection{Fusing the window alignment methods}
 We have presented two window alignment methods, next we fuse the methods to
 gain a robust window alignment.
+The target is to have as few as possible false positives while detecting all alignment locations.\\
 
+If a window alignment position is found by both methods, often the peaks are
+located very close to eachother, see Figure
+\ref{fig:w_Spil1TransImproved_Xvh.eps}.  If this is the case, the peaks should
+form a group.  Sometimes the peaks indicate the same window alignment but have
+some disparity.  This is often the case when horizontal lines stop at the inside
+of a window frame while the vertical edges are located at the outer side of the
+window frame (the disparity is exactly the size of the windowframe part).  Yet,
+in other cases close peaks indicate different windows that are just hapen to be
+located closely.  To apply a proper grouping of the peaks the challenge is to
+distinguish these two cases.
 
-A window alignment position is either found by one method or by both methods.
+First we decrease the total number of found window alignment locations and make 
+the result more robust by increasing the individual thresholds (from 0.5*max
+peak to 0.7*max peak). 
+After this we groupe the peaks, we first take the average of the maximum window frame part and the minimum window
+distance, the maximum peak group distance $G$.
+Next we compare all peaks and if the distance between two peaks is lower than
+$G$, we discard the peak with the least evidence (lowest peak). The result,
+a set of unique peaks, can be seen in Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}.
 
-If the window alignment is found by one method we cannot back it up with the other method, therefor 
-we increase the threshold from 0.5*max peak to 0.7*max peak to make it more certain and 
-The target is to have as little as possible false positives but don't mis alignment locations.
-
-Otherwise, if the window alignment position is found by both methods, often the peaks are located very close 
-to eachother. How do we know 
-Sometimes the peaks are shifted 
-%--------------------------------------------------------------------------------------------------------------------------------
-
-why?
-solution: (tradeof)
-
-
-Sometimes the same window alignment line is found by both methods, Figure \ref{fig:w_Spil1TransImproved_Xvh.eps}.  We merge the peaks by discarding peaks that are close to each other, the result can be seen in Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}.
+Note that the advanced peak grouping is only required for the vertical alignment
+of the windows: The horizontal inter window distance is often big enough to not
+be mistaken by a window frame part.
 
 % todo zoomed image of projection profile graphs
-
 The image is now divided in a new grid of blocks based on these
-alignment lines. The next challenge is to classify the blocks as window and
-non-window areas: the window classification. We developed two different methods.
+alignment. The next challenge is to classify the blocks as window and
+non-window areas: the window classification, we developed two different methods for this.
 
 
 \paragraph{Window classification, method I}
@@ -649,21 +635,32 @@ The last step is to group a set of windows that belong to each other. This is do
 grouping adjacent positively classified blocks. These are displayed as red
 rectangles in Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps}.
 
-% todo binary presentatie weglaten?
-% As the figure gives a binary representation of the windows it is not possible
-% to see the probabilities behind the classification.
-% Therefore we developed a kind of probabilistic function. 
-% \[P(R_i) = \frac{R_i}{max(R)}\]
-% \[P(C_i) = \frac{C_i}{max(C)}\]
-% \[P(w) = \frac{P(R_i) + P(C_i)}{2}\]
-% As you can see $P$ is normalized, this is to ensure the value of the maximum
-% probability is exactly 1. The results can now be relatively interpreted, e.g. if the rectangle's $P=0.5$
-% then the system nows for 50 percent sure it is a window, compared to its best window ($P=1$). 
-% And, as the normalization implies this, there are always one or more window with $P=1$. 
+As the figure gives a binary representation of the windows it is not possible
+to see how certain a block is classification.
+To get insight about this we developed a measure of certainty function.
 
-To get insight about the probabilities that lie behind the individual blockrows and blockcolumns,
-we designed another representation in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}
-The whiter the area the more probable a block is classified as a window.
+\[P(R_i) = \frac{R_i}{max(R)}\]
+\[P(C_i) = \frac{C_i}{max(C)}\]
+\[C(w) = \frac{P(w^{R_i}) + P(w^{C_i})}{2}\]
+As you can see $C$ is normalized, this is to ensure the value of the maximum
+certainty is exactly 1. The results can now be relatively interpreted, e.g. if the rectangle's $P=0.5$
+then the system nows for 50 percent sure it is a window, compared to its best window ($P=1$). 
+And, as the normalization implies this, there is at least one window with $P=1$. 
+
+\fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification measure of certainty, white means high.}{0.45}
+
+The visualization of the measure of certainty is shown in Figure
+\ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps},  
+the whiter the area the higher the measure of certainty.
+
+The stripe patterns support that the classification process exist of individual row and column classification.
+The bright rows and columns indicate window blockrows and blockcolumns
+whereas the dark rows and columns indicate non-window areas.
+The area of window positions is particularly white, as it 
+intersects a bright (positively classified) row and column.
+One can compare this result to the windows in the original image 
+(Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}).
+
 
 \paragraph{Window classification, method II}
 If we take a look at Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}
@@ -694,7 +691,6 @@ We tested all methods on different datasets.
 \fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.45}
 \fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.45} 
 \fig{w_Spil1TransCrop1_ImHibaap.eps}{(smoothed) Histograms and window alignment lines}{0.45}
-\fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification probabilities, white means high.}{0.45}
 
 
 % old dataset:
@@ -714,9 +710,9 @@ We tested all methods on different datasets.
 \fig{w_Spil1TransImproved_Xv.eps}{Improved window alignment: Xh: total amount of overlapping horizontal Houghlines at each x position}{0.7}
 \fig{w_Spil1TransImproved_Xh.eps}{Improved window alignment: Using the shape of the horizontal Houghlines amount as window alignment}{0.7}
 \fig{w_Spil1TransImproved_Xvh.eps}{Improved window alignment: Both methods combined}{0.7}
-\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Window classification method II:Concave and convex shapes on window/nonwindow locations}{0.7}
-\fig{w_Spil1TransImproved_windows.eps}{Window classification method II:extracted windows}{0.7}
-\fig{w_Spil1TransImproved_windowsGrouped.eps}{Window classification method II:groupde windows}{0.7}
+\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Window classification method II: Concave and convex shapes on window/nonwindow locations}{0.7}
+\fig{w_Spil1TransImproved_windows.eps}{Window classification method II: extracted windows}{0.7}
+\fig{w_Spil1TransImproved_windowsGrouped.eps}{Window classification method II: grouped windows}{0.7}
 
 
 
@@ -758,9 +754,9 @@ information about the windows is known.
 \paragraph{Method II: Histogram based approach} 
 We described a basic method of window alignment and build a significant improvement.
 If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
-with the improved method (Figure \ref{fig:w_Spil1TransImproved_Xvh.eps}) we see that the improved method detected each window alignment with an maximum error of 3px whereas the basic method has a 15px error.
-Its hard to say something about the basic classification method because the window alignment lines had to large error.
-The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsGrouped.eps}, classified 100 percent of the windows correct.
+with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps}) we see that the improved method detected each window alignment with an maximum error of 3 pixels whereas the basic method has an error of 15 pixels.
+Its hard to say something about the basic classification method because the window alignment lines had a large error.
+The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 percent of the windows correct.
 
 
 %todo
@@ -774,11 +770,12 @@ The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsG
 % todo also works on multiple window types
 It could be a drawback that the outcome of method I is non-deterministic, as it depends on to the
 random initialization of the cluster centers. Our results could be correct by
-coincidence.  To exclude this artefact, we ran the cluster algorithm 10 times,
-fortunately it resulted in the same classification.
+coincidence.  To exclude this artefact, we ran the cluster algorithm 10 times on all datasets, fortunately it resulted in consistent classifications.
+%todo other datasets 
 
 \emph{todo}\\
 
+%todo is dit nog recent?
 \paragraph{Occlusion}
 \label{lab:occlusion}
 If the image isn't the frontal view of the building wall we project the image 
@@ -788,7 +785,7 @@ building wall extension (middle of figure \ref{fig:w_spil6ImOri.eps}) a drainpip
 or the building wall itself is occluding a part of the window.  The less frontal
 the view, the more occlusion negatively effects the cleanness of the projection.
 However, this occlusion artefact is in most cases no problem as the system
-combines the windows probabilities.  
+combines the full blockrows and blockcolumns.  
 
 \subsection{Conclusion}
 % todo nummeriek concluderen
@@ -825,13 +822,14 @@ For example the viewing angle could be plotted against the percentage of
 correct detected windows.
 % todo  more..
 
-\paragraph{Window alignment: peak merging}
-We merged the result of the horizontal and vertical Houghlines and discarded
+\paragraph{Window alignment: Peak grouping}
+We fused the result of the horizontal and vertical Houghlines and discarded
 peaks that where close.  A more accurate result would be achieved if close peaks
-where averaged.  The challenge is to determine if both methods are talking about
-the same peak. And how to handle multiple close peaks, e.g. if 4 peaks
-are close then peak 1 could be different then peak 4.  Assuming some knowledge,
-like maximum and minimum window size, would help to solve this problem.
+where averaged, the height of the peak could be used as a weight.\\
+We used a manual maxium peak group distance ($G$), this value could also be automatically derived from the image
+by for example taking a percentage of the window, or by detecting the size of the window frame parts.\\ 
+It is challenging to handle multiple close peaks, e.g. if 4 peaks
+are close, then peak 1 could indicate the same window as peak 2 but inidicate a different window then peak 4. The location of the close peaks: inside, at the border, or outside the window could add important evidence, some methods of the window classification could be used to detect these values.
 
 \paragraph{Window alignment refinement}
 To get more accurate result or to handle scenes with poor window alignment a refinement procedure could be applied.
