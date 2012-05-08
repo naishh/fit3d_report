@@ -1,6 +1,7 @@
 % set ignorecase
 
 
+
 \section{Window detection}
 \label{sec:windowDetection}
 \subsection{Introduction}
@@ -236,8 +237,7 @@ The windows could be arbitrarily located and they don't need
 to be aligned to each other neither to the X and Y axis of the image.
 As such the windows are detected individually.
 
-\subsubsection{Method}
-\paragraph{Edge detection and Houghline extraction}
+\subsubsection{Edge detection and Houghline extraction}
 Edge detection is done as it is described in section \ref{sec:edge}.
 From the edge images two groups of Houghlines are extracted. 
 The groups fall in the two window directions horizontal and vertical.
@@ -256,7 +256,7 @@ the user often takes photo with a low pitch value and a high yaw.
 The results of the edge detection and the Hough transform of two images can be seen in Figure \ref{fig:w_Dirk6_ImEdge.eps} and
  \ref{fig:w_Dirk6_ImHoughResult.eps}.
 
-\paragraph{Extract connected corners}
+\subsubsection{Connected corners extraction}
 \fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
 result the clean connected corner}{0.4} As windows contain complex structures
 the amount of horizontal and vertical Houghlines is large at these locations.
@@ -286,13 +286,55 @@ In Figure \ref{fig:cCornerTypes}(I)  the horizontal line is extended.  Figure
 %ook  point Pe en point Pi erbij, (dotted lines)
 
 
-\paragraph{Extract window areas}
+\subsubsection{Window area extraction}
 To retrieve the actual windows, each connected corner is mirrored along its
 diagonal. The connected corner now contains four sides which form a 
 quadrangle window area.
 All quadrangles are filled and displayed in Figure
 \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps}, this result is discussed in section
 \ref{sec:results}.
+
+
+\subsubsection{Results}
+%todo
+%todo unrectified images for cCorner with perspective, maybe below?
+%todo fig unrectified with Houghlines
+%todo fig rectified with Houghlines
+
+% old dataset:
+%\fig{w_spil6cCornerImEdge.eps}{Edge detection}{0.6}
+%\fig{w_spil6cCornerImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}
+%\fig{w_spil6cCornercCorner.eps}{Found connected corners}{0.6}
+%\fig{w_spil6cCornerWindows.eps}{Connected corner as windows}{0.6}
+%\fig{cCornerSpilTrans1.eps}{Found connected corners on the rectified image}{0.45}
+
+%todo
+%For the purpose of displaying the figures and showing the results we also calculated a full rectification
+%of the image, see Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}.
+
+\newpage
+\fig{w_Dirk6_ImEdge.eps}{Edge detection}{0.6}
+\fig{w_Dirk6_ImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}
+\fig{w_Dirk6_ImcCorner_cCorner.eps}{Found connected corners}{0.6}
+\fig{w_Dirk6_ImcCorner_windowFilled.eps}{Window regions}{0.6}
+
+Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps} contains 110 windows of which
+are 109 detected, this is 99\%. Furthermore there are some False Positive areas,
+this is about 3 \%.  
+
+%todo
+\subsubsection{Discussion}
+%Method I: Connected corner approach
+The window on the right top isn't detected, this is because
+its smaller then the minimum window width.
+%todo more tekst
+
+% todo ref
+The big advantage of this method is that it doesn't require the windows to be aligned.
+Furthermore it's robust to a variation in window sizes and types. This makes
+this approach suitable for a wide range of window scenes where no or few prior
+information about the windows is known.
+\emph{todo}
 
 
 
@@ -408,36 +450,6 @@ $\alpha$ and $u$ are used to create a rotation matrix $R$ which is applied to th
 The result is a set of rectified 3D points that are grouped tot their Houghlines.
 
 \subsubsection{Results} % method II
-%todo
-%For the purpose of displaying the figures and showing the results we also calculated a full rectification
-%of the image, see Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}.
-
-%todo fig unrectified with Houghlines
-%todo fig rectified with Houghlines
-
-\newpage
-\fig{w_Dirk6_ImEdge.eps}{Edge detection}{0.6}
-\fig{w_Dirk6_ImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}
-\fig{w_Dirk6_ImcCorner_cCorner.eps}{Found connected corners}{0.6}
-\fig{w_Dirk6_ImcCorner_windowFilled.eps}{Window regions}{0.6}
-
-Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps} contains 110 windows of which
-are 109 detected, this is 99\%. Furthermore there are some False Positive areas,
-this is about 3 \%.  
-
-%todo
-\subsubsection{Discussion}  % (What do my results mean to me and why)
-%Method I: Connected corner approach
-The window on the right top isn't detected, this is because
-its smaller then the minimum window width.
-%todo more tekst
-
-% todo ref
-The big advantage of this method is that it doesn't require the windows to be aligned.
-Furthermore it's robust to a variation in window sizes and types. This makes
-this approach suitable for a wide range of window scenes where no or few prior
-information about the windows is known.
-\emph{todo}
 
 \subsection{Method II: Histogram based approach} 
 \subsubsection{Introduction}
@@ -659,7 +671,7 @@ To get insight about this we developed a measure of certainty function.
 \[C(w) = \frac{P(w^{R_i}) + P(w^{C_i})}{2}\]
 As you can see $C$ is normalized, this is to ensure the value of the maximum
 certainty is exactly 1. The results can now be relatively interpreted, e.g. if the rectangle's $P=0.5$
-then the system nows for 50 percent sure it is a window, compared to its best window ($P=1$). 
+then the system nows for 50 \% sure it is a window, compared to its best window ($P=1$). 
 And, as the normalization implies this, there is at least one window with $P=1$. 
 
 \fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification measure of certainty, white means high.}{0.45}
@@ -697,8 +709,9 @@ Now we have detected the shape type (concave or convex), we can directly classif
 
 For the sake of representation only blockcolumns are presented, the method for the blockrows is almost the same, the projection profiles are projected to the Y-axis.
 
-\subsubsection{Results} % method II
-% todo discuss drain pipe
+\subsubsection{Results} % method II, %measurements, observations, perceptions
+
+% todo discuss drain pipe, dat het goed is dat het resultaat mooi is ondanks drainpipe
 % todo occlusion uitgebreid uitleggen, door occlusie stenen wand is venster van raam niet zichtbaar en gaat brick over in weerspiegeling raam wat ongeveer zelfde kleur heeft
 \label{sec:results}.
 We tested all methods on different datasets.
@@ -708,12 +721,6 @@ We tested all methods on different datasets.
 \fig{w_Spil1TransCrop1_ImHibaap.eps}{(smoothed) Histograms and window alignment lines}{0.45}
 
 
-% old dataset:
-%\fig{w_spil6cCornerImEdge.eps}{Edge detection}{0.6}
-%\fig{w_spil6cCornerImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}
-%\fig{w_spil6cCornercCorner.eps}{Found connected corners}{0.6}
-%\fig{w_spil6cCornerWindows.eps}{Connected corner as windows}{0.6}
-%\fig{cCornerSpilTrans1.eps}{Found connected corners on the rectified image}{0.45}
 
 %todo caption onderstaand fig
 \fig{w_Spil1TransCrop1_ImClassRect.eps}{Classified windows}{0.45}
@@ -750,57 +757,33 @@ Results of the Dirk dataset:\\
 \fig{w_Dirk4Trans_ImHibaap_Xvh.eps}{Vertical window alignment lines based on Xv and D}{0.45}
 \fig{w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}{Vertical window alignment lines based on Xv and D zoomed}{0.45}
 \fig{w_Dirk4Trans_ImClassRect.eps}{Improved classification method: Grouped windows}{0.45}
+\fig{w_Dirk4Trans_ImHoughResult.eps}{
 
 % todo discuss/ interpret results of dirk dataset (aanvullende kracht van methoden etc.)
 % to much alignment lines, beter to much than to few
 % reason, the two doors below bicycles on the left side
 % especially the horizontal division of the lowest row of windows is amazing, refer to
-% \ref{fig:w_Dirk4Trans_ImHoughResult.eps}
+
+Facts of Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.eps}}\\
+the amount of alignment lines is very large.
+
+Facts of Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps}\\
+\begin{itemize}
+	\item 100 \% of the alignment lines are positioned at window areas.
+	\item 100 \% of the windows are detected
+	\item 44 windows are found
+	\item 5 windows (11\%) are false positive
+	\item 39 windows (87\%) are true positive
+\end{itemize}
+
+Grouping of positive classified windows:\\
+\begin{itemize}
+	\item 39 windows are positive classified of which:
+	\item 35 windows (90\%) are grouped correct
+	\item 4 windows (10\%) are grouped incorrect
+\end{itemize}
 
 
-\emph{todo include images other datasets} \\
-\emph{todo compare methods and explain differences}
-
-% Appendix images
-% w_Dirk4Trans_ImEdge.eps                               
-% w_Dirk4Trans_ImHoughResult.eps                        
-% w_Dirk4Trans_ImHibaap_Xh.eps                          
-% w_Dirk4Trans_ImHibaap_Xv.eps                           %todo plot original  function (not only peaks)
-
-\subsubsection{Discussion}  % (What do my results mean to me and why)
-\emph{ todo discuss results }
-
-\paragraph{Anne dataset}
-
-It is easy to see in Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.epsi} that there are 
-too many alignment lines detected. This is caused by the partially aligned scene
-the two front doors % -----------------------------------
-
-
-%todo onder andere
-
-This is however not a problem because a) close alignment lines are fused and b)
-subwindows are grouped to single windows, see red rectangles in Figure
-\ref{fig:w_Dirk4Trans_ImClassRect.eps}.
-
-As the sub windows are grouped to single windows 
-Dirk to much alignment lines
-For the actual detection of the windows (red rectangles) it is not a problem.
-
-Its also interesting to see that 100 percent of the 0 alignment lines are positioned at window areas.
-
-
-
-\paragraph{Method II: Histogram based approach} 
-We described a basic method of window alignment and build a significant improvement.
-If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
-with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps}) we see that the improved method detected each window alignment with an maximum error of 3 pixels whereas the basic method has an error of 15 pixels.
-Its hard to say something about the classification method I because the window alignment lines had a large error.
-The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 percent of the windows correct.
-%todo, also talk aboooot other datasets you knuw,
-
-
-\paragraph{Dirk dataset}
 
 %todo
 %\% of the windows are found
@@ -808,6 +791,59 @@ The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsG
 %\% of the windows are grouped right
 %etc
 
+
+% future work idee: minimale lengte tussen alignment line 
+
+This first two window rows are classified as two groups but this should be one.\\
+
+%todo tabel met percentage correct versch datasets
+
+% Appendix images
+% w_Dirk4Trans_ImEdge.eps                               
+% w_Dirk4Trans_ImHoughResult.eps                        
+% w_Dirk4Trans_ImHibaap_Xh.eps                          
+% w_Dirk4Trans_ImHibaap_Xv.eps                           %todo plot original  function (not only peaks)
+
+\subsubsection{Discussion}  % (What do my results mean to me and why), inferences, opinions, conjectures
+\paragraph{Interpretation of the results of the Anne dataset}
+%todo
+
+
+\paragraph{Interpretation of the results of the Dirk dataset}
+It is easy to see in Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.epsi} that there are 
+too many alignment lines detected and that not every alignment line is placed correctly. 
+This is mainly because the scene is partially aligned, the two
+front doors contain many vertical edges that are not aligned with the windows.
+Another cause of this artefact is that the bicycles on the left cause a large
+amount of found Hough lines, see \ref{fig:w_Dirk4Trans_ImHoughResult.eps}.
+ 
+However, for the actual detection of the windows this is not a problem because
+after many close alignment lines are discarded by the peak fusing module the
+many subwindows are grouped to single windows, see red rectangles in Figure
+\ref{fig:w_Dirk4Trans_ImClassRect.eps}.\\
+
+
+This first two window rows are classified as two groups but this should be one.
+Normally the peak merging step would handle this problem, but with this dataset
+we could not use a large \emph{maximum peak distance} value because the windows
+in the image (especially the first and last columns) are very close.
+
+
+
+
+\emph{todo compare classification methods and explain differences}
+
+
+\paragraph{Method II: Histogram based approach} 
+We described a basic method of window alignment and build a significant improvement.
+If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
+with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps}) we see that the improved method detected each window alignment with an maximum error of 3 pixels whereas the basic method has an error of 15 pixels.
+Its hard to say something about the classification method I because the window alignment lines had a large error.
+The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 \% of the windows correct.
+%todo, also talk aboooot other datasets you knuw,
+
+
+\paragraph{Dirk dataset}
 
 
 % todo also works on multiple window types
