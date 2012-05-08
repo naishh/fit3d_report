@@ -421,8 +421,23 @@ The result is a set of rectified 3D points that are grouped tot their Houghlines
 \fig{w_Dirk6_ImcCorner_cCorner.eps}{Found connected corners}{0.6}
 \fig{w_Dirk6_ImcCorner_windowFilled.eps}{Window regions}{0.6}
 
-\subsubsection{Discussion}
+Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps} contains 110 windows of which
+are 109 detected, this is 99\%. Furthermore there are some False Positive areas,
+this is about 3 \%.  
+
 %todo
+\subsubsection{Discussion}  % (What do my results mean to me and why)
+%Method I: Connected corner approach
+The window on the right top isn't detected, this is because
+its smaller then the minimum window width.
+%todo more tekst
+
+% todo ref
+The big advantage of this method is that it doesn't require the windows to be aligned.
+Furthermore it's robust to a variation in window sizes and types. This makes
+this approach suitable for a wide range of window scenes where no or few prior
+information about the windows is known.
+\emph{todo}
 
 \subsection{Method II: Histogram based approach} 
 \subsubsection{Introduction}
@@ -712,8 +727,8 @@ Results of the Anne dataset:\\
 \fig{w_Spil1TransImproved_Xv.eps}{Improved window alignment: Xh: total amount of overlapping horizontal Houghlines at each x position}{0.7}
 \fig{w_Spil1TransImproved_Xh.eps}{Improved window alignment: Using the shape of the horizontal Houghlines amount as window alignment}{0.7}
 \fig{w_Spil1TransImproved_Xvh.eps}{Improved window alignment: Both methods combined}{0.7}
-\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Classification method II: Concave and convex shapes on window/nonwindow locations}{0.7}
-\fig{w_Spil1TransImproved_windowsGrouped.eps}{Classification method II: the extracted windows, red:the grouping}{0.7}
+\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Improved classification method: Concave and convex shapes on window/nonwindow locations}{0.7}
+\fig{w_Spil1TransImproved_windowsGrouped.eps}{Improved classification method: the extracted windows, red:the grouping}{0.7}
 
 
 
@@ -734,7 +749,7 @@ Results of the Dirk dataset:\\
 \fig{w_Dirk4Trans_ImOri.eps}{Rectified image, the windows differ in size, type and shape and are partially unaligned}{0.45}
 \fig{w_Dirk4Trans_ImHibaap_Xvh.eps}{Vertical window alignment lines based on Xv and D}{0.45}
 \fig{w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}{Vertical window alignment lines based on Xv and D zoomed}{0.45}
-\fig{w_Dirk4Trans_ImClassRect.eps}{Classification method II: Grouped windows}{0.45}
+\fig{w_Dirk4Trans_ImClassRect.eps}{Improved classification method: Grouped windows}{0.45}
 
 % todo discuss/ interpret results of dirk dataset (aanvullende kracht van methoden etc.)
 % to much alignment lines, beter to much than to few
@@ -752,30 +767,40 @@ Results of the Dirk dataset:\\
 % w_Dirk4Trans_ImHibaap_Xh.eps                          
 % w_Dirk4Trans_ImHibaap_Xv.eps                           %todo plot original  function (not only peaks)
 
-\subsection{Discussion}  % (What do my results mean to me and why)
+\subsubsection{Discussion}  % (What do my results mean to me and why)
 \emph{ todo discuss results }
 
-\paragraph{Method I: Connected corner approach} 
-Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps} contains 110 windows of which
-are 109 detected, this is 99\%. Furthermore there are some False Positive areas,
-this is about 3 \%.  The window on the right top isn't detected, this is because
-he is smaller then our minimum window width.
+\paragraph{Anne dataset}
 
-% todo ref
-The big advantage of this method is that it doesn't require the windows to be aligned.
-Furthermore it's robust to a variation in window sizes and types. This makes
-this approach suitable for a wide range of window scenes where no or few prior
-information about the windows is known.
-\emph{todo}
+It is easy to see in Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.epsi} that there are 
+too many alignment lines detected. This is caused by the partially aligned scene
+the two front doors % -----------------------------------
+
+
+%todo onder andere
+
+This is however not a problem because a) close alignment lines are fused and b)
+subwindows are grouped to single windows, see red rectangles in Figure
+\ref{fig:w_Dirk4Trans_ImClassRect.eps}.
+
+As the sub windows are grouped to single windows 
+Dirk to much alignment lines
+For the actual detection of the windows (red rectangles) it is not a problem.
+
+Its also interesting to see that 100 percent of the 0 alignment lines are positioned at window areas.
+
 
 
 \paragraph{Method II: Histogram based approach} 
 We described a basic method of window alignment and build a significant improvement.
 If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
 with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps}) we see that the improved method detected each window alignment with an maximum error of 3 pixels whereas the basic method has an error of 15 pixels.
-Its hard to say something about the basic classification method because the window alignment lines had a large error.
+Its hard to say something about the classification method I because the window alignment lines had a large error.
 The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 percent of the windows correct.
+%todo, also talk aboooot other datasets you knuw,
 
+
+\paragraph{Dirk dataset}
 
 %todo
 %\% of the windows are found
