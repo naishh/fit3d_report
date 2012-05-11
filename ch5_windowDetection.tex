@@ -1,7 +1,5 @@
 % set ignorecase
 
-
-
 \section{Window detection}
 \label{sec:windowDetection}
 \subsection{Introduction}
@@ -132,12 +130,12 @@ size invariant is desirable.\\
 
 % todo loopt niet heeeelemaal lekker
 To investigate this, we developed two methods on which one method doesn't
-require repeating nor aligned windows.  One of the main targets of our research
-is a low requirements on the input data.  Our system doesn't need 
+require repeating windows nor aligned windows.  One of the main targets of our research
+is a low requirements on the input data.  First our system doesn't need 
 a large annotated dataset. Furthermore we took the images with a mobile phone
 and decided to extract the windows from the image space only, this makes us
 independent of additional expensive data like heat or laser range images.
-This doesn't mean the previous work on window detection using laser or heat
+It doesn't mean the previous work on window detection using laser or heat
 images isn't of good use.  Instead we learned a lot from the previous research
 as they have to match the laser or heat data to the real image space.  This
 matching process involves a description (semantical annotation) of the facade.
@@ -282,8 +280,6 @@ In Figure \ref{fig:cCornerTypes}(I)  the horizontal line is extended.  Figure
 \ref{fig:cCornerTypes}(II) shows that the vertical line is trimmed.  In Figure
 \ref{fig:cCornerTypes}(III) both lines are extended.  At last, Figure
 \ref{fig:cCornerTypes}(IV) shows how both lines are trimmed.
-%todo nieuw fig maken cCornerTypes: rood is horizontaal ook onderste rij
-%ook  point Pe en point Pi erbij, (dotted lines)
 
 
 \subsubsection{Window area extraction}
@@ -296,11 +292,6 @@ All quadrangles are filled and displayed in Figure
 
 
 \subsubsection{Results}
-%todo
-%todo unrectified images for cCorner with perspective, maybe below?
-%todo fig unrectified with Houghlines
-%todo fig rectified with Houghlines
-
 % old dataset:
 %\fig{w_spil6cCornerImEdge.eps}{Edge detection}{0.6}
 %\fig{w_spil6cCornerImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}
@@ -308,8 +299,6 @@ All quadrangles are filled and displayed in Figure
 %\fig{w_spil6cCornerWindows.eps}{Connected corner as windows}{0.6}
 %\fig{cCornerSpilTrans1.eps}{Found connected corners on the rectified image}{0.45}
 
-%todo
-%For the purpose of displaying the figures and showing the results we also calculated a full rectification
 %of the image, see Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}.
 
 \newpage
@@ -367,18 +356,22 @@ method is more complex and gives more accurate results. It involves a
 comprehensive process and lots of research is done in this area. 
 Given the related work, the automity of this module and our focus on the annotational part,
 we used existing software to apply the window rectification.
-% todo ref fit3d
-I. Estebans \emph{FIT3D toolbox} comes with an addon which extracts a 3D model from a
+I. Estebans \emph{FIT3D toolbox} \cite{Fit3d} comes with an addon which extracts a 3D model from a
 series of frames.  One of the planes of the 3D model was used to rectify the
 facade, making it ready for robust window detection. 
 
-Using this addon of the \emph{FIT3D toolbox} we calculated the motion between a
+Using this addon of the \emph{FIT3D toolbox} \cite{Fit3d} we calculated the motion between a
 series of frames in order to extract a point cloud of matching features. This
 point cloud is used to extract a plane.  which is used to rectify the facade by
 a projection process.  We now explain the steps in more detail.
 
 \subsubsection{Method: 3D plane extraction}
 We started by taking a series of 6 consecutive consequent (steady zoom, lightning, etc. parameters) images of a scene.
+
+%todo 
+%/media/Storage/scriptie/fit3d/generate3dModel/3dcFiles
+%transfer fit3dImgSequence.png to eps
+
 % todo images! 
 The images are chronological and have sufficient overlap. 
 % todo figure
@@ -390,7 +383,7 @@ SIFT descriptors to describe and match the features within the consecutive
 frames.  Not all features will overlap or match in the frames therefor RANSAC is used to
 robustly remove the outliers.  After this an \emph{8-point algorithm} together with a
 voting mechanism is used to extract the camera motion. For details please read
-%todo ref isaacs paper
+\cite{Fit3d}.
 
 The frames where matched one by one which returns an estimation of the camera
 motion that is not accurate enough.  Therefore a 3-frame match is done which
@@ -731,13 +724,13 @@ We tested all methods on different datasets.
 
 
 Results of the Anne dataset:\\
-\fig{w_Spil1TransImproved_Xv.eps}{Improved window alignment: Xh: total amount of overlapping horizontal Houghlines at each x position}{0.7}
-\fig{w_Spil1TransImproved_Xh.eps}{Improved window alignment: Using the shape of the horizontal Houghlines amount as window alignment}{0.7}
-\fig{w_Spil1TransImproved_Xvh.eps}{Improved window alignment: Both methods combined}{0.7}
-\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Improved classification method: Concave and convex shapes on window/nonwindow locations}{0.7}
-\fig{w_Spil1TransImproved_windowsGrouped.eps}{Improved classification method: the extracted windows, red:the grouping}{0.7}
+\fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne, Improved window alignment: Xh: total amount of overlapping horizontal Houghlines at each x position}{0.7}
+\fig{w_Spil1TransImproved_Xh.eps}{Dataset: Anne, Improved window alignment: Using the shape of the horizontal Houghlines amount as window alignment}{0.7}
+\fig{w_Spil1TransImproved_Xvh.eps}{Dataset: Anne, Improved window alignment: Both methods combined}{0.7}
+\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Anne, Improved classification method: Concave and convex shapes on window/nonwindow locations}{0.7}
+\fig{w_Spil1TransImproved_windowsGrouped.eps}{Dataset: Anne, Improved classification method: the extracted windows, red:the grouping}{0.7}
 
-
+\TODO{test}
 
 % todo 
 % make im of grapscale prob
