@@ -79,7 +79,7 @@ interpretation of urban scenes and is applied in a wide range of domains.
 
 
 
-% todo in state of art een lijn creeren, opbouwen, in context plaatsen, theoretisch afwimplene
+\TODO{in state of art een lijn creeren, opbouwen, in context plaatsen, theoretisch afwimplene}
 \subsection{State of the art window detection} % related work
 A large amount of research is done on semantical interpretation of urban scenes. 
 First we briefly discuss the research that is done on window detection using
@@ -126,9 +126,9 @@ Furthermore the system is always overfitted to the learning data
 not included in the dataset).  A more general descriptor of the window that is
 size invariant is desirable.\\
 
-% todo research question
+\TODO{research question}
 
-% todo loopt niet heeeelemaal lekker
+\TODO{loopt niet heeeelemaal lekker}
 To investigate this, we developed two methods on which one method doesn't
 require repeating windows nor aligned windows.  One of the main targets of our research
 is a low requirements on the input data.  First our system doesn't need 
@@ -311,14 +311,14 @@ Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps} contains 110 windows of whic
 are 109 detected, this is 99\%. Furthermore there are some False Positive areas,
 this is about 3 \%.  
 
-%todo
-\subsubsection{Discussion}
+\TODO{..}
+subsubsection{Discussion}
 %Method I: Connected corner approach
 The window on the right top isn't detected, this is because
 its smaller then the minimum window width.
-%todo more tekst
+\TODO{more tekst}
 
-% todo ref
+\TODO{ref}
 The big advantage of this method is that it doesn't require the windows to be aligned.
 Furthermore it's robust to a variation in window sizes and types. This makes
 this approach suitable for a wide range of window scenes where no or few prior
@@ -366,17 +366,12 @@ point cloud is used to extract a plane.  which is used to rectify the facade by
 a projection process.  We now explain the steps in more detail.
 
 \subsubsection{Method: 3D plane extraction}
-We started by taking a series of 6 consecutive consequent (steady zoom, lightning, etc. parameters) images of a scene.
-
-%todo 
-%/media/Storage/scriptie/fit3d/generate3dModel/3dcFiles
-%transfer fit3dImgSequence.png to eps
-
-% todo images! 
+We started by taking a series of 7 consecutive consequent (steady zoom, lightning, etc. parameters) images of a scene.
 The images are chronological and have sufficient overlap. 
-% todo figure
-%The images are taken with the same zoom and lightning parameters
-%todo example img: thumbnail filmstrip with 6 floriande images
+
+%/media/Storage/scriptie/fit3d/generate3dModel/3dcFiles
+\fig{fit3dImgSequence.eps}{Example series of 7 consecutive frames, (dataset: FIT3D toolbox\cite{Fit3d})}{0.3}
+
 We calculated the motion of the camera between the frames in a few steps
 First we extract about 25k SIFT features of each frame.  Then we use
 SIFT descriptors to describe and match the features within the consecutive
@@ -413,7 +408,8 @@ Houghline extraction on the unrectified image.)\\
 
 If $h$ is the number of Houghlines, the number of projections is $2h$
 When we rectify the full image the number of projection is $w$ x $h$, where $w$,$h$ are the width and height of
-the image. To give an indication, for the \emph{Spil} dataset %todo
+the image. To give an indication, for the \emph{Spil} dataset 
+\TODO{.. }
 this means we apply 600 projections in stead of 1572864: a factor of almost 3k faster.\\
 
 
@@ -431,7 +427,7 @@ unit vector spanning the original viewing direction as $z$ and the
 unit vector spanning the desired viewing direction/normal of the facade $z'$.
 We calculated a rotation matrix from the axis-angle representation.\\
 
-%todo ref
+\TODO{ref}
 This presentation uses a unit vector $u$ indicating the direction of a directed axis, and an
 angle describing the magnitude of the rotation about this axis.
 This axis is orthogonal to $z$ and $z'$ and can therefore be
@@ -479,7 +475,7 @@ regions are classified and combined which gives us the windows.
 We introduce the concept alignment line. We define this as a horizontal or
 vertical line that aligns multiple windows. In Figure
 \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}
-%todo update img
+\TODO{update img}
 we show the alignment lines as two groups, horizontal (red) and
 vertical (green) alignment lines.  The combination of both groups give a grid of
 blocks that we classify as window or non-window areas.\\
@@ -521,9 +517,6 @@ function. To make the threshold invariant to the values, we set the threshold to
 %The two thresholds are presented as black dotted lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.\\
 Next we create a binary list of peaks P, P returns 1 for positions that are contained in
 a peak, i.e. are above the threshold, and 0 otherwise.
-% todo latex, afkijken locate my plate
-%P(x)  { 1, H(x)>t
-%	  { 0, H(x)<=t
 We detect the peak areas by searching for the positions where P = 1
 (where the function passes the threshold line). 
 If we loop through the values of P we detect a peak-start on position $s$ if ${P(s-1),P(s)}={0,1}$
@@ -535,7 +528,7 @@ Having segmented the peak areas, the next step is to extract the peak positions.
 Each peak area has only one peak and, since we used an average smoothing filter, the shape of 
 the peaks are often concave. Therefore we extract the peaks by locating the max of each peak area. 
 These locations are used to draw the window alignment lines, they can be seen
-% todo check this
+\TODO{check this}
 as dotted red lines and dotted green lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.
 
 
@@ -593,7 +586,7 @@ Note that the advanced peak grouping is only required for the vertical alignment
 of the windows: The horizontal inter window distance is often big enough to not
 be mistaken by a window frame part.
 
-% todo zoomed image of projection profile graphs
+\TODO{zoomed image of projection profile graphs}
 The image is now divided in a new grid of blocks based on these
 alignment. The next challenge is to classify the blocks as window and
 non-window areas: the window classification, we developed two different methods for this.
@@ -642,7 +635,7 @@ in another scene.  Hence working with the threshold wouldn't be robust.
 Instead we use the fact that a blockrow is either filled with windows or not, hence
 there should always be two clusters.  We use \emph{$k$-means} clustering (with
 $k=2$) as the classification procedure.
-%todo ref
+\TODO{ref}
 This results in a set of Rows and Columns that are classified as window an
 non-window areas.
 
@@ -704,44 +697,36 @@ For the sake of representation only blockcolumns are presented, the method for t
 
 \subsubsection{Results} % method II, %measurements, observations, perceptions
 
-% todo discuss drain pipe, dat het goed is dat het resultaat mooi is ondanks drainpipe
-% todo occlusion uitgebreid uitleggen, door occlusie stenen wand is venster van raam niet zichtbaar en gaat brick over in weerspiegeling raam wat ongeveer zelfde kleur heeft
+\TODO{discuss drain pipe, dat het goed is dat het resultaat mooi is ondanks drainpipe}
 \label{sec:results}.
 We tested all methods on different datasets.
 
-\fig{w_Spil1TransCrop1_ImEdge.eps}{Result edge detection}{0.45}
-\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Houghlines with endpoints}{0.45} 
-\fig{w_Spil1TransCrop1_ImHibaap.eps}{(smoothed) Histograms and window alignment lines}{0.45}
+\fig{w_Spil1TransCrop1_ImEdge.eps}{Dataset: Anne1, Result edge detection}{0.45}
+\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Dataset: Anne1, Houghlines with endpoints}{0.45} 
+\fig{w_Spil1TransCrop1_ImHibaap.eps}{Dataset: Anne1, (smoothed) Histograms and window alignment lines}{0.45}
 
 
 
-%todo caption onderstaand fig
 \fig{w_Spil1TransCrop1_ImClassRect.eps}{Classified windows}{0.45}
 
-\fig{w_SpilFrontal6345_crop1_ImOri.eps}{Original Image}{0.6}
-\fig{w_SpilFrontal6345_crop1_ImHibaap.eps}{Window alignment lines and histograms}{0.6}
-\fig{w_SpilFrontal6345_crop1_ImClassRect.eps}{Classification method I: Grouped windows}{0.6}
-
+\TODO{Explain datasets}
 
 Results of the Anne dataset:\\
-\fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne, Improved window alignment: Xh: total amount of overlapping horizontal Houghlines at each x position}{0.7}
-\fig{w_Spil1TransImproved_Xh.eps}{Dataset: Anne, Improved window alignment: Using the shape of the horizontal Houghlines amount as window alignment}{0.7}
-\fig{w_Spil1TransImproved_Xvh.eps}{Dataset: Anne, Improved window alignment: Both methods combined}{0.7}
-\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Anne, Improved classification method: Concave and convex shapes on window/nonwindow locations}{0.7}
-\fig{w_Spil1TransImproved_windowsGrouped.eps}{Dataset: Anne, Improved classification method: the extracted windows, red:the grouping}{0.7}
+\fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Improved window alignment: Xh: total amount of overlapping horizontal Houghlines at each x position}{0.7}
+\fig{w_Spil1TransImproved_Xh.eps}{Dataset: Anne2, Improved window alignment: Using the shape of the horizontal Houghlines amount as window alignment}{0.7}
+\fig{w_Spil1TransImproved_Xvh.eps}{Dataset: Anne2, Improved window alignment: Both methods combined}{0.7}
+\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Anne2, Improved classification method: Concave and convex shapes on window/nonwindow locations}{0.7}
+\fig{w_Spil1TransImproved_windowsGrouped.eps}{Dataset: Anne2, Improved classification method: the extracted windows, red:the grouping}{0.7}
 
-\TODO{test}
 
-% todo 
-% make im of grapscale prob
+\TODO{make im of grapscale prob}
 
-% todo make a diagram, histogram -> alignment lines -> window classification etc.
+\TODO{make a diagram, histogram -> alignment lines -> window classification etc.}
 
-%todo
-% iets zeggen over dataset Dirk
-% more realistic dataset, with a occluding tree and some light spots created by the sun 
-% not all windows are aligned
-% dat grouping in beide classificatiemethoden hetzelfde is
+\TODO{ iets zeggen over dataset Dirk}
+\TODO{more realistic dataset, with a occluding tree and some light spots created by the sun }
+\TODO{not all windows are aligned}
+\TODO{dat grouping in beide classificatiemethoden hetzelfde is}
 
 Results of the Dirk dataset:\\
 \newpage
@@ -752,10 +737,10 @@ Results of the Dirk dataset:\\
 \fig{w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}{Vertical window alignment lines based on Xv and D zoomed}{0.45}
 \fig{w_Dirk4Trans_ImClassRect.eps}{Improved classification method: Grouped windows}{0.45}
 
-% todo discuss/ interpret results of dirk dataset (aanvullende kracht van methoden etc.)
-% to much alignment lines, beter to much than to few
-% reason, the two doors below bicycles on the left side
-% especially the horizontal division of the lowest row of windows is amazing, refer to
+\TODO{discuss/ interpret results of dirk dataset (aanvullende kracht van methoden etc.)}
+\TODO{to much alignment lines, beter to much than to few}
+\TODO{reason, the two doors below bicycles on the left side}
+\TODO{especially the horizontal division of the lowest row of windows is amazing, refer to}
 
 Facts of Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.eps}\\
 the amount of alignment lines is very large.
@@ -778,30 +763,38 @@ Grouping of positive classified windows:\\
 
 
 
-%todo
-%\% of the windows are found
-%\% of the windows are wrongly classified
-%\% of the windows are grouped right
-%etc
-
-
-% future work idee: minimale lengte tussen alignment line 
-
 This first two window rows are classified as two groups but this should be one.\\
 
-%todo tabel met percentage correct versch datasets
+\TODO{tabel met percentage correct versch datasets}
 
 % Appendix images
 % w_Dirk4Trans_ImEdge.eps                               
 % w_Dirk4Trans_ImHoughResult.eps                        
 % w_Dirk4Trans_ImHibaap_Xh.eps                          
-% w_Dirk4Trans_ImHibaap_Xv.eps                           %todo plot original  function (not only peaks)
+% w_Dirk4Trans_ImHibaap_Xv.eps                           
+
+
+
+\TODO{plot original  function (not only peaks)}
 
 \subsubsection{Discussion}  % (What do my results mean to me and why), inferences, opinions, conjectures
 \paragraph{Interpretation of the results of the Anne dataset}
-%todo
+\TODO{...}
 
 
+
+
+\paragraph{Method II: Histogram based approach} 
+We described a basic method of window alignment and build a significant improvement.
+If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
+with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps}) we see that the improved method detected each window alignment with an maximum error of 3 pixels whereas the basic method has an error of 15 pixels.
+Its hard to say something about the classification method I because the window alignment lines had a large error.
+The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 \% of the windows correct.
+\TODO{ also talk aboooot other datasets you knuw,}
+
+
+
+\TODO{ goede volgorde , discussies splitten}
 \paragraph{Interpretation of the results of the Dirk dataset}
 It is easy to see in Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.epsi} that there are 
 too many alignment lines detected and that not every alignment line is placed correctly. 
@@ -827,45 +820,41 @@ in the image (especially the first and last columns) are very close.
 \emph{todo compare classification methods and explain differences}
 
 
-\paragraph{Method II: Histogram based approach} 
-We described a basic method of window alignment and build a significant improvement.
-If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
-with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps}) we see that the improved method detected each window alignment with an maximum error of 3 pixels whereas the basic method has an error of 15 pixels.
-Its hard to say something about the classification method I because the window alignment lines had a large error.
-The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 \% of the windows correct.
-%todo, also talk aboooot other datasets you knuw,
-
-
-\paragraph{Dirk dataset}
-
-
-% todo also works on multiple window types
+\TODO{also works on multiple window types}
 It could be a drawback that the outcome of method I is non-deterministic, as it depends on to the
 random initialization of the cluster centers. Our results could be correct by
 coincidence.  To exclude this artefact, we ran the cluster algorithm 10 times on all datasets, fortunately it resulted in consistent classifications.
-%todo other datasets 
+\TODO{other datasets }
 
 \emph{todo}\\
 
-%todo is dit nog recent?
-\paragraph{Occlusion}
+\TODO{is dit nog recent?}
 \label{lab:occlusion}
 If the image isn't the frontal view of the building wall we project the image 
-see section ?%todo section rectification
+see section \TODO{ref section rectification}
 This projection comes with some difficulties, occlusion.  In a few cases an
-building wall extension (middle of figure \ref{fig:w_spil6ImOri.eps}) a drainpipe
-or the building wall itself is occluding a part of the window.  The less frontal
+building wall extension (middle of Figure \ref{fig:w_spil6ImOri.eps}) a drainpipe
+or the building wall itself is occluding a part of the window.  
+The occlusion makes the window parts invisible and for example in Figure
+\ref{fig:w_spil6ImOri.eps} the color of the reflection of the window is about
+similar to the bricks therefor the edge detector doesn't find an edge and no
+houghlines will be detected leaving the classification challenging task.
+\TODO{mooi staartje, concreter}
+
+The less frontal
 the view, the more occlusion negatively effects the cleanness of the projection.
 However, this occlusion artefact is in most cases no problem as the system
 combines the full blockrows and blockcolumns.  
+\TODO{also talk abooot other classification}
+
 
 \subsection{Conclusion}
-% todo nummeriek concluderen
-%We showed that projecting the image to a frontal view is a good preprocessing
-%step of a robust window detector.
+\TODO{nummeriek concluderen}
+\TODO{We showed that projecting the image to a frontal view is a good preprocessing}
+\TODO{step of a robust window detector.}
 \emph{todo}
-%todo
-%Furthermore our algorithms work in real time. \\
+
+\TODO{Furthermore our algorithms work in real time. \\}
 
 \subsection{Future research}
 \subsubsection{Method I: Connected corner approach} 
@@ -892,7 +881,7 @@ It would be nice to investigate the effect of the occlusion and to examine the
 robustness of the window detector under extreme viewing angles.
 For example the viewing angle could be plotted against the percentage of
 correct detected windows.
-% todo  more..
+\TODO{ more..}
 
 \paragraph{Window alignment: Peak grouping}
 We fused the result of the horizontal and vertical Houghlines and discarded
