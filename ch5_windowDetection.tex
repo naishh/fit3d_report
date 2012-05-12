@@ -310,31 +310,36 @@ All quadrangles are filled and displayed in Figure
 Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps} displays the result of the
 connected corner aproach on an unrectified scene.  It contains 110 windows of
 which are 109 detected, this is 99\%. Furthermore there are some False Positive
-areas, this is about 3 \%.  
+areas, this is about 3 \%.
 Sometimes a window is not detected, for example the window on the right top
 isn't detected, this is because its smaller then the minimum window width.\\
 
 \subsubsection{Conclusion}
-As can be concluded from Figure \ref{fig: } the connected corner method is robust to unrectified scenes with a variation in window sizes and types.
- This makes this approach suitable for a wide range of window scenes where no or few prior
-information about the windows is known.
+As can be concluded from the results, the connected corner method is suitable
+for, and robust to, scenes with a variation in window sizes and types. This makes the connected corner approach
+	suitable for a wide range of window scenes where no or few prior
+	information about the windows is known. Furthermore as no rectification
+	step is needed, the system has a low input requirement that is independent of 
+	calibrated input data and 3d information about the building.
 
 \subsubsection{Future research} %\subsubsection{Method I: Connected corner approach} 
-It would be nice to group the connected corners to windows and sub windows.
-The big window that contains sub windows could be found by calculating the convex hull of the red areas in 
-Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps}.
-The sub windows could be found using a clustering algorithm that groups the connected corners to
-a window. For this method it would be useful to assume the window size as this
-correlates directly to the inter-cluster distance.
-It would also be nice to incorporate not only the center of the connected corner
-as a parameter of the cluster space but also the length and position of the of
-the connected corners' horizontal and vertical line parts.  The inter cluster
-distance and the number of grouped connected corner could form a good source for
-the probability of the sub window.\\
-
 We only developed L-shaped connected corners, it would be nice to connect more
-parts of the window to form U shaped connected corners or even complete rectangles.\\
-The later is difficult because the edges are often incomplete due to for example occlusion.
+parts of the window to form U shaped connected corners or even complete rectangles.
+The later is difficult because the edges are often incomplete due to for example occlusion.\\
+
+Furthermore the next step in this study would be to group the connected corners
+to windows and sub windows.  The big window that contains sub windows could be
+found by calculating the convex hull of the red areas in Figure
+\ref{fig:w_Dirk6_ImcCorner_windowFilled.eps}.  The sub windows could be found
+using a clustering algorithm that groups the connected corners to a window. For
+this method it would be useful to assume the window size as this correlates
+directly to the inter-cluster distance.  It would also be nice to incorporate
+not only the center of the connected corner as a parameter of the cluster space
+but also the length and position of the of the connected corners' horizontal
+and vertical line parts.  The inter cluster distance and the number of grouped
+connected corner could form a good source for the certainty of the sub
+window.\\
+
 
 
 
@@ -403,7 +408,8 @@ the 3D points.
 \emph{todo example figure}
 
 \paragraph{Efficient Projecting} 
-Now we extracted the 3D plane of the facade, the next challenge is to use this in order to rectify the facade.\\
+Now we extracted the 3D plane of the facade, the next challenge is to use this
+in order to rectify the facade.\\
 
 It would be straight forward to rectify the full image. However this is
 computational very expensive as each pixel needs to be projected. To keep the
@@ -418,7 +424,6 @@ When we rectify the full image the number of projection is $w$ x $h$, where $w$,
 the image. To give an indication, for the \emph{Spil} dataset 
 \TODO{.. }
 this means we apply 600 projections in stead of 1572864: a factor of almost 3k faster.\\
-
 
 The Houghline endpoints are projected to the 3D plane we extracted in the same
 way as we explained in chapter \ref{chap:skylinedetection}. To wrap up, we send
@@ -445,7 +450,14 @@ E.g. if the images are taken almost upfront (the facade is almost rectified) $\a
 $\alpha$ and $u$ are used to create a rotation matrix $R$ which is applied to the 3D point cloud.
 The result is a set of rectified 3D points that are grouped tot their Houghlines.
 
-\subsubsection{Results} % method II
+\subsubsection{Results} % facade rectification
+\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Result of the facade rectification}{0.45}
+The original image can be found in Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}
+and the result, a set of rectified Houghlines, can be found in Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.
+Note that we also rectified the image pixels itself, this is only for
+the purpose of displaying the figures.
+
+
 
 \subsection{Method II: Histogram based approach} 
 \subsubsection{Introduction}
@@ -708,6 +720,7 @@ For the sake of representation only blockcolumns are presented, the method for t
 \label{sec:results}.
 We tested all methods on different datasets.
 
+Results of the Anne dataset:\\
 \fig{w_Spil1TransCrop1_ImEdge.eps}{Dataset: Anne1, Result edge detection}{0.45}
 \fig{w_Spil1TransCrop1_ImHoughResult.eps}{Dataset: Anne1, Houghlines with endpoints}{0.45} 
 \fig{w_Spil1TransCrop1_ImHibaap.eps}{Dataset: Anne1, (smoothed) Histograms and window alignment lines}{0.45}
@@ -718,7 +731,6 @@ We tested all methods on different datasets.
 
 \TODO{Explain datasets}
 
-Results of the Anne dataset:\\
 \fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Improved window alignment: Xh: total amount of overlapping horizontal Houghlines at each x position}{0.7}
 \fig{w_Spil1TransImproved_Xh.eps}{Dataset: Anne2, Improved window alignment: Using the shape of the horizontal Houghlines amount as window alignment}{0.7}
 \fig{w_Spil1TransImproved_Xvh.eps}{Dataset: Anne2, Improved window alignment: Both methods combined}{0.7}
@@ -780,29 +792,17 @@ This first two window rows are classified as two groups but this should be one.\
 % w_Dirk4Trans_ImHibaap_Xh.eps                          
 % w_Dirk4Trans_ImHibaap_Xv.eps                           
 
-
-
 \TODO{plot original  function (not only peaks)}
+
+
 
 \paragraph{Interpretation of the results of the Anne dataset}
 \TODO{..}
 
 
 
-\subsubsection{Discussion}  % (What do my results mean to me and why), inferences, opinions, conjectures
-\TODO{fuse discussions of method I and II}
-
-%\paragraph{Method II: Histogram based approach} 
-We described a basic method of window alignment and build a significant improvement.
-If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
-with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps}) we see that the improved method detected each window alignment with an maximum error of 3 pixels whereas the basic method has an error of 15 pixels.
-Its hard to say something about the classification method I because the window alignment lines had a large error.
-The improved classification method Figure \ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 \% of the windows correct.
-\TODO{ also talk aboooot other datasets you knuw,}
 
 
-
-\TODO{ goede volgorde , discussies splitten}
 \paragraph{Interpretation of the results of the Dirk dataset}
 It is easy to see in Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.epsi} that there are 
 too many alignment lines detected and that not every alignment line is placed correctly. 
@@ -857,7 +857,13 @@ combines the full blockrows and blockcolumns.
 
 
 
-\subsubsection{Future research (Method II)} %\subsubsection{Method II: Histogram based approach} 
+\subsubsection{Future research} %\subsubsection{Method II: Histogram based approach} 
+\paragraph{Performance measure for extreme viewing angles}
+It would be nice to investigate the effect of the occlusion and to examine the
+robustness of the window detector under extreme viewing angles.
+For example the viewing angle could be plotted against the percentage of
+correct detected windows.
+
 \paragraph{Window alignment: Peak grouping}
 We fused the result of the horizontal and vertical Houghlines and discarded
 peaks that where close.  A more accurate result would be achieved if close peaks
@@ -886,21 +892,31 @@ refinement of the windows.
 
 
 
+%------------
 
-\subsection{Future research (Both methods)} 
-It would be nice to investigate the effect of the occlusion and to examine the
-robustness of the window detector under extreme viewing angles.
-For example the viewing angle could be plotted against the percentage of
-correct detected windows.
-\TODO{ more..}
+\subsubsection{Discussion}  % both methods
+\TODO{fuse discussions of method I and II}
+We described a basic method of window alignment and build a significant improvement.
+If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
+with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps})
+we see that the improved method detected each window alignment with an maximum
+error of 3 pixels whereas the basic method has an error of 15 pixels.  Its hard
+to say something about the classification method I because the window alignment
+lines had a large error.
+The improved classification method Figure
+\ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 \% of
+the windows correct.
+
+\TODO{ also talk aboooot other datasets you knuw,}
+
+
 
 
 \subsection{Conclusion}
-\TODO{nummeriek concluderen}
+% not summarize!
+% what can be derived from the results+?
 \TODO{We showed that projecting the image to a frontal view is a good preprocessing}
 \TODO{step of a robust window detector.}
-\emph{todo}
-
 \TODO{Furthermore our algorithms work in real time. \\}
 
 

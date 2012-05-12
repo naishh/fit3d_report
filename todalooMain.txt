@@ -28,7 +28,19 @@ discussion blenden
 
 result, discussion , conlusion section both methods
 structuur aanbrengen:
-	toc printen en vinkjes zetten bij wat af is
+	toc printen en vinkjes zetten bij wat af is, x is done
+		x conclusion 1
+		conclusion 2
+		x future research 1
+		future research 2
+		discussion 1&2
+		conclusion 1&2
+
+
+	1.6.3 method weg
+		
+
+
 	teksten wissen
 	teksten linken full duplex
 
