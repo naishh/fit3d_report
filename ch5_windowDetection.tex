@@ -316,11 +316,12 @@ isn't detected, this is because its smaller then the minimum window width.\\
 
 \subsubsection{Conclusion}
 As can be concluded from the results, the connected corner method is suitable
-for, and robust to, scenes with a variation in window sizes and types. This makes the connected corner approach
-	suitable for a wide range of window scenes where no or few prior
-	information about the windows is known. Furthermore as no rectification
-	step is needed, the system has a low input requirement that is independent of 
-	calibrated input data and 3d information about the building.
+for, and robust to, scenes with a variation in window sizes and types. This
+	makes the connected corner approach suitable for a wide range of window
+	scenes where no or few prior information about the windows is known.
+	Furthermore as no rectification step is needed, the system has a low input
+	requirement that is independent of calibrated input data and 3d information
+	about the building.
 
 \subsubsection{Future research} %\subsubsection{Method I: Connected corner approach} 
 We only developed L-shaped connected corners, it would be nice to connect more
@@ -470,23 +471,28 @@ We exploit this properties to build a robust window detector. First we determine
 the alignment of the windows and then we label and group the areas that
 contain the windows. 
 
-\subsubsection{Situation and assumptions}
+\TODO{linken}
+
+The extraction of the windows is done in different steps, first we rectify the
+image as described in the previous section.  Then the alignment of the windows
+is determined, this is based on a histogram of the Houghlines'. We use this
+alignment to divide the image in window or not window regions.  Finally these
+regions are classified and combined which gives us the windows.\\
+We present a basic and improved window alignment method
+followed by two different kind of window classifications. 
+
+
+\paragraph{Situation and assumptions}
 To be more precise in our assumptions, we assume the windows have orthogonal
 sides.  Furthermore we assume that the windows are aligned. This means that a
 row of windows share the same height and $y$ position. For a column of windows
 the width and $x$ position has to be equal.  Note that this doesn't mean that
 all windows have the share the same size.
 
-\subsubsection{Method}
-The extraction of the windows is done in different steps, first we rectify the
-image as described in the previous section.  Then the alignment of the windows
-is determined, this is based on a histogram of the Houghlines'. We use this
-alignment to divide the image in window or not window regions.  Finally these
-regions are classified and combined which gives us the windows.
 
 
-
-\paragraph{Extract Window alignment}
+\subsubsection{Extracting the window alignment}
+\paragraph{Basic window alignment}
 %explain pipe line
 %(color transform)
 %edge extraction
@@ -551,7 +557,7 @@ These locations are used to draw the window alignment lines, they can be seen
 as dotted red lines and dotted green lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.
 
 
-\subsubsection{Improved window alignment}
+\paragraph{Alternative window alignment}
 As you can see in Figure \ref{fig:w_Spil1TransImproved_Xv.eps}
 a few window alignment lines are not found and a few lines are found at wrong locations.
 Lets explain the missing alignment lines.
@@ -576,7 +582,7 @@ $D$ that takes the absolute of the derivative of $X_h$, , Figure \ref{fig:w_Spil
 \[D = abs( X_{h}')\]
 Next we extract the locations of the peaks as the previous method.
 
-\subsubsection{Fusing the window alignment methods}
+\paragraph{Fusing the window alignment methods}
 We have presented two window alignment methods, next we fuse the methods to
 gain a robust window alignment.
 The target is to have as few as possible false positives while detecting all alignment locations.\\
@@ -611,9 +617,9 @@ alignment. The next challenge is to classify the blocks as window and
 non-window areas: the window classification, we developed two different methods for this.
 
 
-\paragraph{Window classification, method I}
+\subsubsection{Window classification I (based on line amount)}
 Instead of classifying each block independently, we classify full rows and
-columns of blocks as window or non-window areas.  This approach results in more accurate
+columns of blocks as window or non-window areas.  This approach results in a accurate
 classification as it combines a full blockrow and blockcolumn as evidence for a singular
 window. 
 
@@ -680,21 +686,30 @@ then the system nows for 50 \% sure it is a window, compared to its best window 
 And, as the normalization implies this, there is at least one window with $P=1$. 
 
 \fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification measure of certainty, white means high.}{0.45}
-
 The visualization of the measure of certainty is shown in Figure
 \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps},  
 the whiter the area the higher the measure of certainty.
 
-The stripe patterns support that the classification process exist of individual row and column classification.
-The bright rows and columns indicate window blockrows and blockcolumns
-whereas the dark rows and columns indicate non-window areas.
+\paragraph{Results} % method II, improved classification
+\newpage
+
+The bright rows and columns in Figure
+\ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps},  indicate window
+blockrows and blockcolumns, whereas the dark rows and columns indicate
+non-window areas.
+The stripe patterns support that the classification process exist of individual
+row and column classification.
 The area of window positions is particularly white, as it 
 intersects a bright (positively classified) row and column.
 One can compare this result to the windows in the original image 
 (Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}).
 
 
-\paragraph{Window classification, method II}
+\paragraph{Conclusion}
+\TODO{}
+
+
+\subsubsection{Window classification II (based on shape of amount function)}
 If we take a look at Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}
 we see that $X_h$ (the amount of horizontal Houghlines) has two shapes that
 repeat:  At the location where a window is present $X_h$ is concave whereas at
@@ -714,11 +729,12 @@ Now we have detected the shape type (concave or convex), we can directly classif
 
 For the sake of representation only blockcolumns are presented, the method for the blockrows is almost the same, the projection profiles are projected to the Y-axis.
 
-\subsubsection{Results} % method II, %measurements, observations, perceptions
+\paragraph{Results} % method II, %measurements, observations, perceptions
+\label{sec:results}.
 
 \TODO{discuss drain pipe, dat het goed is dat het resultaat mooi is ondanks drainpipe}
-\label{sec:results}.
-We tested all methods on different datasets.
+
+
 
 Results of the Anne dataset:\\
 \fig{w_Spil1TransCrop1_ImEdge.eps}{Dataset: Anne1, Result edge detection}{0.45}
@@ -796,14 +812,14 @@ This first two window rows are classified as two groups but this should be one.\
 
 
 
-\paragraph{Interpretation of the results of the Anne dataset}
+%\paragraph{Interpretation of the results of the Anne dataset}
 \TODO{..}
 
 
 
 
 
-\paragraph{Interpretation of the results of the Dirk dataset}
+%\paragraph{Interpretation of the results of the Dirk dataset}
 It is easy to see in Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.epsi} that there are 
 too many alignment lines detected and that not every alignment line is placed correctly. 
 This is mainly because the scene is partially aligned, the two
@@ -824,20 +840,26 @@ in the image (especially the first and last columns) are very close.
 
 
 
+\TODO{Waar moet dit}
+%\paragraph{Comparison} %(discussion)
+\TODO{compare classification methods and explain differences}
+We described a basic method of window alignment and build a significant improvement.
+If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
+with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps})
+we see that the improved method detected each window alignment with an maximum
+error of 3 pixels whereas the basic method has an error of 15 pixels.  Its hard
+to say something about the classification method I because the window alignment
+lines had a large error.
+The improved classification method Figure
+\ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 \% of
+the windows correct.
 
-\emph{todo compare classification methods and explain differences}
 
 
-\TODO{also works on multiple window types}
-It could be a drawback that the outcome of method I is non-deterministic, as it depends on to the
-random initialization of the cluster centers. Our results could be correct by
-coincidence.  To exclude this artefact, we ran the cluster algorithm 10 times on all datasets, fortunately it resulted in consistent classifications.
-\TODO{other datasets }
-
-\emph{todo}\\
-
-\TODO{is dit nog recent?}
+\TODO{Waar moet dit}
+%\paragraph{Occlusion}
 \label{lab:occlusion}
+\TODO{is dit nog recent?}
 If the image isn't the frontal view of the building wall we project the image 
 see section \TODO{ref section rectification}
 This projection comes with some difficulties, occlusion.  In a few cases an
@@ -856,6 +878,7 @@ combines the full blockrows and blockcolumns.
 \TODO{also talk abooot other classification}
 
 
+\paragraph{Conclusion} %\subsubsection{Method II: Histogram based approach} 
 
 \subsubsection{Future research} %\subsubsection{Method II: Histogram based approach} 
 \paragraph{Performance measure for extreme viewing angles}
@@ -892,22 +915,17 @@ refinement of the windows.
 
 
 
-%------------
 
-\subsubsection{Discussion}  % both methods
-\TODO{fuse discussions of method I and II}
-We described a basic method of window alignment and build a significant improvement.
-If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
-with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps})
-we see that the improved method detected each window alignment with an maximum
-error of 3 pixels whereas the basic method has an error of 15 pixels.  Its hard
-to say something about the classification method I because the window alignment
-lines had a large error.
-The improved classification method Figure
-\ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 \% of
-the windows correct.
 
+
+\subsection{Discussion}  % both methods
+The outcome of Classification method I is non-deterministic, as it depends on to the
+random initialization of the cluster centers. This means that our results could be correct by
+coincidence.  To exclude this artefact, we ran the cluster algorithm 10 times
+on all datasets, fortunately it resulted in consistent classifications.
 \TODO{ also talk aboooot other datasets you knuw,}
+
+
 
 
 
