@@ -9,12 +9,29 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 4) FOCUS op scriptie
 
 
+
+
+
+
 % keep the linking in mind! link text!
 
 
 ch 5 WINDOW DETECTION
 
 PRIMAIRE todos:
+
+how to write a thesis lezen
+
+future work sectie specifiek per methode en in algemeen
+discussion blenden
+
+
+result, discussion , conlusion section both methods
+structuur aanbrengen:
+	toc printen en vinkjes zetten bij wat af is
+	teksten wissen
+	teksten linken full duplex
+
 todos afgaan in file
 plaatjes verplaatsen resultaten->methode 
 plaatjes verplaatsen resultaten->appendix 

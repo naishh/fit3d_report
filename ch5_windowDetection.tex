@@ -14,7 +14,7 @@ that is invariant to viewing direction.  After this we present a facade
 rectification method. Next this method is used for our second method that assumes
 orthogonal and aligned windows.  Finally we show and discuss results. 
 
-\subsection{Applications}
+\subsection{Application examples}
 \paragraph{3d City models} 
 	Manual creation of 3d models is a time consuming and expensive procedure.
 	Therefore semantic models are used for semi automatic 3d
@@ -80,7 +80,7 @@ interpretation of urban scenes and is applied in a wide range of domains.
 
 
 \TODO{in state of art een lijn creeren, opbouwen, in context plaatsen, theoretisch afwimplene}
-\subsection{State of the art window detection} % related work
+\subsection{State of art window detection} % related work
 A large amount of research is done on semantical interpretation of urban scenes. 
 First we briefly discuss the research that is done on window detection using
 approaches that differ from our approach.  After this, we discuss state of the art
@@ -307,27 +307,34 @@ All quadrangles are filled and displayed in Figure
 \fig{w_Dirk6_ImcCorner_cCorner.eps}{Found connected corners}{0.6}
 \fig{w_Dirk6_ImcCorner_windowFilled.eps}{Window regions}{0.6}
 
-Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps} contains 110 windows of which
-are 109 detected, this is 99\%. Furthermore there are some False Positive areas,
-this is about 3 \%.  
+Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps} displays the result of the
+connected corner aproach on an unrectified scene.  It contains 110 windows of
+which are 109 detected, this is 99\%. Furthermore there are some False Positive
+areas, this is about 3 \%.  
+Sometimes a window is not detected, for example the window on the right top
+isn't detected, this is because its smaller then the minimum window width.\\
 
-\TODO{..}
-subsubsection{Discussion}
-%Method I: Connected corner approach
-The window on the right top isn't detected, this is because
-its smaller then the minimum window width.
-\TODO{more tekst}
-
-\TODO{ref}
-The big advantage of this method is that it doesn't require the windows to be aligned.
-Furthermore it's robust to a variation in window sizes and types. This makes
-this approach suitable for a wide range of window scenes where no or few prior
+\subsubsection{Conclusion}
+As can be concluded from Figure \ref{fig: } the connected corner method is robust to unrectified scenes with a variation in window sizes and types.
+ This makes this approach suitable for a wide range of window scenes where no or few prior
 information about the windows is known.
-\emph{todo}
 
+\subsubsection{Future research} %\subsubsection{Method I: Connected corner approach} 
+It would be nice to group the connected corners to windows and sub windows.
+The big window that contains sub windows could be found by calculating the convex hull of the red areas in 
+Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps}.
+The sub windows could be found using a clustering algorithm that groups the connected corners to
+a window. For this method it would be useful to assume the window size as this
+correlates directly to the inter-cluster distance.
+It would also be nice to incorporate not only the center of the connected corner
+as a parameter of the cluster space but also the length and position of the of
+the connected corners' horizontal and vertical line parts.  The inter cluster
+distance and the number of grouped connected corner could form a good source for
+the probability of the sub window.\\
 
-
-
+We only developed L-shaped connected corners, it would be nice to connect more
+parts of the window to form U shaped connected corners or even complete rectangles.\\
+The later is difficult because the edges are often incomplete due to for example occlusion.
 
 
 
@@ -777,14 +784,15 @@ This first two window rows are classified as two groups but this should be one.\
 
 \TODO{plot original  function (not only peaks)}
 
-\subsubsection{Discussion}  % (What do my results mean to me and why), inferences, opinions, conjectures
 \paragraph{Interpretation of the results of the Anne dataset}
-\TODO{...}
+\TODO{..}
 
 
 
+\subsubsection{Discussion}  % (What do my results mean to me and why), inferences, opinions, conjectures
+\TODO{fuse discussions of method I and II}
 
-\paragraph{Method II: Histogram based approach} 
+%\paragraph{Method II: Histogram based approach} 
 We described a basic method of window alignment and build a significant improvement.
 If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
 with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps}) we see that the improved method detected each window alignment with an maximum error of 3 pixels whereas the basic method has an error of 15 pixels.
@@ -848,41 +856,8 @@ combines the full blockrows and blockcolumns.
 \TODO{also talk abooot other classification}
 
 
-\subsection{Conclusion}
-\TODO{nummeriek concluderen}
-\TODO{We showed that projecting the image to a frontal view is a good preprocessing}
-\TODO{step of a robust window detector.}
-\emph{todo}
 
-\TODO{Furthermore our algorithms work in real time. \\}
-
-\subsection{Future research}
-\subsubsection{Method I: Connected corner approach} 
-It would be nice to group the connected corner to groups of sub windows.
-The big window that contains sub windows could be found by calculating the convex hull of the red areas in 
-Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps}.
-The sub windows could be found using a clustering algorithm that groups the connected corners to
-a window. For this method it would be useful to assume the window size as this
-correlates directly to the inter-cluster distance.
-It would also be nice to incorporate not only the center of the connected corner
-as a parameter of the cluster space but also the length and position of the of
-the connected corners' horizontal and vertical line parts.  The inter cluster
-distance and the number of grouped connected corner could form a good source for
-the probability of the sub window.\\
-
-We only developed L-shaped connected corners, it would be nice to connect more
-parts of the window to form U shaped connected corners or even complete rectangles.\\
-The later is difficult because the edges are often incomplete due to for example occlusion 
-or the angle of viewing.
-
-
-\subsubsection{Method II: Histogram based approach} 
-It would be nice to investigate the effect of the occlusion and to examine the
-robustness of the window detector under extreme viewing angles.
-For example the viewing angle could be plotted against the percentage of
-correct detected windows.
-\TODO{ more..}
-
+\subsubsection{Future research (Method II)} %\subsubsection{Method II: Histogram based approach} 
 \paragraph{Window alignment: Peak grouping}
 We fused the result of the horizontal and vertical Houghlines and discarded
 peaks that where close.  A more accurate result would be achieved if close peaks
@@ -908,4 +883,25 @@ Both window refinement and window alignment steps could use some additional
 evidence which could be provided by feature based methods.  For example a
 \emph{multi scale Harris corner detector} could help an accurate alignment or
 refinement of the windows.
+
+
+
+
+\subsection{Future research (Both methods)} 
+It would be nice to investigate the effect of the occlusion and to examine the
+robustness of the window detector under extreme viewing angles.
+For example the viewing angle could be plotted against the percentage of
+correct detected windows.
+\TODO{ more..}
+
+
+\subsection{Conclusion}
+\TODO{nummeriek concluderen}
+\TODO{We showed that projecting the image to a frontal view is a good preprocessing}
+\TODO{step of a robust window detector.}
+\emph{todo}
+
+\TODO{Furthermore our algorithms work in real time. \\}
+
+
 
