@@ -28,7 +28,7 @@ structuur aanbrengen:
 	facade rectification in appendix ? over nadenken, waarom niet: toch wel essentieel onderdeel?
 
 	toc printen en vinkjes zetten bij wat af is, x is done
-	bij toc de paragrahs indenten
+	bij toc de paragraphs indenten
 
 		conclusion 2
 		future research 2

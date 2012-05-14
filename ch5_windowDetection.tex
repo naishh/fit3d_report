@@ -378,7 +378,7 @@ series of frames in order to extract a point cloud of matching features. This
 point cloud is used to extract a plane.  which is used to rectify the facade by
 a projection process.  We now explain the steps in more detail.
 
-\subsubsection{Method: 3D plane extraction}
+\subsubsection{3D plane extraction}
 We started by taking a series of 7 consecutive consequent (steady zoom, lightning, etc. parameters) images of a scene.
 The images are chronological and have sufficient overlap. 
 
@@ -408,7 +408,7 @@ Next a RANSAC based plane fitter is used to accurately fit a plane through
 the 3D points. 
 \emph{todo example figure}
 
-\paragraph{Efficient Projecting} 
+\subsubsection{Efficient Projecting} 
 Now we extracted the 3D plane of the facade, the next challenge is to use this
 in order to rectify the facade.\\
 
@@ -422,8 +422,7 @@ Houghline extraction on the unrectified image.)\\
 
 If $h$ is the number of Houghlines, the number of projections is $2h$
 When we rectify the full image the number of projection is $w$ x $h$, where $w$,$h$ are the width and height of
-the image. To give an indication, for the \emph{Spil} dataset 
-\TODO{.. }
+the image. To give an indication, for the \emph{Anne1} dataset 
 this means we apply 600 projections in stead of 1572864: a factor of almost 3k faster.\\
 
 The Houghline endpoints are projected to the 3D plane we extracted in the same
@@ -440,7 +439,7 @@ unit vector spanning the original viewing direction as $z$ and the
 unit vector spanning the desired viewing direction/normal of the facade $z'$.
 We calculated a rotation matrix from the axis-angle representation.\\
 
-\TODO{ref}
+\TODO{ref axis angle wikipedia}
 This presentation uses a unit vector $u$ indicating the direction of a directed axis, and an
 angle describing the magnitude of the rotation about this axis.
 This axis is orthogonal to $z$ and $z'$ and can therefore be
@@ -500,7 +499,6 @@ all windows have the share the same size.
 We introduce the concept alignment line. We define this as a horizontal or
 vertical line that aligns multiple windows. In Figure
 \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}
-\TODO{update img}
 we show the alignment lines as two groups, horizontal (red) and
 vertical (green) alignment lines.  The combination of both groups give a grid of
 blocks that we classify as window or non-window areas.\\
@@ -553,9 +551,7 @@ Having segmented the peak areas, the next step is to extract the peak positions.
 Each peak area has only one peak and, since we used an average smoothing filter, the shape of 
 the peaks are often concave. Therefore we extract the peaks by locating the max of each peak area. 
 These locations are used to draw the window alignment lines, they can be seen
-\TODO{check this}
 as dotted red lines and dotted green lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.
-
 
 \paragraph{Alternative window alignment}
 As you can see in Figure \ref{fig:w_Spil1TransImproved_Xv.eps}
@@ -578,7 +574,7 @@ big decrease or increase of $X_h$ at the window frame. This is because on these
 positions a window containing (a large amount of horizontal lines) starts or end.
 
 We detect these big decreases or increases by creating a new pseudo peak profile
-$D$ that takes the absolute of the derivative of $X_h$, , Figure \ref{fig:w_Spil1TransImproved_Xh.eps}.
+$D$ that takes the absolute of the derivative of $X_h$, Figure \ref{fig:w_Spil1TransImproved_Xh.eps}.
 \[D = abs( X_{h}')\]
 Next we extract the locations of the peaks as the previous method.
 
@@ -611,13 +607,34 @@ Note that the advanced peak grouping is only required for the vertical alignment
 of the windows: The horizontal inter window distance is often big enough to not
 be mistaken by a window frame part.
 
-\TODO{zoomed image of projection profile graphs}
+\newpage
+\paragraph{Results}
+
+\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Dataset: Anne1, Houghlines with endpoints}{0.45} 
+\fig{w_Spil1TransCrop1_ImHibaap.eps}{Dataset: Anne1, Basic window alignment (paralel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Houghlines, for the column division the horizontal houghlines are counted (at each $y$ position), for the row division the vertical houghlines are counted (at each $x$ position) }{0.45}
+\newpage
+%\fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Improved window alignment part 1: Based on a histogram that displays amount of overlapping vertical Houghlines at each x position}{0.7}
+\fig{w_Spil1TransImproved_Xh.eps}{Dataset: Anne2, Improved window alignment (orthogonal projection): Based on the shape of the smoothed histogram function. 
+For the column division, the number of \emph{horizontal} Houghlines is counted (Note that this is the orthogonal oposite of the basic alignment method). 
+Peaks (that represent a big decrease or increase of the histogram function) are used for the alignment.}{0.7}
+\newpage
+\fig{w_Spil1TransImproved_Xvh.eps}{Dataset: Anne2, Basic+Improved window alignment combined}{0.7}
+
+\paragraph{Discussion}
+\TODO{}
+
+\paragraph{Conclusion}
+\TODO{}
+
+
+\TODO{make diagram: edge- hough -window alignment - window classificatio - window grouping}
+
+
+\subsubsection{Window classification I (based on line amount)}
 The image is now divided in a new grid of blocks based on these
 alignment. The next challenge is to classify the blocks as window and
 non-window areas: the window classification, we developed two different methods for this.
 
-
-\subsubsection{Window classification I (based on line amount)}
 Instead of classifying each block independently, we classify full rows and
 columns of blocks as window or non-window areas.  This approach results in a accurate
 classification as it combines a full blockrow and blockcolumn as evidence for a singular
@@ -706,10 +723,19 @@ One can compare this result to the windows in the original image
 
 
 \paragraph{Conclusion}
-\TODO{}
+We can conclude that this certainty based classification works quitte good on
+this dataset.  However, it requires a very well alignment of the windows which
+is a disadvantage.  As it is based on the number of found Houghlines, the
+errors in the window alignment will propagate to the classification.  This
+makes this classification method inappropriate for a system where one cannot
+fully rely on the window alignment.  \\
+This conclusion amplifies the need for a robust classification method (that is
+independent, (or at least less sensitive)) to window alignment errors.
 
 
-\subsubsection{Window classification II (based on shape of amount function)}
+\subsubsection{Window classification II (based on shape of the histogram function)}
+\TODO{introduce a little bit}
+\TODO{say that anne2 dataset is more rectified }
 If we take a look at Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}
 we see that $X_h$ (the amount of horizontal Houghlines) has two shapes that
 repeat:  At the location where a window is present $X_h$ is concave whereas at
@@ -720,14 +746,25 @@ centers of non-window areas (that lie between windows).  The shape type of $X_h$
 used as a cue for our second window classifier.\\
 
 This shape type of $X_h$ is detected as follows:
-As in \textbf{improved window alignment}, the first step is to examine the derivative of $X_h$, blue line in Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}.
-We investigate the positions where $D=X_{h}'$ changes from sign, these are the peaks or valleys of $X_h$. $X_h$ is concave at the sign changes from positive to negative (+,-) and $X_h$ is convex if the sign changes (-,+).\\
+As in \textbf{improved window alignment}, the first step is to examine the
+derivative of $X_h$, blue line in Figure
+\ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}.  We investigate the positions
+where $D=X_{h}'$ changes from sign, these are the peaks or valleys of $X_h$.
+$X_h$ is concave at the sign changes from positive to negative (+,-) and $X_h$
+is convex if the sign changes (-,+).\\
 
-We expect one sign change per block, however it is possible that multiple sign changes occur. In this case we smooth $X_h$ again and repeat the algorithm until for each block a maximum of one sign change is found. \\
+We expect one sign change per block, however it is possible that multiple sign
+changes occur. In this case we smooth $X_h$ again and repeat the algorithm
+until for each block a maximum of one sign change is found. \\
 
-Now we have detected the shape type (concave or convex), we can directly classify the blockrows and blockcolumns as window areas and non-window areas. The windows are determined as the previous classifier by combining the (positively classified) blockrows and blockcolumns.\\
+Now we have detected the shape type (concave or convex), we can directly
+classify the blockrows and blockcolumns as window areas and non-window areas.
+The windows are determined as the previous classifier by combining the
+(positively classified) blockrows and blockcolumns.\\
 
-For the sake of representation only blockcolumns are presented, the method for the blockrows is almost the same, the projection profiles are projected to the Y-axis.
+For the sake of representation only blockcolumns are presented, the method for
+the blockrows is the same, the projection profiles are projected to the
+Y-axis.
 
 \paragraph{Results} % method II, %measurements, observations, perceptions
 \label{sec:results}.
@@ -736,10 +773,8 @@ For the sake of representation only blockcolumns are presented, the method for t
 
 
 
-Results of the Anne dataset:\\
-\fig{w_Spil1TransCrop1_ImEdge.eps}{Dataset: Anne1, Result edge detection}{0.45}
-\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Dataset: Anne1, Houghlines with endpoints}{0.45} 
-\fig{w_Spil1TransCrop1_ImHibaap.eps}{Dataset: Anne1, (smoothed) Histograms and window alignment lines}{0.45}
+%Results of the Anne dataset:\\
+
 
 
 
@@ -747,9 +782,6 @@ Results of the Anne dataset:\\
 
 \TODO{Explain datasets}
 
-\fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Improved window alignment: Xh: total amount of overlapping horizontal Houghlines at each x position}{0.7}
-\fig{w_Spil1TransImproved_Xh.eps}{Dataset: Anne2, Improved window alignment: Using the shape of the horizontal Houghlines amount as window alignment}{0.7}
-\fig{w_Spil1TransImproved_Xvh.eps}{Dataset: Anne2, Improved window alignment: Both methods combined}{0.7}
 \fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Anne2, Improved classification method: Concave and convex shapes on window/nonwindow locations}{0.7}
 \fig{w_Spil1TransImproved_windowsGrouped.eps}{Dataset: Anne2, Improved classification method: the extracted windows, red:the grouping}{0.7}
 
@@ -803,6 +835,7 @@ This first two window rows are classified as two groups but this should be one.\
 \TODO{tabel met percentage correct versch datasets}
 
 % Appendix images
+%\fig{w_Spil1TransCrop1_ImEdge.eps}{Dataset: Anne1, Result edge detection}{0.45}
 % w_Dirk4Trans_ImEdge.eps                               
 % w_Dirk4Trans_ImHoughResult.eps                        
 % w_Dirk4Trans_ImHibaap_Xh.eps                          
@@ -819,17 +852,24 @@ This first two window rows are classified as two groups but this should be one.\
 
 
 
+%--- dirk dataset: --%
+%-----------------
+\TODO{ incl plaatjes verplaatsen naar results van image alignment lines}
 %\paragraph{Interpretation of the results of the Dirk dataset}
-It is easy to see in Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.epsi} that there are 
+It is easy to see in Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.eps} that there are 
 too many alignment lines detected and that not every alignment line is placed correctly. 
 This is mainly because the scene is partially aligned, the two
 front doors contain many vertical edges that are not aligned with the windows.
 Another cause of this artefact is that the bicycles on the left cause a large
 amount of found Hough lines, see \ref{fig:w_Dirk4Trans_ImHoughResult.eps}.
  
-However, for the actual detection of the windows this is not a problem because
-after many close alignment lines are discarded by the peak fusing module the
-many subwindows are grouped to single windows, see red rectangles in Figure
+
+
+%--- dirk dataset: --%
+For the actual detection of the windows, the problem of finding to many window alignment lines
+(see Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.eps})
+didn't seem to be a problem. This is because after the peak fusing module discards many close alignment lines, the
+many small subwindows are grouped to clear big windows, see red rectangles in Figure
 \ref{fig:w_Dirk4Trans_ImClassRect.eps}.\\
 
 
