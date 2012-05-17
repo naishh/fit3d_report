@@ -11,6 +11,12 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 
+17 mei
+39 todo's
+
+dagdoel 20 over
+morgen (vrijdag) alles af
+
 
 
 % keep the linking in mind! link text!
@@ -29,24 +35,13 @@ structuur aanbrengen:
 
 	toc printen en vinkjes zetten bij wat af is, x is done
 	bij toc de paragraphs indenten
-
 		conclusion 2
 		future research 2
 		discussion 1&2
 		conclusion 1&2
 
-	method 2 histogram
-		window alignment
-			basic
-			improved
-		window classification
-			basic
-			improved
-		results
 
-
-
-
+	list of figures maken
 
 	1.6.3 method weg
 		

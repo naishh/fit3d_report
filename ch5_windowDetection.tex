@@ -348,8 +348,6 @@ window.\\
 
 
 \subsection{Facade rectification}
-\fig{w_spil6ImOri.eps}{Original image}{0.6}
-\fig{w_Spil1TransCrop1_ImOri.eps}{Rectified image}{0.45}
 \subsubsection{Introduction}
 In order to apply our second method of window detection
 we need the windows on the facade to be orthogonal and aligned.
@@ -451,11 +449,25 @@ $\alpha$ and $u$ are used to create a rotation matrix $R$ which is applied to th
 The result is a set of rectified 3D points that are grouped tot their Houghlines.
 
 \subsubsection{Results} % facade rectification
-\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Result of the facade rectification}{0.45}
-The original image can be found in Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}
-and the result, a set of rectified Houghlines, can be found in Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.
+We show the result of two datasets, Anne1 and Dirk.
 Note that we also rectified the image pixels itself, this is only for
-the purpose of displaying the figures.
+the purpose of displaying the projected Houghlines in context.
+
+
+\newpage
+\fig{w_spil6ImOri.eps}{Dataset: Anne1, Original, (unrectified) image}{0.45}
+%\fig{w_Spil1TransCrop1_ImOri.eps}{Dataset: Anne1, Rectified image}{0.45}
+\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Dataset: Anne1, Projected Houghlines on rectified image}{0.45}
+
+\newpage
+\fig{w_Dirk4_ImOri_Unrectified.eps}{Dataset: Dirk, Original, (unrectified) image, }{0.45}
+\fig{w_Dirk4Trans_ImHoughResult.eps}{Dataset: Dirk, Projected Houghlines on rectified image}{0.45}
+%-----------
+\TODO{..}
+%, the windows of this dataset differ in size, type, shape and are partially unaligned}
+
+\TODO{Q: Do I have to discuss and conclude these results?}
+
 
 
 
@@ -607,10 +619,10 @@ Note that the advanced peak grouping is only required for the vertical alignment
 of the windows: The horizontal inter window distance is often big enough to not
 be mistaken by a window frame part.
 
+\TODO{peak merging result misses for 1 dataset?}
+
 \newpage
 \paragraph{Results}
-
-\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Dataset: Anne1, Houghlines with endpoints}{0.45} 
 \fig{w_Spil1TransCrop1_ImHibaap.eps}{Dataset: Anne1, Basic window alignment (paralel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Houghlines, for the column division the horizontal houghlines are counted (at each $y$ position), for the row division the vertical houghlines are counted (at each $x$ position) }{0.45}
 \newpage
 %\fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Improved window alignment part 1: Based on a histogram that displays amount of overlapping vertical Houghlines at each x position}{0.7}
@@ -620,8 +632,13 @@ Peaks (that represent a big decrease or increase of the histogram function) are 
 \newpage
 \fig{w_Spil1TransImproved_Xvh.eps}{Dataset: Anne2, Basic+Improved window alignment combined}{0.7}
 
+
+
+\fig{w_Dirk4Trans_ImHibaap_Xvh.eps}{Dataset: Anne2, Basic+Improved window alignment combined}{0.45}
+\fig{w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}{Dataset: Anne2, Basic+Improved window alignment combined, zoomed}{0.45}
+
 \paragraph{Discussion}
-\TODO{}
+\TODO{talk about why the combination is strong}
 
 \paragraph{Conclusion}
 \TODO{}
@@ -630,7 +647,7 @@ Peaks (that represent a big decrease or increase of the histogram function) are 
 \TODO{make diagram: edge- hough -window alignment - window classificatio - window grouping}
 
 
-\subsubsection{Window classification I (based on line amount)}
+\subsubsection{Basic window classification (based on line amount)}
 The image is now divided in a new grid of blocks based on these
 alignment. The next challenge is to classify the blocks as window and
 non-window areas: the window classification, we developed two different methods for this.
@@ -702,14 +719,16 @@ certainty is exactly 1. The results can now be relatively interpreted, e.g. if t
 then the system nows for 50 \% sure it is a window, compared to its best window ($P=1$). 
 And, as the normalization implies this, there is at least one window with $P=1$. 
 
-\fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification measure of certainty, white means high.}{0.45}
 The visualization of the measure of certainty is shown in Figure
 \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps},  
 the whiter the area the higher the measure of certainty.
 
 \paragraph{Results} % method II, improved classification
 \newpage
+\fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification measure of certainty, 
+the whiter the area the higher the measure of certainty.}{0.45}
 
+\TODO{include results of binary classification}
 The bright rows and columns in Figure
 \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps},  indicate window
 blockrows and blockcolumns, whereas the dark rows and columns indicate
@@ -733,7 +752,7 @@ This conclusion amplifies the need for a robust classification method (that is
 independent, (or at least less sensitive)) to window alignment errors.
 
 
-\subsubsection{Window classification II (based on shape of the histogram function)}
+\subsubsection{Improved window classification (based on shape of the histogram function)}
 \TODO{introduce a little bit}
 \TODO{say that anne2 dataset is more rectified }
 If we take a look at Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}
@@ -778,32 +797,24 @@ Y-axis.
 
 
 
-\fig{w_Spil1TransCrop1_ImClassRect.eps}{Classified windows}{0.45}
 
 \TODO{Explain datasets}
 
-\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Anne2, Improved classification method: Concave and convex shapes on window/nonwindow locations}{0.7}
-\fig{w_Spil1TransImproved_windowsGrouped.eps}{Dataset: Anne2, Improved classification method: the extracted windows, red:the grouping}{0.7}
+\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Anne2, Improved window classification method: Concave and convex shapes on window/nonwindow locations}{0.7}
+\fig{w_Spil1TransCrop1_ImClassRect.eps}{Dataset: Anne1, Basic window classification method: The extracted windows, red:the grouping}{0.45}
+\fig{w_Spil1TransImproved_windowsGrouped.eps}{Dataset: Anne2, Improved window classification method: The extracted windows, red:the grouping}{0.7}
+\fig{w_Dirk4Trans_ImClassRect.eps}{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}}{0.45}
 
+\TODO{Waar onderstaand?}
+\newpage
+\fig{w_Dirk4Trans_ImHoughResult.eps}{$\theta$-constrained Hough transform}{0.45}
 
 \TODO{make im of grapscale prob}
-
 \TODO{make a diagram, histogram -> alignment lines -> window classification etc.}
-
 \TODO{ iets zeggen over dataset Dirk}
 \TODO{more realistic dataset, with a occluding tree and some light spots created by the sun }
 \TODO{not all windows are aligned}
 \TODO{dat grouping in beide classificatiemethoden hetzelfde is}
-
-Results of the Dirk dataset:\\
-\newpage
-\fig{w_Dirk4_ImOri_Unrectified.eps}{Original, (unrectified) image, }{0.45}
-\fig{w_Dirk4Trans_ImOri.eps}{Rectified image, the windows differ in size, type and shape and are partially unaligned}{0.45}
-\fig{w_Dirk4Trans_ImHoughResult.eps}{$\theta$-constrained Hough transform}{0.45}
-\fig{w_Dirk4Trans_ImHibaap_Xvh.eps}{Vertical window alignment lines based on Xv and D}{0.45}
-\fig{w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}{Vertical window alignment lines based on Xv and D zoomed}{0.45}
-\fig{w_Dirk4Trans_ImClassRect.eps}{Improved classification method: Grouped windows}{0.45}
-
 \TODO{discuss/ interpret results of dirk dataset (aanvullende kracht van methoden etc.)}
 \TODO{to much alignment lines, beter to much than to few}
 \TODO{reason, the two doors below bicycles on the left side}
@@ -837,7 +848,6 @@ This first two window rows are classified as two groups but this should be one.\
 % Appendix images
 %\fig{w_Spil1TransCrop1_ImEdge.eps}{Dataset: Anne1, Result edge detection}{0.45}
 % w_Dirk4Trans_ImEdge.eps                               
-% w_Dirk4Trans_ImHoughResult.eps                        
 % w_Dirk4Trans_ImHibaap_Xh.eps                          
 % w_Dirk4Trans_ImHibaap_Xv.eps                           
 
@@ -852,9 +862,8 @@ This first two window rows are classified as two groups but this should be one.\
 
 
 
-%--- dirk dataset: --%
-%-----------------
-\TODO{ incl plaatjes verplaatsen naar results van image alignment lines}
+
+
 %\paragraph{Interpretation of the results of the Dirk dataset}
 It is easy to see in Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.eps} that there are 
 too many alignment lines detected and that not every alignment line is placed correctly. 
