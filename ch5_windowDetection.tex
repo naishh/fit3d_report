@@ -294,6 +294,7 @@ All quadrangles are filled and displayed in Figure
 
 
 \subsubsection{Results}
+\TODO{more datasets..}
 % old dataset:
 %\fig{w_spil6cCornerImEdge.eps}{Edge detection}{0.6}
 %\fig{w_spil6cCornerImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}
@@ -321,8 +322,8 @@ As can be concluded from the results, the connected corner method is suitable
 for, and robust to, scenes with a variation in window sizes and types. This
 	makes the connected corner approach suitable for a wide range of window
 	scenes where no or few prior information about the windows is known.
-	Furthermore as no rectification step is needed, the system has a low input
-	requirement that is independent of calibrated input data and 3d information
+	Furthermore as no image rectification is required, the system has a low input
+	requirement as it is independent of calibrated input data and 3d information
 	about the building.
 
 \subsubsection{Future research} %\subsubsection{Method I: Connected corner approach} 
@@ -665,8 +666,15 @@ Houghlines which makes the alternative window alignment method a strong
 alternative for the alignment of (partially) occluded windows.\\
 
 In general, the alternative window alignment performs better then the regular
-window alignment method.  However, in a few cases the regular window alignment
-outperformes the alternative window alignment method. For example, in Figure
+window alignment method.  This is because this method takes the  horizontal
+window frame parts into account which is a prori stronger as there are more
+horizontal window parts then vertical window parts present.  E.g. Figure
+\ref{fig:w_Spil1TransCrop1_ImHoughResult.eps} every window has (as it has two
+vertical subwindows) 3 horizontal window frame parts but only 2 vertical window
+parts).  Furthermore the method is more robust because it relies on a higher
+level of histogram interpretation (by using the derivative).  However, in a few
+cases alternative window alignment method is outperformed by the regular window
+alignment . For example, in Figure
 \ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}, the left
 side of the second window column is not detected.
 This is because this window type has no horizontal divisions. Only the top and
@@ -679,27 +687,38 @@ windows that do have horizontal divisions (for example the most left or most
 right window column)). 
 
 
-
-
-
-
-
-
-\TODO{drain pipe result niet erg ivm vlg stap}
+\TODO{result1 drain pipe result niet erg ivm vlg stap}
 
 \paragraph{Conclusion}
-\TODO{..}
+We can conclude that developing histogram functions of the amount of Houghlines
+is a strong approach towards determination of the window alignment as the
+results in this work and in previous work a very prommising.
 
-%relative thresholding
+We proposed two window detection methods and can conclude that the alternative
+approach performs better because it is based on a horizontal window division and
+becasue it uses a higher level interpretation of the histogram function.
+
+We showed that window alignment becomes a challenging task if the windows are partially
+occluded.  One of the main solutions we proposed is to use multiple window
+detection approaches.  To have a 100\% detection rate one need to be certain
+that if one approach fails at least one other approach must succeed.  We
+proposed the strong combination of two methods where the first method filled the
+gab of the second method and the other way arround.
+
+We can conclude that a method that fills the gab of the occluded alignment locations
+must rely on Houghlines that lie in the orthogonal direction of the occlusion.
+In our case the occluded vertical window parts are supported by a method that
+detects horizontal window parts.
+
+\subparagraph{Relative thresholding}
+Furthermore we discussed the implication of the use of different window types.
 Applying a threshold that is relative to a maximum peak doesn't work well on
-window types that differ (in for example horizontal divisions) as window
+this window types that differ (in for example horizontal divisions) as window
 alignment lines are missing (Figure
-\ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}).  This means that relative
-thresholding implies the requirement of a certain equality assumption of the
-window types. Or an alternative thresholding technique should be developed.
+\ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}).  This means that if we want to
+stick with the relative thresholding method, we have to assume a certain
+equality of the window types. 
 
-
-\TODO{}
 
 
 \TODO{make diagram: edge- hough -window alignment - window classificatio - window grouping}
