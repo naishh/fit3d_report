@@ -464,12 +464,8 @@ the purpose of displaying the projected Houghlines in context.
 \newpage
 \fig{w_Dirk4_ImOri_Unrectified.eps}{Dataset: Dirk, Original, (unrectified) image, }{0.45}
 \fig{w_Dirk4Trans_ImHoughResult.eps}{Dataset: Dirk, Projected Houghlines on rectified image}{0.45}
-%-----------
-\TODO{..}
-%, the windows of this dataset differ in size, type, shape and are partially unaligned}
 
-\TODO{Q: Do I have to discuss and conclude these results?}
-
+\TODO{ the windows of this dataset differ in size, type, shape and are partially unaligned}
 
 
 
@@ -633,7 +629,6 @@ Peaks (that represent a big decrease or increase of the histogram function) are 
 \fig{w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}{Dataset: Dirk, Regular+Alternative window alignment combined, zoomed}{0.45}
 
 \paragraph{Discussion}
-\TODO{diagram maken window alignment -> peak merging -> etc}
 If we evaluate the independent window detection results we see (Figure
 \ref{fig:w_Spil1TransImproved_Xh.eps}, \ref{fig:w_Spil1TransImproved_Xv.eps})
 that in both datasets neither the regular window alignment method nor the
@@ -644,104 +639,129 @@ at least one method.  This is basically explained by the fact that both methods
 are based on a different Houghline direction.  We now discuss the interesting
 cases, where only one method succeeds in detecting the window alignment.\\
 
-% doorlezen... ------------------------
-If we take a look at the regular window alignment in Figure
-\ref{fig:w_Spil1TransImproved_Xv.eps} we see that for the first 4 window
-columns the right side of the window are not detected by the regular window
-alignment method. 
+\label{lab:occlusion} If we take a look at the regular window alignment in
+Figure \ref{fig:w_Spil1TransImproved_Xv.eps} we see that for the first 4 window
+columns the right side of the window is not detected.  This is because the
+original (unrectified) image (Figure \ref{fig:w_spil6ImOri.eps}) is not a
+frontal image.  This makes building wall extensions (middle of Figure
+\ref{fig:w_spil6ImOri.eps}) or drainpipes occlude parts of the window.  In this
+case the windows are countersunked into the wall making the building wall itself
+ocluding the right window frame (Figure \ref{fig:w_Spil1TransImproved_Xv.eps}).
+The color of the reflection of the window is very similar to the bricks and
+because the window and wall are not seperated by the window frame, the edge
+detector doesn't find a strong edge.  This means that on all positions where the
+window frame is missing, no vertical Houghlines will be detected and (as the
+regular window aligment is based on the amount of vertical Houghlines) no window
+alignment will be found.  This artefact can be studied in the edge image Figure
+\ref{fig:w_Spil1TransCrop1_ImEdge.eps}: few or no edges are present, and at the
+low height of the peaks in Figure \ref{fig:w_Spil1TransImproved_Xv.eps} at these
+positions.\\
 
-
-\label{lab:occlusion}
-This is because the original (unrectified) image (Figure
-\ref{fig:w_spil6ImOri.eps}) is not a frontal image.  This makes building wall
-extensions (middle of Figure \ref{fig:w_spil6ImOri.eps}) or drainpipes occlude
-parts of the window.  
-In this case the windows are countersunked into the wall
-making the building wall itself ocluding the right window frame of the first 4
-window columns (Figure \ref{fig:w_Spil1TransImproved_Xv.eps}).  The color of
-the reflection of the window is very similar to the bricks and because the
-window is not seperated by the window frame, the edge detector doesn't find a
-strong edge.  On positions where the window frame is missing, no vertical
-Houghlines will be detected and (as the regular window aligment is based on the
-amount of vertical Houghlines) no window alignment will be found.  
-This artefact can
-be seen in the edge image Figure \ref{fig:w_Spil1TransCrop1_ImEdge.eps}, few or
-no edges are present, and at the low height of the peaks in Figure
-\ref{fig:w_Spil1TransImproved_Xv.eps} at these positions.\\
-
-However, the alternative window alignment is based on the Houghlines in the
-other orthogonal direction. For the vertical alignment this is the horizontal direction.
-Because the occlusion artefact has no effect on the horizontal Houghlines (that begin
-and stop at the \emph{inside} of the window frame), the alternative window
-alignment method is a suitable alternative for these window alignment
-locations.\\
+However, the alternative window alignment does find a window alignment on this
+positions. This is because the method is based on the opposite Houghline
+direction : for the vertical window alignment the horizontal Houghline direction
+is taken into account.  This occlusion artefact has no effect on the horizontal
+Houghlines which makes the alternative window alignment method a strong
+alternative for the alignment of (partially) occluded windows.\\
 
 In general, the alternative window alignment performs better then the regular
 window alignment method.  However, in a few cases the regular window alignment
-outperformes the alternative window alignment method.  For example the left
-side of the second window column in Figure
-\ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps} is not detected by the alternative
-window alignment method.
+outperformes the alternative window alignment method. For example, in Figure
+\ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}, the left
+side of the second window column is not detected.
 This is because this window type has no horizontal divisions. Only the top and
-bottom of the windowframe produce an edge, therefore the derivative wil give a
-low peak on this position (which is too low to survive the threshold).  
-This threshold is very high as it is determined by taking a fraction of the maximum peak 
-which is located at the windows that do have horizontal divisions (for example the
-most left or most right window column)). 
-
-
-\TODO{move to conclusion}
-This means that applying a threshold that is relative to a maximum peak
-also implies a certain assumption on equality of the window types.
-As it doesn't work very well on window types that differ (in for example
-horizontal divisions)
-
-\TODO{move to future work}
-A solution of the missing window alignment lines on a scene with different
-window types (Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}) would be to
-decrease the threshold if multiple window types are found. One could design a
-measure of variety of the window types (e.g. by taking the variation of the
-derivative into account for example). The value of the variety will determine
-how much the threshold is lowered. Again the challenge is to detect the window
-alignment on hard window types (with no horizontal division) but keep the
-number of false positives (e.g. a drain pipe) zero.
+bottom of the windowframe produce an edge, therefore the derivative of the
+amount of Houghlines will return a small peak on this position (which is too
+small to survive the threshold).  
+The threshold is a priori hard to survive because it has a high value as it is
+determined by taking a fraction of the maximum peak which is located at the
+windows that do have horizontal divisions (for example the most left or most
+right window column)). 
 
 
 
 
 
-this could become a problem if the window frame is also occluded.
-%----------
 
-
-
-
-%------------------------------------------------------------------------------------------
-\TODO{Waar moet dit, window classification?}
-%\paragraph{Comparison} %(discussion)
-\TODO{compare classification methods and explain differences}
-We described a basic method of window alignment and build a significant improvement.
-
-If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
-with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps})
-we see that the improved method detected each window alignment with an maximum
-error of 3 pixels whereas the basic method has an error of 15 pixels.  Its hard
-to say something about the classification method I because the window alignment
-lines had a large error.
-The improved classification method Figure
-\ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 \% of
-the windows correct.
-\TODO{also talk abooot other classification}
-%------------------------------------------------------------------------------------------
 
 
 \TODO{drain pipe result niet erg ivm vlg stap}
 
 \paragraph{Conclusion}
+\TODO{..}
+
+%relative thresholding
+Applying a threshold that is relative to a maximum peak doesn't work well on
+window types that differ (in for example horizontal divisions) as window
+alignment lines are missing (Figure
+\ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}).  This means that relative
+thresholding implies the requirement of a certain equality assumption of the
+window types. Or an alternative thresholding technique should be developed.
+
+
 \TODO{}
 
 
 \TODO{make diagram: edge- hough -window alignment - window classificatio - window grouping}
+\TODO{diagram maken window alignment -> peak merging -> etc}
+
+\paragraph{Future work}
+\subparagraph{Determine window alignment of different window types}
+A solution of the missing window alignment lines on a scene with different
+window types (Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}) would be to
+decrease the threshold if multiple window types are found. One could design a
+measure of variety of the window types. This could be done by taking the variation of the
+derivative of the amount of Houghlines. This amount of variation will determine
+the amount of decrease in threshold. Let's explain this by two examples:
+If there is just a few variation the maximum peak is very representitive for a
+window so the threshold could be for example 0.7*max peak. However if there is a
+large variation is found (which means multiple window types are present), the
+threshold should be lowered to 0.3*max peak to detect the hard window types
+(with few horizontal divisions).
+Another method would be to cluster the amount of Houghlines in $n$+1 values
+where $n$ is the number of window types (the 1 is for the non-window area).
+Areas that transcent from a window area cluster to a non-window area cluster
+(or vice versa) are determined as the window alignment locations.
+For both methods the challenge is again to detect the window alignment with
+unknown window types but keep the number of false positives (e.g. a drain pipe)
+zero.
+
+\subparagraph{Peak grouping}
+We fused the result of the horizontal and vertical Houghlines and discarded
+peaks that where close.  A more accurate result would be achieved if close peaks
+where averaged, the height of the peak could be used as a weight.  We used a
+manual maxium peak group distance ($G$), this value could also be automatically
+derived from the image by for example taking a percentage of the window, or by
+detecting the size of the window frame parts.\\ It is challenging to handle
+multiple close peaks, e.g. if 4 peaks are close, then peak 1 could indicate the
+same window as peak 2 but inidicate a different window then peak 4. The location
+of the close peaks: inside, at the border, or outside the window could add
+important evidence, some methods of the window classification could be used to
+detect these values.
+
+\subparagraph{Window alignment refinement}
+To get more accurate result or to handle scenes with poor window alignment a
+refinement procedure could be applied.  As mentioned in the related work, Lee et
+all \cite{Lee_extraction} applied window refinement.  Although this comes with
+accurate results, the iterative refinement is a computational expensive
+procedure.  It would be nice to have a dynamic system that is aware of this
+accuracy and computational time trade of. A system that only refines the results
+when the recourses are available.  For example if a car is driving and uses
+window detection for building recognition the refinement is disabled.  But if
+the car is lowering speed the refinement procedure could be activated.
+Resulting in accurate building recognition which opens the door for augmented
+reality.\\
+
+Both window refinement and window alignment steps could use some additional
+evidence which could be provided by feature based methods.  For example a
+\emph{multi scale Harris corner detector} could help an accurate alignment or
+refinement of the windows.
+
+
+
+
+
+
 
 
 \subsubsection{Basic window classification (based on line amount)}
@@ -820,7 +840,7 @@ The visualization of the measure of certainty is shown in Figure
 \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps},  
 the whiter the area the higher the measure of certainty.
 
-\paragraph{Results} % method II, improved classification
+\paragraph{Results} 
 \newpage
 \fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification measure of certainty, 
 the whiter the area the higher the measure of certainty.}{0.45}
@@ -989,38 +1009,38 @@ in the image (especially the first and last columns) are very close.
 
 \paragraph{Conclusion} %\subsubsection{Method II: Histogram based approach} 
 
-\subsubsection{Future research} %\subsubsection{Method II: Histogram based approach} 
+
+
+
+
+\subsubsection{Discussion(/comparison of) basic and improved window classification}
+\TODO{Waar moet dit, window classification?}
+\paragraph{Main window classification Discussion}
+%\paragraph{Comparison} %(discussion)
+\TODO{compare classification methods and explain differences}
+We described a basic method of window classification and build a significant improvement.
+If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
+with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps})
+we see that the improved method detected each window alignment with an maximum
+error of 3 pixels whereas the basic method has an error of 15 pixels.  Its hard
+to say something about the classification method I because the window alignment
+lines had a large error.
+The improved classification method Figure
+\ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 \% of
+the windows correct.
+\TODO{also talk abooot other classification}
+%------------------------------------------------------------------------------------------
+
+
+
+\subsubsection{Future research on window classification} 
+\TODO{..}
 \paragraph{Performance measure for extreme viewing angles}
 It would be nice to investigate the effect of the occlusion and to examine the
 robustness of the window detector under extreme viewing angles.
 For example the viewing angle could be plotted against the percentage of
 correct detected windows.
 
-\paragraph{Window alignment: Peak grouping}
-We fused the result of the horizontal and vertical Houghlines and discarded
-peaks that where close.  A more accurate result would be achieved if close peaks
-where averaged, the height of the peak could be used as a weight.\\
-We used a manual maxium peak group distance ($G$), this value could also be automatically derived from the image
-by for example taking a percentage of the window, or by detecting the size of the window frame parts.\\ 
-It is challenging to handle multiple close peaks, e.g. if 4 peaks
-are close, then peak 1 could indicate the same window as peak 2 but inidicate a different window then peak 4. The location of the close peaks: inside, at the border, or outside the window could add important evidence, some methods of the window classification could be used to detect these values.
-
-\paragraph{Window alignment refinement}
-To get more accurate result or to handle scenes with poor window alignment a refinement procedure could be applied.
-As mentioned in the related work, Lee et all \cite{Lee_extraction} applied window refinement.
-Although this comes with accurate results, the iterative refinement is a
-computational expensive procedure. 
-It would be nice to have a dynamic system that is aware of this 
-accuracy and computational time trade of. A system that only refines the results when the recourses are available.
-For example if a car is driving and uses window detection for building recognition the refinement is disabled.
-But if the car is lowering speed the refinement procedure could be activated.
-Resulting in accurate building recognition which opens the door for augmented reality.
-
-\paragraph{Feature fusion}
-Both window refinement and window alignment steps could use some additional
-evidence which could be provided by feature based methods.  For example a
-\emph{multi scale Harris corner detector} could help an accurate alignment or
-refinement of the windows.
 
 
 
