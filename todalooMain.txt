@@ -52,22 +52,20 @@ list of figures
 -bar and barh in fig mergen
 -grayvalues voting
   - values that fall out of cluster are displayed striped
--grayvalues voting with clusterlines
-	- or clustervalues in colored bar graph
 
 
 
 ---------------------------------------------------------------------------------
-matlab plaatjes	
-	window detection
-		ingezoomed plaatje 'probabilities'
+matlab 
+	plaatjes	
+		convex and concave function of dirk dataset
+		ransac plane fitter, kruisjes en plane
+		binary classification image
 
+	code kloppen
+		certainty based classification on anne2 dataset
 
-	fit3dr filmstript 6 consecutive frames
-		plaatjes in 3d
-		puntenwolk etc.
-	ransac plane fitter, kruisjes en plane
-
+	
 
 	
 	

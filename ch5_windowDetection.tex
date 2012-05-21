@@ -294,6 +294,7 @@ All quadrangles are filled and displayed in Figure
 
 
 \subsubsection{Results}
+\label{sec:results}.
 \TODO{more datasets..}
 % old dataset:
 %\fig{w_spil6cCornerImEdge.eps}{Edge detection}{0.6}
@@ -630,7 +631,25 @@ Peaks (that represent a big decrease or increase of the histogram function) are 
 \fig{w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}{Dataset: Dirk, Regular+Alternative window alignment combined, zoomed}{0.45}
 
 \paragraph{Discussion}
-If we evaluate the independent window detection results we see (Figure
+The results are promissing, as for both datasets 100 \% of the alignment lines
+are positioned either at the boundary of a window area or inside a window area.
+
+\subparagraph{Many alignment lines}
+In Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.eps}, too many alignment lines
+detected and not every alignment line is placed correctly.  This is mainly
+because the windows are partially aligned: the two front doors contain many
+vertical edges that are not aligned with the upper windows therefore a double alignment
+is found (doors and windows).  Another cause of this artefact is that the
+bicycles on the left (see Figure \ref{fig:w_Dirk4Trans_ImHoughResult.eps}) cause
+a large amount of found Hough lines which implies a (false) alignment line.
+Although the causes are clear, we don't have to worrie about this additional
+window alignment lines that lie inside a window area as adjacent window areas
+are grouped by the classification module.\\
+Fortuntatelly no alignment lines are found at non-window areas.
+
+
+\subparagraph{Fusing the methods}
+If we evaluate the independent window detection results on the Anne2 dataset we see (Figure
 \ref{fig:w_Spil1TransImproved_Xh.eps}, \ref{fig:w_Spil1TransImproved_Xv.eps})
 that in both datasets neither the regular window alignment method nor the
 improved window alignment detect 100\% of the window alignment lines.  The
@@ -921,53 +940,63 @@ For the sake of representation only blockcolumns are presented, the method for
 the blockrows is the same, the projection profiles are projected to the
 Y-axis.
 
-\paragraph{Results} % method II, %measurements, observations, perceptions
-\label{sec:results}.
-
+\paragraph{Results and Discussion} 
 \TODO{discuss drain pipe, dat het goed is dat het resultaat mooi is ondanks drainpipe}
+\TODO{Explain datasets (before results?):}
+%,  The Spil dataset is perspective transformation,
+%occlusion bla bla. The Dirk dataset is a more challenging dataset as the windows are very close and differ in type}
+%ataset: Dirk, Rectified image of a realistic scene which is realistic as it contains light spots, bicycles. Note that the windows are partially aligned and the differ in size and type}{0.45}
 
-
-
-%Results of the Anne dataset:\\
-
-
-
-
-
-\TODO{Explain datasets}
-
-\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Anne2, Improved window classification method: Concave and convex shapes on window/nonwindow locations}{0.7}
 \fig{w_Spil1TransCrop1_ImClassRect.eps}{Dataset: Anne1, Basic window classification method: The extracted windows, red:the grouping}{0.45}
+\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Anne2, Improved window
+classification method: The red line shows concave shapes at window locations and convex shapes at nonwindow locations}{0.7}
 \fig{w_Spil1TransImproved_windowsGrouped.eps}{Dataset: Anne2, Improved window classification method: The extracted windows, red:the grouping}{0.7}
+\TODO{image of concave and convex shape of Dirk dataset, }%w_Spil1TransImproved_WAlinesMerged.eps
+\TODO{image of original dirk dataset }
+\newpage
+\fig{w_Dirk4Trans_ImOri.eps}{Dataset: Dirk, Rectified image of a realistic scene which is realistic as it contains light spots, bicycles. Note that the windows are partially aligned and the differ in size and type}{0.45}
 \fig{w_Dirk4Trans_ImClassRect.eps}{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}{0.45}
 
-\TODO{Waar onderstaand?}
-\newpage
-\fig{w_Dirk4Trans_ImHoughResult.eps}{$\theta$-constrained Hough transform}{0.45}
 
-\TODO{make im of grapscale prob}
 \TODO{make a diagram, histogram - alignment lines -> window classification etc.}
-\TODO{ iets zeggen over dataset Dirk}
 \TODO{more realistic dataset, with a occluding tree and some light spots created by the sun }
-\TODO{not all windows are aligned}
-\TODO{dat grouping in beide classificatiemethoden hetzelfde is}
-\TODO{discuss/ interpret results of dirk dataset (aanvullende kracht van methoden etc.)}
-\TODO{to much alignment lines, beter to much than to few}
-\TODO{reason, the two doors below bicycles on the left side}
-\TODO{especially the horizontal division of the lowest row of windows is amazing, refer to}
 
-Facts of Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.eps}\\
-the amount of alignment lines is very large.
 
-Facts of Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps}\\
-\begin{itemize}
-	\item 100 \% of the alignment lines are positioned at window areas.
-	\item 100 \% of the windows are detected
-	\item 44 windows are found
-	\item 5 windows (11\%) are false positive
-	\item 39 windows (87\%) are true positive
-\end{itemize}
 
+
+\begin{table}[t]
+\caption{Window detection results on Anne2 and Dirk dataset}
+\begin{tabular}{|l||c|c|}
+\hline
+Type										& Anne2 dataset (Fig \ref{fig:w_Spil1TransImproved_windowsGrouped.eps})	& Dirk dataset (Fig \ref{fig:w_Dirk4Trans_ImClassRect.eps})\\
+\hline
+Detection rate								& 100 \% 	& 100 \%	 \\
+True positive rate							& 100 \%	&  87 \%	 \\
+False positive rate							&   0 \%	&  11 \%	 \\
+False negative rate							&   0 \%    &   9 \%     \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[t]
+\caption{Grouping results on Anne2 and Dirk dataset}
+\begin{tabular}{|l||c|c|}
+\hline
+Type										& Anne2 dataset (Fig \ref{fig:w_Spil1TransImproved_windowsGrouped.eps})	& Dirk dataset (Fig \ref{fig:w_Dirk4Trans_ImClassRect.eps})\\
+\hline
+\hline
+Grouped correct			100 \%  & 90\%  \\
+Grouped incorrect		  0 \%  & 10\%  \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+\TODO{The grouping rates are calculated as follows, }
+
+Grouping table:
 Grouping of positive classified windows:\\
 \begin{itemize}
 	\item 39 windows are positive classified of which:
@@ -975,54 +1004,48 @@ Grouping of positive classified windows:\\
 	\item 4 windows (10\%) are grouped incorrect
 \end{itemize}
 
+\TODO{say something about grouping  error and future work: not only adjacent
+but also a min width between gaps}
 
+\TODO{certainty based (white strokes) classification on anne2 dataset}
 
-This first two window rows are classified as two groups but this should be one.\\
+\TODO{remark that we goedkeuren partieel resultaat van windows helemaal rechts
+en links dirk dataset}
 
-\TODO{tabel met percentage correct versch datasets}
-
-% Appendix images
-%\fig{w_Spil1TransCrop1_ImEdge.eps}{Dataset: Anne1, Result edge detection}{0.45}
-% w_Dirk4Trans_ImEdge.eps                               
-% w_Dirk4Trans_ImHibaap_Xh.eps                          
-% w_Dirk4Trans_ImHibaap_Xv.eps                           
 
 \TODO{plot original  function (not only peaks)}
 
 
 
-%\paragraph{Interpretation of the results of the Anne dataset}
+\subparagraph{Interpretation of the results of the Anne dataset}
+\TODO{Meer over lof spreken} 
 \TODO{..}
+\TODO{1st dataset so its overfitted?}
 
 
 
+\subparagraph{Interpretation of the results of the Dirk dataset}
+\TODO{especially the horizontal division of the lowest row of windows is amazing, refer to}
 
-
-
-
-%\paragraph{Interpretation of the results of the Dirk dataset}
-It is easy to see in Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.eps} that there are 
-too many alignment lines detected and that not every alignment line is placed correctly. 
-This is mainly because the scene is partially aligned, the two
-front doors contain many vertical edges that are not aligned with the windows.
-Another cause of this artefact is that the bicycles on the left cause a large
-amount of found Hough lines, see \ref{fig:w_Dirk4Trans_ImHoughResult.eps}.
- 
-
-
-%--- dirk dataset: --%
-For the actual detection of the windows, the problem of finding to many window alignment lines
-(see Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.eps})
-didn't seem to be a problem. This is because after the peak fusing module discards many close alignment lines, the
-many small subwindows are grouped to clear big windows, see red rectangles in Figure
+\TODO{Meer over lof spreken} 
+We discussed at the section about window alignment that the classification
+module would handle the redundant window alignment lines. 
+This can be seen in Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps} where the 
+classification took advantage of the fact that all alignment lines are located at a boundary of a window or in a window. 
+The peak fusing module discarded many close alignment lines and the residual redundant alignment lines create
+small green adjacent subwindows which where grouped to clear red big windows
 \ref{fig:w_Dirk4Trans_ImClassRect.eps}.\\
 
+This grouping result is promissing as 90\% of the grouping went well 
+this is a quitte good result given the scene contains a large variety in window size and type.
+This result is mostly due an almost perfect window alignment and classification 
+(as the grouping only groups adjacent positively classified subwindows).
 
-This first two window rows are classified as two groups but this should be one.
+The first two window rows in Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps}
+however are classified as two groups but this should be one.
 Normally the peak merging step would handle this problem, but with this dataset
 we could not use a large \emph{maximum peak distance} value because the windows
 in the image (especially the first and last columns) are very close.
-
 
 
 
