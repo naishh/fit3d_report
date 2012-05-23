@@ -31,6 +31,7 @@ how to write a thesis lezen
 
 
 structuur aanbrengen:
+	uitdraai maken todos en 1st priority geel maken
 	bij toc de paragraphs indenten
 	list of figures maken
 	1.6.3 method weg
@@ -48,19 +49,20 @@ classificatie methode met probs en met derivitave met elkaar vergelijken
 iets zeggen over complexiteit
 
 
-list of figures
--bar and barh in fig mergen
--grayvalues voting
-  - values that fall out of cluster are displayed striped
-
 
 
 ---------------------------------------------------------------------------------
 matlab 
+	ook schema diagram maken
+	backproject results (FANCYYY)
 	plaatjes	
 		convex and concave function of dirk dataset
+			plot signchange
 		ransac plane fitter, kruisjes en plane
 		binary classification image
+			 - values that fall out of cluster are displayed striped
+		k-means bars
+			(-bar and barh in fig mergen)
 
 	code kloppen
 		certainty based classification on anne2 dataset

@@ -878,10 +878,45 @@ The visualization of the measure of certainty is shown in Figure
 \ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps},  
 the whiter the area the higher the measure of certainty.
 
-\paragraph{Results} 
+
+\paragraph{Datasets}
+For this research we used three datasets that are recorded in the suburban area
+'de Baarsjes' of Amsterdam.  Every dataset has a challenge/handicap.
+
+\subparagraph{Anne1}
+The challenge of this dataset is that it suffers from some rectification error
+which makes the window alignment a challenging task as it assumes the windows to
+be aligned with the x-axis and y-axis of the image.
+The rectification error can be seen as the skew window alignment (and skew
+drainpipe) on the left of the image. 
+Furthermore the yaw value of the camera (horizontal viewing angle) was (relative
+to the other datasets) high, making parts of the windows occluded.
+To minimize the number of handicaps (and to focus on the rectification and
+occlusion error) we cut off the bottom of the image which included cars, unaligned doors and windows.
+\TODO{image of dataset}
+
+\subparagraph{Anne2}
+This dataset contains images of the same scene as Anne1.
+It has zero rectification error: the windows are perfect aligned. The challenge
+of this dataset are the occlusion artefacts and the 
+bottom area of the image (cars, unaligned doors and windows).
+
+\subparagraph{Dirk}
+\TODO{ipv realistic alledaags?}
+The Dirk dataset is realistic as it contains light spots on the facade,
+bicycles, an an occluding tree.  It contains zero rectification error but the
+windows are partially aligned.  The windows are very closely located (making it
+hard to detect non-window areas between them), furthermore they differ in size
+and in type.  The yaw of the camera is relative low, implicating little or no
+occlusion artefacts.
+\TODO{uitbouw van de ramen}
+\TODO{tabel van datasets en handicaps!}
+
+\paragraph{Results} % basic window classification
 \newpage
-\fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Window classification measure of certainty, 
+\fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Dataset: Anne1, Basic window classification method:Measure of certainty, 
 the whiter the area the higher the measure of certainty.}{0.45}
+\fig{w_Spil1TransCrop1_ImClassRect.eps}{Dataset: Anne1, Basic window classification method: The extracted windows, red:the grouping}{0.45}
 
 \TODO{include results of binary classification}
 The bright rows and columns in Figure
@@ -894,6 +929,9 @@ The area of window positions is particularly white, as it
 intersects a bright (positively classified) row and column.
 One can compare this result to the windows in the original image 
 (Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}).
+
+\TODO{include table of false positives etc, detection rate etc. etc. misch staat
+dit nog op github}
 
 
 \paragraph{Conclusion}
@@ -940,32 +978,25 @@ For the sake of representation only blockcolumns are presented, the method for
 the blockrows is the same, the projection profiles are projected to the
 Y-axis.
 
-\paragraph{Results and Discussion} 
+\paragraph{Results} % improved window classification
+\TODO{make a diagram, histogram - alignment lines -> window classification etc.}
 \TODO{discuss drain pipe, dat het goed is dat het resultaat mooi is ondanks drainpipe}
-\TODO{Explain datasets (before results?):}
-%,  The Spil dataset is perspective transformation,
-%occlusion bla bla. The Dirk dataset is a more challenging dataset as the windows are very close and differ in type}
-%ataset: Dirk, Rectified image of a realistic scene which is realistic as it contains light spots, bicycles. Note that the windows are partially aligned and the differ in size and type}{0.45}
 
-\fig{w_Spil1TransCrop1_ImClassRect.eps}{Dataset: Anne1, Basic window classification method: The extracted windows, red:the grouping}{0.45}
+
 \fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Anne2, Improved window
 classification method: The red line shows concave shapes at window locations and convex shapes at nonwindow locations}{0.7}
 \fig{w_Spil1TransImproved_windowsGrouped.eps}{Dataset: Anne2, Improved window classification method: The extracted windows, red:the grouping}{0.7}
-\TODO{image of concave and convex shape of Dirk dataset, }%w_Spil1TransImproved_WAlinesMerged.eps
-\TODO{image of original dirk dataset }
+
 \newpage
 \fig{w_Dirk4Trans_ImOri.eps}{Dataset: Dirk, Rectified image of a realistic scene which is realistic as it contains light spots, bicycles. Note that the windows are partially aligned and the differ in size and type}{0.45}
+\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Dirk, Improved window
+classification method: The red line shows concave shapes at window locations and convex shapes at nonwindow locations}{0.7}
 \fig{w_Dirk4Trans_ImClassRect.eps}{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}{0.45}
-
-
-\TODO{make a diagram, histogram - alignment lines -> window classification etc.}
-\TODO{more realistic dataset, with a occluding tree and some light spots created by the sun }
-
-
+\TODO{IMPROVED result on Anne1 dataset, investigate which comibnations of dataset andmethods i miss}
 
 
 \begin{table}[t]
-\caption{Window detection results on Anne2 and Dirk dataset}
+\caption{Improved window classification results on Anne2 and Dirk dataset}
 \begin{tabular}{|l||c|c|}
 \hline
 Type										& Anne2 dataset (Fig \ref{fig:w_Spil1TransImproved_windowsGrouped.eps})	& Dirk dataset (Fig \ref{fig:w_Dirk4Trans_ImClassRect.eps})\\
@@ -977,7 +1008,6 @@ False negative rate							&   0 \%    &   9 \%     \\
 \hline
 \end{tabular}
 \end{table}
-
 
 \begin{table}[t]
 \caption{Grouping results on Anne2 and Dirk dataset}
@@ -993,31 +1023,23 @@ Grouped incorrect		  0 \%  & 10\%  \\
 \end{table}
 
 
+%------------------------------------------------------------------------------
 
-\TODO{The grouping rates are calculated as follows, }
-
-Grouping table:
-Grouping of positive classified windows:\\
-\begin{itemize}
-	\item 39 windows are positive classified of which:
-	\item 35 windows (90\%) are grouped correct
-	\item 4 windows (10\%) are grouped incorrect
-\end{itemize}
-
-\TODO{say something about grouping  error and future work: not only adjacent
-but also a min width between gaps}
-
-\TODO{certainty based (white strokes) classification on anne2 dataset}
+\TODO{certainty based (white strokes) classification on anne2 dataset, pas als
+skyline af is, img zijn wel al klaar}
 
 \TODO{remark that we goedkeuren partieel resultaat van windows helemaal rechts
 en links dirk dataset}
 
 
-\TODO{plot original  function (not only peaks)}
+%\paragraph{Discussion} eigenlijk een discussie maar toch ook weer niet
 
+\subparagraph{Interpretation of the results of the Anne1 dataset}
+\TODO{..}
+\subparagraph{Interpretation of the results of the Anne2 dataset}
+%-------------------
+%afkijken bij window alignment
 
-
-\subparagraph{Interpretation of the results of the Anne dataset}
 \TODO{Meer over lof spreken} 
 \TODO{..}
 \TODO{1st dataset so its overfitted?}
@@ -1040,19 +1062,17 @@ This grouping result is promissing as 90\% of the grouping went well
 this is a quitte good result given the scene contains a large variety in window size and type.
 This result is mostly due an almost perfect window alignment and classification 
 (as the grouping only groups adjacent positively classified subwindows).
-
 The first two window rows in Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps}
 however are classified as two groups but this should be one.
 Normally the peak merging step would handle this problem, but with this dataset
 we could not use a large \emph{maximum peak distance} value because the windows
-in the image (especially the first and last columns) are very close.
-
+in the image (especially the first and last columns) are very close.  More on
+this in \emph{Future research on window classification
+(\ref{sec:futureResearchWindowClassification})}.
 
 
 \paragraph{Conclusion} %\subsubsection{Method II: Histogram based approach} 
-
-
-
+\TODO{..}
 
 
 \subsubsection{Discussion(/comparison of) basic and improved window classification}
@@ -1076,16 +1096,23 @@ the windows correct.
 
 
 \subsubsection{Future research on window classification} 
+\label{sec:futureResearchWindowClassification}
 \TODO{..}
+\paragraph{Grouping error minimalisation}
+Although the grouping module gave promising results it can be optimized.  The
+grouping module now groups adjacent positively classified window areas.  Some
+window in Figure areas are false negatively classified, see the left side of
+Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps}.  This is caused by a small area
+between the windows that is classified as a non-window area. This could be
+solved by by adding a minimum size constraint of a area to be threated as a
+non-window area.  In this way small negatively classified areas cannot interupt
+the adjacent windows.
+
 \paragraph{Performance measure for extreme viewing angles}
 It would be nice to investigate the effect of the occlusion and to examine the
 robustness of the window detector under extreme viewing angles.
 For example the viewing angle could be plotted against the percentage of
 correct detected windows.
-
-
-
-
 
 
 
