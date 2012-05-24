@@ -881,7 +881,9 @@ the whiter the area the higher the measure of certainty.
 
 \paragraph{Datasets}
 For this research we used three datasets that are recorded in the suburban area
-'de Baarsjes' of Amsterdam.  Every dataset has a challenge/handicap.
+'de Baarsjes' of Amsterdam.  All images have a original resolution of 3072x2304
+px and are downscaled (using trilinear interpolation) to 1280x1024 px.
+Every dataset has a challenge/handicap.
 
 \subparagraph{Anne1}
 The challenge of this dataset is that it suffers from some rectification error
@@ -890,15 +892,19 @@ be aligned with the x-axis and y-axis of the image.
 The rectification error can be seen as the skew window alignment (and skew
 drainpipe) on the left of the image. 
 Furthermore the yaw value of the camera (horizontal viewing angle) was (relative
-to the other datasets) high, making parts of the windows occluded.
-To minimize the number of handicaps (and to focus on the rectification and
+to the other datasets) high, making parts of the windows occluded.  The height
+of the windows on the right side of the image is 698 px, at the left side this
+is 320 px: a resolution of more then 2 times smaller making it hard to detect
+the left windows. Trilinear interpolation is used to minimize this loss.
+To reduce the number of handicaps (and to focus on the rectification and
 occlusion error) we cut off the bottom of the image which included cars, unaligned doors and windows.
 \TODO{image of dataset}
 
 \subparagraph{Anne2}
 This dataset contains images of the same scene as Anne1.
-It has zero rectification error: the windows are perfect aligned. The challenge
-of this dataset are the occlusion artefacts and the 
+It has zero rectification error: the windows are perfect aligned, although the
+resolution on the left is as in the Anne1 dataset two times smaller.
+The challenge of this dataset are the occlusion artefacts and the 
 bottom area of the image (cars, unaligned doors and windows).
 
 \subparagraph{Dirk}
@@ -1023,7 +1029,6 @@ Grouped incorrect		  0 \%  & 10\%  \\
 \end{table}
 
 
-%------------------------------------------------------------------------------
 
 \TODO{certainty based (white strokes) classification on anne2 dataset, pas als
 skyline af is, img zijn wel al klaar}
@@ -1036,13 +1041,37 @@ en links dirk dataset}
 
 \subparagraph{Interpretation of the results of the Anne1 dataset}
 \TODO{..}
+
 \subparagraph{Interpretation of the results of the Anne2 dataset}
+%------------------------------------------------------------------------------
+Although the scene contains a lot occlusion artefacts and resolution loss, especially on the left
+side of the image, the results, a 100\% detection and true positive rate are very promissing.
+This is due the high level of interpretation of the Histogram function.
+The histogram function has a very consistent pattern, at every window area its
+shape is  convex and every non-window its shape is concave.
+One of the reason this holds is the nature of its kind
+
+Using the sign change method seem to work realy well on both datasets.
+\TODO{compaire to other classification method}
+% but whyyyyyyyy? (ali-g)
+ the classification module 
+this is probably because 
+
 %-------------------
 %afkijken bij window alignment
 
 \TODO{Meer over lof spreken} 
 \TODO{..}
 \TODO{1st dataset so its overfitted?}
+
+
+\paragraph{Future work} % improved classification
+As the classification worked very well it would be interesting to find out on which
+point it will fail?
+This could be investigated by using low quality images (which are taken for
+example with a cell phone), furthermore we could downscale the images and/or add
+Gaussian noise to the data.
+\TODO{speak about video, or sequence of images, detection + tracking etc}
 
 
 
