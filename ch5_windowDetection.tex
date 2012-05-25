@@ -1,4 +1,5 @@
 % set ignorecase
+\TODO{Zorgen dat paragraphs ook 3.5.3.1 nummering krijgt}
 
 \section{Window detection}
 \label{sec:windowDetection}
@@ -467,7 +468,6 @@ the purpose of displaying the projected Houghlines in context.
 \fig{w_Dirk4_ImOri_Unrectified.eps}{Dataset: Dirk, Original, (unrectified) image, }{0.45}
 \fig{w_Dirk4Trans_ImHoughResult.eps}{Dataset: Dirk, Projected Houghlines on rectified image}{0.45}
 
-\TODO{ the windows of this dataset differ in size, type, shape and are partially unaligned}
 
 
 
@@ -532,7 +532,7 @@ axis. We have now transformed the data in two groups of 1 dimensional
 coordinates which represent the projected position of the Houghlines.\\
 
 Next we calculate two histograms H(orizontal) and V(ertical), containing respectively
-$w$ and $h$ bins where $w x h$ is the dimension of the image.  The histograms
+$w$ and $h$ bins where $w$ x $h$ is the dimension of the image.  The histograms
 are presented as small yellow bars in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.
 
 The peaks are located at the positions where an increased number of Houghlines
@@ -617,24 +617,22 @@ be mistaken by a window frame part.
 \newpage
 \paragraph{Results}
 \fig{w_Spil1TransCrop1_ImHibaap.eps}{Dataset: Anne1, Regular window alignment (paralel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Houghlines, for the column division the horizontal houghlines are counted (at each $y$ position), for the row division the vertical houghlines are counted (at each $x$ position) }{0.45}
-\newpage
+
 \fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Regular window alignment: Based on a histogram that displays amount of overlapping vertical Houghlines at each $x$ position}{0.7}
 \fig{w_Spil1TransImproved_Xh.eps}{Dataset: Anne2, Alternative window alignment (orthogonal projection): Based on the shape of the smoothed histogram function. 
 For the column division, the number of \emph{horizontal} Houghlines is counted (Note that this is the orthogonal oposite of the regular window alignment method). 
 Peaks (that represent a big decrease or increase of the histogram function) are used for the alignment.}{0.7}
-\newpage
 \fig{w_Spil1TransImproved_Xvh.eps}{Dataset: Anne2, Regular+Alternative window alignment combined}{0.7}
-
-
 
 \fig{w_Dirk4Trans_ImHibaap_Xvh.eps}{Dataset: Dirk, Regular+Alternative window alignment combined}{0.45}
 \fig{w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}{Dataset: Dirk, Regular+Alternative window alignment combined, zoomed}{0.45}
+\clearpage
 
 \paragraph{Discussion}
 The results are promissing, as for both datasets 100 \% of the alignment lines
 are positioned either at the boundary of a window area or inside a window area.
 
-\subparagraph{Many alignment lines}
+\subparagraph{Discussion:Many alignment lines}
 In Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.eps}, too many alignment lines
 detected and not every alignment line is placed correctly.  This is mainly
 because the windows are partially aligned: the two front doors contain many
@@ -648,7 +646,7 @@ are grouped by the classification module.\\
 Fortuntatelly no alignment lines are found at non-window areas.
 
 
-\subparagraph{Fusing the methods}
+\subparagraph{Discussion:Fusing the methods}
 If we evaluate the independent window detection results on the Anne2 dataset we see (Figure
 \ref{fig:w_Spil1TransImproved_Xh.eps}, \ref{fig:w_Spil1TransImproved_Xv.eps})
 that in both datasets neither the regular window alignment method nor the
@@ -729,7 +727,7 @@ must rely on Houghlines that lie in the orthogonal direction of the occlusion.
 In our case the occluded vertical window parts are supported by a method that
 detects horizontal window parts.
 
-\subparagraph{Relative thresholding}
+\subparagraph{Conclusion:Relative thresholding}
 Furthermore we discussed the implication of the use of different window types.
 Applying a threshold that is relative to a maximum peak doesn't work well on
 this window types that differ (in for example horizontal divisions) as window
@@ -743,8 +741,8 @@ equality of the window types.
 \TODO{make diagram: edge- hough -window alignment - window classificatio - window grouping}
 \TODO{diagram maken window alignment -> peak merging -> etc}
 
-\paragraph{Future work}
-\subparagraph{Determine window alignment of different window types}
+\paragraph{Future research}
+\subparagraph{Future research:Determine window alignment of different window types}
 A solution of the missing window alignment lines on a scene with different
 window types (Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}) would be to
 decrease the threshold if multiple window types are found. One could design a
@@ -764,7 +762,7 @@ For both methods the challenge is again to detect the window alignment with
 unknown window types but keep the number of false positives (e.g. a drain pipe)
 zero.
 
-\subparagraph{Peak grouping}
+\subparagraph{Future research:Peak grouping}
 We fused the result of the horizontal and vertical Houghlines and discarded
 peaks that where close.  A more accurate result would be achieved if close peaks
 where averaged, the height of the peak could be used as a weight.  We used a
@@ -777,7 +775,7 @@ of the close peaks: inside, at the border, or outside the window could add
 important evidence, some methods of the window classification could be used to
 detect these values.
 
-\subparagraph{Window alignment refinement}
+\subparagraph{Future research:Window alignment refinement}
 To get more accurate result or to handle scenes with poor window alignment a
 refinement procedure could be applied.  As mentioned in the related work, Lee et
 all \cite{Lee_extraction} applied window refinement.  Although this comes with
@@ -832,8 +830,10 @@ Leaving us with $||R||$ (number of blockrows) scalar values that give a rank of 
 This is also done for each blockcolumn (using the normalized horizontal amount of
 Houghlines pixels) which leaves us with $C$.
 
-\fig{w_Spil1TransCrop1_ImClassRectBarh.eps}{Normalized vertical Houghline pixel count of
-the blockrows (R)}{0.6}
+\TODO{DIT PLAATJE eruit en mooie staafdiagrammen erin}
+\fig{w_Spil1TransCrop1_ImClassRectBarh.eps}{Classification values for window
+block rows representing the normalized vertical Houghline pixel count of
+(R)}{0.6}
 If we examine the distribution of $R$ and $C$, we see two clusters appear: one with
 high values (the blockrows/blockcolumns that contain windows) and one with low values (non window
 blockrows/blockcolumns). For a specific example we displayed the values of $R$ in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectBarh.eps}.
@@ -880,14 +880,15 @@ the whiter the area the higher the measure of certainty.
 
 
 \paragraph{Datasets}
-For this research we used three datasets that are recorded in the suburban area
+To avoid overfitting we used multiple datasets that have a large propertie
+variety. Furthermore every dataset has a challenge/handicap.
+We used three datasets that are recorded in the suburban area
 'de Baarsjes' of Amsterdam.  All images have a original resolution of 3072x2304
 px and are downscaled (using trilinear interpolation) to 1280x1024 px.
-Every dataset has a challenge/handicap.
 
 \subparagraph{Anne1}
-The challenge of this dataset is that it suffers from some rectification error
-which makes the window alignment a challenging task as it assumes the windows to
+The challenge of this dataset is that it suffers from rectification errors.
+This makes the window alignment a challenging task as it assumes the windows to
 be aligned with the x-axis and y-axis of the image.
 The rectification error can be seen as the skew window alignment (and skew
 drainpipe) on the left of the image. 
@@ -912,17 +913,18 @@ bottom area of the image (cars, unaligned doors and windows).
 The Dirk dataset is realistic as it contains light spots on the facade,
 bicycles, an an occluding tree.  It contains zero rectification error but the
 windows are partially aligned.  The windows are very closely located (making it
-hard to detect non-window areas between them), furthermore they differ in size
+hard to detect non-window areas between them), furthermore they differ in shape, size
 and in type.  The yaw of the camera is relative low, implicating little or no
 occlusion artefacts.
 \TODO{uitbouw van de ramen}
 \TODO{tabel van datasets en handicaps!}
 
-\paragraph{Results} % basic window classification
 \newpage
+\paragraph{Results} % basic window classification
 \fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Dataset: Anne1, Basic window classification method:Measure of certainty, 
 the whiter the area the higher the measure of certainty.}{0.45}
 \fig{w_Spil1TransCrop1_ImClassRect.eps}{Dataset: Anne1, Basic window classification method: The extracted windows, red:the grouping}{0.45}
+\clearpage
 
 \TODO{include results of binary classification}
 The bright rows and columns in Figure
@@ -938,6 +940,27 @@ One can compare this result to the windows in the original image
 
 \TODO{include table of false positives etc, detection rate etc. etc. misch staat
 dit nog op github}
+
+
+\paragraph{Discussion}  % 
+The outcome of this method is non-deterministic, as it depends on to the random
+initialization of the cluster centers. This means that our results could be
+correct by coincidence.  To exclude this artefact, we ran the cluster algorithm
+10 times on all datasets. Unfortunatelly for the Dirk dataset, 2 of 10 times it 
+resulted in a bad result. This result can be found in Appendix
+Figures \ref{fig:w_Dirk4Trans_ImClassRectI_kmeansTilt_barsH.eps},
+\ref{fig:w_Dirk4Trans_ImClassRectI_kmeansTilt_barsV.eps},
+\ref{fig:w_Dirk4Trans_ImClassRectI_kmeansTilt_prob.eps} and
+\ref{fig:w_Dirk4Trans_ImClassRectI_kmeansTilt_windows.eps}.
+This result can be explained as follows. The Dirk dataset has window types in the
+middle of that contain a horizontal subdivision while the others don't.
+The windows in the middle will cause k-means to drag the cluster center to a
+value that is too high making windows classified as non-window areas.
+
+\paragraph{Future research}
+A solution to the bad luck on the initialization of the cluster centers 
+is to increase the number of clustercenters to $n$+1, 
+where $n$ is the number of window types (the 1 is for the non-window area).
 
 
 \paragraph{Conclusion}
@@ -984,6 +1007,7 @@ For the sake of representation only blockcolumns are presented, the method for
 the blockrows is the same, the projection profiles are projected to the
 Y-axis.
 
+\newpage
 \paragraph{Results} % improved window classification
 \TODO{make a diagram, histogram - alignment lines -> window classification etc.}
 \TODO{discuss drain pipe, dat het goed is dat het resultaat mooi is ondanks drainpipe}
@@ -993,13 +1017,14 @@ Y-axis.
 classification method: The red line shows concave shapes at window locations and convex shapes at nonwindow locations}{0.7}
 \fig{w_Spil1TransImproved_windowsGrouped.eps}{Dataset: Anne2, Improved window classification method: The extracted windows, red:the grouping}{0.7}
 
-\newpage
-\fig{w_Dirk4Trans_ImOri.eps}{Dataset: Dirk, Rectified image of a realistic scene which is realistic as it contains light spots, bicycles. Note that the windows are partially aligned and the differ in size and type}{0.45}
+\clearpage
+\fig{w_Dirk4Trans_ImOri.eps}{Dataset: Dirk, Rectified image of a realistic scene which is realistic as it contains light spots, bicycles. Note that the windows are partially aligned and the differ in size and type}{0.55}
 \fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Dirk, Improved window
 classification method: The red line shows concave shapes at window locations and convex shapes at nonwindow locations}{0.7}
-\fig{w_Dirk4Trans_ImClassRect.eps}{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}{0.45}
+\fig{w_Dirk4Trans_ImClassRect.eps}{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}{0.55}
 \TODO{IMPROVED result on Anne1 dataset, investigate which comibnations of dataset andmethods i miss}
 
+\clearpage
 
 \begin{table}[t]
 \caption{Improved window classification results on Anne2 and Dirk dataset}
@@ -1041,37 +1066,22 @@ en links dirk dataset}
 
 \subparagraph{Interpretation of the results of the Anne1 dataset}
 \TODO{..}
+% dit kan pas als ik ook ann1 op 
+%The scene suffers  from..
+%contained and this can be found in the results
 
 \subparagraph{Interpretation of the results of the Anne2 dataset}
 %------------------------------------------------------------------------------
-Although the scene contains a lot occlusion artefacts and resolution loss, especially on the left
-side of the image, the results, a 100\% detection and true positive rate are very promissing.
-This is due the high level of interpretation of the Histogram function.
-The histogram function has a very consistent pattern, at every window area its
-shape is  convex and every non-window its shape is concave.
-One of the reason this holds is the nature of its kind
+Although the scene contains a lot occlusion artefacts and suffers resolution
+loss, especially on the left side of the image, the results, a 100\% detection
+and a 100\% true positive rate are very well.
+This is mainly due the high interpretation level of the Histogram function.  We
+used the fact that the histogram function has a very consistent pattern, at
+every window area its shape is convex and every non-window its shape is concave.
 
-Using the sign change method seem to work realy well on both datasets.
-\TODO{compaire to other classification method}
-% but whyyyyyyyy? (ali-g)
- the classification module 
-this is probably because 
+\TODO{compaire to other classification method (perform both classifications on both
+datasets (2x3 img), visual concatinate images vertically)}
 
-%-------------------
-%afkijken bij window alignment
-
-\TODO{Meer over lof spreken} 
-\TODO{..}
-\TODO{1st dataset so its overfitted?}
-
-
-\paragraph{Future work} % improved classification
-As the classification worked very well it would be interesting to find out on which
-point it will fail?
-This could be investigated by using low quality images (which are taken for
-example with a cell phone), furthermore we could downscale the images and/or add
-Gaussian noise to the data.
-\TODO{speak about video, or sequence of images, detection + tracking etc}
 
 
 
@@ -1088,7 +1098,8 @@ small green adjacent subwindows which where grouped to clear red big windows
 \ref{fig:w_Dirk4Trans_ImClassRect.eps}.\\
 
 This grouping result is promissing as 90\% of the grouping went well 
-this is a quitte good result given the scene contains a large variety in window size and type.
+this is a quitte good result given the scene contains a large variety in window
+shape, window size and window type.
 This result is mostly due an almost perfect window alignment and classification 
 (as the grouping only groups adjacent positively classified subwindows).
 The first two window rows in Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps}
@@ -1103,10 +1114,35 @@ this in \emph{Future research on window classification
 \paragraph{Conclusion} %\subsubsection{Method II: Histogram based approach} 
 \TODO{..}
 
+\paragraph{Future work} % improved classification
+\TODO{put a opbouwende line in future work}
+\label{sec:futureResearchWindowClassification}
+As the classification worked very well it would be interesting to find out on which
+point it will fail?  This could be investigated by using low quality images (which are taken for
+example with a cell phone), furthermore we could downscale the images and/or add
+Gaussian noise to the data.
+\TODO{speak about video, or sequence of images, detection + tracking etc}
+
+\subparagraph{Future work:Grouping error minimalisation}
+Although the grouping module gave promising results it can be optimized.  The
+grouping module now groups adjacent positively classified window areas.  Some
+window in Figure areas are false negatively classified, see the left side of
+Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps}.  This is caused by a small area
+between the windows that is classified as a non-window area. This could be
+solved by by adding a minimum size constraint of a area to be threated as a
+non-window area.  In this way small negatively classified areas cannot interupt
+the adjacent windows.
+
+\subparagraph{Performance measure for extreme viewing angles}
+It would be nice to investigate the effect of the occlusion and to examine the
+robustness of the window detector under extreme viewing angles.
+For example the viewing angle could be plotted against the percentage of
+correct detected windows.
+
+\TODO{..}
 
 \subsubsection{Discussion(/comparison of) basic and improved window classification}
 \TODO{Waar moet dit, window classification?}
-\paragraph{Main window classification Discussion}
 %\paragraph{Comparison} %(discussion)
 \TODO{compare classification methods and explain differences}
 We described a basic method of window classification and build a significant improvement.
@@ -1124,33 +1160,7 @@ the windows correct.
 
 
 
-\subsubsection{Future research on window classification} 
-\label{sec:futureResearchWindowClassification}
-\TODO{..}
-\paragraph{Grouping error minimalisation}
-Although the grouping module gave promising results it can be optimized.  The
-grouping module now groups adjacent positively classified window areas.  Some
-window in Figure areas are false negatively classified, see the left side of
-Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps}.  This is caused by a small area
-between the windows that is classified as a non-window area. This could be
-solved by by adding a minimum size constraint of a area to be threated as a
-non-window area.  In this way small negatively classified areas cannot interupt
-the adjacent windows.
 
-\paragraph{Performance measure for extreme viewing angles}
-It would be nice to investigate the effect of the occlusion and to examine the
-robustness of the window detector under extreme viewing angles.
-For example the viewing angle could be plotted against the percentage of
-correct detected windows.
-
-
-
-\subsection{Discussion}  % both methods
-The outcome of Classification method I is non-deterministic, as it depends on to the
-random initialization of the cluster centers. This means that our results could be correct by
-coincidence.  To exclude this artefact, we ran the cluster algorithm 10 times
-on all datasets, fortunately it resulted in consistent classifications.
-\TODO{ also talk aboooot other datasets you knuw,}
 
 
 
