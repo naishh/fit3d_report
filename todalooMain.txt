@@ -14,10 +14,7 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 17 mei
 39 todo's
 
-dagdoel 20 over
-morgen (vrijdag) alles af
-
-
+(vrijdag) window detection af
 
 % keep the linking in mind! link text!
 
@@ -26,7 +23,7 @@ ch 5 WINDOW DETECTION
 
 PRIMAIRE todos:
 
-lijn in thesis aanbrengen, overal linken, 1 geheel van maken, bullshit wissen belangrijke zaken uitlichten
+lijn in thesis aanbrengen, overal heen en weer linken, 1 geheel van maken, bullshit wissen belangrijke zaken uitlichten
 how to write a thesis lezen
 
 
@@ -34,10 +31,6 @@ structuur aanbrengen:
 	uitdraai maken todos en 1st priority geel maken
 	bij toc de paragraphs indenten
 	list of figures maken
-	1.6.3 method weg
-
-	teksten wissen
-	teksten linken full duplex
 
 todos afgaan in file
 other datasets, nee eerst skyline detectie etc af!

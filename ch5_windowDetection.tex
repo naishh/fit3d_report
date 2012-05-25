@@ -261,7 +261,7 @@ The results of the edge detection and the Hough transform of two images can be s
 \fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
 result the clean connected corner}{0.4} As windows contain complex structures
 the amount of horizontal and vertical Houghlines is large at these locations.
-A horizontal and vertical line is often connected in a corner of a window.  In
+A horizontal and a vertical line are often connected in a corner of a window.  In
 this approach we pair up these horizontal and vertical lines to determine
 \emph{connected corners} that indicate a window.
 
@@ -307,10 +307,11 @@ All quadrangles are filled and displayed in Figure
 %of the image, see Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}.
 
 \newpage
-\fig{w_Dirk6_ImEdge.eps}{Edge detection}{0.6}
-\fig{w_Dirk6_ImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}
-\fig{w_Dirk6_ImcCorner_cCorner.eps}{Found connected corners}{0.6}
-\fig{w_Dirk6_ImcCorner_windowFilled.eps}{Window regions}{0.6}
+\fig{w_Dirk6_ImEdge.eps}{Edge detection}{0.45}
+\fig{w_Dirk6_ImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.45}
+\fig{w_Dirk6_ImcCorner_cCorner.eps}{Found connected corners}{0.45}
+\fig{w_Dirk6_ImcCorner_windowFilled.eps}{Window regions}{0.45}
+\clearpage
 
 Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps} displays the result of the
 connected corner aproach on an unrectified scene.  It contains 110 windows of
@@ -354,24 +355,25 @@ window.\\
 
 \subsection{Facade rectification}
 \subsubsection{Introduction}
-In order to apply our second method of window detection
+In order to apply our second method of window detection (\ref{sec:method2}},
 we need the windows on the facade to be orthogonal and aligned.
-Therefore we rectify the facade, which can be achieved in a simple or complex way.\\
+Therefore we rectify the facade, which can be achieved in a manual or automatic way.\\
 
 The simple rectification method uses point to point correspondences. This 
 requires annotation of the corner points of the facade that are mapped with the
 corners of a rectangle. This mapping is used to calculate a transformation matrix. 
- The downside of this method is that it isn't very accurate.
-This is because it only uses four point to point correspondences 
- and doesnt take the camera lens distortion into account.
+ The downside of this method is that it isn't very accurate as it doesn't take
+ the width and height ration of the facade into account.
+It only uses four point to point correspondences 
+and doesnt take the camera lens distortion into account.
  Another downside is that it requires (manual) annotation of the corner points.
 A more accurate and fully automatic method is desired .\\
 
 The second method involves the extraction of a 3D plane of the facade. This 
 method is more complex and gives more accurate results. It involves a
-comprehensive process and lots of research is done in this area. 
-Given the related work, the automity of this module and our focus on the annotational part,
-we used existing software to apply the window rectification.
+comprehensive process and a large amount of research is done in this area. 
+Given the related work, and our focus on the annotational part of facade
+interpretation, we used existing software to apply the window rectification.
 I. Estebans \emph{FIT3D toolbox} \cite{Fit3d} comes with an addon which extracts a 3D model from a
 series of frames.  One of the planes of the 3D model was used to rectify the
 facade, making it ready for robust window detection. 
@@ -382,8 +384,7 @@ point cloud is used to extract a plane.  which is used to rectify the facade by
 a projection process.  We now explain the steps in more detail.
 
 \subsubsection{3D plane extraction}
-We started by taking a series of 7 consecutive consequent (steady zoom, lightning, etc. parameters) images of a scene.
-The images are chronological and have sufficient overlap. 
+We started by taking a series of 7 consecutive images (steady zoom, lightning, etc. parameters) of a scene.  The images don't need to be chronological but need to have sufficient overlap. 
 
 %/media/Storage/scriptie/fit3d/generate3dModel/3dcFiles
 \fig{fit3dImgSequence.eps}{Example series of 7 consecutive frames, (dataset: FIT3D toolbox\cite{Fit3d})}{0.3}
@@ -418,7 +419,7 @@ in order to rectify the facade.\\
 It would be straight forward to rectify the full image. However this is
 computational very expensive as each pixel needs to be projected. To keep the
 computational cost to a minimum we project only the necessary data. Since we
-are using Houghlines we project only the endpoints of the found Houghlines. 
+are using Houghlines we project only the coordinates of the endpoints of the found Houghlines. 
 (This is allowed because the projective transformation we apply preserves the
 straightness of the lines. Note that this means we apply the edge detection and
 Houghline extraction on the unrectified image.)\\
@@ -432,26 +433,26 @@ The Houghline endpoints are projected to the 3D plane we extracted in the same
 way as we explained in chapter \ref{chap:skylinedetection}. To wrap up, we send
 rays from the camera center trough the houghline endpoints and calculated the
 intersection with the 3D plane.  The result is a 3D point cloud where each
-point is labeled to their corresponding Houghline.\\
+point is labeled to its corresponding Houghline.\\
 
-The next step is to transform the facade (and therefore the Houghlines) are
-seen upfront. Instead of transforming the facade we rotate and translate the camera. 
+The next step is to transform the facade (and therefore the Houghlines) to a
+frontal view. Instead of transforming the facade we rotate and translate the camera. 
 This means the viewing direction (z-axis) of the camera needs
 to be equivalent to the normal of the facade plane. Lets denote the
 unit vector spanning the original viewing direction as $z$ and the
 unit vector spanning the desired viewing direction/normal of the facade $z'$.
 We calculated a rotation matrix from the axis-angle representation.\\
 
-\TODO{ref axis angle wikipedia}
 This presentation uses a unit vector $u$ indicating the direction of a directed axis, and an
-angle describing the magnitude of the rotation about this axis.
+angle describing the magnitude of the rotation about this axis, see
+\ref{sec:axisAngle}.
 This axis is orthogonal to $z$ and $z'$ and can therefore be
 calculated by $u = cross(z,z')$ where cross defines the cross product of
 two vectors.
 The magnitude of the rotation $\alpha$ is equivalent to the angle $z$ between $z'$ given $u$. 
-E.g. if the images are taken almost upfront (the facade is almost rectified) $\alpha$ is low.
+E.g. if the images are taken from a(n almost) frontal view (the facade is almost rectified) $\alpha$ is low.
 $\alpha$ and $u$ are used to create a rotation matrix $R$ which is applied to the 3D point cloud.
-The result is a set of rectified 3D points that are grouped tot their Houghlines.
+The result is a set of rectified 3D points that are grouped to their Houghlines.
 
 \subsubsection{Results} % facade rectification
 We show the result of two datasets, Anne1 and Dirk.
@@ -471,7 +472,51 @@ the purpose of displaying the projected Houghlines in context.
 
 
 
+\TODO{Met iemand overleggen wat betere volgorde is}
+\subsection{Datasets}
+To avoid overfitting we used multiple datasets that have a large propertie
+variety. Furthermore every dataset has a challenge/handicap.
+We used three datasets that are recorded in the suburban area
+'de Baarsjes' of Amsterdam.  All images have a original resolution of 3072x2304
+px and are downscaled (using trilinear interpolation) to 1280x1024 px.
+
+\subsubsection{Anne1}
+The challenge of this dataset is that it suffers from rectification errors.
+This makes the window alignment a challenging task as it assumes the windows to
+be aligned with the x-axis and y-axis of the image.
+The rectification error can be seen as the skew window alignment (and skew
+drainpipe) on the left of the image. 
+Furthermore the yaw value of the camera (horizontal viewing angle) was (relative
+to the other datasets) high, making parts of the windows occluded.  The height
+of the windows on the right side of the image is 698 px, at the left side this
+is 320 px: a resolution of more then 2 times smaller making it hard to detect
+the left windows. Trilinear interpolation is used to minimize this loss.
+To reduce the number of handicaps (and to focus on the rectification and
+occlusion error) we cut off the bottom of the image which included cars, unaligned doors and windows.
+\TODO{image of dataset}
+
+\subsubsection{Anne2}
+This dataset contains images of the same scene as Anne1.
+It has zero rectification error: the windows are perfect aligned, although the
+resolution on the left is as in the Anne1 dataset two times smaller.
+The challenge of this dataset are the occlusion artefacts and the 
+bottom area of the image (cars, unaligned doors and windows).
+
+\subsubsection{Dirk}
+\TODO{ipv realistic alledaags?}
+The Dirk dataset is realistic as it contains light spots on the facade,
+bicycles, an an occluding tree.  It contains zero rectification error but the
+windows are partially aligned.  The windows are very closely located (making it
+hard to detect non-window areas between them), furthermore they differ in shape, size
+and in type.  The yaw of the camera is relative low, implicating little or no
+occlusion artefacts.
+\TODO{uitbouw van de ramen}
+\TODO{tabel van datasets en handicaps!}
+
+
+
 \subsection{Method II: Histogram based approach} 
+\label{sec:method2}
 \subsubsection{Introduction}
 From the previous section we saw that from a series of images, a 3D model of a
 building can be extracted. Furthermore we saw that using this 3D model the
@@ -879,45 +924,6 @@ The visualization of the measure of certainty is shown in Figure
 the whiter the area the higher the measure of certainty.
 
 
-\paragraph{Datasets}
-To avoid overfitting we used multiple datasets that have a large propertie
-variety. Furthermore every dataset has a challenge/handicap.
-We used three datasets that are recorded in the suburban area
-'de Baarsjes' of Amsterdam.  All images have a original resolution of 3072x2304
-px and are downscaled (using trilinear interpolation) to 1280x1024 px.
-
-\subparagraph{Anne1}
-The challenge of this dataset is that it suffers from rectification errors.
-This makes the window alignment a challenging task as it assumes the windows to
-be aligned with the x-axis and y-axis of the image.
-The rectification error can be seen as the skew window alignment (and skew
-drainpipe) on the left of the image. 
-Furthermore the yaw value of the camera (horizontal viewing angle) was (relative
-to the other datasets) high, making parts of the windows occluded.  The height
-of the windows on the right side of the image is 698 px, at the left side this
-is 320 px: a resolution of more then 2 times smaller making it hard to detect
-the left windows. Trilinear interpolation is used to minimize this loss.
-To reduce the number of handicaps (and to focus on the rectification and
-occlusion error) we cut off the bottom of the image which included cars, unaligned doors and windows.
-\TODO{image of dataset}
-
-\subparagraph{Anne2}
-This dataset contains images of the same scene as Anne1.
-It has zero rectification error: the windows are perfect aligned, although the
-resolution on the left is as in the Anne1 dataset two times smaller.
-The challenge of this dataset are the occlusion artefacts and the 
-bottom area of the image (cars, unaligned doors and windows).
-
-\subparagraph{Dirk}
-\TODO{ipv realistic alledaags?}
-The Dirk dataset is realistic as it contains light spots on the facade,
-bicycles, an an occluding tree.  It contains zero rectification error but the
-windows are partially aligned.  The windows are very closely located (making it
-hard to detect non-window areas between them), furthermore they differ in shape, size
-and in type.  The yaw of the camera is relative low, implicating little or no
-occlusion artefacts.
-\TODO{uitbouw van de ramen}
-\TODO{tabel van datasets en handicaps!}
 
 \newpage
 \paragraph{Results} % basic window classification
@@ -1012,16 +1018,28 @@ Y-axis.
 \TODO{make a diagram, histogram - alignment lines -> window classification etc.}
 \TODO{discuss drain pipe, dat het goed is dat het resultaat mooi is ondanks drainpipe}
 
-
+\subparagraph{Results:Dirk dataset}
 \fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Anne2, Improved window
 classification method: The red line shows concave shapes at window locations and convex shapes at nonwindow locations}{0.7}
 \fig{w_Spil1TransImproved_windowsGrouped.eps}{Dataset: Anne2, Improved window classification method: The extracted windows, red:the grouping}{0.7}
 
+Although the scene contains a lot occlusion artefacts and suffers resolution
+loss, especially on the left side of the image, the results for the Anne2
+dataset, a 100\% detection and a 100\% true positive rate are very well.
+This is mainly due the high interpretation level of the Histogram function.  We
+used the fact that the histogram function has a very consistent pattern, at
+every window area its shape is convex and every non-window its shape is concave.
 \clearpage
+
+
+\newpage
+\subparagraph{Results:Anne2 dataset}
+
 \fig{w_Dirk4Trans_ImOri.eps}{Dataset: Dirk, Rectified image of a realistic scene which is realistic as it contains light spots, bicycles. Note that the windows are partially aligned and the differ in size and type}{0.55}
-\fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Dirk, Improved window
-classification method: The red line shows concave shapes at window locations and convex shapes at nonwindow locations}{0.7}
-\fig{w_Dirk4Trans_ImClassRect.eps}{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}{0.55}
+\fig{w_Dirk4Trans_ImHibaap_WAlinesMerged.eps}{Dataset: Dirk, Improved window
+classification method: The red line shows concave shapes at window locations and
+convex shapes at nonwindow locations}{0.45}
+\fig{w_Dirk4Trans_ImClassRect.eps}{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}{0.45}
 \TODO{IMPROVED result on Anne1 dataset, investigate which comibnations of dataset andmethods i miss}
 
 \clearpage
@@ -1047,12 +1065,13 @@ False negative rate							&   0 \%    &   9 \%     \\
 Type										& Anne2 dataset (Fig \ref{fig:w_Spil1TransImproved_windowsGrouped.eps})	& Dirk dataset (Fig \ref{fig:w_Dirk4Trans_ImClassRect.eps})\\
 \hline
 \hline
-Grouped correct			100 \%  & 90\%  \\
-Grouped incorrect		  0 \%  & 10\%  \\
+Grouped correct			& 100 \%  & 90\%  \\
+Grouped incorrect		&  0 \%  & 10\%  \\
 \hline
 \end{tabular}
 \end{table}
 
+\clearpage
 
 
 \TODO{certainty based (white strokes) classification on anne2 dataset, pas als
@@ -1064,43 +1083,33 @@ en links dirk dataset}
 
 %\paragraph{Discussion} eigenlijk een discussie maar toch ook weer niet
 
-\subparagraph{Interpretation of the results of the Anne1 dataset}
-\TODO{..}
-% dit kan pas als ik ook ann1 op 
+\TODO{Interpretation of the results of the Anne1 dataset}
+%\subparagraph{Interpretation of the results of the Anne1 dataset}
+%dit kan pas als ik ook ann1 op 
 %The scene suffers  from..
 %contained and this can be found in the results
 
-\subparagraph{Interpretation of the results of the Anne2 dataset}
-%------------------------------------------------------------------------------
-Although the scene contains a lot occlusion artefacts and suffers resolution
-loss, especially on the left side of the image, the results, a 100\% detection
-and a 100\% true positive rate are very well.
-This is mainly due the high interpretation level of the Histogram function.  We
-used the fact that the histogram function has a very consistent pattern, at
-every window area its shape is convex and every non-window its shape is concave.
 
-\TODO{compaire to other classification method (perform both classifications on both
-datasets (2x3 img), visual concatinate images vertically)}
+\TODO{compaire to other classification methods}
+\TODO{(perform both classifications on both datasets (2x3 img), visual concatinate images vertically)}
 
 
 
 
-\subparagraph{Interpretation of the results of the Dirk dataset}
+%\subparagraph{Interpretation of the results of the Dirk dataset}
 \TODO{especially the horizontal division of the lowest row of windows is amazing, refer to}
 
 \TODO{Meer over lof spreken} 
-We discussed at the section about window alignment that the classification
+We discussed in the section about window alignment that the classification
 module would handle the redundant window alignment lines. 
 This can be seen in Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps} where the 
 classification took advantage of the fact that all alignment lines are located at a boundary of a window or in a window. 
 The peak fusing module discarded many close alignment lines and the residual redundant alignment lines create
-small green adjacent subwindows which where grouped to clear red big windows
-\ref{fig:w_Dirk4Trans_ImClassRect.eps}.\\
+small green adjacent subwindows which where grouped to clear red big windows.\\
 
-This grouping result is promissing as 90\% of the grouping went well 
-this is a quitte good result given the scene contains a large variety in window
-shape, window size and window type.
-This result is mostly due an almost perfect window alignment and classification 
+This grouping result is promissing as 90\% of the grouping went well.
+This is a quitte good result given the scene contains a large variety in window
+shape, window size and window type.  This result is mostly due an almost perfect window alignment and classification 
 (as the grouping only groups adjacent positively classified subwindows).
 The first two window rows in Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps}
 however are classified as two groups but this should be one.
@@ -1112,16 +1121,35 @@ this in \emph{Future research on window classification
 
 
 \paragraph{Conclusion} %\subsubsection{Method II: Histogram based approach} 
-\TODO{..}
+It is a typically artificial intelligent approach, to look for a high
+interpretation of the data.  We can conclude that the results become very robust
+if one takes a high level interpretation of the Histogram function. \\
+Furthermore we can conclude that:
 
-\paragraph{Future work} % improved classification
+\begin{itemize}
+	\item Redundant lines found by the window alignment module cause no
+problems as long as they are located at a boundary of a window or in a window.
+	\item The grouping module contained a small weakness, a fix is provided in the next
+	section.
+	\item The improved window classification outperformed the basic window
+	classification.
+\end{itemize}
+
+\paragraph{Future research} % improved classification
 \TODO{put a opbouwende line in future work}
 \label{sec:futureResearchWindowClassification}
+\subparagraph{Future work:Extensive evaluation methods}
 As the classification worked very well it would be interesting to find out on which
 point it will fail?  This could be investigated by using low quality images (which are taken for
 example with a cell phone), furthermore we could downscale the images and/or add
-Gaussian noise to the data.
+Gaussian noise to the data.\\
 \TODO{speak about video, or sequence of images, detection + tracking etc}
+
+The results of the classification module depend heavily on the result of the
+window alignment. It would be nice feature research to make an independent
+evaluation of the classification modules.  This could be done with a random
+window alignment generator. Some evaluation should be developed and it would
+help if the windows are annotated.
 
 \subparagraph{Future work:Grouping error minimalisation}
 Although the grouping module gave promising results it can be optimized.  The
@@ -1139,29 +1167,9 @@ robustness of the window detector under extreme viewing angles.
 For example the viewing angle could be plotted against the percentage of
 correct detected windows.
 
-\TODO{..}
 
-\subsubsection{Discussion(/comparison of) basic and improved window classification}
-\TODO{Waar moet dit, window classification?}
-%\paragraph{Comparison} %(discussion)
+%\subsubsection{Comparison of basic and improved window classification}
 \TODO{compare classification methods and explain differences}
-We described a basic method of window classification and build a significant improvement.
-If we compare the basic method (Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps})
-with the improved method (Figure \ref{w_Spil1TransImproved_windowsGrouped.eps})
-we see that the improved method detected each window alignment with an maximum
-error of 3 pixels whereas the basic method has an error of 15 pixels.  Its hard
-to say something about the classification method I because the window alignment
-lines had a large error.
-The improved classification method Figure
-\ref{fig:w_Spil1TransImproved_windowsGrouped.eps} however, classified 100 \% of
-the windows correct.
-\TODO{also talk abooot other classification}
-%------------------------------------------------------------------------------------------
-
-
-
-
-
 
 
 
@@ -1170,8 +1178,7 @@ the windows correct.
 \subsection{Conclusion}
 % not summarize!
 % what can be derived from the results+?
-\TODO{We showed that projecting the image to a frontal view is a good preprocessing}
-\TODO{step of a robust window detector.}
+\TODO{We showed that projecting the image to a frontal view is a good preprocessing step of a robust window detector.}
 \TODO{Furthermore our algorithms work in real time. \\}
 
 
