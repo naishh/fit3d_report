@@ -129,7 +129,6 @@ size invariant is desirable.\\
 
 \TODO{research question}
 
-\TODO{loopt niet heeeelemaal lekker}
 To investigate this, we developed two methods on which one method doesn't
 require repeating windows nor aligned windows.  One of the main targets of our research
 is a low requirements on the input data.  First our system doesn't need 
@@ -255,7 +254,7 @@ the user often takes photo with a low pitch value and a high yaw.
 The results of the edge detection and the Hough transform of two images can be seen in Figure \ref{fig:w_Dirk6_ImEdge.eps} and
  \ref{fig:w_Dirk6_ImHoughResult.eps}.
 
-\TODO{maak analogie met L en H patronen hoe we die herkennen in de hersenen}
+\TODO2{maak analogie met L en H patronen hoe we die herkennen in de hersenen}
 
 \subsubsection{Connected corners extraction}
 \fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
@@ -296,7 +295,7 @@ All quadrangles are filled and displayed in Figure
 
 \subsubsection{Results}
 \label{sec:results}.
-\TODO{more datasets..}
+\TODO2{more datasets..}
 % old dataset:
 %\fig{w_spil6cCornerImEdge.eps}{Edge detection}{0.6}
 %\fig{w_spil6cCornerImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}
@@ -355,7 +354,7 @@ window.\\
 
 \subsection{Facade rectification}
 \subsubsection{Introduction}
-In order to apply our second method of window detection (\ref{sec:method2}},
+In order to apply our second method of window detection (\ref{sec:method2}),
 we need the windows on the facade to be orthogonal and aligned.
 Therefore we rectify the facade, which can be achieved in a manual or automatic way.\\
 
@@ -493,7 +492,8 @@ is 320 px: a resolution of more then 2 times smaller making it hard to detect
 the left windows. Trilinear interpolation is used to minimize this loss.
 To reduce the number of handicaps (and to focus on the rectification and
 occlusion error) we cut off the bottom of the image which included cars, unaligned doors and windows.
-\TODO{image of dataset}
+\fig{w_Spil1TransCrop1_ImOri.eps}{Dataset: Anne1, Rectified image}{0.45}
+\clearpage
 
 \subsubsection{Anne2}
 This dataset contains images of the same scene as Anne1.
@@ -501,17 +501,20 @@ It has zero rectification error: the windows are perfect aligned, although the
 resolution on the left is as in the Anne1 dataset two times smaller.
 The challenge of this dataset are the occlusion artefacts and the 
 bottom area of the image (cars, unaligned doors and windows).
+\fig{w_Spil1TransImproved_ImOri.eps}{Dataset: Anne2}{0.6}
+\clearpage
 
 \subsubsection{Dirk}
-\TODO{ipv realistic alledaags?}
-The Dirk dataset is realistic as it contains light spots on the facade,
+The Dirk dataset represents an everyday scene as it contains light spots on the facade,
 bicycles, an an occluding tree.  It contains zero rectification error but the
 windows are partially aligned.  The windows are very closely located (making it
 hard to detect non-window areas between them), furthermore they differ in shape, size
 and in type.  The yaw of the camera is relative low, implicating little or no
 occlusion artefacts.
-\TODO{uitbouw van de ramen}
-\TODO{tabel van datasets en handicaps!}
+\fig{w_Dirk4Trans_ImOri.eps}{Dataset: Dirk}{0.55}
+\clearpage
+
+\TODO2{tabel van datasets en handicaps!}
 
 
 
@@ -522,18 +525,12 @@ From the previous section we saw that from a series of images, a 3D model of a
 building can be extracted. Furthermore we saw that using this 3D model the
 scene could be converted to a frontal view of a building, where a building wall
 appears orthogonal.  This frontal view enables us to assume orthogonality and
-alignment of the windows. 
-We exploit this properties to build a robust window detector. First we determine
-the alignment of the windows and then we label and group the areas that
-contain the windows. 
-
-\TODO{linken}
-
-The extraction of the windows is done in different steps, first we rectify the
-image as described in the previous section.  Then the alignment of the windows
+alignment of the windows.  We exploit this properties to build a robust window
+detector as follows:
+First we rectify the image as described in the previous section.  Then the alignment of the windows
 is determined, this is based on a histogram of the Houghlines'. We use this
 alignment to divide the image in window or not window regions.  Finally these
-regions are classified and combined which gives us the windows.\\
+regions are classified and combined which gives us the windows.
 We present a regular and alternative window alignment method
 followed by two different kind of window classifications. 
 
@@ -549,6 +546,7 @@ all windows have the share the same size.
 
 \subsubsection{Extracting the window alignment}
 \paragraph{Regular window alignment}
+\TODO2{Schematje}
 %explain pipe line
 %(color transform)
 %edge extraction
@@ -657,7 +655,8 @@ The advanced peak grouping is only required for the vertical alignment
 of the windows: The horizontal inter window distance is often big enough to not
 be mistaken by a window frame part.
 
-\TODO{peak merging result misses for 1 dataset?}
+\TODO2{peak merging result misses for 1 dataset?}
+\TODO2{peak merging result plaatje met en zonder merging onder elkaar}
 
 \newpage
 \paragraph{Results}
