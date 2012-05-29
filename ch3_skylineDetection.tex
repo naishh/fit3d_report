@@ -8,13 +8,13 @@ is often a clear separation between them. This separation is called the
 skyline. %oehhhhhhh  dat is echt masterlijk ouwe
 The detection of this skyline has proven to be a very successful computer vision
 application in a wide range of domains ranging from object detection, 
-guiding flights, car localization, etc. In this project it is used at urban
-images to provide a contour of a building.  The contour will be used to
-provide 3D information about the scene. This is a novel way of using skyline
-detection.\\
-For our application the skyline detector must be accurate, robust and must
-operate without any user interaction. This makes it different from existing
-skyline techniques (e.g. \cite{Dust},\cite{Guidedflight},\cite{Rover}).\\
+guiding micro air vehicles, car localization, etc. 
+
+In this project it is used in the process of combining 2D urban images to
+calculate a 3D model of the scene.  The role of skyline detecton is to estimate
+the heights of the facades of the 3D model.  This is a novel application for
+skyline detection.\\
+
 The organization of this chapter is as follows:  First we give a summary of
 related work on skyline detection.  Next we explain how we developed a new
 robust skyline detection algorithm.  Then we present and discuss some results
@@ -79,70 +79,91 @@ in the next section.
 
 
 \subsection{Method} % the algorithm, maar Isaac vindt dit fijner
-\subsubsection{Situation and assumptions}
+\subsubsection{Requirements situation and assumptions}
+\paragraph{Requirements}
+For our application the skyline detector must be accurate, robust and must
+operate without any user interaction. These requirements makes it different from
+existing skyline techniques (e.g.
+\cite{Dust},\cite{Guidedflight},\cite{Rover}).\\
+
+\paragraph{Situation}
 Before we present the method let's define the situation and make some
 assumptions.\\
 
-\textbf{\emph{Definition: skyline in urban scene}}\\
+\paragraph{Definition: skyline in urban scene}
 \emph{A skyline in an urban scene is a set of points of the size $w$ (where $w$ is the
 width of the image) where each point describes the location of the
 transition from the sky to an object (e.g. a building) which is connected to the
-earth.}
+earth.}\\
 
-%motivate assumption
-The question is: how are we going to detect the sky-building
-transition point?\\ 
-In general, the color of the sky is very different than the
-color of the building. The use of a color-based edge detector would be an
-intuitive decision.\\
-However, the sky and the building itself also contains edges (caused by for example
-clouds and windows). So how do we determine the right edge?
-The number of possible edges could be decreased by thresholding the intensity of
-the edge but it would still be a difficult task to determine the right edge.
-Furthermore the algorithm would not be robust to a change in
+How are we going to detect this sky-building transition point?\\ 
+In general, the color of the sky is very different than the color of the
+building.  A color-based edge detector would be an intuitive decision as this
+produces edges on regions where intens  colortransitions apear.  However, the
+sky and the building itself also contains color transitions (caused by for
+example clouds and windows). So how do we determine the right transition
+(edge)?\\
+
+One of the solutions is to increase the threshold of the edge detector. In this
+way the detector will only return intens color transitions. Note that this will
+only pay off if the building-sky transition is the biggest transition in the image. 
+Its easy to see that this is a tricky assumption as other objects may contain
+sharper color transitions. Furthermore it would not be robust to a change in
 the lightning conditions, influenced heavily by the weather.\\
 
 To solve this problem we draw an assumption that is based on the
 idea of \cite{Rover}. Instead of using the sharpest edge we take the most upper sharp
 edge and classify this edge as the skyline.\\
 
-\textbf{\emph{Top sharp edge assumption}}\\
+\paragraph{Top sharp edge assumption}
 \emph{The first sharp edge (seen from top to bottom) in the image 
 represents the skyline.}
 
+Having defined the situation and assumptions we now explain our algorithm.
+
 \subsubsection{Related algorithm}
-To put our work in context, we first describe a related skyline detection algorithm as presented in \cite{Rover}.\\
+As our algorithm is based on a related algorithm presented in \cite{Rover},
+this is described first.
 
 % nog meer woordjes vooraf?
 %gaussian smooth (explain if reader is thumb)
-To increase the difference between sharp and vague edges, and to let sharp edges
-stand out more and vague edges disappear, the images are converted to Gaussian
-smoothed images.  The smoothed image is first divided in \#$w$ columns.  Next,
-each column produces a new column that stores its vertical derivatives. This is
-called the smoothed intensity gradient.  The values of this column are high when
-a big change in color happens (e.g. an edge is detected) at that location on the
-image. 
-The system walks through the values of a column, starting from the top.  When it
-detects a pixel with a gradient higher then a certain threshold it stores its
-y-value (the location of the highest sharp edge of that column) and continues
-to the next column.  The result is a set of $y$ coordinates of length $w$, that
-represent the skyline. 
+
+The algorithm uses three main steps first it applies a smoothing preprocessing
+step then it calculates the intensity gradient to find a big colortransformation
+and finally it searches for the highest transformation.
+
+The preprocessing step is used to increase the difference between sharp and
+vague edges, and to let sharp edges stand out more and vague edges disappear.
+The preprocessing consist of a Gaussian smoothing operator on the input image.
+Next the smoothed image is sliced in \#$w$ pixelcolumns each column represents
+the values of a discretized function. Each column is transformed to the
+derivative of this column, called the smoothed intensity gradient.  The values
+of this column are high when a big change in color happens (e.g. an edge is
+detected) at that location on the image.  Next the system walks through the
+values of a column, starting from the top.  When it detects a value with a
+gradient higher then a certain threshold it stores its y-position (the height)
+and continues to the next column.  After the position in each column of the
+highest sharp edge is determined the algorithm is done.  The result is a set of
+$y$ coordinates of length $w$, that represent the skyline. 
 
 \subsubsection{Improved algorithm}
-Taking the smoothed intensity gradient is the most basic method of edge
-detection and has the disadvantage that it is not robust to more vague edges. It
-is not surprising that the algorithm in \cite{Rover}
+Although taking the smoothed intensity gradient is a computational cheap way to
+detect edges it has a big disadvantage as it is not robust to vague edges
+because they don't survive the threshold. It is not surprising that the algorithm in \cite{Rover}
 was used in an interactive system where the user has to refine the result.\\
 
-Our aim is to develop a autonomous skyline detector, the only user interaction
-that we allow is to provide the system some parameters. We will now discuss
+Our aim is to develop an autonomous skyline detector, the only user interaction
+that we allow is to provide the system some parameters. Furthermore also the vague
+edges need to be detected if they are part of the skyline. We will now discuss
 the adaptations that we developed with respect to the related algorithm.\\
 
 The column based approach of the related algorithm seems to be very useful and is
-therefore unchanged.  The related algorithm uses the smoothed intensity gradient
-as a method to detect edges. 
-Because of the accuracy disadvantage of this method we took another approach in
-detecting edges. We tested different edge detecting types. 
+therefore unchanged.  To be robust to vague edges we explored and tested
+edge detecting types that are different then the smoothed intensity gradient
+based method.
+
+%-----
+%make edge img!
 
 The output of the different edge detection techniques was studied on an empirical
 basis and the Canny edge detector \cite{Canny} came with the most promising results. This is
@@ -235,20 +256,21 @@ We emphasize the effect of different thresholds of the edge detector on the
 \ref{fig:outputSkylineSpil-Im1-thresh070}.
 
 \pagebreak
-\figs{outputskylineFloriande}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The
+\figsSkyline{outputskylineFloriande}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The
 output of the edge detector and the skyline detector.}{The output of the edge
 detector}{The output of the skyline detector. The skyline elements are marked
-red}{14cm}{14cm}
+red}
 
-\pagebreak
-\figs{outputskylineSpil}{outputSkylineSpil-Im13-thresh030.eps}{outputSkylineSpil-Im13-thresh070.eps}{The
+\clearpage
+\figsSkyline{outputskylineSpil}{outputSkylineSpil-Im13-thresh030.eps}{outputSkylineSpil-Im13-thresh070.eps}{The
 skyline detector on two different thresholds}{Because of the streetlight, a
 large part of the building is not detected. Threshold=0.3}{The desired part of
-the building is detected.  Threshhold=0.7}{14cm}{14cm}
+the building is detected.  Threshhold=0.7}
+\clearpage
 
-\pagebreak
-\fig{outputSkylineSpil-Im1-thresh070}{The output of the skyline detector with a
+\fig{outputSkylineSpil-Im1-thresh070.eps}{The output of the skyline detector with a
 too high threshold (0.70)}{0.3}
+\clearpage
 
 \subsection{Discussion}  % (What do my results mean to me and why)
 Consider Figure \ref{fig:outputskylineFloriande}, the largest part of the

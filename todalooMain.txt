@@ -10,14 +10,15 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 
+dagdoel:
+organogrammetjes bouwen
+skyline edge detecting plaatjes
+skyline detectie doornemen
+figs fixen
 
-17 mei
-39 todo's
 
-(vrijdag) window detection af
 
 % keep the linking in mind! link text!
-
 
 ch 5 WINDOW DETECTION
 
@@ -106,8 +107,11 @@ is the rough model introduced yet? explain how it is retrieved  (googlemaps?), w
 make nice picture of skyline with projection and the projection lines
 
 chapter 5 skyline
-	write camera calibration
 	gather and process todos
+
+
+
+
 	
 chapter 6 ass
 	search for and write about related work
