@@ -162,22 +162,23 @@ therefore unchanged.  To be robust to vague edges we explored and tested
 edge detecting types that are different then the smoothed intensity gradient
 based method.
 
-%-----
-%make edge img!
-
 The output of the different edge detection techniques was studied on an empirical
-basis and the Canny edge detector \cite{Canny} came with the most promising results. This is
+basis and the Canny edge detector \cite{Canny} was a clear winner. This is
 probably because Canny is a more advanced edge detector.  It uses two
 thresholds, one to detect strong and one to detect weak edges. It includes the weak edges in the
 output, but only if they are connected to strong edges. In Table \ref{tab:edge} %ref
 we list Matlab's build in edge detectors together with the method explanation.
+
+In the section \ref{sec:ResultEdge} one can find the result of the different
+edge detection methods.
+
 
 \begin{table}[ht]
 \caption{Different edge detectors explained}
 \label{tab:edge}
 %note naar mijzelf altijd eerst caption dan label, dan en slechts dan gaat hte
 %goed met de nummering
-\begin{tabular}{|l|p{10cm}|}
+\begin{tabular}{|l|p{8cm}|}
 	\hline
 	Edge detecting type		& method\\
 	\hline
@@ -210,7 +211,7 @@ we list Matlab's build in edge detectors together with the method explanation.
 	\hline
 \end{tabular}
 \end{table}
-
+\clearpage
 Because the optimal edge detector type can be scene depended, it can be set
 by the user as a parameter in our functions.\\
 
@@ -240,30 +241,52 @@ as the image quality and lightning condition are scene depended.
 
 
 \subsection{Results}
-Two different datasets are used. \\
-The first dataset is the \emph{Floriande} dataset, which is included in the
-Fit3d toolbox \cite{Fit3d}.  The dataset consists of eight images with resolution 1728x1152px.\\
-The second dataset is named the \emph{Spil} dataset and it contains 40 images
-with resolution 3072x2304px.\\
-%bijzaken:
-%the photos are taken of buildings near the street called 'van Spilbergenstraat, Amsterdam'.
-%the images contain radial distortion, for the skyline detector this didn't seem to rise problems. The images are undistorted in the next module.
+\subsection{Edge detection}
+\label{sec:ResultEdge}
+\clearpage
+\fig{e_floriande_log_002.eps}{Edge detection results. Method: Laplacian of Gaussian}{0.45}
+\fig{e_floriande_prewitt_015.eps}{Edge detection results. Method: Prewitt}{0.45}
+\fig{e_floriande_roberts_015.eps}{Edge detection results. Method: Roberts}{0.45}
+\fig{e_floriande_sobel_015.eps}{Edge detection results. Method: Sobel}{0.45}
+\fig{e_floriande_zerocross_002.eps}{Edge detection results. Method: Zerocross}{0.45}
+\fig{e_floriande_canny_050.eps}{Edge detection results. Method: Canny}{0.45}
+\clearpage
 
+
+\subsection{Skyline detection}
+\subsubsection{Datasets}
+The skyline detection algorithm was applied on three datasets. 
+\begin{table}[t]
+\caption{Dataset properties}
+\begin{tabular}{|l||l|l|l|}
+\hline
+Name 	& Resolution 	& Source	& Location\\
+\hline
+\hline
+Floriande & 1728x1152px  & Fit3d \cite{Fit3d}  	& Unknown\\
+\hline
+Bram	 & 3072x2304px  & Author					& Amsterdam, 'Postjesweg'\\
+\hline
+Anne	& 3072x2304px  & Author					& Amsterdam, 'Van spilbergenstraat'\\
+\hline
+\end{tabular}
+\end{table}
+
+%todo check dataset names spil?
 The output of the edge detector and skyline detector on the \emph{Floriande}
-dataset \cite{Fit3d} can be seen in Figure \ref{fig:outputskylineFloriande}
+dataset \cite{Fit3d} can be seen in Figure \ref{fig:outputSkylineIm3-3.eps}
 We emphasize the effect of different thresholds of the edge detector on the
-\emph{Spil} dataset in Figure \ref{fig:outputskylineSpil} and Figure
-\ref{fig:outputSkylineSpil-Im1-thresh070}.
+\emph{Bram} dataset (Figure \ref{fig:outputskylineSpil}) and the \emph{Anne}
+dataset (Figure \ref{fig:outputSkylineSpil-Im1-thresh070.eps}).
 
 \pagebreak
-\figsSkyline{outputskylineFloriande}{outputSkylineIm3-2.eps}{outputSkylineIm3-3.eps}{The
-output of the edge detector and the skyline detector.}{The output of the edge
-detector}{The output of the skyline detector. The skyline elements are marked
-red}
+% todo ref labels: outputskylineFloriande
+\fig{outputSkylineIm3-3.eps}{The output of the skyline detector. The skyline
+elements are marked}{0.45}
 
 \clearpage
 \figsSkyline{outputskylineSpil}{outputSkylineSpil-Im13-thresh030.eps}{outputSkylineSpil-Im13-thresh070.eps}{The
-skyline detector on two different thresholds}{Because of the streetlight, a
+skyline detector on two different thresholds}{Because of the hanging streetlight, a
 large part of the building is not detected. Threshold=0.3}{The desired part of
 the building is detected.  Threshhold=0.7}
 \clearpage
@@ -273,7 +296,7 @@ too high threshold (0.70)}{0.3}
 \clearpage
 
 \subsection{Discussion}  % (What do my results mean to me and why)
-Consider Figure \ref{fig:outputskylineFloriande}, the largest part of the
+Consider Figure \ref{fig:outputSkylineIm3-3.eps}, the largest part of the
 building edge is detected. This is a desired result, given the algorithm
 operates without any user interaction.\\
 The system assumes that the first sharp edge (seen from top to bottom) is always
@@ -285,7 +308,7 @@ for example an aircraft, will also turn into outliers.  This is a disadvantage o
 However, not every object above the building becomes an outlier, as can be seen in Figure
 \ref{fig:outputskylineSpil} a change in the threshold parameter of the edge
 detector can erase tough outliers. 
-In Figure \ref{fig:outputSkylineSpil-Im1-thresh070} the risk of using a to high
+In Figure \ref{fig:outputSkylineSpil-Im1-thresh070.eps} the risk of using a to high
 threshold is shown. Although increasing the threshold to 0.7 removed the
 streetlight outliers in, the results on this scene are very bad.\\
 
