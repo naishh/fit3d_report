@@ -256,7 +256,8 @@ as the image quality and lightning condition are scene depended.
 \subsection{Skyline detection}
 \subsubsection{Datasets}
 The skyline detection algorithm was applied on three datasets. 
-\begin{table}[t]
+
+\begin{table}[ht]
 \caption{Dataset properties}
 \begin{tabular}{|l||l|l|l|}
 \hline
@@ -273,16 +274,15 @@ Anne	& 3072x2304px  & Author					& Amsterdam, 'Van spilbergenstraat'\\
 \end{table}
 
 %todo check dataset names spil?
+%---------------
 The output of the edge detector and skyline detector on the \emph{Floriande}
 dataset \cite{Fit3d} can be seen in Figure \ref{fig:outputSkylineIm3-3.eps}
 We emphasize the effect of different thresholds of the edge detector on the
 \emph{Bram} dataset (Figure \ref{fig:outputskylineSpil}) and the \emph{Anne}
 dataset (Figure \ref{fig:outputSkylineSpil-Im1-thresh070.eps}).
 
-\pagebreak
-% todo ref labels: outputskylineFloriande
 \fig{outputSkylineIm3-3.eps}{The output of the skyline detector. The skyline
-elements are marked}{0.45}
+elements are marked red.}{0.45}
 
 \clearpage
 \figsSkyline{outputskylineSpil}{outputSkylineSpil-Im13-thresh030.eps}{outputSkylineSpil-Im13-thresh070.eps}{The
