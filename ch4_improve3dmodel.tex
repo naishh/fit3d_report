@@ -43,6 +43,10 @@ height values of the building walls.  The 3D model is finally improved by updati
 walls according these heights. \\
 We will now elaborate on each step.\\
 
+
+% In other systems where the skyline is detected in the context of a horizon like context.
+%todo It isn't possible to keep track of the change in the skyline detector as the building has radical changes
+
 \subsection{Generating the 3D model}
 The 3D model is generated using a basis (groundplane) which is manually extended.
 The basis (viewed from top) of the generated 3D model is originated from
@@ -71,6 +75,8 @@ resulting in a 3D model.\\\\
 An example of the 3D model can be seen in Figure \ref{fig:outputHoughlines3d}.
 
 % why not ransac?
+
+% todo extract line segments + hough transf in skyline detection chapter!
 \subsection{Extracting line segments}
 \label{extractinglinesegments}
 %intro
