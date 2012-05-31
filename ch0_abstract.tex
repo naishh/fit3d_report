@@ -1,3 +1,29 @@
 \begin{abstract}
 Here comes the abstract
+
+
+%skyline detection:
+A detailed research on related work research was done.
+We introduced a novel application of skyline detection: the extraction of a
+building contour. We build an algorithm on top of a successful existing
+algorithm.  The algorithm doesn't depend on human intervention and is robust and
+accurate enough to provide a base for the next module in the system.\\
+It is interesting to denote that the skyline detector is a stand alone method and
+can be optimized individually without any knowledge of the other modules of the
+project.\\
+
+Although the outlier removal procedure is done in a separate module, it would be
+interesting (future work) to develop a skyline detector which is more robust to
+outliers.  Most of the related work is based on detecting parts that are
+classified as sky and parts that are classified as ground. The idea of detecting
+the sky and ground could be replaced by detecting the sky and a building. The
+distinctive textures of the buildings (repeating bricks) could be of great use
+for the classification.  After that, a rough building contour could be estimated
+	by using the highest building pixel for every column. In this neighborhood,
+	detailed edge detection could be done. In this way the outliers (e.g. the
+	streetlight and the tree) are filtered and no secondary outlier removal
+	procedure is needed.
+
+
+
 \end{abstract}
