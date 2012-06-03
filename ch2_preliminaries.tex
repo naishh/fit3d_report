@@ -86,7 +86,7 @@ We used a standard Matlab implementation of the Hough transform for straight lin
 	The \emph{minimum length} parameter specifies the minimum length that a line must have to be valid. This is especially interesting if we want to detect a large straight skyline or if we want to discard lines that are to small to form for example a window.\\
 
 	Furthermore it contains the parameter \emph{FillGap} that specifies the distance
-	between two line segments associated with the same $(r, theta)$ pair
+	between two line segments associated with the same $(r, \theta)$ pair.
 	When this inter line segment distance is less then the \emph{FillGap} parameter, it merges the line segments into a single line segment. In our application this parameter is of particular interest when we want to merge lines that are interrupted by for example an occluding tree or street lamp.\\
 
 
@@ -101,16 +101,6 @@ For more complicated shapes, the
 It uses a feature that votes for a particular position, orientation and/or scaling of a certain predefined shape.  The shapes are predefined in a look-up table.
 
 
-% todo
-%\subsubsection{Complexity of Hough transform}
-
-
-
-\subsection{Transform coordinates to a line equation}
-\label{sec:lineeq}
-%TODO uitleggen hoe je van 2 coords een lijnvergelijking maakt
-\TODO{, explain 2 coords to an line equation}
-
 
 \subsection{Coordination systems}
 The camera can be described in the same coordinate system as the 3D point we are
@@ -119,14 +109,8 @@ The camera center is a value in $\mathbb{R}$3 that represents the camera's posit
 coordinate system. If the camera rotates, it rotates around this point.
 \TODO{ elaborate}
 
-\subsection{Homogenous coordinate}
-\TODO{ explain how to add extra homogeneous dimension (x,y,1) and why this is}
 
-
-\subsection{Planes and walls}
-\label{sec:planeswalls}
-\TODO{ How to span plane by wall coords}
-
+%TODO IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!
 \subsection{Getting the camera centers and viewing directions}
 \label{sec:cameracenters}
 \TODO{ Explain here about fit3d toolbox}
@@ -142,6 +126,22 @@ TODO
 	% google 
 	% matlab help bouget 
 	%
+
+
+\subsection{Transform coordinates to a line equation}
+\label{sec:lineeq}
+%TODO uitleggen hoe je van 2 coords een lijnvergelijking maakt
+\TODO{, explain 2 coords to an line equation}
+
+
+\subsection{Homogenous coordinate}
+\TODO{ explain how to add extra homogeneous dimension (x,y,1) and why this is}
+
+
+\subsection{Planes and walls}
+\label{sec:planeswalls}
+\TODO{ How to span plane by wall coords}
+
 \subsection{Axis angle representation}
 \label{sec:axisAngle}
 \TODO{Axis angle representation, wikipedia}

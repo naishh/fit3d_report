@@ -11,13 +11,13 @@ application in a wide range of domains ranging from object detection,
 guiding micro air vehicles, car localization, etc. 
 
 In this project it is used in the process of combining 2D urban images to
-calculate a 3D model of the scene.  The role of skyline detection is to estimate
-the heights of the facades of the 3D model.  This is a novel application for
+calculate a 3D model of the scene. The role of skyline detection is to estimate
+the heights of the facades of the 3D model. This is a novel application for
 skyline detection.\\
 
-The organization of this chapter is as follows:  First we give a summary of
-related work on skyline detection.  Next we explain how we developed a new
-robust skyline detection algorithm.  Then we present and discuss some results
+The organization of this chapter is as follows: first we give a summary of
+related work on skyline detection. Next we explain how we developed a new
+robust skyline detection algorithm. Then we present and discuss some results
 and, finally, conclusions are given.
 
 \subsubsection{Related work}
@@ -28,14 +28,15 @@ detection techniques.
 In \cite{Dust}, mars Exploration Rovers are used to detect clouds and dust devils on Mars.
 Their approach is to first identify the sky and then determine if there are
 clouds in the region segmented as sky. The sky is detected by an innovative
-algorithm that consists of three steps.  First they place seeds in a sliding
+algorithm that consists of three steps. First they place seeds in a sliding
 window whenever the homogeneity of the window is high. Then they grow this seeds
 in the direction of edges which are estimated using a Sobel edge detector.
 Finally each pixel located above the grew seeds is classified as sky.\\
 
-Of the discussed methods so far, this seed growing method looks like the most sophisticated one, as
-it is accurate and autonomous. However, we have a stable scene with sharp edges
-at the building contour so this method would be an implementation overkill.  
+This seed growing method looks like the a very sophisticated one, as it is
+accurate and autonomous. However, in our research we have a stable scene with
+sharp edges at the building contour so this method would be an implementation
+overkill. 
 
 
 \paragraph{Horizon detection for Unmanned Air Vehicles}
@@ -43,7 +44,7 @@ In this domain \cite{Guidedflight}, scientists detect the horizon to stabilize a
 flight of Unmanned Air Vehicles.\\  
 S.M. Ettinger et all \cite{Guidedflight} use a horizon detector that takes
 advantage of the high altitude of the vehicle, in that way the horizon is
-approximated to be a straight line.  
+approximated to be a straight line. 
 This straight line separates the image into sky and ground. They use color as
 a measure of appearance and generate two color distributions: one for the sky
 and one for the ground. They use the covariance and the eigen values of the
@@ -51,43 +52,34 @@ distributions to guide a bisection search for the best separation. The line that
 best separates the two distributions is determined to be the skyline.\\
 
 This work is not applicable for detecting a building contour as the straight
-line assumption doesn't work.  But it needs to be mentioned that some ideas for
-section \ref{extractinglinesegments} are created because the building has walls
-that have straight lines, an assumption is made about partially straight lines.
+line assumption doesn't work. But it needs to be mentioned that some ideas for
+section \ref{extractinglinesegments} are insprired by this method.
 
 \paragraph{Planetary Rover localization}
 Cozman et al. \cite{Rover} use skyline detection in planetary rovers to estimate 
-their location.  
+their location. 
 To recover the rover's position they match image structures with a given map
 of the landscape (hills, roads, etc) and align both images.
 The matching process was first based on feature matching. In an improved version
 the matching process was done by searching for correspondences among dense
 structures in the image and on the given map, so called signal based matching.\\
 The advantage of their algorithm is the simplicity and effectiveness, this
-could make their algorithm suitable for this project.  A big drawback is that
-they prefer speed over accuracy.  To increase accuracy, the detector is part
-of an interactive system where an operator refines the skyline.  For our
+could make their algorithm suitable for this project. A big drawback is that
+they prefer speed over accuracy. To increase accuracy, the detector is part
+of an interactive system where an operator refines the skyline. For our
 application the skyline detector must operate without any user interaction.
-Furthermore it has to be robust and accurate because it provides a basis for
-the extraction of straight lines which offer an estimation of the buildingwall
-heights.\\
-We decided to use the Rover method \cite{Rover} as a basis and 
-build a custom algorithm with higher accuracy on top of that. This is explained
-in the next section.
+This brings us to our research question.
 
+\paragraph{Research question}
+Can we build a skyline algorithm that operates without any user interaction, is
+simple, is fast, and yet accurate enough to provide a solid skyline that can be
+used to estimate wall heights?
 
-
-
-\subsection{Method} % the algorithm, maar Isaac vindt dit fijner
-\subsubsection{Requirements situation and assumptions}
-\paragraph{Requirements}
-For our application the skyline detector must be accurate, robust and must
-operate without any user interaction. These requirements makes it different from
-existing skyline techniques (e.g.
-\cite{Dust},\cite{Guidedflight},\cite{Rover}).\\
-
+\subsubsection{Situation and assumptions}
+As the Rover method \cite{Rover} is simple and effective we used it as a basis and 
+build a custom algorithm with higher accuracy on top of that. 
 \paragraph{Situation}
-Before we present the method let's define the situation and make some
+Before we present the method, we define the situation and make some
 assumptions.\\
 
 \paragraph{Definition: skyline in urban scene}
@@ -98,8 +90,8 @@ earth.}\\
 
 How are we going to detect this sky-building transition point?\\ 
 In general, the color of the sky is very different than the color of the
-building.  A color-based edge detector would be an intuitive decision as this
-produces edges on regions where intense  color transitions appear.  However, the
+building. A color-based edge detector would be an intuitive decision as this
+produces edges on regions where intense  color transitions appear. However, the
 sky and the building itself also contains color transitions (caused by for
 example clouds and windows). So how do we determine the right transition
 (edge)?\\
@@ -134,42 +126,42 @@ and finally it searches for the highest transformation.
 
 The preprocessing step is used to increase the difference between sharp and
 vague edges, and to let sharp edges stand out more and vague edges disappear.
-The preprocessing consist of a Gaussian smoothing operator on the input image.
-Next the smoothed image is sliced in \#$w$ pixel columns each column represents
-the values of a discretized function. Each column is transformed to the
-derivative of this column, called the smoothed intensity gradient.  The values
+The preprocessing consists of a Gaussian smoothing operator on the input image.
+Next the smoothed image is sliced in \#$w$ pixel columns. Each column represents
+the values of a discretized function. These values are transformed to their
+derivative, called the smoothed intensity gradient. The values
 of this column are high when a big change in color happens (e.g. an edge is
-detected) at that location on the image.  Next the system walks through the
-values of a column, starting from the top.  When it detects a value with a
+detected) at that location on the image. Next the system walks through the
+values of a column, starting from the top. When it detects a value with a
 gradient higher then a certain threshold it stores its y-position (the height)
-and continues to the next column.  After the position in each column of the
-highest sharp edge is determined the algorithm is done.  The result is a set of
+and continues to the next column. After the position in each column of the
+highest sharp edge is determined the algorithm is done. The result is a set of
 $y$ coordinates of length $w$, that represent the skyline. 
 
 \subsubsection{Improved algorithm}
-Although taking the smoothed intensity gradient is a computational cheap way to
-detect edges it has a big disadvantage as it is not robust to vague edges
-because they don't survive the threshold. It is not surprising that the algorithm in \cite{Rover}
+Taking the smoothed intensity gradient is a computational cheap way to
+detect edges. It also has a big disadvantage because it is not robust to vague edges
+(they don't survive the threshold). It is not surprising that the algorithm in \cite{Rover}
 was used in an interactive system where the user has to refine the result.\\
 
 Our aim is to develop an autonomous skyline detector, the only user interaction
-that we allow is to provide the system some parameters. Furthermore also the vague
+that we allow is to provide the system some parameters. Furthermore the vague
 edges need to be detected if they are part of the skyline. We will now discuss
 the adaptations that we developed with respect to the related algorithm.\\
 
 The column based approach of the related algorithm seems to be very useful and is
-therefore unchanged.  To be robust to vague edges we explored and tested
+therefore unchanged. To be robust to vague edges we explored and tested
 edge detecting types that are different then the smoothed intensity gradient
 based method.\\
 
 The output of the different edge detection techniques was studied on an empirical
 basis and the Canny edge detector \cite{Canny} was a clear winner. This is
-probably because Canny is a more advanced edge detector.  It uses two
+probably because Canny is a more advanced edge detector. It uses two
 thresholds, one to detect strong and one to detect weak edges. It includes the weak edges in the
-output, but only if they are connected to strong edges. In Table \ref{tab:edge} %ref
-we list Matlabs build in edge detectors together with the method explanation.
+output, but only if they are connected to strong edges. In Table \ref{tab:edge} 
+we list Matlabs built-in edge detectors together with the method explanation.
 
-In the section \ref{sec:ResultEdge} one can find the result of the different
+In the section \ref{sec:ResultEdge} one can find the results of the different
 edge detection methods.
 
 
@@ -211,15 +203,14 @@ edge detection methods.
 	\hline
 \end{tabular}
 \end{table}
-We classify Canny as the most robust edge detector, and plug it in to the skyline detection
-algorithm: 
-The Canny edge detector outputs a binary image, therefore the column inlier
+We classify Canny as the most robust edge detector, and plug it into the skyline detection
+algorithm: the Canny edge detector outputs a binary image, therefore the column inlier
 threshold is set to 1, which means that it finds the first pixel that is white. 
 This is, as in the related algorithm, done from top to bottom for every column in
 the image.\\
 Because we know we are looking for sharp edges, we improved the algorithm by
 introducing two preprocessing steps. First the contrast of the image is
-increased, this makes sharp edges stand out more.  Secondly the image undertakes
+increased, this makes sharp edges stand out more. Secondly the image undertakes
 an extra Gaussian blur, this removes a large part of the noise. 
 
 The system now has several parameters which have to be set manually by the user:
@@ -274,8 +265,7 @@ We show the effect of different thresholds of the edge detector on the
 \emph{Anne} dataset (Figure \ref{fig:outputSkylineSpil-Im1-thresh070.eps})
 and the 
 \emph{Bram} dataset (Figure \ref{fig:outputskylineSpil}). 
-\fig{outputSkylineIm3-3.eps}{The output of the skyline detector. The skyline
-elements are marked red.}{0.45}
+\fig{outputSkylineIm3-3.eps}{The output of the skyline detector. The skyline elements are marked red.}{0.45}
 
 \clearpage
 \fig{outputSkylineSpil-Im1-thresh070.eps}{The output of the skyline detector with a too high threshold (0.70)}{0.3}
@@ -283,19 +273,18 @@ elements are marked red.}{0.45}
 \figsSkyline{outputskylineSpil}{outputSkylineSpil-Im13-thresh030.eps}{outputSkylineSpil-Im13-thresh070.eps}{The
 skyline detector on two different thresholds}{Because of the hanging streetlight, a
 large part of the building is not detected. Threshold=0.3}{The desired part of
-the building is detected.  Threshold=0.7}
+the building is detected. Threshold=0.7}
 \clearpage
-%---
 
 \subsection{Discussion}  % (What do my results mean to me and why)
 Consider Figure \ref{fig:outputSkylineIm3-3.eps}, the largest part of the
 building edge is detected. This is a good result, given the algorithm
 operates without any user interaction.\\
 
-Some parts of the skyline are located on a streetlight or a tree.  This is
+Some parts of the skyline are located on a streetlight or a tree. This is
 because the system assumes that the first sharp edge (seen from top to bottom)
-is always the skyline.  Other sharp edged objects that appear above the
-building, for example an aircraft, will also produces outliers. This is a
+is always the skyline. Other sharp edged objects that appear above the
+building, for example an aircraft, will also produce outliers. This is a
 disadvantage of the column based approach.\\
 
 As every object above the building can produce an outlier, a solution is
@@ -303,7 +292,7 @@ desirable. One solution of this problem is to increase the threshold, this is sh
 In this way even sharp edges above the building contour won't be part of the
 skyline. However, this comes with a risk: a too large threshold can discard the
 skyline itself. To show this we used the increased threshold of the \emph{Bram} dataset
-and applied it on the \emph{Anne} dataset, Figure
+and applied it to the \emph{Anne} dataset, Figure
 \ref{fig:outputSkylineSpil-Im1-thresh070.eps}.\\
 
 We decided to keep the threshold low and, as this outlier removal process is the
@@ -311,14 +300,21 @@ part where we can add some artificial intelligence, we developed a separate
 module for the outlier detection.
 
 \subsection{Conclusion}
-The algorithm is robust and accurate enough to provide a base for the next
-module in the system. A disadvantage is the threshold setting which must be set
-manually as it is scene dependent.
+Let's answer our research question.
+\paragraph{Research question}
+Can we build a skyline algorithm that operates without any user interaction, is
+simple, is fast, and yet accurate enough to provide a solid skyline that can be
+used to estimate wall heights?
 
-It is interesting to denote that the skyline detector is a stand alone method and
-can be optimized individually without any knowledge of the other modules of the
-project. For this research it is good enough to proceed to the next step in the
-system.
+Beside some scene dependend parameters like the threshold of the skyline the
+system works without any user interaction. No manual refinement step is needed
+because the algorithm is robust and accurate enough to provide a base for the
+next module in the system. Furthermore the algorithm is simple and has a low
+complexity. 
+
+It is interesting to point out that the skyline detector is a stand alone method
+and it can be optimized individually without any knowledge of the other modules
+of the project.  Some ideas for future research are shared next.
 
 \subsection{Future research}
 \subsubsection{Automatic thresholding}
@@ -331,18 +327,20 @@ for the threshold. If this is done the system would be 100\% automatic.
 \subsubsection{Advanced skyline detection}
 Although the outlier removal procedure is done in a separate module, it would be
 interesting to develop a skyline detector which is more robust to
-outliers.  
-If we take a look at the related work we learn that most work is based on detecting parts that are classified as sky and parts that are classified as ground. The idea of detecting
-the sky and ground could be replaced by detecting the sky and a building. 
-We could use color to discriminate te building from the sky. Different
-color models could be used (HSV, normalized RGB, etc.).
-As the buildings exist of repeating bricks, texture would also be a good discriminator for the classification.  
-We could apply the column based approach by using the highest pixel (for every
-column) that is classified as a building pixel.
-The result could be refined by applying detailed edge detection in
-the region of the skyline. In this way the outliers (e.g. the
-	streetlight and the tree) are discarded, no secondary outlier removal
-	procedure is needed and the skyline detector would be very robust.
+outliers. 
+If we take a look at the related work we observe that most work is based on
+detecting parts that are classified as sky and parts that are classified as
+ground. The idea of detecting the sky and ground could be replaced by detecting
+the sky and the building. We could use color to discriminate te building from
+the sky. Different color models could be used (HSV, normalized RGB, etc.).
+Because the buildings exists of repeating bricks, texture would also be a good
+discriminator. We could apply the existing column based approach by using the
+highest pixel (for every column) that is classified as a building pixel.\\
+
+The results could be refined by applying detailed edge detection in the region of
+the estimated skyline. In this way the outliers (e.g. the streetlight and the
+tree) could be detected, no secondary outlier removal procedure is needed and
+the skyline detector would be very robust.
 
 
 

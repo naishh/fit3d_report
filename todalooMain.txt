@@ -9,39 +9,20 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 4) FOCUS op scriptie
 
 
-
-dagdoel:
-organogrammetjes bouwen
-skyline edge detecting plaatjes
-skyline detectie doornemen
-figs fixen
-
-
-
-% keep the linking in mind! link text!
-
 ch 5 WINDOW DETECTION
 
 PRIMAIRE todos:
-
-lijn in thesis aanbrengen, overal heen en weer linken, 1 geheel van maken, bullshit wissen belangrijke zaken uitlichten
-how to write a thesis lezen
-
-
-structuur aanbrengen:
-	uitdraai maken todos en 1st priority geel maken
-	bij toc de paragraphs indenten
-	list of figures maken
-
-todos afgaan in file
-other datasets, nee eerst skyline detectie etc af!
-
+	organogrammetjes bouwen
+	todos in file
 
 SECUNDAIRE todos:
-l-shape ref, pag 24 frans fb
-classificatie methode met probs en met derivitave met elkaar vergelijken
-iets zeggen over complexiteit
+	skyline: see below todo frans
+	update references, are all there?
+	list of figures maken
 
+	l-shape ref, pag 24 frans fb
+	classificatie methode met probs en met derivitave met elkaar vergelijken
+	iets zeggen over complexiteit
 
 
 
@@ -61,9 +42,19 @@ matlab
 	code kloppen
 		certainty based classification on anne2 dataset
 
-	
-
-	
+Wijsheden:
+lijn in thesis aanbrengen, overal heen en weer linken, 1 geheel van maken, bullshit wissen belangrijke zaken uitlichten
+how to write a thesis lezen
+% keep the linking in mind! link text!
+%TODO aan het eind
+% read again and check level of detail, is it everywhere the same?
+% do I do enough chaining?
+% read again on other subjects in mind see how te wr thesis
+% spell check!!
+% motivate my assumption and choices 
+% explain stepwise if the reader is dumb
+% zoeken op 'but' en kijken of er however bij kan
+% explain motivation behind decisions
 	
 
 
@@ -74,7 +65,6 @@ TODO FROM FEEDBACK FRANS
 explain method of planetary rover localization in more detail
 end related work with: what approach are we going to take
 end related werk with: research question
-
 
 LONG TODOS
 elaborate previous work on skyline detection, see papers skylineimproved
@@ -89,27 +79,18 @@ fig 1a edges witter maken zodat uitgeprint report het goed weergeeft
 
 ---------------------------------------------------------------------------------
 
+IMPROVE BUILDING Todos
 building wall appearence, extra enter
 top 3 longest Houghlines, heeft een indent teveel
-inhoudsopgave erin hangen, dat heed volgens mij een ballenbeschermer TOC
-
-todos onderaan ch6_augment3dmodel.tex
-when tired make images
 make new organogram
 	edge detection
 	houghlines
 	houghlines 3d
 	update building
-read parts and rehearse "how to write a thesis"
 THINK PLAN WRITE REVISE
 
 is the rough model introduced yet? explain how it is retrieved  (googlemaps?), what the specs are, how rough is it compare to the real 3d model, etc.
 make nice picture of skyline with projection and the projection lines
-
-chapter 5 skyline
-	gather and process todos
-
-
 
 
 	

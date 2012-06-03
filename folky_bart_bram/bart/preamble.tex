@@ -1,0 +1,158 @@
+% !TeX root = main.tex
+% !TEX TS-program = pdflatex-pstricks
+
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{natbib} 
+\usepackage{fnwiaithesis}
+\usepackage{txfonts}
+\usepackage{mathtools}
+\usepackage{multirow}
+\usepackage[format=hang]{subfig}
+\usepackage{caption}
+\usepackage{centernot}
+%\usepackage{MnSymbol}
+
+
+\usepackage{graphicx} % support the \includegraphics command and options
+\graphicspath{{./figures/}}
+%\usepackage{epstopdf}
+
+%nicer fonts??
+\usepackage[T1]{fontenc}
+%\usepackage{times}
+%\usepackage{tgtermes}
+\usepackage{lmodern}
+
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margins=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+%\setlength{\marginparwidth}{0pt}
+%\setlength{\marginparsep}{0pt}
+%\geometry{bindingoffset=1cm}
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%FLOATS
+\usepackage{float}
+%\usepackage{sidecap}
+\floatstyle{boxed} 
+\restylefloat{figure}
+
+
+%%% ALGORITHMS
+\usepackage[section]{algorithm}
+%\usepackage[chapter]{algorithm}
+\usepackage{algorithmic}
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\setlength{\headheight}{23pt}
+\pagestyle{fancy} % options: empty , plain , fancy
+
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+
+% watch out with roman numerals remove all uppercases
+\fancyhead[LE,RO]{\nouppercase{\rightmark}}
+\fancyhead[LO,RE]{\nouppercase{\leftmark}}
+
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+%\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+\usepackage{natbib}
+
+%%WITH HYPERREF XELATEX
+%\usepackage{pstricks}
+%\usepackage[colorlinks=true, pdfborder={0 0 0}]{hyperref}
+
+%%WITHOUT HYPERREF WITH PDFLATEX
+\usepackage[pdf]{pstricks}
+\usepackage{pst-plot}
+\usepackage{pst-3dplot}
+\usepackage{pstricks-add}
+
+%%% END Article customizations
+\usepackage{egameps}
+
+
+\theoremstyle{plain}% default
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem*{cor}{Corollary}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{conj}{Conjecture}[section]
+\newtheorem{exmp}{Example}[section]
+\newtheorem{obs}{Observation}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+%\newtheorem*{note}{Note}
+\newtheorem{case}{Case}
+
+\newcommand{\tl}[1]{\href{C:/Users/Bart/Documents/Thesis/Library/#1}{#1}}
+\newcommand{\tlb}[1]{\href{C:/Users/Bart/Documents/Thesis/Library/Books/#1}{#1}}
+
+\newcommand{\real}[0]{\mathbb{R}}
+\renewcommand{\natural}[0]{\mathbb{N}}
+%\newcommand{\iff}[0]{\Leftrightarrow}
+
+%algorithms
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+%logics
+\newcommand{\biglor}{\bigvee}
+\newcommand{\meet}{\sqcap}
+\newcommand{\norm}[1]{{\left\|{#1}\right\|}}
+\newcommand{\Tau}{\mathrm{T}}
+%\newcommand{\Alpha}{\mathrm{A}}
+\newcommand{\Alpha}{\mathcal{V}}
+
+%Maths
+\DeclareMathOperator*{\region}{region}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\cav}{cav}
+\DeclareMathOperator*{\vex}{vex}
+\DeclareMathOperator*{\rnf}{rnf}
+\DeclareMathOperator*{\ch}{conv}
+\DeclareMathOperator*{\ext}{ext}
+\DeclareMathOperator*{\V2H}{V2H}
+\DeclareMathOperator*{\H2V}{H2V}
+%partition =  mathcal
+%class in partition = mathfrak
+%set = capital
+%element in set is lowercase.
+% capial can also be 1,2,3,...,K
+% K, L are usual counting variables
+% counting super script
+% identifiers subscript
+% capital T is transpose (or time)
+% e_d^D, unit vector in D space

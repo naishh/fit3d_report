@@ -1,0 +1,6 @@
+replace:
+
+isn't  -> is not
+doesn't-> does not
+as it is -> because
+
