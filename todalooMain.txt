@@ -28,6 +28,7 @@ SECUNDAIRE todos:
 
 ---------------------------------------------------------------------------------
 matlab 
+	skyline met lijn door center camera, plaatje en gebouwrand
 	ook schema diagram maken
 	backproject results (FANCYYY)
 	plaatjes	

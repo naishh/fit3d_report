@@ -6,15 +6,15 @@
 \label{sec:windowDetection}
 \subsection{Introduction}
 Semantic interpretation of urban scenes is used in a wide range of applications.
-We deal with an important aspect of semantic urban scene interpretation, Window detection. 
+We deal with an important aspect of semantic urban scene interpretation: window detection. 
 
 % thesis outline:
-This chapter is organised as follows, we start with an variety applications that
+This chapter is organised as follows, we start with a variety of applications that
 use semantic interpretation of urban scenes.  Then we discuss related work and
 put our work in context.  Next we describe our first window detection approach
 that is invariant to viewing direction.  After this we present a facade
 rectification method. Next this method is used for our second method that assumes
-orthogonal and aligned windows.  Finally we show and discuss results. 
+orthogonal and aligned windows.  Finally we show and discuss our results. 
 
 \subsection{Application examples}
 \paragraph{3d City models} 
@@ -29,9 +29,9 @@ orthogonal and aligned windows.  Finally we show and discuss results.
 	the building surface.
 
 \paragraph{Historical buildings documentation and deformation analysis}
-	In some field of research, Historical buildings are documented. The complex
+	In some fields of research, historical buildings are documented. The complex
 	structures that are contained in the facades are recorded and reconstructed.
-	Window detection plays a central role in this. 
+	Window detection plays a key role in this. 
 	Another field of research is the analysis of building deformation in areas
 	containing old buildings.  Window detection provides information about the
 	region of interest that could be tracked over time for an accurate
@@ -61,14 +61,14 @@ orthogonal and aligned windows.  Finally we show and discuss results.
 	Window detection plays an
 	important role in these processes as the size and location of the windows
 	supply an effective descriptor that can be used for robust and fast building
-	identification.  Furthermore it provides an accuratly alignment of the
+	identification.  Furthermore it provides an accurate alignment of the
 	overlay.
 
 \paragraph{Building recognition and urban planning}
 	Building recognition is used in the field of urban planning where the semantic 3d
 	models are used to provide important references to the city scenes from the
 	street level.
-	Building recognition is done using large image datasets where the
+	Building recognition is done by using large image datasets where the
 	buildings are mostly described by local information descriptors.  
 	Some approaches try to describe the 3D building with laser range data. Some methods fuse the laser data with
 	ground images. However those generated 3D models are a mesh structure which doesn't make the facade structure explicit.
@@ -106,7 +106,7 @@ to run in real time.  \\
 
 Using a thermal camera, Sirmacek \cite{Sirmacek_thermal}
 detects heat leakage on building walls as an indicator for doors or windows.
-Windows are detected with L-shaped features as set of \emph{steerable filters}.
+Windows are detected with L-shaped features as a set of \emph{steerable filters}.
 The windows are grouped using \emph{perceptual organization rules}:
 they search and group intersecting L-shapes to close a window shape. A shape is
 determined closed if it can seperate an inside region from the outside, i.e.
@@ -114,12 +114,12 @@ determine if it is a window.  \\
 
 Ali et all \cite{Ali_facades} describe the windows with \emph{Haar} like
 features, the features are combined using a cascading classifier. The cascading
-classifier, which acts like a decision tree, is learned using the \emph{Ada
+classifier (which acts like a decision tree) is learned using the \emph{Ada
 boost} algorithm.  They also use window detection to determine the region of
 the facade.\\
 
 Although this method is used a lot in computer vision, it is not the most
-promissing approach to window detection because it is supervised.  This means
+promissing approach to window detection because it has to be supervised.  This means
 that it requires a large dataset in which every window must be accurately
 annotated.  As the cascader uses a fixed swiping window it is sensitive to
 scale: all window sizes must be equal and a size range must be given to the system.
@@ -155,9 +155,10 @@ criteria are also used in our approach.\\
 They also detect windows and use them to provide a significant better alignment
 of the 3d model.  As windows have a high reflection, they form hole like shapes
 in the laser range images.  These holes are directly used to extract the
-windows, unfortunatelly the results where far from accurate.\\
+windows. Unfortunatelly due to bad laser range data, the results where far from
+accurate.\\
 
-The work of Pu and Vosselman \cite{Pu_refiningbuilding} provides a useful
+The work of Pu and Vosselman \cite{Pu_refiningbuilding} provides an useful
 practical application of window detection and it amplifies the need for a robust
 window detection technique that is independent of laser range data.\\
 
@@ -167,13 +168,13 @@ the primary work of Lee and Nevatia \cite{Lee_extraction} (which is discussed
 next).  In order to make clear orthogonal projections they rectify the facade. 
 To determine the alignment of the windows the edges are projected into their orthogonal direction. 
 For example the horizontal edges are projected in the vertical direction to 
-to establish the vertical division of the windows.\\
+establish the vertical division of the windows.\\
 \fig{p_projection_profiles.eps}{Projection profiles of Lee and Nevatias work}{0.4}
 A function is developed that counts the amount of projected edges on each
 location, this is the \emph{Projection profile}, see Figure
 \ref{fig:p_projection_profiles.eps}.
 A threshold is applied on the projection profile to indicate the window
-boundaries that is used for the window alignment.\\
+boundaries that are used for the window alignment.\\
 
 In the next step they use color to disambiguate the window areas from nonwindow
 areas.  To be more precise, they convert the image to CIE-Lab color space and
@@ -190,13 +191,13 @@ shapes of windows can exist in the same column/row, they only use the window ali
 a hypothesis.  Then, using this hypothesis, they perform a refinement for each
 window independently. 
 Although this comes with accurate results, the iterative refinement is
-a computational expensive procedure. As we want to run our system in realtime
+a computational expensive procedure. As we want to run our system in real time
 this method is not suitable for our application. \\
 
 \subsubsection{Our work in context}
 The state of the art window alignment procedure in \cite{Recky_kmeans} and \cite{Lee_extraction}
-is very robust.  Therefore we decided to use this method as a basis and improved
-the alignment algorithm, furthermore we build a different window classification method.  
+is very robust.  Therefore we have decided to use this method as a basis and improved
+the alignment algorithm, furthermore we have build a different window classification method.  
 
 Our improvement on the alignment procedure is as follows.
 In the previous work \cite{Recky_kmeans} and \cite{Lee_extraction} they use
@@ -205,7 +206,7 @@ process by fusing two (more advanced) projection profiles for each direction.
 E.g. for the determination of the horizontal division of the windows we fuse both
 horizontal and vertical projection profiles.\\
 
-Furthermore we build two alternative window classification procedure which are 
+Furthermore we have build two alternative window classification procedures which are 
 based on a higher level of shape interpretation of these projection profiles.
 As the classification is based on the projection profiles (edge information) we
 don't require expensive color transformations and we only apply (rectification)
@@ -229,8 +230,7 @@ and vertical lines, we use this property to detect the windows.
 We introduce the concept \emph{connected corner}, this is a corner that is 
 connected to a horizontal and vertical line.  
 The search for these connected corners is based on edge information.
-The connected corners give a good indication of the position of the windows, 
-
+The connected corners give a good indication of the position of the windows. 
 In this approach the viewing direction is not required to be frontal.
 The windows could be arbitrarily located and they don't need
 to be aligned to each other neither to the X and Y axis of the image.
@@ -247,9 +247,9 @@ The vertical group has a range of $\theta = [80..90..100)$ degrees.
 We use these ranges because 1) the user hardly ever holds the camera exactly
 orthogonal.  2) we work with unrectified facades, meaning we deal with
 perspective distortion.  To be more concrete, if the user takes a photo (Figure
-\ref{fig:cameraPitch.eps} with a certain Yaw \= 0, the horizontal lines become
+\ref{fig:cameraPitch.eps}) with a certain Yaw \= 0, the horizontal lines become
 skew.  The range of the vertical group is smaller then the horizontal group as
-the user often takes photo with a low pitch value and a high yaw.
+the user often takes photos with a low pitch value and a high yaw.
 \fig{cameraPitch.eps}{Pitch roll and yaw of the camera}{0.5}
 
 The results of the edge detection and the Hough transform of two images can be seen in Figure \ref{fig:w_Dirk6_ImEdge.eps} and
@@ -315,7 +315,7 @@ All quadrangles are filled and displayed in Figure
 
 Figure \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps} displays the result of the
 connected corner aproach on an unrectified scene.  It contains 110 windows of
-which are 109 detected, this is 99\%. Furthermore there are some False Positive
+which are 109 detected, this is 99\%. Furthermore there are some false positive
 areas, this is about 3 \%.
 Sometimes a window is not detected, for example the window on the right top
 isn't detected, this is because its smaller then the minimum window width.\\
@@ -330,9 +330,10 @@ for, and robust to, scenes with a variation in window sizes and types. This
 	about the building.
 
 \subsubsection{Future research} %\subsubsection{Method I: Connected corner approach} 
-We only developed L-shaped connected corners, it would be nice to connect more
-parts of the window to form U shaped connected corners or even complete rectangles.
-The later is difficult because the edges are often incomplete due to for example occlusion.\\
+We only developed L-shaped connected corners, in future research we could
+connect more parts of the window. E.g. to form U shaped connected corners or
+even complete rectangular shapes.  The later is difficult because the edges are
+often incomplete due to for example occlusion.\\
 
 Furthermore the next step in this study would be to group the connected corners
 to windows and sub windows.  The big window that contains sub windows could be
@@ -340,12 +341,12 @@ found by calculating the convex hull of the red areas in Figure
 \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps}.  The sub windows could be found
 using a clustering algorithm that groups the connected corners to a window. For
 this method it would be useful to assume the window size as this correlates
-directly to the inter-cluster distance.  It would also be nice to incorporate
-not only the center of the connected corner as a parameter of the cluster space
-but also the length and position of the of the connected corners' horizontal
-and vertical line parts.  The inter cluster distance and the number of grouped
-connected corner could form a good source for the certainty of the sub
-window.\\
+directly to the inter-cluster distance.  
+We could als incorporate not only the center of the connected corner as a
+parameter of the cluster space but also the length and position of the
+connected corners' horizontal and vertical line parts.  The inter cluster
+distance and the number of grouped connected corners could form a good source for
+the certainty of the sub window.\\
 
 
 
@@ -357,7 +358,7 @@ window.\\
 \subsubsection{Introduction}
 In order to apply our second method of window detection (\ref{sec:method2}),
 we need the windows on the facade to be orthogonal and aligned.
-Therefore we rectify the facade, which can be achieved in a manual or automatic way.\\
+Therefore we rectify the facade, which can be achieved in a manual or in an automatic way.\\
 
 The simple rectification method uses point to point correspondences. This 
 requires annotation of the corner points of the facade that are mapped with the
@@ -365,26 +366,27 @@ corners of a rectangle. This mapping is used to calculate a transformation matri
  The downside of this method is that it isn't very accurate as it doesn't take
  the width and height ration of the facade into account.
 It only uses four point to point correspondences 
-and doesnt take the camera lens distortion into account.
+and does not take the camera lens distortion into account.
  Another downside is that it requires (manual) annotation of the corner points.
-A more accurate and fully automatic method is desired .\\
+A more accurate and fully automatic method is desired.\\
 
 The second method involves the extraction of a 3D plane of the facade. This 
-method is more complex and gives more accurate results. It involves a
+method is more complex but gives more accurate results. It involves a
 comprehensive process and a large amount of research is done in this area. 
 Given the related work, and our focus on the annotational part of facade
 interpretation, we used existing software to apply the window rectification.
-I. Estebans \emph{FIT3D toolbox} \cite{Fit3d} comes with an addon which extracts a 3D model from a
+I. Estebans \emph{FIT3D toolbox} \cite{Fit3d} comes with an add-on which extracts a 3D model from a
 series of frames.  One of the planes of the 3D model was used to rectify the
 facade, making it ready for robust window detection. 
 
-Using this addon of the \emph{FIT3D toolbox} \cite{Fit3d} we calculated the motion between a
+Using this add-on of the \emph{FIT3D toolbox} \cite{Fit3d} we calculated the motion between a
 series of frames in order to extract a point cloud of matching features. This
-point cloud is used to extract a plane.  which is used to rectify the facade by
+point cloud is used to extract a plane, which is used to rectify the facade by
 a projection process.  We now explain the steps in more detail.
 
 \subsubsection{3D plane extraction}
-We started by taking a series of 7 consecutive images (steady zoom, lightning, etc. parameters) of a scene.  The images don't need to be chronological but need to have sufficient overlap. 
+We started by taking a series of 7 consecutive images (steady (zoom, lightning,
+etc.) parameters) of a scene.  The images don't need to be chronological but need to have sufficient overlap. 
 
 %/media/Storage/scriptie/fit3d/generate3dModel/3dcFiles
 \fig{fit3dImgSequence.eps}{Example series of 7 consecutive frames, (dataset: FIT3D toolbox\cite{Fit3d})}{0.3}
@@ -405,32 +407,32 @@ iterative method called \emph{bundle adjustment}.  The final result is a very
 accurate estimation of the camera motion.
 
 The next step is to use this camera motion to obtain a set of 3D points
-(corresponding to the matching image features).  This is achieved using \emph{linear triangulation}
-method. 
+(corresponding to the matching image features).  This is achieved using a
+\emph{linear triangulation} method. 
 
 Next a RANSAC based plane fitter is used to accurately fit a plane through
 the 3D points. 
 \emph{todo example figure}
 
 \subsubsection{Efficient Projecting} 
-Now we extracted the 3D plane of the facade, the next challenge is to use this
+Now we have extracted the 3D plane of the facade, the next challenge is to use this
 in order to rectify the facade.\\
 
 It would be straight forward to rectify the full image. However this is
 computational very expensive as each pixel needs to be projected. To keep the
 computational cost to a minimum we project only the necessary data. Since we
 are using Houghlines we project only the coordinates of the endpoints of the found Houghlines. 
-(This is allowed because the projective transformation we apply preserves the
+This is allowed because the projective transformation we apply preserves the
 straightness of the lines. Note that this means we apply the edge detection and
-Houghline extraction on the unrectified image.)\\
+Houghline extraction on the unrectified image.\\
 
-If $h$ is the number of Houghlines, the number of projections is $2h$
+If $h$ is the number of Houghlines, the number of projections is $2h$.
 When we rectify the full image the number of projection is $w$ x $h$, where $w$,$h$ are the width and height of
 the image. To give an indication, for the \emph{Anne1} dataset 
 this means we apply 600 projections in stead of 1572864: a factor of almost 3k faster.\\
 
 The Houghline endpoints are projected to the 3D plane we extracted in the same
-way as we explained in chapter \ref{chap:skylinedetection}. To wrap up, we send
+way as we explained in chapter \ref{chap:skylinedetection}. We have send
 rays from the camera center trough the houghline endpoints and calculated the
 intersection with the 3D plane.  The result is a 3D point cloud where each
 point is labeled to its corresponding Houghline.\\
@@ -438,13 +440,13 @@ point is labeled to its corresponding Houghline.\\
 The next step is to transform the facade (and therefore the Houghlines) to a
 frontal view. Instead of transforming the facade we rotate and translate the camera. 
 This means the viewing direction (z-axis) of the camera needs
-to be equivalent to the normal of the facade plane. Lets denote the
+to be equivalent to the normal of the facade plane. Let's denote the
 unit vector spanning the original viewing direction as $z$ and the
 unit vector spanning the desired viewing direction/normal of the facade $z'$.
 We calculated a rotation matrix from the axis-angle representation.\\
 
 This presentation uses a unit vector $u$ indicating the direction of a directed axis, and an
-angle describing the magnitude of the rotation about this axis, see
+angle describing the magnitude of the rotation around this axis, see
 \ref{sec:axisAngle}.
 This axis is orthogonal to $z$ and $z'$ and can therefore be
 calculated by $u = cross(z,z')$ where cross defines the cross product of

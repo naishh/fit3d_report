@@ -187,31 +187,32 @@ An example of the 3D model can be seen in Figure
 	different positions and orientations. For details please refer to the
 	preliminaries (\ref{sec:bouguet}).
 	 
-	 %-------
 	\paragraph{From image point (2D) to possible points in scene (3D)} 
-	Now let's see what we can do with the calibrated data.
+	What can we do with this data after it is calibrated?
 	The line segment that was returned by the Hough transform consists of two
 	endpoints $v$ and $w$. These endpoints are in 2D but are recorded in a 3D
 	scene and therefore present a 3D point in space.  The value of the 3rd
 	dimension represents the distance from the 3D point to the camera that took
 	the picture. Unfortunately this value is unknown, however because we
-	calibrated the camera we can reduce the possible points in 3D space to a
+	calibrated the camera, we can reduce the possible points in 3D space to a
 	line.\\
 
 	We know:
 	\begin{itemize}
 		\item The 2D location of the pixel
-		\item The camera's internal parameters (K) \\
-		\item The translation of the camera and therefore the location of the
-		camera center
-		\item The rotation of the camera
+		\item The cameras internal parameters (K) 
+		\item The location of the camera center
+		\item The viewing direction of the camera
 	\end{itemize}
 
-	We can now define the line of possible points in 3D space by two coordinates:\\
+
+	We can now span the line of possible points in 3D space by two coordinates:\\
 	\begin{itemize}
 		\item $C$, the location of the center of the camera, and
 		%TODO %(camera centers are annotated for every image)
-		\item $K'p$, the point that lies on the retina of the camera, where $K$ is the Calibration matrix and $p$ is the homogeneous pixel coordinate.
+		\item $A = K'p$, the point that lies on the retina of the camera, where
+		$K$ is the intrinsic calibration matrix and $p$ is the homogeneous
+		coordinate of the pixel.
 		%TODO explain Why K'p
 		%TODO add P
 	\end{itemize}
@@ -223,12 +224,35 @@ An example of the 3D model can be seen in Figure
 	%directions and finding the
 	%Calibration matrix.\\
 
-	Now we have the two required coordinates, we can set up an equation of the
-	line of possible points in 3D.  This is done as described in preliminaries
-	\ref{sec:lineeq}. 
+	Because wo now have the two required coordinates, we can set up an equation of the
+	line of possible points in 3D.  
 
-	\paragraph{Intersecting with walls}
-	%TODO write in intro 
+	\[ C + (E-C)t, t \in \mathbb{R} \]
+
+	for example if $t=100$ then the point in the real world lies at 100 times the
+		distance from the camera center to its retina.
+
+	Now we know which possible points in 3D a 2D endpoint of a skyline presents
+	we can use this to estimate the height of the walls by projection.
+
+
+\subsubsection{Associating line segments with building walls}
+	For every line segment returned by the Hough transform we have two
+	endpoints. In the previous section we explained how the endpoints are transformed in lines (which represent the possible points in 3D).
+
+	To associate the line segments with the building walls we project them 
+	to all planes of the 3D building. After this we choose the most likely
+	wall. We now elaborate on each step.
+	
+
+
+
+	%In other words, to determine the wall that is 
+	%responsible for
+	%the line segment. This is later on used to update the height of the wall of the
+	%3D model.\\
+
+	\paragraph{Preparing the 3D model}
 	%For every line segment we now have two endpoints which are transformed to an
 	%infinite line of possible points in the scene.  We are now ... your friend 
 	%TODO larger intro
@@ -237,37 +261,25 @@ An example of the 3D model can be seen in Figure
 	%
 	%The building is first divided into different walls.  Every wall of the building spans a plane. 
 	%Intersections are then calculated between the lines and the planes of the building walls.\\
-
-	 The 3D building model is divided into different walls. These walls are
-	 described by two ground coordinates and a direction which is the y-direction as
-	 assumed by the \emph{Gravity aligned walls assumption}.
+	The 3D building model is divided into different walls. These walls are
+	described by two ground coordinates and a direction which is the y-direction as
+	assumed by the \emph{Gravity aligned walls assumption}.
 
 	As you can read in preliminaries \ref{sec:planeswalls} the walls are transformed
-	into planes.  This is done for two reasons: first this transformation is required to calculate the intersection properly.
-	Secondly, because the 3D model is an estimate, the walls maybe just
-	to small which could %TODO ongewenst
-	result in no intersection which is not wat we want.
-	%TODO example image
+	into planes.  This is done for two reasons: first this transformation is
+	required to calculate the intersection properly. Secondly, because the 3D
+	model is an estimate, the walls maybe just to small which could result in a
+	missing intersection. 
 
-	Now we have the building divided op into planes we can intersect lines with
-	these planes.
-	%TODO intersection formula 
-	%TODO 
-	%Note that
-	%A skyline pixel intersects with every wall as both the lines and planes are
-	%infinite and have a very low change of being parallel.
 
-	For every line segment returned by the Hough transform we have two
-	endpoints. The endpoints are transformed in lines (which represent the
-	possible points in 3D) and these lines are
-	intersected with the planes of the building walls.
-	This results in 2xlxw points in 3D, grouped by the line segments, where $l$ is the number
-	of lines and $w$ is the number of walls.\\
+	\paragraph{Intersect with all walls}
+	Now we have the building divided op into planes we 
+	intersect the Hough lines with all the planes of the building walls.
+	%todo intersection formula
+	This results in 2xlxw points in 3D, grouped by the line segments, where $l$
+	is the number of lines and $w$ is the number of walls.\\
 
-	The next challenge is to reduce the number of intersection for every line
-	segment to one. In other words, to determine the wall that is responsible for
-	the line segment. This is later on used to update the height of the wall of the
-	3D model.\\
+
 
 %TODO I miss an importand issue here, namely that I assume every wall to apear
 %in equal size but this is not the fact, e.g. a projection of the same line on a
@@ -276,7 +288,14 @@ An example of the 3D model can be seen in Figure
 % say something about equal size assumption, where i throw away the dimension
 % that is pointing from the camera cc
 
-\subsubsection{Associating line segments with building walls}
+
+%todo 
+
+%----
+
+
+
+
 \label{sec:lwa}
 %TODO intro
 	\paragraph{Assumptions}
@@ -466,8 +485,7 @@ segment is classified as the most likely wall for that line segment.
 \subsubsection{Improving the 3D model by wall height estimation}
 	In the previous section we associated the line segments with their most
 	likely wall. In this section this information is used to estimate the
-	heights of the walls which will eventually be used to update the 3D model in the
-	next section. \\
+	heights of the walls of the 3D model in the next section. \\
 	Now all line segments are associated with a certain wall, we re-project the
 	line segment from the different views on their associated wall. The
 	re-projection is done by intersecting both endpoints of the line segment to
@@ -627,26 +645,26 @@ height together with a template structure of the roof could be used to generate 
 model.
 
 
-\section{My old method of line-wall association}
-\label{sec:oldmethodlwa}
-We take the line segments endpoints and project it onto the building walls. The wall with the shortest
-distance to the camera center will be assigned to the line segment. Points that
-lie outside the polygon are punished.\\
-
-And to update the specific wall we first need to know with a high probability of
-being correct which wall the line segment presents.
-But this method introduces a problem: some of the line segments have endpoints that lie at the corner of the building. These line segments could easily be associated with the neighboring wall. Because the 3D model is a rough estimate this could lead to bad results.
-In the corner case it is not clear to which wall the line segment belongs because both endpoints do not agree on the same wall. To solve this problem some heuristic methods are developed and tested. The following heuristic is both simple and effective.
-The heuristic uses the importance of the middle point of the line segment. This middle point has a low change of being on a building corner and the on average biggest change of being on the wall we are looking for.
-Therefor we discard the endpoints and use the middle point the endpoints to determine the right wall.
-This middle point is intersected with all planes spanned by the walls. The line segment is stored to the wall with the shortest distance.
-The output of this part of the algorithm is for every wall a bunch of associated line segments originated from different views.\\
-
-in section Results was this text:\\
-The left and middle line segment of Figure \ref{fig:outputHoughlines2d} 
-are
-a good example of the corner problem. Both endpoints that lie on the corner could easily be associated
-with the wrong wall (even if the rough 3D model is very accurate). Fortunately
-we use the middle point of the line segment to determine the correct wall. This
-works well as its 100\% accurate (for this dataset).
-
+%\section{My old method of line-wall association}
+%\label{sec:oldmethodlwa}
+%We take the line segments endpoints and project it onto the building walls. The wall with the shortest
+%distance to the camera center will be assigned to the line segment. Points that
+%lie outside the polygon are punished.\\
+%
+%And to update the specific wall we first need to know with a high probability of
+%being correct which wall the line segment presents.
+%But this method introduces a problem: some of the line segments have endpoints that lie at the corner of the building. These line segments could easily be associated with the neighboring wall. Because the 3D model is a rough estimate this could lead to bad results.
+%In the corner case it is not clear to which wall the line segment belongs because both endpoints do not agree on the same wall. To solve this problem some heuristic methods are developed and tested. The following heuristic is both simple and effective.
+%The heuristic uses the importance of the middle point of the line segment. This middle point has a low change of being on a building corner and the on average biggest change of being on the wall we are looking for.
+%Therefor we discard the endpoints and use the middle point the endpoints to determine the right wall.
+%This middle point is intersected with all planes spanned by the walls. The line segment is stored to the wall with the shortest distance.
+%The output of this part of the algorithm is for every wall a bunch of associated line segments originated from different views.\\
+%
+%in section Results was this text:\\
+%The left and middle line segment of Figure \ref{fig:outputHoughlines2d} 
+%are
+%a good example of the corner problem. Both endpoints that lie on the corner could easily be associated
+%with the wrong wall (even if the rough 3D model is very accurate). Fortunately
+%we use the middle point of the line segment to determine the correct wall. This
+%works well as its 100\% accurate (for this dataset).
+%
