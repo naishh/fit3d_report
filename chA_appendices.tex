@@ -1,29 +1,29 @@
 \section{Appendices}
 
-\subsection{Figures}
-
-
-
-
-
-%-------------------------------------------------------------------------
-\TODO{check if appendix images not already in ch5!!}
-% NOT sure it is not in ch5:
-% Appendix images
-\fig{w_Spil1TransCrop1_ImEdge.eps}{Dataset: Anne1, Result edge detection}{0.45}
-% w_Dirk4Trans_ImEdge.eps                               
-% w_Dirk4Trans_ImHibaap_Xh.eps                          
-% w_Dirk4Trans_ImHibaap_Xv.eps                           
-
-
-
-
-%-------------------------------------------------------------------------
-% sure it is not in ch5:
-\fig{w_Dirk4Trans_ImHoughResult.eps}{$\theta$-constrained Hough transform}{0.45}
-
-
+\subsection{Edge detection results}
+\label{app:edge}
+\fig{e_floriande_log_002.eps}{Edge detection results. Method: Laplacian of Gaussian}{0.45}
+\fig{e_floriande_prewitt_015.eps}{Edge detection results. Method: Prewitt}{0.45}
+\fig{e_floriande_roberts_015.eps}{Edge detection results. Method: Roberts}{0.45}
+\fig{e_floriande_sobel_015.eps}{Edge detection results. Method: Sobel}{0.45}
+\fig{e_floriande_zerocross_002.eps}{Edge detection results. Method: Zerocross}{0.45}
+\fig{e_floriande_canny_050.eps}{Edge detection results. Method: Canny}{0.45}
 \clearpage
+
+\subsection{Detailed window detection images}
+\fig{w_Spil1TransCrop1_ImEdge.eps}{Dataset: Anne1, Result edge detection}{0.45}
+\fig{w_Dirk4Trans_ImEdge.eps}{Dataset Dirk, Edge detection result}{0.45} 
+%todo refer to images below:
+\clearpage
+\fig{w_Dirk4Trans_ImHoughResult.eps}{$\theta$-constrained Hough transform}{0.4}
+\fig{w_Dirk4Trans_ImHibaap_Xv.eps}{Dataset: Dirk, Regular window alignment: Based on a histogram that displays amount of overlapping vertical Houghlines at each $x$ position}{0.4}
+\clearpage
+\fig{w_Dirk4Trans_ImHibaap_Xh.eps}{Dataset: Dirk, Alternative window alignment (orthogonal projection): Based on the shape of the smoothed histogram function. 
+For the column division, the number of \emph{horizontal} Houghlines is counted. 
+Peaks (that represent a big decrease or increase of the histogram function) are
+used for the alignment.}{0.55}                     
+
+\newpage
 \subsubsection{K-means bad luck}
 \fig{w_Dirk4Trans_ImClassRectI_kmeansTilt_barsH.eps}{Dataset: Dirk, Horizontal Houghlines}{0.45}
 \fig{w_Dirk4Trans_ImClassRectI_kmeansTilt_barsV.eps}{Dataset: Dirk, Vertical Houghlines}{0.45}

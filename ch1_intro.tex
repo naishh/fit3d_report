@@ -1,2 +1,56 @@
 \section{Introduction}
-%TODO
+When we humans look at an urban scene we immediatally can tell which part is a
+building, a tree, a door, a window or a parked car.
+Even if the scene suffers from high occlusion (a tree ocluding the largest part
+of a building) or extreme perspective distortion (a building seen from the
+corners of your eye) we perform this task with a very high accuracy.
+
+For a computer system however, this task is far from trivial.
+
+Let us adress the question that arises many times in Artificial Intelligence:
+Why are we humans so good in this task? What can we learn from ourselves 
+and how can we apply this on a computer system?
+
+The most important reason of our excelent visual perception is that we combine 
+a series of depth cues (which enables us to experience depth) with top down processing (which
+enables us to classify objects).
+
+One of the most important depth cue is stereopsis.  We use two eyes and look at
+the same scene from slightly different angles.  This makes it possible to
+triangulate the distance to an object with a high degree of accuracy. 
+
+%---
+%If an object is far away, the disparity of that image falling on both
+%retinas will be small. If the object is close or near, the disparity will be
+%large.
+Besides the depth cue we use top down processing to perceive objects.  If want
+to perceive a window we tap in to the neurons that are activated according to
+our (generalized) description of a window.  I.e. because window is often
+rectangular shaped and the color stands out we tap into the neurons that
+perceive lines, orthogonal corners and intens colorchanges.
+
+These processes are extremely informative if we want to build a computer system
+that acts accordingly.  Therefore we developed a computer system that is
+inspired on the human brain.
+
+We build an automatic system that adds semantics to a scene and we focussed on
+the urban domain. As object detection is a complex task we extracted just
+three important semantics.  First we simulate the eyes by using images taken from
+different angles to extract the contour of a building. Next we combine this
+result with multiple view geometry to extract a 3D model of the building. Finally
+windows are detected in a way that is also very similar to humans.
+
+
+\subsection{Thesis outline}
+The outline of this thesis is as follows:\\
+We start with explaining some basic computer vision techniques in Chapter 2.
+These techniques are the driving force behind the algorithms used in both
+skyline detection and window detection.  In Chapter 3 we explain our first
+method to interpretate a scene using skyline detection.  We use the result to
+generate a 3D model of a building in Chapter 4.  In Chapter 5 we present two
+window detection methods that respectively operate on a unrectified and a
+rectified scene.  Many methods used in this thesis are distinct, therefor we
+choose to present the discussion, results and future research for each method
+separate.  The thesis finishes with a overall conclusion.
+
+

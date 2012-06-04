@@ -9,34 +9,43 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 4) FOCUS op scriptie
 
 
+
+algemeen
+	intro
+	conclusion
+	todos weghalen uit pdf
+	spellcheck + ispell.txt
+	preliminaries
+	abstract
+	voorblad
+
+
+
 ch 4 improve 3d model
-todo's
-linken naar voorgaande en andere chapters
-
-
-
-
-plaatje outputHoughlines3d 
-	opnieuw genereren vanuit matlab zodat het mooier is
+	todo's
+	alle chapters snel afronden
+	linken naar voorgaande en andere chapters
+	plaatje outputHoughlines3d 
+		opnieuw genereren vanuit matlab zodat het mooier is
 
 
 ch 5 WINDOW DETECTION
 
-PRIMAIRE todos:
-	fb anne
-	fb stefanie
+	PRIMAIRE todos:
+		fb anne
+		fb stefanie
 
-	organogrammetjes bouwen
-	todos in file
+		organogrammetjes bouwen
+		todos in file
 
-SECUNDAIRE todos:
-	skyline: see below todo frans
-	update references, are all there?
-	list of figures maken
+	SECUNDAIRE todos:
+		skyline: see below todo frans
+		update references, are all there?
+		list of figures maken
 
-	l-shape ref, pag 24 frans fb
-	classificatie methode met probs en met derivitave met elkaar vergelijken
-	iets zeggen over complexiteit
+		l-shape ref, pag 24 frans fb
+		classificatie methode met probs en met derivitave met elkaar vergelijken
+		iets zeggen over complexiteit
 
 
 

@@ -20,7 +20,7 @@ related work on skyline detection. Next we explain how we developed a new
 robust skyline detection algorithm. Then we present and discuss some results
 and, finally, conclusions are given.
 
-\subsubsection{Related work}
+\subsection{Related work}
 Castano et al. \cite{Dust} present a clear introduction of different skyline
 detection techniques. 
 
@@ -70,6 +70,7 @@ of an interactive system where an operator refines the skyline. For our
 application the skyline detector must operate without any user interaction.
 This brings us to our research question.
 
+\subsection{Method}
 \paragraph{Research question}
 Can we build a skyline algorithm that operates without any user interaction, is
 simple, is fast, and yet accurate enough to provide a solid skyline that can be
@@ -154,6 +155,7 @@ therefore unchanged. To be robust to vague edges we explored and tested
 edge detecting types that are different then the smoothed intensity gradient
 based method.\\
 
+\label{sec:edgeDet}
 The output of the different edge detection techniques was studied on an empirical
 basis and the Canny edge detector \cite{Canny} was a clear winner. This is
 probably because Canny is a more advanced edge detector. It uses two
@@ -187,12 +189,12 @@ edge detection methods.
 	approximation to the derivative. It returns edges at those points where the
 	gradient of the image is maximum.\\
 	\hline
+	zero-cross				& The zero-cross method finds edges by looking for zero
+	crossings after filtering the image with a filter that has to be specified.\\
+	\hline
 	Laplacian				& The Laplacian of Gaussian method finds edges by
 	looking for zero crossings after filtering the image with a Laplacian of Gaussian
 	filter.\\
-	\hline
-	zero-cross				& The zero-cross method finds edges by looking for zero
-	crossings after filtering the image with a filter that has to be specified.\\
 	\hline
 	Canny					& The Canny method finds edges by looking for local
 	maxima of the gradient of the image. The gradient is calculated using the derivative of
@@ -229,18 +231,14 @@ as the image quality and lightning condition are scene depended.
 \subsection{Results}
 \subsubsection{Edge detection}
 \label{sec:ResultEdge}
-\clearpage
-\fig{e_floriande_log_002.eps}{Edge detection results. Method: Laplacian of Gaussian}{0.45}
-\fig{e_floriande_prewitt_015.eps}{Edge detection results. Method: Prewitt}{0.45}
-\fig{e_floriande_roberts_015.eps}{Edge detection results. Method: Roberts}{0.45}
-\fig{e_floriande_sobel_015.eps}{Edge detection results. Method: Sobel}{0.45}
-\fig{e_floriande_zerocross_002.eps}{Edge detection results. Method: Zerocross}{0.45}
 \fig{e_floriande_canny_050.eps}{Edge detection results. Method: Canny}{0.45}
+The edge detection results of the other methods can be found in the appendix
+(\ref{app:edge}).
 \clearpage
 
 
-\subsection{Skyline detection}
-\subsubsection{Datasets}
+\subsubsection{Skyline detection}
+\paragraph{Datasets}
 The skyline detection algorithm was applied on three datasets. 
 
 \begin{table}[ht]
