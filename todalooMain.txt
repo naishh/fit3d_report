@@ -10,8 +10,14 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 ch 4 improve 3d model
+todo's
+linken naar voorgaande en andere chapters
+
+
+
+
 plaatje outputHoughlines3d 
-	opnieuw genereren vanuit matlab met links niet teveel hoogte verschil in gevonden lijnen
+	opnieuw genereren vanuit matlab zodat het mooier is
 
 
 ch 5 WINDOW DETECTION

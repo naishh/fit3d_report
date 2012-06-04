@@ -1,7 +1,7 @@
-% TODO 
+% todo 
 % be more clear about the projection, its the first time the reader sees it 
 
-% TODO
+% todo
 % discussion:
 % Furthermore it would be good to fully discard the flat roof assumption. This will allow a building to have any shape, which is nice. The drawback is that a new method of outlier detection has to be developed. 
 % Object recognition play a great part in this. If one knows where, for example, an occluding object is located, this could be used to filter the output of the skyline detector. This however rises a new problem, namely that the 3D model has no augmentations at the position of occluding objects. Determining what would be located behind the occluding object would be an interesting AI challenge and will incorporate pattern recognition, making use of repetitive structures and off course combining the multiple views to reveal as much information as possible.\\
@@ -13,7 +13,12 @@ In the previous chapter we explained our skyline detection algorithm which
 extracted the skyline of a scene. The output is a set of 2D points which was  
 collected for a sequence of images.
 The aim of this chapter is to use this set of points to extract a countour of
-the building which is use to generate a 3D model of the building.\\
+the building. Next this contour is combined with an aerial 2D model of the building to
+generate a 3D model of the building.\\
+
+\paragraph{Research question}
+Is it possible to use a set of noisy skylinepoints together with an aerial 2D model to 
+extract an accurate 3D model of the building.
 
 We present a stepwise solution. First \emph{Openstreetmap} is used to generate a
 basic 3D model. Secondly the set of points returned by the skyline detector is
@@ -21,19 +26,20 @@ transfered to a set of lines. Then each line segment is assigned to a part of
 the basic 3D model (the different parts of the 3D model represent the walls of
 the building).  After this the line segments are projected to the 3D model. The
 result is used to estimate the height values of the planes of the 3D model.
+This results in an accurate 3D model of the building.
 We will now elaborate on each step.\\
 
 %todo
-%TODO how does the 3d model helps us? what is the purpose
+%todo how does the 3d model helps us? what is the purpose
 
 % In other systems where the skyline is detected in the context of a horizon like context.
 %todo It isn't possible to keep track of the change in the skyline detector as the building has radical changes
 
 \subsection{Method}
 
-\subsubsection{Generating the 3D model}
+\subsubsection{Generating the basic 3D model}
 %todo onderstaand kan beter..
-The 3D model is generated using a basis (groundplane) which is manually extended
+The basic 3D model is generated using a basis (groundplane) which is manually extended
 to an average building height.  The basis (viewed from top) of the generated 3D model is originated from
 \emph{Openstreetmap}.\\
 \fig{openstreetmap}{Openstreetmap with annotated buildings}{0.3}
@@ -96,15 +102,13 @@ An example of the 3D model can be seen in Figure
 
 
 \paragraph{Hough transform}
-	%todo rever to preliminaries and remove redundand info 
-	% uit elkaar trekken
 	A widely used method for extracting line segments is the Hough transform
 	\cite{Hough}.
 	We regard this as a suitable method because it is
 	used a lot for this kind of problems. This is probably because it is unique
 	in its low complexity (compared to other methods like
 	\emph{RANSAC}, who often use an iterative approach).
-	For a detailed explanation of the Hough transform please read section
+	For a detailed explanation of the Hough transform can be found in section
 	\ref{sec:prelimHough}.\\
 
 	The input of the Hough transform that is build in in \emph{MATLAB} is a binary
@@ -125,16 +129,6 @@ An example of the 3D model can be seen in Figure
 	displayed and evaluated in the Result section (\ref{sec:ResultImprove}).
 
 \subsubsection{Project the skyline to the building}
-%TODO name different methods? and put in table and test
-% Some different methods
-% method 1:
-% take endpoints and project, con: endpoints don't agree
-% see above tekst
-% method 2:
-% middle point
-% method 3: 
-% overlap
-
 	% intro
 	The Hough transform of the previous section returned a set of 2D line
 	segments which likely present parts of the building contour.  
@@ -153,18 +147,20 @@ An example of the 3D model can be seen in Figure
 	in what way this camera manipulated the image (zoom factors, lens distortion
 	etc.).  In other words, we need find the extrinsic and intrinsic parameters,
 	this process is refered to as Camera Calibration.
+	% "relationship between what appears on the image (or retinal) plane and where
+	% it is located in the 3D world."
 
 	\subparagraph{Extrinsic parameters}
 	%todo praten over coordinaat stelsels
 	%\paragraph{Getting the camera centers and viewing directions}
-	%TODO introduce viewing direction
+	%todo introduce viewing direction
 	The extrinsic parameters present the center of the locations of the camera
 	and the viewing directions. These are unique for every image.
-	%TODO explain rotation, translation
+	%todo explain rotation, translation
 	In some systems these are recorded by measuring the cameras position and
 	orientation at the scene. In other systems this is computed afterwards from the images.  
 	We calculated the values also afterwards and used existing software for
-	this: \emph{Fit3d toolbox} \cite{Fit3d}, details of this process can be
+	this: \emph{Fit3D toolbox} \cite{Fit3d}, details of this process can be
 	found in the preliminaries (\ref{sec:cameracenters}).\\  
 
 	\subparagraph{Intrinsic parameters}
@@ -172,20 +168,15 @@ An example of the 3D model can be seen in Figure
 	of the camera.  These are focal length, pixel aspect ratio, and principal point.
 	%todo explain principal point
 
-	% %TODO
-	% "relationship between what appears on the image (or retinal) plane and where
-	% it is located in the 3D world."
-	% intrinsic 
-	% extrinsic params
-
 	These parameters come together in a calibration matrix K.  The Floriande
-	dataset (origined from the Fit3d toolbox \cite{Fit3d}) comes with a
+	dataset (origined from the Fit3D toolbox \cite{Fit3d}) comes with a
 	calibration matrix K .  For
-	the \emph{Anne} dataset we calculated K by the Bouguet toolbox.
-	%todo Ref
+	the \emph{Anne} dataset we calculated K by the Bouguet toolbox
+	\cite{bouguet}.
 	This method involes making images of a chessboard in
 	different positions and orientations. For details please refer to the
 	preliminaries (\ref{sec:bouguet}).
+
 	 
 	\paragraph{From image point (2D) to possible points in scene (3D)} 
 	What can we do with this data after it is calibrated?
@@ -209,16 +200,16 @@ An example of the 3D model can be seen in Figure
 	We can now span the line of possible points in 3D space by two coordinates:\\
 	\begin{itemize}
 		\item $C$, the location of the center of the camera, and
-		%TODO %(camera centers are annotated for every image)
+		%todo %(camera centers are annotated for every image)
 		\item $A = K'p$, the point that lies on the retina of the camera, where
 		$K$ is the intrinsic calibration matrix and $p$ is the homogeneous
 		coordinate of the pixel.
-		%TODO explain Why K'p
-		%TODO add P
+		%todo explain Why K'p
+		%todo add P
 	\end{itemize}
-	%TODO image
+	%todo image
 
-	%TODO zee zisserman pagenumbers in feedbackmap
+	%todo zee zisserman pagenumbers in feedbackmap
 
 	%So the problem is boiled down in finding the Camera centers and viewing
 	%directions and finding the
@@ -232,12 +223,12 @@ An example of the 3D model can be seen in Figure
 	for example if $t=100$ then the point in the real world lies at 100 times the
 		distance from the camera center to its retina.
 
-	Now we know which possible points in 3D a 2D endpoint of a skyline presents,
-	we can use this to project the skyline to the walls.
+	Now we know which possible points in 3D a 2D point of the skyline presents,
+	we can use this to find the corresponding wall.
 
 
 \subsubsection{Associating line segments with building walls}
-%TODO I miss an importand issue here, namely that I assume every wall to apear
+%todo I miss an importand issue here, namely that I assume every wall to apear
 %in equal size but this is not the fact, e.g. a projection of the same line on a
 %different wall, that stands farder away from the cc will appear bigger
 %therefor the is not very 'eerlijk'
@@ -249,9 +240,8 @@ An example of the 3D model can be seen in Figure
 	Unfortunately we don't know which line is associated with which building
 	wall. In this section we determine this association.
 
-	First we project the line segments to to all planes of the 3D building.
-	After this we choose the most likely plane based on the largest line-wall
-	overlap. 
+	First we project the line segments to all planes of the 3D building.  After
+	this we choose the most likely plane based on the largest line-wall overlap. 
 
 	\paragraph{Preparing the 3D model}
 	%The building is first divided into different walls.  Every wall of the building spans a plane. 
@@ -325,8 +315,8 @@ segment is classified as the most likely wall for that line segment.
 	The type of overlap is defined by exposing the endpoints of the line
 	segments to an \emph{in polygon} test, where the polygon represents a 
 	wall of the building (e.g. $abcd$ in Figure 10).
-	%TODO REF MATLAB?
-	%we use the Matlab build in polygon as in section (%TODO)
+	%todo REF MATLAB?
+	%we use the Matlab build in polygon as in section (%todo)
 
 	Table \ref{tab:lwatypes} represents the types of overlap with the corresponding number of points
 	that pass the \emph{in polygon} test and their possible line-wall overlap
@@ -436,12 +426,10 @@ segment is classified as the most likely wall for that line segment.
 	associating a line segment with the wall that has the largest line-wall
 	overlap.\\
 
-%---
-
 \subsubsection{Improving the 3D model by wall height estimation}
 	In the previous section we associated the line segments with their most
 	likely wall. In this section this information is used to estimate the
-	heights of the walls of the 3D model in the next section. \\
+	heights of the walls of the 3D model. \\
 	Now all line segments are associated with a certain wall, we re-project the
 	line segment from the different views on their associated wall. The
 	re-projection is done by intersecting both endpoints of the line segment to
@@ -450,44 +438,49 @@ segment is classified as the most likely wall for that line segment.
 	an average of the midpoints of the projected line segments. We do this for
 	every wall separately, returning the average height of the line segments.
 	These averages are then used as the new heights of the walls of the
-	building. Note that this is only permitted in presence of the \emph{flat roof assumption}.\\
+	building.  Note that this is only permitted in presence of the \emph{flat roof assumption}.\\
 	The new individual heights are used in the 3D model by adjusting the
 	location of the existing upper corner points of the walls. We copy the
 	bottom left and right corner points and add the estimated height from the
 	previous section to its y-value. The y-value is the direction of the
 	gravity which is permitted by the \emph{Gravity aligned walls assumption}.
 
+\newpage
 \subsection{Results}
 \label{sec:ResultImprove}
-Let's return to the output of the skyline detector in Figure
-\ref{fig:outputskylineFloriande}.\\
-\fig{outputHoughlines2d}{Three best ranked lines of the Hough transform on the skyline detector}{0.5}
-\fig{outputHoughlines3d}{Houghlines projected on the most likely wall}{0.6}
+\fig{outputHoughlines2d}{Three best ranked lines of the Hough transform on the
+skyline detector match the building walls}{0.4}
+\fig{outputHoughlines3d}{Houghlines projected on the most likely wall}{0.5}
+\clearpage
 \fig{outputMutateBuilding}{Improved 3D model}{0.6}
 Figure \ref{fig:outputHoughlines2d} shows the top 3 longest Houghlines, the
 endpoints are denoted with a black and blue cross. All three line segments lie on the
 building contour.  The left line segment covers only a part of the building wall. The
-middle line segment covers the full wall. The left and middle line segment are connected. The
+middle line segment covers the full wall contour. The left and middle line segment are connected. The
 right line segment covers the wall until the tree occludes.\\
+
 Figure \ref{fig:outputHoughlines3d} 
-3 displays the line segments (originated from
-different views) projected on to their associated walls.  For a clear view we've
-only selected the lines that were associated with two specific walls of the building.  
-The red cross in the middle of the line represents the average of its endpoints.\\
+ displays the line segments projected onto their associated walls.
+Note that the line segments are originated from different views. 
+%fit3d plaatje sequence
+ 
+For a clear view we have only selected the lines that were associated with three
+specific walls of the building of Figure \ref{fig:outputHoughlines2d}.  
+For each different view we draw a red cross that represents the average middle
+point for that view for each wall, some crosses overlap.\\
+
 Figure \ref{fig:outputMutateBuilding} 
 displays the updated 3D model. The
 corner points of the walls are adjusted according the calculated wall heights.
-The green plane displays the augmented wall. The left and middle wall are extended
-and the right wall is shortened.\\
+The green plane displays the modified wall. The left and middle wall are extended
+whereas the right wall is shortened.\\
 
-%As can be seen from the different plane colors, the building walls are changed to their individual height.
 
 \subsection{Discussion}
-%TODO positief lullen over resultaat
-
+%todo positief lullen over resultaat
 As can be seen in Figure \ref{fig:outputHoughlines2d}, 
 the top three Houghlines correspond the the three most prominent building walls
-which is a good result. Wat also can be seen is that the left line segment doesn't cover the whole
+Wat also can be seen is that the left line segment doesn't cover the whole
 building wall. This is caused by the use of strict parameters in the Hough transform
 (like a small line thickness parameter).  If some ascending skyline pixels fall just outside
 the Houghlines, a gap is created and the line segment is cut down at that point.
@@ -499,52 +492,62 @@ good wall height estimate. Furthermore there are 5 other lines
 
 % midpoint heuristic
 \subsection{Conclusion}
-To conclude, we showed that a Houghline transform is a useful method to detect
-outliers and find prominent structure in the contour of a building with a flat
+Let's answer our research question.
+\paragraph{Research question}
+Is it possible to use a set of noisy skylinepoints together with an aerial 2D model to 
+extract an accurate 3D model of the building.\\
+
+Yes this is possible, we showed that a Houghline transform is a useful method to detect
+skyline outliers and find prominent structure in the contour of a building with a flat
 roof. We introduced a method to pair up line segments with their associated
 walls. This was used to produce new wall heights which were propagated to the 3D
 model.  Existing and novel AI computer vision techniques were powerfully
 combined resulting in an significant improvement of a 3D model based on only a
 few calibrated 2D images. 
 
-\subsection{Future work}
-%TODO generate a figure with 2 houghlines on wall of tree
+%todo elabolaret
+
+\subsection{Future research}
+%todo generate a figure with 2 houghlines on wall of tree
 %As can be seen in Figure %\ref{fig:}
 Sometimes two line segments appear on the same single wall. This means that they have a double
 influence on the average wall height, which is unjustified. 
 A simple solution would be to add a normalization pre-process step, so each view
 has only one wall height vote per wall. A more decent solution would be to
-merge the two (or more) line segments to a single line segment. This could be
-achieved with an iterative Hough transform where the \emph{FillGap} parameter is
-increased in each iteration. E.g. for the right wall of the building in Figure
-\emph{this figure will present at the next update}  %TODO 
-%TODO why iterative?? why not big gab as param??
-two iterations would be enough, the \emph{FillGap} parameter needs to be at
-least as big as the occluding tree in the second iteration.\\
+merge the two (or more) line segments to a single line segment. 
+Lines that are close and parallel could be merged and averaged.
+Lines that lie in eachothers direction could be merged by increasing the 
+Hough transforms \emph{FillGap} parameter.  E.g. for the right wall of the building in 
+Figure \ref{fig:outputHoughlines3d} the \emph{FillGap} parameter needs to be at
+least as big as the occluding tree.
 
-In this thesis little is discussed about the computational costs. This is
-because the computations are done efficiently (e.g. using matrix multiplications
-in Matlab) and off line, making the calculation process accomplishable in reasonable time.
-To make the application real time the next speedup would be useful.\\
+%---
+
+In this thesis little is discussed about the computational costs. Because the 
+computations are done efficiently (e.g. using matrix multiplications
+in MATLAB) and off line, the calculation are done in reasonable time.
+However, if we want to make the application real time, the next speedup would be useful.\\
 To determine the best line-wall association the line segments are now projected to
 every wall and for every wall the amount of line-wall overlap is calculated. This
 is computational very expensive and looks a bit like an overkill.\\
+
 It would be a significant speedup to reduce the set of walls to only the walls
 that contain the middle point of the line segments. To be more concrete the
 middle point needs te be calculated by averaging the line segments endpoints,
 this middlepoint is used in the \emph{in polygon} test for every wall.  Next the
 line-wall association algorithm only treats the walls that pass this test.\\
-The downside of this method is that it will be inaccurate, resulting in more false
-negatives: a linesegment that overlaps the wall with only 1/3 could be of
-use in the height estimation but instead it is discarded.
+
+The downside of this method is that it makes the system less accurate because it
+will resulting in more false negatives. A linesegment that overlaps the wall with only 1/3 could be an
+important candidate for the height estimation but because the speedup method it is discarded.
 What can be concluded is that there is a trade of in the accurateness of the
 height estimation and the computational costs.
 
 
 \subsubsection{Alternative roofs}
-%TODO ref opzoeken
+%todo ref opzoeken
 %[REF] a polygon fit procedure is used where even dormers are recognized.\\
-%TODO vet goed dat ik dus mijn algo different wall heights aan kan, promoten!
+%todo vet goed dat ik dus mijn algo different wall heights aan kan, promoten!
 
 %-----done:
 We assumed a flat roof, this doesn't mean that our method is unusable if

@@ -1,3 +1,5 @@
+alle ?? nagaan in pdf
+
 replace:
 
 isn't  -> is not
@@ -7,3 +9,7 @@ as it is -> because
 3d -> 3D
 Lets -> Let's
 
+
+
+opmaak:
+itemize distance verkleinen
