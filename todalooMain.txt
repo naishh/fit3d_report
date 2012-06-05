@@ -31,6 +31,8 @@ algemeen
 		comma regel stefanie (gebruik ik niet te lange zinnen)
 		alineas gelinked?
 
+	update fig counter after fig 10 to fig 11 (nu 2x fig 10!)
+	table result window detection goede opmaak
 
 
 

@@ -8,12 +8,12 @@
 In the previous chapter we explained our skyline detection algorithm which
 extracted the skyline of a scene. The output is a set of 2D points which was  
 collected for a sequence of images.
-The aim of this chapter is to use this set of points to extract a countour of
+The aim of this chapter is to use this set of points to extract a contour of
 the building. Next this contour is combined with an aerial 2D model of the building to
 generate a 3D model of the building.\\
 
 \paragraph{Research question}
-Is it possible to use a set of noisy skylinepoints together with an aerial 2D model to 
+Is it possible to use a set of noisy skyline points together with an aerial 2D model to 
 extract an accurate 3D model of the building.
 
 We present a stepwise solution. First \emph{Openstreetmap} is used to generate a
@@ -34,7 +34,7 @@ We will now elaborate on each step.\\
 \subsection{Method}
 
 \subsubsection{Generating the basic 3D model}
-The basic 3D model is generated using a basis (groundplane) which is manually extended
+The basic 3D model is generated using a basis (ground-plane) which is manually extended
 to an average building height.  The basis (viewed from top) of the generated 3D model is originated from
 \emph{Openstreetmap}.\\
 \fig{openstreetmap}{Openstreetmap with annotated buildings}{0.3}
@@ -65,8 +65,8 @@ An example of the 3D model can be seen in Figure
 \label{extractinglinesegments}
 %intro
 
-	As we want to estimate the height of the buildingwalls of the 3D model we
-	need to know how heigh the walls in the 2D images are.  To estimate this we
+	As we want to estimate the height of the building walls of the 3D model we
+	need to know how high the walls in the 2D images are.  To estimate this we
 	first determine which part of the skyline is part of the building contour.
 	Straight lines in the skyline area are likely to come from the building
 	contour.  If we have a method that extracts straight line segments from the
@@ -80,14 +80,14 @@ An example of the 3D model can be seen in Figure
 \paragraph{Assumptions}
 	Many urban areas contain buildings with a flat roof. This makes the contour
 	of the building is always formed by a set of straight line segments.
-	Furthermore the contour of the building is always aligned with the upperside
+	Furthermore the contour of the building is always aligned with the upper side
 	of a building wall.  
-	If we assume a flat roof we can findthe height of the building walls without
-	having to concern for (complex) rooftypes.
+	If we assume a flat roof we can find the height of the building walls without
+	having to concern for (complex) roof types.
 
 	\subparagraph{Flat roof assumption}
 	\emph{We assume each building has a flat roof, implicating that the building
-	contour is aligned with the topside of a building wall.  The buildingwalls
+	contour is aligned with the topside of a building wall.  The building walls
 	may have different heights but the roof should be flat.}\\
 
 
@@ -122,13 +122,13 @@ An example of the 3D model can be seen in Figure
 	% intro
 	The Hough transform of the previous section returned a set of 2D line
 	segments which likely present parts of the building contour.  
-	As we want to estimate the buildingwall heights we need to determine the wall
+	As we want to estimate the building wall heights we need to determine the wall
 	of the building that is most likely responsible for that line segment.
 	We can solve this problem by projecting the line segments to a specific
 	part of the 3D model.
-	This is done in three steps, firtst we need to calibrate the camera, next we
+	This is done in three steps, first we need to calibrate the camera, next we
 	project the line segments to the the building and finally we 
-	determine the specific building part that is associate whith a line segment.
+	determine the specific building part that is associate with a line segment.
 
 
 	\paragraph{Camera calibration}
@@ -136,7 +136,7 @@ An example of the 3D model can be seen in Figure
 	camera was positioned when it took the photo. Furthermore we need to know
 	in what way this camera manipulated the image (zoom factors, lens distortion
 	etc.).  In other words, we need find the extrinsic and intrinsic parameters,
-	this process is refered to as Camera Calibration.
+	this process is referred to as Camera Calibration.
 	% "relationship between what appears on the image (or retinal) plane and where
 	% it is located in the 3D world."
 
@@ -160,11 +160,11 @@ An example of the 3D model can be seen in Figure
 	%todo explain principal point
 
 	These parameters come together in a calibration matrix K.  The Floriande
-	dataset (origined from the Fit3D toolbox \cite{Fit3d}) comes with a
+	dataset (originated from the Fit3D toolbox \cite{Fit3d}) comes with a
 	calibration matrix K .  For
 	the \emph{Anne} dataset we calculated K by the Bouguet toolbox
 	\cite{bouguet}.
-	This method involes making images of a chessboard in
+	This method involves making images of a chessboard in
 	different positions and orientations. For details please refer to the
 	preliminaries (\ref{sec:bouguet}) [DRAFTnote: not finished at the
 	time of writing].
@@ -207,7 +207,7 @@ An example of the 3D model can be seen in Figure
 	%directions and finding the
 	%Calibration matrix.\\
 
-	Because wo now have the two required coordinates, we can set up an equation of the
+	Because we now have the two required coordinates, we can set up an equation of the
 	line of possible points in 3D.  
 
 	\[ C + (E-C)t, t \in \mathbb{R} \]
@@ -220,14 +220,14 @@ An example of the 3D model can be seen in Figure
 
 
 \subsubsection{Associating line segments with building walls}
-%todo I miss an importand issue here, namely that I assume every wall to apear
+%todo I miss an important issue here, namely that I assume every wall to appear
 %in equal size but this is not the fact, e.g. a projection of the same line on a
-%different wall, that stands farder away from the cc will appear bigger
+%different wall, that stands further away from the cc will appear bigger
 %therefor the is not very 'eerlijk'
 % say something about equal size assumption, where i throw away the dimension
 % that is pointing from the camera cc
 % solution: dichterbij heeft voorrang
-	\paragraph{Building wall appearence assumption:}
+	\paragraph{Building wall appearance assumption:}
 	\emph{We assume that every straight line segment of the skyline represent (a part of) the upper side of a specific wall of the building.}
 	Unfortunately we don't know which line is associated with which building
 	wall. In this section we determine this association.
@@ -249,7 +249,7 @@ An example of the 3D model can be seen in Figure
 
 
 	\paragraph{Intersect with all walls}
-	Now we have the building divided op into planes we take the endpoints of the
+	Now we have the building divided  into planes we take the endpoints of the
 	lines and project them to all the planes of the building.  Each 2D endpoint
 	has a line of possible 3D points (spanned by the camera center and the point
 	on the retina). This line is intersected with the planes of the building
@@ -268,7 +268,7 @@ An example of the 3D model can be seen in Figure
 	We call this the line-wall overlap value, $lwo$.  A mathematical
 	definition of $lwo$ follows.  Note that the projection of $l$ with the
 	other walls should have a small $lwo$ value.\\
-	%todo2. see figure, create two Figure's (2d and 3d) with a single houghline
+	%todo2. see figure, create two Figure's (2d and 3d) with a single Hough line
 	%(projected)
 
 	\paragraph{Largest line-wall overlap assumption:}
@@ -309,14 +309,14 @@ segment is classified as the most likely wall for that line segment.
 	segments to an \emph{in polygon} test, where the polygon represents a 
 	wall of the building (e.g. $abcd$ in Figure 10).
 	%todo REF MATLAB?
-	%we use the Matlab build in polygon as in section (%todo)
+	%we use the MATLAB build in polygon as in section (%todo)
 
 	Table \ref{tab:lwatypes} represents the types of overlap with the corresponding number of points
 	that pass the \emph{in polygon} test and their possible line-wall overlap
 	value.\\ 
 
 	\begin{table}[ht]
-		\caption{Types of overlap with corresponding number op points in polygon}
+		\caption{Types of overlap with corresponding number of points in polygon}
 		\label{tab:lwatypes}
 
 		\begin{tabular}{|l||c|c|c|}
@@ -365,7 +365,7 @@ segment is classified as the most likely wall for that line segment.
 	which we assumed in the \emph{Gravity aligned walls assumption}\\
 	To be more precise: 
 	\begin{itemize}
-	\item Ff $\angle d$ is obtuse, the left vertical wall side $da$, is
+	\item If $\angle d$ is obtuse, the left vertical wall side $da$, is
 	crossed. \\
 	\item If $\angle c$ is obtuse, the right vertical wall side $cb$, is
 	crossed. \\
@@ -411,7 +411,7 @@ segment is classified as the most likely wall for that line segment.
 	The maximum of the normalized line-wall overlap is used to associate a
 	line segment with its most likely wall.
 	To summarize, the overlap type is defined by calculating the numbers of in
-	polygon points and evaluating two dotproducts. Next the line segment is cut off
+	polygon points and evaluating two dot products. Next the line segment is cut off
 	depending on the overlap type and the line is normalized. \\
 	
 	Now we have determined the normalized line-wall overlap, we use this to
@@ -473,7 +473,7 @@ whereas the right wall is shortened.\\
 %todo positief lullen over resultaat
 As can be seen in Figure \ref{fig:outputHoughlines2d}, 
 the top three Houghlines correspond the the three most prominent building walls
-Wat also can be seen is that the left line segment doesn't cover the whole
+What also can be seen is that the left line segment doesn't cover the whole
 building wall. This is caused by the use of strict parameters in the Hough transform
 (like a small line thickness parameter).  If some ascending skyline pixels fall just outside
 the Houghlines, a gap is created and the line segment is cut down at that point.
@@ -487,7 +487,7 @@ good wall height estimate. Furthermore there are 5 other lines
 \subsection{Conclusion}
 Let's answer our research question.
 \paragraph{Research question}
-Is it possible to use a set of noisy skylinepoints together with an aerial 2D model to 
+Is it possible to use a set of noisy skyline points together with an aerial 2D model to 
 extract an accurate 3D model of the building.\\
 
 Yes this is possible, we showed that a Houghline transform is a useful method to detect
@@ -500,7 +500,7 @@ few calibrated 2D images.
 %todo conclusion is no summary... conclude something..
 
 \subsection{Future research}
-%todo generate a figure with 2 houghlines on wall of tree
+%todo generate a figure with 2 Hough lines on wall of tree
 %As can be seen in Figure %\ref{fig:}
 Sometimes two line segments appear on the same single wall. This means that they have a double
 influence on the average wall height, which is unjustified. 
@@ -508,7 +508,7 @@ A simple solution would be to add a normalization pre-process step, so each view
 has only one wall height vote per wall. A more decent solution would be to
 merge the two (or more) line segments to a single line segment. 
 Lines that are close and parallel could be merged and averaged.
-Lines that lie in eachothers direction could be merged by increasing the 
+Lines that lie in each others direction could be merged by increasing the 
 Hough transforms \emph{FillGap} parameter.  E.g. for the right wall of the building in 
 Figure \ref{fig:outputHoughlines3d} the \emph{FillGap} parameter needs to be at
 least as big as the occluding tree.
@@ -525,12 +525,12 @@ is computational very expensive and looks a bit like an overkill.\\
 
 It would be a significant speedup to reduce the set of walls to only the walls
 that contain the middle point of the line segments. To be more concrete the
-middle point needs te be calculated by averaging the line segments endpoints,
-this middlepoint is used in the \emph{in polygon} test for every wall.  Next the
+middle point needs to be calculated by averaging the line segments endpoints,
+this middle point is used in the \emph{in polygon} test for every wall.  Next the
 line-wall association algorithm only treats the walls that pass this test.
 
 The downside of this method is that it makes the system less accurate because it
-will resulting in more false negatives. A linesegment that overlaps the wall with only 1/3 could be an
+will resulting in more false negatives. A line segment that overlaps the wall with only 1/3 could be an
 important candidate for the height estimation but because the speedup method it is discarded.
 What can be concluded is that there is a trade of in the accurateness of the
 height estimation and the computational costs.
@@ -542,7 +542,7 @@ height estimation and the computational costs.
 %-----done:
 We assumed a flat roof, this doesn't mean that our method is unusable if
 we discard this assumption.
-E.g. without addaptations the method could be used to determine the (maximum)
+E.g. without adaptations the method could be used to determine the (maximum)
 building height which is a useful application.\\
 
 If we discard the flat roof assumption the building is allowed to have any
@@ -571,7 +571,7 @@ Some ideas about this are now proposed:\\
 	some roof types (e.g. a dormer is never located on a flat roof) could be determined.\\
 	\item Use the Hough transform to search for horizontal lines to detect the
 	wall-roof separation, and use the the ground plane and the top roof line to
-	guid the search.  Some building have a gutter, because of this the number
+	guide the search.  Some building have a gutter, because of this the number
 	of horizontal lines on the wall-roof separation will be larger which could
 	be of great use.\\
 	\item Use geographic information (a database of roof types) with gps location
