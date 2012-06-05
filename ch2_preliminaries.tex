@@ -1,6 +1,7 @@
 % DRAFT
 \section{Preliminaries on Computer Vision}
-
+In this chapter we discuss the basic computer vision techniques that are used for
+the skyline detection, 3D building extraction and window detection.
 
 \subsection{Hough transform}
 \label{sec:prelimHough}
@@ -26,7 +27,7 @@
 
 	\[r = x \cos \theta+y\sin \theta \]
 	
-	This means that a straigth line in $(x,y)$ space appears as a sinusoidal
+	This means that a straight line in $(x,y)$ space appears as a sinusoidal
 	curve in the Hough parameter $(r,\theta)$ space.  Let's see an example, the
 	following image is transformed into the space $(r,\theta)$.
 	
@@ -44,21 +45,21 @@
 	 curves is high, these position correspond to the eight separate straight
 	 line segments in Figure \ref{fig:HoughTransform_edge.eps} .
 	
-	This makes the problem of detecting straigth lines in finding peaks in the 
-	Hough parameter $(r,\theta)$.
+	This makes the problem of detecting straight lines in finding peaks in the 
+	Hough parameter $(r,\theta)$ space.
 
 \subsubsection{Implementation}
-	The input of a Hough transform is a binary image, in our research it is the output of 
-	the skyline detector (\ref{sec:skylinedetection}) or in the case of window
-	detection (\ref{sec:windowDetection}) the output of an edge image.\\
+	The input of a Hough transform is a binary image. In our research it is the output of 
+	the skyline detector (\ref{sec:skylinedetection}). In the case of window
+	detection (\ref{sec:windowDetection}) it is the output of an edge image.\\
 
-	The Houghtransform develops an accumulator array of a quantized parameter space $(r, \theta)$.
+	The Hough transform develops an accumulator array of a quantized parameter space $(r, \theta)$.
 
 	It loops through the binary image and for each positive value 
 	it generates all possible lines, quantized $(r, \theta)$ pairs, that intersect with this point.
 	For each candidate it increases a vote in the accumulator array.
 	Lines $(r, \theta)$ that receive a large amount of votes
-	i.e. the dots in Figure \ref{fig:HoughTransform_peaks1.eps} are the found straigth lines in the $(x,y)$ space.
+	i.e. the dots in Figure \ref{fig:HoughTransform_peaks1.eps} are the found straight lines in the $(x,y)$ space.
 
 	These positions are found by looking for local maxima in the accumulator array.
 
@@ -69,7 +70,8 @@ Note that a line with $(r, \theta) = (t,j)$ can also be represent by the identic
 This makes it possible to represent every line with the interval $[-90..90)$.\\
 
 Sometimes we want to find lines that have a certain angle.
-For example the skyline of a building will appear about horizontal, furthermore with window detection one would like to detect edges in the horizontal and vertical directions.
+For example the skyline of a building will appear about horizontal. If we
+want to detect windows we would like to detect edges in the horizontal and vertical directions.
 This can easily achieved by adjusting the $\theta$ range.
 For example if one would detect lines in the horizontal direction of
 a photograph of a building taken by a user, $\theta = [-10..0..10]$.Although
@@ -87,17 +89,17 @@ We used a standard Matlab implementation of the Hough transform for straight lin
 
 
 \subsubsection{Other shapes}
-The Hough transform isn't bound to finding straight lines, in fact it could be
+The Hough transform is not bound to finding straight lines. In fact it could be
 applied to any space which can be represented by a set of parameters.  For
 instance, a circle can be transformed into a set of three parameters, $(x,y,r)$
-representing its center and radius, this makes the Hough space three
-dimensional. 
-For more complicated shapes, the 
-\emph{Generalised Hough transform} is used.
+representing its center and radius. This makes the Hough space three
+dimensional.  For more complicated shapes, the 
+\emph{Generalized Hough transform} is used.
 It uses a feature that votes for a particular position, orientation and/or scaling of a certain predefined shape.  The shapes are predefined in a look-up table.
 
 
-%  \subsection{Coordination systems}
+[Draftnote: subsections below are not finished at the time of writing]
+\subsection{Coordination systems}
 %  The camera can be described in the same coordinate system as the 3D point we are
 %  looking for, we call this the world coordinate system. 
 %  The camera center is a value in $\mathbb{R}$3 that represents the camera's position in the world
@@ -106,34 +108,34 @@ It uses a feature that votes for a particular position, orientation and/or scali
 %  
 %  
 %  %TODO IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!
-%  \subsection{Getting the camera centers and viewing directions}
+\subsection{Getting the camera centers and viewing directions}
 %  \label{sec:cameracenters}
 %  \TODO{ Explain here about fit3d toolbox}
 %  
-%  \subsection{Calibrating the camera with the Bouguet toolbox}
+\subsection{Calibrating the camera with the Bouguet toolbox}
 %  \label{sec:bouguet}
 %  TODO
 %  \TODO{TODO see ref 15 and fit3d toolbox p4}
 %  
 %  	%\paragraph{Getting the calibration matrix}
-%  	%TODO inspriation
+%  	%TODO inspiration
 %  	% isaacs paper 
 %  	% google 
 %  	% matlab help bouget 
 %  	%
 %  
 %  
-%  \subsection{Homogenous coordinate}
+%  \subsection{Homogeneous coordinate}
 %  \TODO{ explain how to add extra homogeneous dimension (x,y,1) and why this is}
 %  
 %  
-%  \subsection{Planes and walls}
+ \subsection{Planes and walls}
 %  \label{sec:planeswalls}
 %  \TODO{ How to span plane by wall coords}
 %  
-%  \subsection{Axis angle representation}
+\subsection{Axis angle representation}
 %  \label{sec:axisAngle}
 %  \TODO{Axis angle representation, wikipedia}
 %  
-%  \subsection{Gaussian blur}
+\subsection{Gaussian blur}
 %  %matlab documentation, wikipedia

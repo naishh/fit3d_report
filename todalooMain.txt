@@ -11,9 +11,10 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 algemeen
-	conclusion
-	todos weghalen uit pdf
 	spellcheck + ispell.txt
+	zoeken op vraagtekens
+
+
 	preliminaries
 	voorblad
 	voorwoord (anne, stefanie, bram, ispell, supervisors, leo,  bedanken)
@@ -23,6 +24,14 @@ algemeen
 	check if research q is in every chapter ( window detection?)
 
 	anne moet nog ch. improve 3d model nakijken
+	openstreetmap ref in bibtex
+	remove and solve DRAFTNote
+	het geheel een keertje doornemen
+		kijken naar: level of detail!
+		comma regel stefanie (gebruik ik niet te lange zinnen)
+		alineas gelinked?
+
+
 
 
 

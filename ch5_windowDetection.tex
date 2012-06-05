@@ -6,18 +6,17 @@
 \section{Window detection}
 \label{sec:windowDetection}
 \subsection{Introduction}
-Semantic interpretation of urban scenes is used in a wide range of applications.
 In this chapter we deal with an important aspect of semantic urban scene interpretation: window detection. 
 From the introduction we learned that window detection can play an importand role in
 a variety of domains: semi automatic 3D reconstruction/modelling of city models, documenting
 historical buildings, analysis of old building deformation augmented
 reality, building recognition, etc.\\
 
-This chapter is about our developed methods of window detection it is organised
+This chapter is about our developed methods of window detection and it is organised
 as follows:\\
-  We start related work and put our work in context.  Next we describe our first
+  We start with related work and put our work in context.  Next we describe our first
   window detection approach that is invariant to viewing direction.  After this
-  we present a facade rectification method. Next this method is used for our
+  we present a facade rectification method. Next the rectification result is used for our
   second method that assumes orthogonal and aligned windows.  Finally we show
   and discuss our results. 
 
@@ -29,17 +28,17 @@ approaches that differ from our approach.  After this, we discuss state of art
 window detection that has a big overlap with our approach in detail.\\
 
 \subsubsection{Alternative approaches on window detection}
-Muller et all \cite{Muller_procedural} detect regularity and symmetry in the building. The
+Muller et al. \cite{Muller_procedural} detect regularity and symmetry in the building. The
 symmetry is detected in the vertical (floors) and horizontal (window
 rows) direction.
 They use shape grammars to divide the building wall in tiles, windows, doors etc.
 The results are used to derive a 3d model of high 3d visual quality.
-\figsSmall{label_window_nice_geometry}{p_window_nice_geometry1.eps}{p_window_nice_geometry2.eps}{Results of Muller et all}{original texture}{reconstruction}
+\figsSmall{label_window_nice_geometry}{p_window_nice_geometry1.eps}{p_window_nice_geometry2.eps}{Results of Muller et al.}{original texture}{reconstruction}
 Although they achieved some interesting results their method has some
 disadvantages.  As their method is fully based on detecting symmetrie, they have
-to assume repeating and aligned windows: this constraints the variety of scenes
+to assume repeating and aligned windows: this constrains the variety of scenes
 the system can handle.
-Furthermore they match template window objects which they predefine, this 
+Furthermore they match template window objects which they predefine. This 
 constraints the variety of windowtypes that could be matched.  At last 
 they use expensive algorithms that make it impossible for the system
 to run in real time.  \\
@@ -52,14 +51,14 @@ they search and group intersecting L-shapes to close a window shape. A shape is
 determined closed if it can seperate an inside region from the outside, i.e.
 determine if it is a window.  \\
 
-Ali et all \cite{Ali_facades} describe the windows with \emph{Haar} like
+Ali et al. \cite{Ali_facades} describe the windows with \emph{Haar} like
 features, the features are combined using a cascading classifier. The cascading
 classifier (which acts like a decision tree) is learned using the \emph{Ada
 boost} algorithm.  They also use window detection to determine the region of
 the facade.\\
 
 Although this method is used a lot in computer vision, it is not the most
-promissing approach to window detection because it has to be supervised.  This means
+promising approach to window detection because it has to be supervised.  This means
 that it requires a large dataset in which every window must be accurately
 annotated.  As the cascader uses a fixed swiping window it is sensitive to
 scale: all window sizes must be equal and a size range must be given to the system.
@@ -70,7 +69,7 @@ size invariant is desirable.\\
 
 \TODO{research question}
 
-To investigate this, we developed two methods on which one method doesn't
+To investigate this, we developed two methods on which one method does not
 require repeating windows nor aligned windows.  One of the main targets of our research
 is a low requirements on the input data.  First our system doesn't need 
 a large annotated dataset. Furthermore we took the images with a mobile phone
@@ -99,11 +98,11 @@ windows. Unfortunatelly due to bad laser range data, the results where far from
 accurate.\\
 
 The work of Pu and Vosselman \cite{Pu_refiningbuilding} provides an useful
-practical application of window detection and it amplifies the need for a robust
+practical application of window detection. It amplifies the need for a robust
 window detection technique that is independent of laser range data.\\
 
 
-Recky et all \cite{Recky_kmeans} developed a window detector that is build on
+Recky et al. \cite{Recky_kmeans} developed a window detector that is build on
 the primary work of Lee and Nevatia \cite{Lee_extraction} (which is discussed
 next).  In order to make clear orthogonal projections they rectify the facade. 
 To determine the alignment of the windows the edges are projected into their orthogonal direction. 
@@ -111,7 +110,7 @@ For example the horizontal edges are projected in the vertical direction to
 establish the vertical division of the windows.\\
 \fig{p_projection_profiles.eps}{Projection profiles of Lee and Nevatias work}{0.4}
 A function is developed that counts the amount of projected edges on each
-location, this is the \emph{Projection profile}, see Figure
+location. This is the \emph{Projection profile}, see Figure
 \ref{fig:p_projection_profiles.eps}.
 A threshold is applied on the projection profile to indicate the window
 boundaries that are used for the window alignment.\\
@@ -124,7 +123,7 @@ Furthermore the classification based on color is sensitive to change in
 illumination conditions.\\
 
 
-As in the work of Recky et all \cite{Recky_kmeans} Lee et all
+As in the work of Recky et al. \cite{Recky_kmeans}, Lee et al.
 \cite{Lee_extraction}
 perform orthogonal edge projection to find the window alignment.  As different
 shapes of windows can exist in the same column/row, they only use the window alignment as
@@ -137,7 +136,7 @@ this method is not suitable for our application. \\
 \subsubsection{Our work in context}
 The state of art window alignment procedure in \cite{Recky_kmeans} and \cite{Lee_extraction}
 is very robust.  Therefore we have decided to use this method as a basis and improved
-the alignment algorithm, furthermore we have build a different window classification method.  
+the alignment algorithm. Furthermore we have build a different window classification method.  
 
 Our improvement on the alignment procedure is as follows.
 In the previous work \cite{Recky_kmeans} and \cite{Lee_extraction} they use
@@ -179,7 +178,7 @@ As such the windows are detected individually.
 \subsubsection{Edge detection and Houghline extraction}
 Edge detection is done using the Canny edge detector motivated earlyer in
 section (\ref{sec:edgeDet}).
-From the edge images two groups of Houghlines are extracted. 
+From the edge images two groups of Hough lines are extracted. 
 The groups fall in the two window directions horizontal and vertical.
 This is done by controling the allowed angles, $\theta$ bin ranges, in the Hough transform.
 The horizontal group has a range of $\theta = [-30..0..30)$ degrees, where $\theta = 0$ presents a horizontal line. 
@@ -196,12 +195,12 @@ the user often takes photos with a low pitch value and a high yaw.
 The results of the edge detection and the Hough transform of two images can be seen in Figure \ref{fig:w_Dirk6_ImEdge.eps} and
  \ref{fig:w_Dirk6_ImHoughResult.eps}.
 
-\TODO2{maak analogie met L en H patronen hoe we die herkennen in de hersenen}
+\TODO{maak analogie met L en H patronen hoe we die herkennen in de hersenen}
 
 \subsubsection{Connected corners extraction}
 \fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
 result the clean connected corner}{0.4} As windows contain complex structures
-the amount of horizontal and vertical Houghlines is large at these locations.
+the amount of horizontal and vertical Hough lines is large at these locations.
 A horizontal and a vertical line are often connected in a corner of a window.  In
 this approach we pair up these horizontal and vertical lines to determine
 \emph{connected corners} that indicate a window.
@@ -217,7 +216,7 @@ line is measured $D = ||P_i-P_e||$, this is illustrated as dotted lines in Figur
 distance} threshold $midT$.  And if $D<=midT$, the intersection is close enough
 to form a connected corner.\\
 
-After two Houghlines are classified as a connected corner, they are extended or
+After two Hough lines are classified as a connected corner, they are extended or
 trimmed, depending on the situation. The results are shown in the second row in
 Figure \ref{fig:cCornerTypes}.
 In Figure \ref{fig:cCornerTypes}(I)  the horizontal line is extended.  Figure
@@ -237,7 +236,7 @@ All quadrangles are filled and displayed in Figure
 
 \subsubsection{Results}
 \label{sec:results}.
-\TODO2{more datasets..}
+\TODO{more datasets..}
 % old dataset:
 %\fig{w_spil6cCornerImEdge.eps}{Edge detection}{0.6}
 %\fig{w_spil6cCornerImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.6}
@@ -266,14 +265,14 @@ As can be concluded from the results, the connected corner method is suitable
 for, and robust to, scenes with a variation in window sizes and types. This
 	makes the connected corner approach suitable for a wide range of window
 	scenes where no or few prior information about the windows is known.
-	Furthermore as no image rectification is required, the system has a low input
-	requirement as it is independent of calibrated input data and 3d information
+	Furthermore, because no image rectification is required, the system has low input
+	requirements. It is independent of calibrated input data and 3d information
 	about the building.
 
 \subsubsection{Future research} %\subsubsection{Method I: Connected corner approach} 
-We only developed L-shaped connected corners, in future research we could
+We only developed L-shaped connected corners. In future research we could
 connect more parts of the window. E.g. to form U shaped connected corners or
-even complete rectangular shapes.  The later is difficult because the edges are
+even complete rectangular shapes. The latter is difficult because the edges are
 often incomplete due to for example occlusion.\\
 
 Furthermore the next step in this study would be to group the connected corners
@@ -304,7 +303,7 @@ Therefore we rectify the facade, which can be achieved in a manual or in an auto
 The simple rectification method uses point to point correspondences. This 
 requires annotation of the corner points of the facade that are mapped with the
 corners of a rectangle. This mapping is used to calculate a transformation matrix. 
- The downside of this method is that it isn't very accurate as it doesn't take
+ The downside of this method is that it is not very accurate as it doesn't take
  the width and height ration of the facade into account.
 It only uses four point to point correspondences 
 and does not take the camera lens distortion into account.
@@ -362,23 +361,23 @@ in order to rectify the facade.\\
 It would be straight forward to rectify the full image. However this is
 computational very expensive as each pixel needs to be projected. To keep the
 computational cost to a minimum we project only the necessary data. Since we
-are using Houghlines we project only the coordinates of the endpoints of the found Houghlines. 
+are using Hough lines we project only the coordinates of the endpoints of the found Hough lines. 
 This is allowed because the projective transformation we apply preserves the
 straightness of the lines. Note that this means we apply the edge detection and
 Houghline extraction on the unrectified image.\\
 
-If $h$ is the number of Houghlines, the number of projections is $2h$.
+If $h$ is the number of Hough lines, the number of projections is $2h$.
 When we rectify the full image the number of projection is $w$ x $h$, where $w$,$h$ are the width and height of
 the image. To give an indication, for the \emph{Anne1} dataset 
 this means we apply 600 projections in stead of 1572864: a factor of almost 3k faster.\\
 
 The Houghline endpoints are projected to the 3D plane we extracted in the same
-way as we explained in chapter \ref{chap:skylinedetection}. We have send
+way as we explained in chapter \ref{sec:skylinedetection}. We have send
 rays from the camera center trough the houghline endpoints and calculated the
 intersection with the 3D plane.  The result is a 3D point cloud where each
 point is labeled to its corresponding Houghline.\\
 
-The next step is to transform the facade (and therefore the Houghlines) to a
+The next step is to transform the facade (and therefore the Hough lines) to a
 frontal view. Instead of transforming the facade we rotate and translate the camera. 
 This means the viewing direction (z-axis) of the camera needs
 to be equivalent to the normal of the facade plane. Let's denote the
@@ -395,22 +394,21 @@ two vectors.
 The magnitude of the rotation $\alpha$ is equivalent to the angle $z$ between $z'$ given $u$. 
 E.g. if the images are taken from a(n almost) frontal view (the facade is almost rectified) $\alpha$ is low.
 $\alpha$ and $u$ are used to create a rotation matrix $R$ which is applied to the 3D point cloud.
-The result is a set of rectified 3D points that are grouped to their Houghlines.
+The result is a set of rectified 3D points that are grouped to their Hough lines.
 
 \subsubsection{Results} % facade rectification
 We show the result of two datasets, Anne1 and Dirk.
 Note that we also rectified the image pixels itself, this is only for
-the purpose of displaying the projected Houghlines in context.
+the purpose of displaying the projected Hough lines in context.
 
-
-\newpage
 \fig{w_spil6ImOri.eps}{Dataset: Anne1, Original, (unrectified) image}{0.45}
 %\fig{w_Spil1TransCrop1_ImOri.eps}{Dataset: Anne1, Rectified image}{0.45}
-\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Dataset: Anne1, Projected Houghlines on rectified image}{0.45}
+\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Dataset: Anne1, Projected Hough lines on rectified image}{0.35}
+\clearpage
 
 \newpage
 \fig{w_Dirk4_ImOri_Unrectified.eps}{Dataset: Dirk, Original, (unrectified) image, }{0.45}
-\fig{w_Dirk4Trans_ImHoughResult.eps}{Dataset: Dirk, Projected Houghlines on rectified image}{0.45}
+\fig{w_Dirk4Trans_ImHoughResult.eps}{Dataset: Dirk, Projected Hough lines on rectified image}{0.45}
 
 
 
@@ -450,15 +448,15 @@ bottom area of the image (cars, unaligned doors and windows).
 
 \subsubsection{Dirk}
 The Dirk dataset represents an everyday scene as it contains light spots on the facade,
-bicycles, an an occluding tree.  It contains zero rectification error but the
+bicycles and an occluding tree.  It contains zero rectification error but the
 windows are partially aligned.  The windows are very closely located (making it
 hard to detect non-window areas between them), furthermore they differ in shape, size
-and in type.  The yaw of the camera is relative low, implicating little or no
+and in type.  The yaw of the camera is relatively low, implicating little or no
 occlusion artefacts.
 \fig{w_Dirk4Trans_ImOri.eps}{Dataset: Dirk}{0.55}
 \clearpage
 
-\TODO2{tabel van datasets en handicaps!}
+\TODO{tabel van datasets en handicaps!}
 
 
 
@@ -472,7 +470,7 @@ appears orthogonal.  This frontal view enables us to assume orthogonality and
 alignment of the windows.  We exploit this properties to build a robust window
 detector as follows:
 First we rectify the image as described in the previous section.  Then the alignment of the windows
-is determined, this is based on a histogram of the Houghlines'. We use this
+is determined. This is based on a histogram of the Hough lines. We use this
 alignment to divide the image in window or not window regions.  Finally these
 regions are classified and combined which gives us the windows.
 We present a regular and alternative window alignment method
@@ -490,7 +488,7 @@ all windows have the share the same size.
 
 \subsubsection{Extracting the window alignment}
 \paragraph{Regular window alignment}
-\TODO2{Schematje}
+\TODO{Schematje}
 %explain pipe line
 %(color transform)
 %edge extraction
@@ -504,9 +502,9 @@ blocks that we classify as window or non-window areas.\\
 
 % MOTIVATION
 How do we determine this alignment lines? We make use of the fact that among a
-horizontal alignment line a lot of horizontal Houghlines are present, see
+horizontal alignment line a lot of horizontal Hough lines are present, see
 Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}. For the vertical alignment lines
-the number of vertical Houghlines is high, see green lines in Figure
+the number of vertical Hough lines is high, see green lines in Figure
 \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.\\
 
 We begin by extracting the pixel coordinates of Hough transformed line
@@ -516,13 +514,13 @@ the axis that is orthogonal to its group.
 This means that for each horizontal Houghline the coordinates on the line are projected to the X
 axis and for each vertical Houghline the coordinates are projected to the Y
 axis. We have now transformed the data in two groups of 1 dimensional
-coordinates which represent the projected position of the Houghlines.\\
+coordinates which represent the projected position of the Hough lines.\\
 
 Next we calculate two histograms H(orizontal) and V(ertical), containing respectively
 $w$ and $h$ bins where $w$ x $h$ is the dimension of the image.  The histograms
 are presented as small yellow bars in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.
 
-The peaks are located at the positions where an increased number of Houghlines
+The peaks are located at the positions where an increased number of Hough lines
 start or end.  These are the interesting positions as they are highly correlated
 to the alignment lines of the windows. 
 
@@ -547,7 +545,7 @@ I.e. if P = 0011000011100, then two peaks are present. The first peak covers pos
 the second peak covers $(9,10,11)$.\\
 
 Having segmented the peak areas, the next step is to extract the peak positions. 
-Each peak area has only one peak and, since we used an average smoothing filter, the shape of 
+Each peak area has only one peak, and since we used an average smoothing filter, the shape of 
 the peaks are often concave. Therefore we extract the peaks by locating the max of each peak area. 
 These locations are used to draw the window alignment lines, they can be seen
 as dotted red lines and dotted green lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.
@@ -559,7 +557,7 @@ The right side of the window frame of the first 4 columns of windows is not foun
 This means we have to find another way to detect the window alignment on these positions.\\
 
 For the vertical alignment we only took vertical lines into account.
-In this method we examine the projection profile of the \emph{horizontal} Houghlines
+In this method we examine the projection profile of the \emph{horizontal} Hough lines
 projected on the X axis, $X_h$, Figure \ref{fig:w_Spil1TransImproved_Xh.eps}.
 On the positions of the desired vertical alignment lines there appears to be a 
 big decrease or increase of $X_h$ at the window frame. This is because on these
@@ -599,16 +597,16 @@ The advanced peak grouping is only required for the vertical alignment
 of the windows: The horizontal inter window distance is often big enough to not
 be mistaken by a window frame part.
 
-\TODO2{peak merging result misses for 1 dataset?}
-\TODO2{peak merging result plaatje met en zonder merging onder elkaar}
+\TODO{peak merging result misses for 1 dataset?}
+\TODO{peak merging result plaatje met en zonder merging onder elkaar}
 
 \newpage
 \paragraph{Results}
-\fig{w_Spil1TransCrop1_ImHibaap.eps}{Dataset: Anne1, Regular window alignment (paralel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Houghlines, for the column division the horizontal houghlines are counted (at each $y$ position), for the row division the vertical houghlines are counted (at each $x$ position) }{0.45}
+\fig{w_Spil1TransCrop1_ImHibaap.eps}{Dataset: Anne1, Regular window alignment (paralel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Hough lines, for the column division the horizontal Hough lines are counted (at each $y$ position), for the row division the vertical Hough lines are counted (at each $x$ position) }{0.45}
 
-\fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Regular window alignment: Based on a histogram that displays amount of overlapping vertical Houghlines at each $x$ position}{0.7}
+\fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Regular window alignment: Based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
 \fig{w_Spil1TransImproved_Xh.eps}{Dataset: Anne2, Alternative window alignment (orthogonal projection): Based on the shape of the smoothed histogram function. 
-For the column division, the number of \emph{horizontal} Houghlines is counted (Note that this is the orthogonal oposite of the regular window alignment method). 
+For the column division, the number of \emph{horizontal} Hough lines is counted (Note that this is the orthogonal oposite of the regular window alignment method). 
 Peaks (that represent a big decrease or increase of the histogram function) are used for the alignment.}{0.7}
 \fig{w_Spil1TransImproved_Xvh.eps}{Dataset: Anne2, Regular+Alternative window alignment combined}{0.7}
 
@@ -656,8 +654,8 @@ ocluding the right window frame (Figure \ref{fig:w_Spil1TransImproved_Xv.eps}).
 The color of the reflection of the window is very similar to the bricks and
 because the window and wall are not seperated by the window frame, the edge
 detector doesn't find a strong edge.  This means that on all positions where the
-window frame is missing, no vertical Houghlines will be detected and (as the
-regular window aligment is based on the amount of vertical Houghlines) no window
+window frame is missing, no vertical Hough lines will be detected and (as the
+regular window aligment is based on the amount of vertical Hough lines) no window
 alignment will be found.  This artefact can be studied in the edge image Figure
 \ref{fig:w_Spil1TransCrop1_ImEdge.eps}: few or no edges are present, and at the
 low height of the peaks in Figure \ref{fig:w_Spil1TransImproved_Xv.eps} at these
@@ -667,7 +665,7 @@ However, the alternative window alignment does find a window alignment on this
 positions. This is because the method is based on the opposite Houghline
 direction : for the vertical window alignment the horizontal Houghline direction
 is taken into account.  This occlusion artefact has no effect on the horizontal
-Houghlines which makes the alternative window alignment method a strong
+Hough lines which makes the alternative window alignment method a strong
 alternative for the alignment of (partially) occluded windows.\\
 
 In general, the alternative window alignment performs better then the regular
@@ -684,7 +682,7 @@ alignment . For example, in Figure
 side of the second window column is not detected.
 This is because this window type has no horizontal divisions. Only the top and
 bottom of the windowframe produce an edge, therefore the derivative of the
-amount of Houghlines will return a small peak on this position (which is too
+amount of Hough lines will return a small peak on this position (which is too
 small to survive the threshold).  
 The threshold is a priori hard to survive because it has a high value as it is
 determined by taking a fraction of the maximum peak which is located at the
@@ -695,7 +693,7 @@ right window column)).
 \TODO{result1 drain pipe result niet erg ivm vlg stap}
 
 \paragraph{Conclusion}
-We can conclude that developing histogram functions of the amount of Houghlines
+We can conclude that developing histogram functions of the amount of Hough lines
 is a strong approach towards determination of the window alignment as the
 results in this work and in previous work a very prommising.
 
@@ -711,7 +709,7 @@ proposed the strong combination of two methods where the first method filled the
 gab of the second method and the other way arround.
 
 We can conclude that a method that fills the gab of the occluded alignment locations
-must rely on Houghlines that lie in the orthogonal direction of the occlusion.
+must rely on Hough lines that lie in the orthogonal direction of the occlusion.
 In our case the occluded vertical window parts are supported by a method that
 detects horizontal window parts.
 
@@ -735,14 +733,14 @@ A solution of the missing window alignment lines on a scene with different
 window types (Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}) would be to
 decrease the threshold if multiple window types are found. One could design a
 measure of variety of the window types. This could be done by taking the variation of the
-derivative of the amount of Houghlines. This amount of variation will determine
+derivative of the amount of Hough lines. This amount of variation will determine
 the amount of decrease in threshold. Let's explain this by two examples:
 If there is just a few variation the maximum peak is very representitive for a
 window so the threshold could be for example 0.7*max peak. However if there is a
 large variation is found (which means multiple window types are present), the
 threshold should be lowered to 0.3*max peak to detect the hard window types
 (with few horizontal divisions).
-Another method would be to cluster the amount of Houghlines in $n$+1 values
+Another method would be to cluster the amount of Hough lines in $n$+1 values
 where $n$ is the number of window types (the 1 is for the non-window area).
 Areas that transcent from a window area cluster to a non-window area cluster
 (or vice versa) are determined as the window alignment locations.
@@ -751,7 +749,7 @@ unknown window types but keep the number of false positives (e.g. a drain pipe)
 zero.
 
 \subparagraph{Future research:Peak grouping}
-We fused the result of the horizontal and vertical Houghlines and discarded
+We fused the result of the horizontal and vertical Hough lines and discarded
 peaks that where close.  A more accurate result would be achieved if close peaks
 where averaged, the height of the peak could be used as a weight.  We used a
 manual maxium peak group distance ($G$), this value could also be automatically
@@ -801,14 +799,14 @@ window.
 The method exploits the fact that the windows are assumed to be
 aligned.
 A blockrow that contains windows will have a high amount of vertical
-Houghlines, Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}
-(green). For the blockcolumns the number of horizontal Houghlines
+Hough lines, Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}
+(green). For the blockcolumns the number of horizontal Hough lines
  (red) is high at window areas.  We use this property to classify 
  the blockrows/blockcolumns. 
 
-For each blockrow the overlap of all vertical Houghlines are summed up.
-(Remark that with this method we take both the length of the Houghlines and
-amount of Houghlines implicitly into account.)
+For each blockrow the overlap of all vertical Hough lines are summed up.
+(Remark that with this method we take both the length of the Hough lines and
+amount of Hough lines implicitly into account.)
 
 To prevent the effect that the size of the blockrow influences the outcome, this total value
 is normalized by the size of the blockrow.
@@ -816,7 +814,7 @@ is normalized by the size of the blockrow.
 
 Leaving us with $||R||$ (number of blockrows) scalar values that give a rank of a blockrow begin a window area or not.
 This is also done for each blockcolumn (using the normalized horizontal amount of
-Houghlines pixels) which leaves us with $C$.
+Hough lines pixels) which leaves us with $C$.
 
 \TODO{DIT PLAATJE eruit en mooie staafdiagrammen erin}
 \fig{w_Spil1TransCrop1_ImClassRectBarh.eps}{Classification values for window
@@ -872,7 +870,7 @@ the whiter the area the higher the measure of certainty.
 \paragraph{Results} % basic window classification
 \fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Dataset: Anne1, Basic window classification method:Measure of certainty, 
 the whiter the area the higher the measure of certainty.}{0.45}
-\fig{w_Spil1TransCrop1_ImClassRect.eps}{Dataset: Anne1, Basic window classification method: The extracted windows, red:the grouping}{0.45}
+\fig{w_Spil1TransCrop1_ImClassRectRot.eps}{Dataset: Anne1, Basic window classification method: The extracted windows, red:the grouping}{0.65}
 \clearpage
 
 \TODO{include results of binary classification}
@@ -915,7 +913,7 @@ where $n$ is the number of window types (the 1 is for the non-window area).
 \paragraph{Conclusion}
 We can conclude that this certainty based classification works quitte good on
 this dataset.  However, it requires a very well alignment of the windows which
-is a disadvantage.  As it is based on the number of found Houghlines, the
+is a disadvantage.  As it is based on the number of found Hough lines, the
 errors in the window alignment will propagate to the classification.  This
 makes this classification method inappropriate for a system where one cannot
 fully rely on the window alignment.  \\
@@ -927,7 +925,7 @@ independent, (or at least less sensitive)) to window alignment errors.
 \TODO{introduce a little bit}
 \TODO{say that anne2 dataset is more rectified }
 If we take a look at Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}
-we see that $X_h$ (the amount of horizontal Houghlines) has two shapes that
+we see that $X_h$ (the amount of horizontal Hough lines) has two shapes that
 repeat:  At the location where a window is present $X_h$ is concave whereas at
 non-window areas $X_h$ is convex. This is because lots of
 horizontal lines are found at certain window positions (the window centers) and few
@@ -952,8 +950,8 @@ classify the blockrows and blockcolumns as window areas and non-window areas.
 The windows are determined as the previous classifier by combining the
 (positively classified) blockrows and blockcolumns.\\
 
-For the sake of representation only blockcolumns are presented, the method for
-the blockrows is the same, the projection profiles are projected to the
+For the sake of representation, only blockcolumns are presented. The method for
+the blockrows is the same: the projection profiles are projected to the
 Y-axis.
 
 \newpage
