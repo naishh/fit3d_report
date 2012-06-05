@@ -7,86 +7,25 @@
 \label{sec:windowDetection}
 \subsection{Introduction}
 Semantic interpretation of urban scenes is used in a wide range of applications.
-We deal with an important aspect of semantic urban scene interpretation: window detection. 
+In this chapter we deal with an important aspect of semantic urban scene interpretation: window detection. 
+From the introduction we learned that window detection can play an importand role in
+a variety of domains: semi automatic 3D reconstruction/modelling of city models, documenting
+historical buildings, analysis of old building deformation augmented
+reality, building recognition, etc.\\
 
-% thesis outline:
-This chapter is organised as follows, we start with a variety of applications that
-use semantic interpretation of urban scenes.  Then we discuss related work and
-put our work in context.  Next we describe our first window detection approach
-that is invariant to viewing direction.  After this we present a facade
-rectification method. Next this method is used for our second method that assumes
-orthogonal and aligned windows.  Finally we show and discuss our results. 
-
-\subsection{Application examples}
-\paragraph{3d City models} 
-	Manual creation of 3d models is a time consuming and expensive procedure.
-	Therefore semantic models are used for semi automatic 3d
-	reconstruction/modelling.
-	 %[Procedural Modeling of Buildings].  
-	The semantic understanding is also used in 3d city models which are
-	generated from aerial or satellite imagery.  The detected (doors and)
-	windows are mapped to the model to increase the level of detail. 
-	Some other applications can automatically extract a CAD-like model of
-	the building surface.
-
-\paragraph{Historical buildings documentation and deformation analysis}
-	In some fields of research, historical buildings are documented. The complex
-	structures that are contained in the facades are recorded and reconstructed.
-	Window detection plays a key role in this. 
-	Another field of research is the analysis of building deformation in areas
-	containing old buildings.  Window detection provides information about the
-	region of interest that could be tracked over time for an accurate
-	deformation analysis.
-	%[A SEMI-AUTOMATIC IMAGE-BASED MEASUREMENT SYSTEM]
-
-
-\paragraph{Interactive 3d models}
-	There are some virtual training applications that are designed for
-	emergency response who require interaction with a 3d model.  
-	For the simulation to be realistic it is important to have a model that is
-	of high visual quality and has sufficient semantic detail (i.e. contains
-	windows).  This is also the case for a fly-through visualization of a street with
-	buildings.
-	Other applications that require semantic 3d models are virtual tourism,
-	visual impact analysis, driving simulation and military simulation systems.
-	\fig{p_simulation_people.eps}{Simulation environment}{0.3}
-
-\paragraph{Augmented reality}
-	Some mobile platforms apply augmented reality using facade and window
-	detection to make an accurate overlay of the building. An example overlay is the
-	same building but 200 years earlier.  Semantical information is used to not
-	only identify a respective building, but also find his exact location in the
-	image.  The accuracy and realistic level of the 3d model are vital for a
-	successful simulation.  And because the applications are mobile, very fast
-	building understanding algorithms are required.  
-	Window detection plays an
-	important role in these processes as the size and location of the windows
-	supply an effective descriptor that can be used for robust and fast building
-	identification.  Furthermore it provides an accurate alignment of the
-	overlay.
-
-\paragraph{Building recognition and urban planning}
-	Building recognition is used in the field of urban planning where the semantic 3d
-	models are used to provide important references to the city scenes from the
-	street level.
-	Building recognition is done by using large image datasets where the
-	buildings are mostly described by local information descriptors.  
-	Some approaches try to describe the 3D building with laser range data. Some methods fuse the laser data with
-	ground images. However those generated 3D models are a mesh structure which doesn't make the facade structure explicit.
-	For a more accurate disambiguation, other types of contextual information are
-	desired.  The semantical interpretation of the facade can provide this need.
-	In this context, window detection can be used as a strong discriminator.\\
-
-We can conclude that window detection plays an important role in the
-interpretation of urban scenes and is applied in a wide range of domains.  
-
-
+This chapter is about our developed methods of window detection it is organised
+as follows:\\
+  We start related work and put our work in context.  Next we describe our first
+  window detection approach that is invariant to viewing direction.  After this
+  we present a facade rectification method. Next this method is used for our
+  second method that assumes orthogonal and aligned windows.  Finally we show
+  and discuss our results. 
 
 \TODO{in state of art een lijn creeren, opbouwen, in context plaatsen, theoretisch afwimplene}
 \subsection{State of art window detection} % related work
 A large amount of research is done on semantical interpretation of urban scenes. 
 First we briefly discuss the research that is done on window detection using
-approaches that differ from our approach.  After this, we discuss state of the art
+approaches that differ from our approach.  After this, we discuss state of art
 window detection that has a big overlap with our approach in detail.\\
 
 \subsubsection{Alternative approaches on window detection}
@@ -196,7 +135,7 @@ a computational expensive procedure. As we want to run our system in real time
 this method is not suitable for our application. \\
 
 \subsubsection{Our work in context}
-The state of the art window alignment procedure in \cite{Recky_kmeans} and \cite{Lee_extraction}
+The state of art window alignment procedure in \cite{Recky_kmeans} and \cite{Lee_extraction}
 is very robust.  Therefore we have decided to use this method as a basis and improved
 the alignment algorithm, furthermore we have build a different window classification method.  
 

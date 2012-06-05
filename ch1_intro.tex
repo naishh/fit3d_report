@@ -1,56 +1,121 @@
 \section{Introduction}
-When we humans look at an urban scene we immediatally can tell which part is a
+When we humans look at an urban scene we immediatally can tell which part
+represents a
 building, a tree, a door, a window or a parked car.
 Even if the scene suffers from high occlusion (a tree ocluding the largest part
 of a building) or extreme perspective distortion (a building seen from the
 corners of your eye) we perform this task with a very high accuracy.
-
-For a computer system however, this task is far from trivial.
+For a computer system however, this task is far from trivial.\\
 
 Let us adress the question that arises many times in Artificial Intelligence:
 Why are we humans so good in this task? What can we learn from ourselves 
-and how can we apply this on a computer system?
+and how can we apply this on a computer system?\\
 
 The most important reason of our excelent visual perception is that we combine 
-a series of depth cues (which enables us to experience depth) with top down processing (which
-enables us to classify objects).
+a series of depth cues (which enables us to experience depth) with top down
+processing (which enables us to classify objects).\\
 
 One of the most important depth cue is stereopsis.  We use two eyes and look at
 the same scene from slightly different angles.  This makes it possible to
-triangulate the distance to an object with a high degree of accuracy. 
+triangulate the distance to an object with a high degree of accuracy. \\
 
 %---
 %If an object is far away, the disparity of that image falling on both
 %retinas will be small. If the object is close or near, the disparity will be
 %large.
-Besides the depth cue we use top down processing to perceive objects.  If want
-to perceive a window we tap in to the neurons that are activated according to
-our (generalized) description of a window.  I.e. because window is often
+Besides the depth cue we use top down processing to perceive objects.  If we want
+to perceive a window, we tap into the neurons that are activated according to
+our (generalized) description of a window.  I.e. because windows are often
 rectangular shaped and the color stands out we tap into the neurons that
-perceive lines, orthogonal corners and intens colorchanges.
+perceive straight parallel lines, orthogonal corners and intens colorchanges.
+These visual processes are extremely informative if we want to build a computer system
+that acts accordingly.  \\
 
-These processes are extremely informative if we want to build a computer system
-that acts accordingly.  Therefore we developed a computer system that is
-inspired on the human brain.
+This thesis is about our work of an automatic system that adds semantics to a
+urban scene inspired on the human brain. We focus on the detection of the
+building contour, the 3D information of the building and the detection of
+windows.  The product is a 3D annotated scene where the building and windows are labeled.\\
 
-We build an automatic system that adds semantics to a scene and we focussed on
-the urban domain. As object detection is a complex task we extracted just
-three important semantics.  First we simulate the eyes by using images taken from
-different angles to extract the contour of a building. Next we combine this
-result with multiple view geometry to extract a 3D model of the building. Finally
-windows are detected in a way that is also very similar to humans.
+Before we explain our methods let us first share the variety of applications 
+that use semantical interpretation of urban scenes.  \\
 
+\subsection{Application examples}
+\paragraph{3d City models} 
+	Manual creation of 3d models is a time consuming and expensive procedure.
+	Therefore semantic models are used for semi automatic 3d
+	reconstruction/modelling.
+	 %[Procedural Modeling of Buildings].  
+	The semantic understanding is also used in 3d city models which are
+	generated from aerial or satellite imagery.  The (doors and) windows are mapped to the detected 3D model to increase the level of detail. 
+	Some other applications can automatically extract a CAD-like model of
+	the building surface.
+
+\paragraph{Historical buildings documentation and deformation analysis}
+	In some fields of research, historical buildings are documented. The complex
+	structures that are contained in the facades are recorded and reconstructed.
+	Window detection plays a key role in this. 
+	Another field of research is the analysis of building deformation in areas
+	containing old buildings.  Window detection provides information about the
+	region of interest that could be tracked over time for an accurate
+	deformation analysis.
+	%[A SEMI-AUTOMATIC IMAGE-BASED MEASUREMENT SYSTEM]
+
+\paragraph{Interactive 3D models}
+	There are some virtual training applications that are designed for
+	emergency response who require interaction with a 3d model.  
+	For the simulation to be realistic it is important to have a model that is
+	of high visual quality and has sufficient semantic detail (i.e. contains
+	windows).  This is also the case for a fly-through visualization of a street with
+	buildings.
+	Other applications that require semantic 3d models are virtual tourism,
+	visual impact analysis, driving simulation and military simulation systems.
+	\fig{p_simulation_people.eps}{Simulation environment}{0.3}
+
+\paragraph{Augmented reality}
+	Some mobile platforms apply augmented reality using facade and window
+	detection to make an accurate overlay of the building. An example overlay is
+	the same building but 200 years earlier.  Semantical information is used to
+	not only identify a respective building, but also find his exact location in
+	the image.  The accuracy and realistic level of the 3D model are vital for a
+	successful simulation.  And because the applications are mobile, very fast
+	building understanding algorithms are required.  Window detection plays an
+	important role in these processes as the size and location of the windows
+	supply an effective descriptor that can be used for robust and fast building
+	identification.  Furthermore it provides an accurate alignment of the
+	overlay.
+
+\paragraph{Building recognition and urban planning}
+	Building recognition is used in the field of urban planning where the
+	semantic 3d models are used to provide important references to the city
+	scenes from the street level.  Building recognition is done by using large
+	image datasets where the buildings are mostly described by local information
+	descriptors.  Some approaches try to describe the 3D building with laser
+	range data. Some methods fuse the laser data with ground images. However
+	those generated 3D models are a mesh structure which doesn't make the facade
+	structure explicit.  For a more accurate disambiguation, other types of
+	contextual information are desired.  The semantical interpretation of the
+	facade can provide this need.  In this context, window detection can be used
+	as a strong discriminator.
+
+We can conclude that semantic interpretation plays an important role in the
+interpretation of urban scenes and is applied in a wide range of domains.  
 
 \subsection{Thesis outline}
-The outline of this thesis is as follows:\\
-We start with explaining some basic computer vision techniques in Chapter 2.
-These techniques are the driving force behind the algorithms used in both
-skyline detection and window detection.  In Chapter 3 we explain our first
-method to interpretate a scene using skyline detection.  We use the result to
-generate a 3D model of a building in Chapter 4.  In Chapter 5 we present two
-window detection methods that respectively operate on a unrectified and a
-rectified scene.  Many methods used in this thesis are distinct, therefor we
+The outline of this thesis is as follows:\\ We start with explaining some basic
+computer vision techniques in Chapter 2.  These techniques are the driving force
+behind the algorithms used in both skyline detection and window detection.  In
+Chapter 3 we explain our first method of scene interpretation.  We simulate the
+eyes by using images taken from different angles to extract the skyline in a
+images.  In Chapter 4 this result is used to extract the contour of a building.
+Next we combine this result with projective geometry to extract a 3D model of
+the building.  In Chapter 5 we present two window detection methods that are
+very similar to the way humans detect windowns. We respectively detect the
+windows of an unrectified and a rectified scene.\\  
+
+Many methods used in this thesis are distinct, therefore we
 choose to present the discussion, results and future research for each method
-separate.  The thesis finishes with a overall conclusion.
+separate.  The thesis finishes with an overall conclusion.
+
+
 
 
