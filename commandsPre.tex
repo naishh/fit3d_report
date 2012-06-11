@@ -1,3 +1,18 @@
+% PACKAGES
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{graphicx, subfigure}
+\usepackage{float}
+
+\usepackage{amsmath} % for the argmin
+\usepackage{amsfonts}
+\usepackage{todonotes}
+
+\usepackage{fnwiaithesis}
+
+
+
+% COMMANDS
 \newcommand{\code}[1]{\texttt{#1}}
 
 \newcommand{\fig}[3]{
@@ -95,3 +110,5 @@
 % TODO OFF: 
 \newcommand{\TODO}[1]{}
 
+\newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
+\newcommand{\argmin}[1]{\underset{#1}{\operatorname{arg\ min}}}

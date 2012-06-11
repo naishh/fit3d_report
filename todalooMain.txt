@@ -13,7 +13,8 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 algemeen
 	spellcheck + ispell.txt
 	zoeken op vraagtekens
-
+	conclusion window detection is ]dubbel oid
+	voorblad multiple
 
 	preliminaries
 	voorblad

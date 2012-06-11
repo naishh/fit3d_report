@@ -1,9 +1,14 @@
-\include{commands}
+%\documentclass[11pt]{article}
+\documentclass[a4paper, titlepage]{book}
+\include{commandsPre}
 \include{header}
+\include{commandsPost}
 	%\listoftodos
 	%\include{ch_comments}
 
-	%\include{ch0_abstract} abstract is in header.tex
+	%todo abstract!!
+	%\include{ch0_abstract} %NOT abstract is in header.tex
+
 	\include{ch1_intro}
 	\include{ch2_preliminaries}
 	\include{ch3_skylineDetection}
@@ -11,6 +16,7 @@
 	\include{ch5_windowDetection}
 	\include{ch6_conclusion}
 	\include{chA_appendices}
+	%\backmatter
 	\bibliographystyle{plain}
 	\bibliography{references}
 	%todo LIST OF FIGURES

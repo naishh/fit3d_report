@@ -1,57 +1,52 @@
-\documentclass[11pt]{article}
-\usepackage[usenames,dvipsnames]{pstricks}
-\usepackage{epsfig}
-\usepackage{graphicx, subfigure}
-\usepackage{float}
-
-\usepackage{amsmath} % for the argmin
-\usepackage{amsfonts}
-\usepackage{todonotes}
-\newcommand{\argmax}[1]{\underset{#1}{\operatorname{argmax}}}
-\newcommand{\argmin}[1]{\underset{#1}{\operatorname{arg\ min}}}
-
-\makeatletter
-\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
-{-3.25ex\@plus -1ex \@minus -.2ex}%
-{1.5ex \@plus .2ex}%
-{\normalfont\normalsize\bfseries}}
-\makeatother
-
-\makeatletter
-\renewcommand\subparagraph{\@startsection{subparagraph}{4}{\z@}%
-{-3.25ex\@plus -1ex \@minus -.2ex}%
-{1.5ex \@plus .2ex}%
-{\normalfont\normalsize\bfseries}}
-\makeatother
-
-
-\setlength{\parindent}{0in}
+\begin{document}
 
 %\include{commands} (thiis is no in main.tex
 
-\title{\textbf{[DRAFT]} {\sc 3D reconstruction and semantic annotation of urban
-scenes}\\
-Supervisors:\\
- Isaac Esteban and Frans Groen\\
- University of Amsterdam\\
- }
 
 
-\author{T. Kostelijk\\mailtjerk@gmail.com}
+%todo use  fancy headers of
+%http://www.markschenk.com/tensegrity/latexexplanation.html ?
 
-\begin{document}
+\title 			{\sc 3D reconstruction and semantic annotation of urban scenes}
+%todo
+%\author		{\href{mailto:mailtjerk@gmail.com}{Tjerk Kostelijk}}
+%\subject		{subject comes here}
+%\keywords		{keywords come here}
+
+\title 			{\huge \sc 3D reconstruction and semantic annotation of urban scenes}
+%\title{\huge{Dynamic Programming For \\Extensive Form Games With \\Imperfect
+%Information}}
+
+\author{Tjerk Kostelijk \\ \textnormal{mailtjerk@gmail.com}}
+\birthdate{June 14th, 1983}
+\birthplace{Alkmaar,  the Netherlands}
+\defensedate{Juli 6th, 2012}
+
+\supervisor{Isaac Esteban \\ Prof. dr ir Frans C. A. Groen}
+\committeemember{dr. P.H. Rodenburg}
+\committeemember{dr. Arnoud Visser}
+
+\degree{Master of Science \\in Artificial Intelligence}
 \maketitle
-\newpage
+
+
+%todo uva alumni adres testen
+%todo mooie plaatje met twee horizontale strepen
+%todo bedankwoord 
+%todo een quote maken net als folky
+%  Title page: gives the title of the thesis in full, the candidate’s names and
+%  degrees, a
+%  statement of presentation in the form ‘This thesis is presented for the degree
+%  of Doctor of
+%  Philosophy of the University of Western Australia’, the department and year of
+%  submission.
+
+
+%\frontmatter
+
 \setcounter{tocdepth}{2}
 \tableofcontents
 
 \newpage
-\begin{abstract}
-We build an automatic system that adds semantics to a urban scene .  First we
-use images taken from different angles to extract the skyline. Then we apply a
-Hough transform to extract the contour of a building. Next we use projective
-geometry to extract a 3D model of the building. Finally two methods of window
-detection are presented, the first is based on cornerfeatures and the second is
-based on Histograms of Houghlines.  The product is a 3D annotated scene where the
-building and windows are labeled.\\
-\end{abstract}
+
+%\mainmatter
