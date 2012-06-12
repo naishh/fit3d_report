@@ -9,39 +9,58 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 4) FOCUS op scriptie
 
 
+planning googledocs vullen!
 
-algemeen
-	spellcheck + ispell.txt
-	zoeken op vraagtekens
+---------------------------------------------------------------------------------
+todos staan op 3 plekken!
+	in thesis aant
+	in notepad aant thesis
+	in dit bestand
+
+
+---------------------------------------------------------------------------------
+feedback frans
+	grote punten
+		fit3d preliminaries
+			gebruik ook comments over cc's, extrinsic params etc.
+		skyline remove threshold and write future research hypothesis style
+		conclusion
+		belangrijke zaken van bestaande todos in mijn bestanden
+
+---------------------------------------------------------------------------------
+algemeene todo's
 	conclusion window detection is ]dubbel oid
-	voorblad multiple
-
 	preliminaries
-	voorblad
+	voorblad multiple
 	voorwoord (anne, stefanie, bram, ispell, supervisors, leo,  bedanken)
 		thesis opdragen in Anne, is dat raar? 
 		afkijken bart en folkert
-	
 	check if research q is in every chapter ( window detection?)
-
 	anne moet nog ch. improve 3d model nakijken
 	openstreetmap ref in bibtex
 	remove and solve DRAFTNote
-	het geheel een keertje doornemen
-		kijken naar: level of detail!
-		comma regel stefanie (gebruik ik niet te lange zinnen)
-		alineas gelinked?
-
 	update fig counter after fig 10 to fig 11 (nu 2x fig 10!)
 	table result window detection goede opmaak
 
 
+---------------------------------------------------------------------------------
+introduction
+	explain method of planetary rover localization in more detail
+	end related work with: what approach are we going to take
+	end related werk with: research question
+
+	use costins work and refs as inspiration
+	Introduction (soft launch reader into field)
+	Related work 
+	Aim (clear out hypothesis here)
+	Organization of thesis 
+
+
+preliminaries
+	% how I calc the wall normal
 
 
 ch 4 improve 3d model
-	todo's
-	alle chapters snel afronden
-	linken naar voorgaande en andere chapters
 	plaatje outputHoughlines3d 
 		opnieuw genereren vanuit matlab zodat het mooier is
 
@@ -49,9 +68,7 @@ ch 4 improve 3d model
 ch 5 WINDOW DETECTION
 
 	PRIMAIRE todos:
-		fb anne
-		fb stefanie
-
+		(frans) emphazise the shape based approach that it takes relative decrease or increase of houghlines which works realy well
 		organogrammetjes bouwen
 		todos in file
 		nice application: estimate floors levels
@@ -65,18 +82,43 @@ ch 5 WINDOW DETECTION
 		classificatie methode met probs en met derivitave met elkaar vergelijken
 		iets zeggen over complexiteit
 
+---------------------------------------------------------------------------------
+aan het eind:
+	ispell
+	zoeken op vraagtekens
+	alle alineas een enter eronder, of iig overal consistent
+	alineas gelinked?
+	level of detail
+	read again on other subjects in mind see how te wr thesis
+	motivate my assumption and choices 
+	zoeken op 'but' en kijken of er however bij kan
+	comma regel stefanie (gebruik ik niet te lange zinnen)
+
+
+---------------------------------------------------------------------------------
+tijdens moe:
+	generate matlab images zie hieronder
+	edge images inverten
+	IMAGES FROM PDFS
+		outdoor visual... pdf
+		page 15 (and further)
+	organogram1
+		edge detection
+		houghlines
+		houghlines 3d
+		update building
 
 
 ---------------------------------------------------------------------------------
 matlab 
-	skyline met lijn door center camera, plaatje en gebouwrand
-	ook schema diagram maken
+	plaatje camera retina, C and Kp
+		skyline met lijn door center camera, plaatje en gebouwrand
 	backproject results (FANCYYY)
 	plaatjes	
-		convex and concave function of dirk dataset
-			plot signchange
+		plot signchange locations of
+			convex and concave function of dirk dataset
 		ransac plane fitter, kruisjes en plane
-		binary classification image
+		binary classification image white or black
 			 - values that fall out of cluster are displayed striped
 		k-means bars
 			(-bar and barh in fig mergen)
@@ -84,143 +126,4 @@ matlab
 	code kloppen
 		certainty based classification on anne2 dataset
 
-Wijsheden:
-lijn in thesis aanbrengen, overal heen en weer linken, 1 geheel van maken, bullshit wissen belangrijke zaken uitlichten
-how to write a thesis lezen
-% keep the linking in mind! link text!
-%TODO aan het eind
-% read again and check level of detail, is it everywhere the same?
-% do I do enough chaining?
-% read again on other subjects in mind see how te wr thesis
-% spell check!!
-% motivate my assumption and choices 
-% explain stepwise if the reader is dumb
-% zoeken op 'but' en kijken of er however bij kan
-% explain motivation behind decisions
-	
 
-
-
-
-TODO FROM FEEDBACK FRANS
----------------------------------------------------------------------------------
-explain method of planetary rover localization in more detail
-end related work with: what approach are we going to take
-end related werk with: research question
-
-LONG TODOS
-elaborate previous work on skyline detection, see papers skylineimproved
-improve skyline detector 
-wall selector from 3d->2d projection instead of the complex thing
-
-BIG DECISIONS
-compare new method with or remove old method of skyline detection?
-
-AFTER DECISION skyline
-fig 1a edges witter maken zodat uitgeprint report het goed weergeeft
-
----------------------------------------------------------------------------------
-
-IMPROVE BUILDING Todos
-building wall appearence, extra enter
-top 3 longest Houghlines, heeft een indent teveel
-make new organogram
-	edge detection
-	houghlines
-	houghlines 3d
-	update building
-THINK PLAN WRITE REVISE
-
-is the rough model introduced yet? explain how it is retrieved  (googlemaps?), what the specs are, how rough is it compare to the real 3d model, etc.
-make nice picture of skyline with projection and the projection lines
-
-
-	
-chapter 6 ass
-	search for and write about related work
-	process first half of chapter see feedback map
-	gather and process todos 
-	check backreferences
-
-chapter ? preliminaries
-	explain Houghlines with theta representation
-
-write big main introduction Introduction (What did I do and why) (WRITE AFTER CONCLUSION)
-	use costins work and refs as inspiration
-	Introduction (soft launch reader into field)
-	Related work 
-	Aim (clear out hypothesis here)
-	Organization of thesis 
-
-
-
-WOULD BE NICE TODOS:
-SKYLINE DETECTOR
-introduce a scene with bad lightning conditions
-skyline detector, paste images in related work of 
-evt more related work:
-% Skyline Extraction using a Multistage Edge Filtering
-%TODO uitzoeken waarom plaatjes zo naar rechts schuiven
-%TODO uitzoeken waarom kwaliteit slecht is, het gaat fout zodra matlab het image showed in een figure window en opslaat
-
-% subjects to write 
-% axis angle theory, to projection
-% how I calc the wall normal
-% documentclass anders zodat alles breder is en plaatjes ook breder kunnen 
-% en niet bij 7cm al afbreken
-alle alineas een enter eronder, of i i g overal consistent
-% search what houghline (and canny edge for report.tex) params I used
-
-% TODO latex draw
-	% latex draw, show cut off line segments (different color)
-	% extra dikke vector over de lijn DC
-	% duidelijke pijl aan het eind van stippellijn
-	% alpha of beta teken en daar naar verwijzen ipv vectors benoemen
-	% dikke W in abcd vlak
-	% in latexdrawcode \lprojw ipv v,w  zo ook met angles
-	% TODO in Figure overlap ratio percentages drawwen
-
-% a table of wall overlap value's sorted on largeness
-% example image where I project a line to every wall of the building
-
-% make schema with 3 methods, and in one regel the summary of its technique
-% test with different techniques
-% make different dataset
-% hand anotated (pleonastisch zeg hehe) for ground truth
-% 1) project endpoints (and sometimes end up not agreeing wall)
-% 2) use midpoint of line
-% 3) use tjs algo (line wall overlap)
-
-
-
-
-MATLAB TODO:
-camera calibration
-
-
-IMAGES
-skyline result on the other dataset
-a better projected houghline image where the lines at the right side are
-displayed better
-
-a line comes from the camera center through de image to the building
-(use openscenegraph for this)
-skyline detection without the custom algo (highen contrast, gauss etc) and compair to the
-custom algo
-
-the scene from top where 5 cameras are positioned (maybe rip from
-isaac paper)
-
-MISC
-Edge detection with different thresholds
-and different methods
-
-
-IMAGES FROM PDFS
-outdoor visual... pdf
-page 15
-
-
-CATEGORIE would be nice:
-improve quality of final image where the building is improved
-an image with the skyline AND the houghlines
