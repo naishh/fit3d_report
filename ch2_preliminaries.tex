@@ -115,69 +115,73 @@ It uses a feature that votes for a particular position, orientation and/or scali
 %\subsection{Getting the camera centers and viewing directions}
 
 
-top down explanation
-	frame to frame motion
-	scale ratio calculation
-
-
 \subsection{FIT3d toolbox \ref{fit3d}}
 \label{sec:prelimFit3d}
-%intro
+%todo give fit3d a proper intro
 The FIT3d toolbox \ref{fit3d} is used for several aims in this thesis.
-The skyline detection used fit3d to extract a 3d model 
-and the window detection module used this 3d model to rectify the facades.
-%todo One of the planes of the 3D model was used to rectify the
-%facade,
+The skyline detection used fit3d to extract a 3D model 
+and the window detection module used fit3d to rectify the facades.
 
-Extracting a 3d model is done in fit3d in a few steps which we explain briefly.
-More detailed knowledge about the methods can be found in \ref{fit3d}.
+In order to extract a 3D model a series of frames (originating from different
+views) is used to extract a point cloud of matching features. This
+point cloud is converted to planes which correspond with the walls of the building.
+
+Because the toolbox plays an assisting role we explain the steps briefly.
+Detailed knowledge about the methods can be found in \ref{fit3d}.
 
 %3D model reconstruction
 %	2d model reconstruction
-
-\subsubsection{Getting the camera centers and viewing directions}
-% explain the notion motion
-
-
-% refer to coordinate systems
-% refer to intrinsic and extrinsic coords
-We started by taking a series of 7 consecutive images (steady (zoom, lightning,
-etc.) parameters) of a scene.  The images don't need to be chronological but need to have sufficient overlap. 
-
-%/media/Storage/scriptie/fit3d/generate3dModel/3dcFiles
+\subsubsection{Multiple views}
+Fit3d uses multiple views to gather information about the 3D structure of the
+building. The toolbox comes with a prepared dataset of 7 consecutive images (steady (zoom, lightning,
+etc.) parameters) of a scene.  Fit3d doesn't require the input images to be
+chronological however they need to have sufficient overlap. 
 \fig{fit3dImgSequence.eps}{Example series of 7 consecutive frames, (dataset: FIT3D toolbox\cite{Fit3d})}{0.3}
+%/media/Storage/scriptie/fit3d/generate3dModel/3dcFiles
 
-We calculated the motion of the camera between the frames in a few steps
-First we extract about 25k SIFT features of each frame.  Then we use
-SIFT descriptors to describe and match the features within the consecutive
-frames.  Not all features will overlap or match in the frames therefor RANSAC is used to
+
+%todo explain what a camera coordinate is (homoge px coord)
+\subsubsection{Getting the camera's centers and camera's heading (Extrinsic parameters)}
+An important step in the 3D reconstruction is to estimate 
+the relation of the camera frame coordinates to the world coordinates, (the
+extrinsic parameters).
+This implies that we need to estimate the different positions of the camera
+centers and camera's heading.
+This is done in Fit3d by calculating the relative motion between the different views.
+
+The frame to frame motion is calculated by extracting about 25k SIFT features of each frame.  
+Next, SIFT descriptors are used to describe and match the features within the consecutive
+frames.  
+Not all features will overlap or match in the frames therefor RANSAC is used to
 robustly remove the outliers.  After this an \emph{8-point algorithm} together with a
-voting mechanism is used to extract the camera motion. For details please read
-\cite{Fit3d}.
+voting mechanism is used to extract the camera motion.\\
 
 The frames where matched one by one which returns an estimation of the camera
 motion that is not accurate enough.  Therefore a 3-frame match is done which
-gives more accurate results.  Unfortunately this result comes with a certain
-amount of re-projection error, this error is minimized using a numerical
-iterative method called \emph{bundle adjustment}.  The final result is a very
-accurate estimation of the camera motion.
+gives more accurate results.  This result comes with a certain
+amount of re-projection error which is minimized using a numerical
+iterative method called \emph{bundle adjustment}.  \\
 
-
-
+This camera motion is stored as a rotation and translation in homogeneous
+form (3x4) $[R|t]$. This is done for every frame and the result is gathered in 
+a (7x3x4) projection matrix $P$.
+$P$ can be used to translate camera coordinates of a specific view 
+ to 3D world coordinates and vice versa.
 
 \subsubsection{3D point cloud extraction and plane fitting}
-The next step is to use this camera motion to obtain a set of 3D points
+The next step is to use this projection matrix $P$ to obtain a set of 3D points
 (corresponding to the matching image features).  This is achieved using a
-\emph{linear triangulation} method. 
+\emph{linear triangulation} method. \\
 
-Next a RANSAC based plane fitter is used to accurately fit a plane through
+Next a RANSAC based plane fitter is used to accurately fit planes through
 the 3D points. 
-\emph{todo example figure}
+%todo example figure
+
+
 
 
 werkwijze:
 fit3d paper doornemen
-mail isaac doornemen
 wat heb ik gedaan wat doet fit3d?
 	in code kijken
 generate illustrative images
@@ -185,26 +189,19 @@ generate illustrative images
 
 steps:
 relatieve cc's
-	sift features point cloud
-	get P from fit3d 
-
-absolute cc's (align 3d model)
-
+absolute cc (align 3d model)
 	project point cloud in Y direction
 	make 2d model by hand  (example images)
 		or use google maps and fit it on it
-
-	
 
 
 
 %todo plaatje van scene met een 3d model erin
 
-
+%----------------------------------------------------------------------
 \subsubsection{Aligning the 2d model}
 %todo plaatje 2d model
-
-
+%Note that R|t in P is al relative to the first frame
 
 
 

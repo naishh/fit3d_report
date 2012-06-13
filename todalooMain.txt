@@ -9,7 +9,15 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 4) FOCUS op scriptie
 
 
-planning googledocs vullen!
+---------------------------------------------------------------------------------
+ik ben momenteel bezig met:
+preliminaries fit3d
+	doorlezen wat ik heb geschreven
+	goed linken en hoofdzaken eruit halen
+	frans' commentaar erbij
+	camera coords uitleggen
+
+
 
 ---------------------------------------------------------------------------------
 todos staan op 3 plekken!
