@@ -316,43 +316,13 @@ comprehensive process and a large amount of research is done in this area.
 Given the related work, and our focus on the annotational part of facade
 interpretation, we used existing software to apply the window rectification.
 I. Estebans \emph{FIT3D toolbox} \cite{Fit3d} comes with an add-on which extracts a 3D model from a
-series of frames.  One of the planes of the 3D model was used to rectify the
-facade, making it ready for robust window detection. 
+series of frames.  The details of this process are explained in \ref{sec:prelimFit3d}.
 
 Using this add-on of the \emph{FIT3D toolbox} \cite{Fit3d} we calculated the motion between a
 series of frames in order to extract a point cloud of matching features. This
-point cloud is used to extract a plane, which is used to rectify the facade by
-a projection process.  We now explain the steps in more detail.
+point cloud is used to extract a plane for every wall.
 
-\subsubsection{3D plane extraction}
-We started by taking a series of 7 consecutive images (steady (zoom, lightning,
-etc.) parameters) of a scene.  The images don't need to be chronological but need to have sufficient overlap. 
-
-%/media/Storage/scriptie/fit3d/generate3dModel/3dcFiles
-\fig{fit3dImgSequence.eps}{Example series of 7 consecutive frames, (dataset: FIT3D toolbox\cite{Fit3d})}{0.3}
-
-We calculated the motion of the camera between the frames in a few steps
-First we extract about 25k SIFT features of each frame.  Then we use
-SIFT descriptors to describe and match the features within the consecutive
-frames.  Not all features will overlap or match in the frames therefor RANSAC is used to
-robustly remove the outliers.  After this an \emph{8-point algorithm} together with a
-voting mechanism is used to extract the camera motion. For details please read
-\cite{Fit3d}.
-
-The frames where matched one by one which returns an estimation of the camera
-motion that is not accurate enough.  Therefore a 3-frame match is done which
-gives more accurate results.  Unfortunately this result comes with a certain
-amount of re-projection error, this error is minimized using a numerical
-iterative method called \emph{bundle adjustment}.  The final result is a very
-accurate estimation of the camera motion.
-
-The next step is to use this camera motion to obtain a set of 3D points
-(corresponding to the matching image features).  This is achieved using a
-\emph{linear triangulation} method. 
-
-Next a RANSAC based plane fitter is used to accurately fit a plane through
-the 3D points. 
-\emph{todo example figure}
+% todo heel chapter facade rectification in preliminaries?
 
 \subsubsection{Efficient Projecting} 
 Now we have extracted the 3D plane of the facade, the next challenge is to use this
