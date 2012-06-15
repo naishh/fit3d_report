@@ -12,10 +12,11 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 ---------------------------------------------------------------------------------
 ik ben momenteel bezig met:
 preliminaries fit3d
-	doorlezen wat ik heb geschreven
-	goed linken en hoofdzaken eruit halen
 	frans' commentaar erbij
+	align 3d model to 2d model new H
 	camera coords uitleggen
+	facade rectification in preliminaries 
+	naar isaac sturen
 
 
 
