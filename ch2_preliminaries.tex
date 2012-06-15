@@ -176,48 +176,27 @@ These correspond to the matching SIFT features of the different views.  This
 is achieved using a \emph{linear triangulation} method. \\
 The result is an accurate 3D point cloud of the building, see Figure
 \ref{fig:fit3dImgSequence.eps}.
+Next a RANSAC based plane fitter is used to accurately fit planes through
+the 3D points, see Figure \ref{fig:fit3d_planes.eps}.\\
+\fig{fit3d_planes.eps}
 
+In this thesis the plane fitting step is skipped and a new method is
+used to obtain the 3D model. This is explained in \ref{sec:generate3dModel}.
 
-%Next a RANSAC based plane fitter is used to accurately fit planes through
-%the 3D points. 
-%todo example figure
-
-
-
-Two posible methods:
-%todo align 2d to 3d model
-
-
-
-
-werkwijze:
-FIT3D paper doornemen
-wat heb ik gedaan wat doet FIT3D?
-	in code kijken
-generate illustrative images
-
-
-steps:
-relatieve cc's
-absolute cc (align 3d model)
-	project point cloud in Y direction
-	make 2d model by hand  (example images)
-		or use google maps and fit it on it
-
-
-
-%todo plaatje van scene met een 3d model erin
+% werkwijze:
+% FIT3D paper doornemen
+% wat heb ik gedaan wat doet FIT3D?
+% 	in code kijken
+% generate illustrative images
+% 
+% 
+% steps:
+% relatieve cc's
 
 %----------------------------------------------------------------------
-\subsubsection{Aligning the 2d model}
-%todo plaatje 2d model
-%Note that R|t in P is al relative to the first frame
 
 
 
-%  \label{sec:cameracenters}
-%  \TODO{ Explain here about FIT3D toolbox}
-%  
 %\subsection{Calibrating the camera with the Bouguet toolbox}
 \paragraph{Calibrating the camera with the Bouguet toolbox}
 %  \label{sec:bouguet}

@@ -13,7 +13,8 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 ik ben momenteel bezig met:
 preliminaries fit3d
 	frans' commentaar erbij
-	align 3d model to 2d model new H
+	align 2d model 
+		ref van affine transform afraffelen en snel naar:
 	camera coords uitleggen
 	facade rectification in preliminaries 
 	naar isaac sturen

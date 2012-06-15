@@ -1,2 +1,5 @@
 
 matrix van leters K en L (psychologietestje) laten zien (menselijke hoekdetectoren
+
+een demo van de skyline detector, met meerdere beelden achter elkaar in een
+filmpje
