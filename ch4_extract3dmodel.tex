@@ -71,35 +71,36 @@ cloud by discarding the y-dimension of the points.  Note that this is equivalent
 projection to the x,z plane. The result is a set of 2D points that represent the
 topview of the 3D point cloud: Figure %todo
 
-Next we want to extract the walls by extracting the walls represented by the
-line segments in the point cloud.  For the purpose of testing we annotated these
-lines manually.  (If the system needs to operate automatically, RANSAC can be
-used to fit lines in this point cloud.)
+We determine the walls by fitting line segments in the point cloud.  We
+annotated these line segments manually.  (If the system needs to operate
+automatically, RANSAC can be used to fit lines in this point cloud.).  The next
+step is to align the 2D Openstreetmap model $M1$ with these line segments of the
+projected pointcloud $M2$. 
 
-The next step is to align the 2D Openstreetmap model $M1$ with the annotated
-lines of the projected pointcloud $M2$. This is done by annotating the
-correspondences between the corners of the walls in both models.  A matrix $A$ is
-calculated in closed form using a set of linear equations %todo citation (Hartley & zisserman?)
-\cite{} 
-(similar to the least squares estimate).
-
-affinetransform
-http://stackoverflow.com/questions/1856210/trying-to-derive-a-2d-transformation-matrix-using-only-the-images
-http://docs.oracle.com/javase/1.4.2/docs/api/java/awt/geom/AffineTransform.html
-
-
-$A$ represents the rotation, translation and scaling that is needed for a
-point of $M1$ to be represented in $M2$.
-%todo convention matrix bold?
-$A$ is applied on all cornerpoints of $M1$ and the result is an aligned 2D
+First the endpoints of the line segments, which correspond with the wall corners, are extracted in both models.
+Not that the walls of $M2$ that are located at the back of the building are often missing
+because they are occluded by the front walls. We only consider the corners that
+are present in both models.
+Next the correspondences between these corners is annotated manually. 
+This is used to generate a set of linear equations
+which are solved in closed form \cite{hartley}. The result is a matrix $A$
+which represents the rotation, translation and scaling that is needed for a
+coordinate of $M1$ to be transformed to $M2$.
+Finaly $A$ is applied on all cornerpoints of $M1$ which results in an aligned 2D
 model.
+
+%affinetransform
+%http://stackoverflow.com/questions/1856210/trying-to-derive-a-2d-transformation-matrix-using-only-the-images
+%http://docs.oracle.com/javase/1.4.2/docs/api/java/awt/geom/AffineTransform.html
+
+
+%todo convention matrix bold?
 
 %------------------------------------------------------------------------
 %todo example image of 3d model overlay
 % of osgviewer screendpumps pakken en het erinplakken
 % of building.osg in osgviewer plakken
 % of in matlab de boel tegelijk plotten
-
 
 
 %discuss disadvantage (skew Y assumption)
