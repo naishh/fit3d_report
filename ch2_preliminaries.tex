@@ -116,6 +116,60 @@ It uses a feature that votes for a particular position, orientation and/or scali
 %\subsection{Getting the camera centers and viewing directions}
 
 
+
+
+
+
+
+	\paragraph{Camera calibration}
+	% "relationship between what appears on the image (or retinal) plane and where
+	% it is located in the 3D world."
+	To project the line segments to the 3D model we need to know where the
+	camera was positioned when it took the photo. Furthermore we need to know
+	in what way this camera manipulated the image (zoom factors, lens distortion
+	etc.).  In other words, we need find the extrinsic and intrinsic parameters,
+	this process is referred to as Camera Calibration.
+
+	\subparagraph{Extrinsic parameters}
+	%todo praten over coordinaat stelsels
+	%\paragraph{Getting the camera centers and viewing directions}
+	%todo introduce viewing direction
+	The extrinsic parameters present the center of the locations of the camera
+	and the viewing directions. These are unique for every image.
+	%todo explain rotation, translation
+	In some systems these are recorded by measuring the cameras position and
+	orientation at the scene. In other systems this is computed afterwards from the images.  
+	We calculated the values also afterwards and used existing software for
+	this: \emph{Fit3D toolbox} \cite{Fit3d}, details of this process can be
+	found in the preliminaries (\ref{sec:cameracenters}) [DRAFTnote: not
+	finished at the time of writing].\\  
+
+	\subparagraph{Intrinsic parameters}
+	The intrinsic parameters contain information about the internal parameters
+	of the camera.  These are focal length, pixel aspect ratio, and principal point.
+	%todo explain principal point
+
+	These parameters come together in a calibration matrix K.  The Floriande
+	dataset (originated from the Fit3D toolbox \cite{Fit3d}) comes with a
+	calibration matrix K .  For
+	the \emph{Anne} dataset we calculated K by the Bouguet toolbox
+	\cite{bouguet}.
+	This method involves making images of a chessboard in
+	different positions and orientations. For details please refer to the
+	preliminaries (\ref{sec:bouguet}) [DRAFTnote: not finished at the
+	time of writing].
+
+
+
+
+
+
+
+
+
+
+
+
 \subsection{FIT3D toolbox \ref{fit3d}}
 \label{sec:prelimFIT3D}
 %todo give fit3d a proper intro
@@ -178,7 +232,7 @@ The result is an accurate 3D point cloud of the building, see Figure
 \ref{fig:fit3dImgSequence.eps}.
 Next a RANSAC based plane fitter is used to accurately fit planes through
 the 3D points, see Figure \ref{fig:fit3d_planes.eps}.\\
-\fig{fit3d_planes.eps}
+\fig{fit3d_planes.eps}{Fitted planes}{0.4}
 
 In this thesis the plane fitting step is skipped and a new method is
 used to obtain the 3D model. This is explained in \ref{sec:generate3dModel}.

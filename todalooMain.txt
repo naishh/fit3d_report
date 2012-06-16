@@ -15,8 +15,10 @@ preliminaries fit3d
 	frans' commentaar erbij
 	align 2d model 
 
-		plaatje met gefitte lijnen
-		extend 3d model schrijven
+		2d model in align plaatje hangen
+		fitten, camera calibratie etc in prelim?
+		feedback frans van de stukken die ik heb geschreven
+		plaatje van camera
 		afraffelen en snel naar:
 
 	camera coords uitleggen

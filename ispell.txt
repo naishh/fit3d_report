@@ -2,6 +2,7 @@ alle ?? nagaan in pdf
 
 replace:
 
+As we -> because we
 therefor spatie -> therefore 
 isn't  -> is not
 doesn't-> does not
