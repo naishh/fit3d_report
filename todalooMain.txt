@@ -19,6 +19,8 @@ preliminaries fit3d
 		fitten, camera calibratie etc in prelim?
 		feedback frans van de stukken die ik heb geschreven
 		plaatje van camera
+		a4paper veranderen
+		refs checken
 		afraffelen en snel naar:
 
 	camera coords uitleggen
