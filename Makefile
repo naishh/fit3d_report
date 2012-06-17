@@ -14,7 +14,7 @@ all:
 
 pdf:
 	latex $(REPORT).tex
-	bibtex $(REPORT)
+	#bibtex $(REPORT)
 	latex $(REPORT).tex
 	latex $(REPORT).tex
 	dvipdf $(REPORT).dvi

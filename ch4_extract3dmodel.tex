@@ -203,12 +203,12 @@ be seen in Figure \ref{fig:3dModel}.
 	project the line segments to the the building and finally we 
 	determine the specific building part that is associate with a line segment.
 
+
 	To project the line segments to the 3D model we need to know where the
-	camera was positioned and heading when it took the photo. Furthermore we need to know
-	in what way this camera manipulated the image (zoom factors, lens distortion
-	etc.).  
-	In other words, we need find the extrinsic and intrinsic parameters,
-	this process is referred to as Camera Calibration and is explained in (
+	camera was positioned and heading when it took the photo (extrinsic parameters). Furthermore we need to know
+	in what way this camera transformed the image (zoom factors, lens distortion
+	etc.) (intrinsic parameters).
+	This process is referred to as Camera Calibration and is explained in (
 	\ref{sec:cameraCalibration})
 	 
 	\paragraph{From image point (2D) to possible points in scene (3D)} 
@@ -223,21 +223,28 @@ be seen in Figure \ref{fig:3dModel}.
 
 	We know:
 	\begin{itemize}
-		\item The 2D location of the pixel (in the camera coordinate system).
-		\item The cameras internal parameters (K) 
-		\item The camera center and the heading of the camera (P)
+		\item \textbf{m} = (x,y), the image point (in the camera coordinate system)
+		\item K, the cameras internal parameters
+		\item P, the projection from camera coordinates to (possible) world
+		coordinates. It contains implicitly the intrinsic camera parameters, the
+		camera center (\textbf{c}) and the camera's heading 
 	\end{itemize}
 
-	We can now span the line of possible points in 3D space by two coordinates:\\
+	The two coordinates that span the line of possible points in 3D space are:
 	\begin{itemize}
-		\item $\textbf{c}$, the location of the center of the camera in, and
+		\item $\textbf{c}$, the location of the center of the camera, and
 		%todo %(camera centers are annotated for every image)
-		\item $\textbf{d} = P K'\textbf{p}$, the point that lies on the retina of
+		\item $\textbf{m} = P K'\textbf{p}$, the image point that lies on the retina of
 		the camera expressed in the world coordinate frame
-		$P$ is the camera coordinate->world coordinate projection matrix, $K$ is
+		$P$ presents projection from camera coordinates to world coordinates, $K$ is
 		the intrinsic calibration matrix and $\textbf{p}$ is the homogeneous
-		coordinate of the 2D pixel.
+		coordinate of the image point.
 	\end{itemize}
+	This is illustrated in Figure \ref{fig:1cameraModel.eps}.
+	\fig{1cameraModel.eps}{The camera center \textbf{c} and the image point \textbf{m} span the line op possible 3D
+	points in space.}{0.6}
+	\clearpage
+
 	%todo image
 	%todo zee zisserman pagenumbers in feedbackmap
 
@@ -245,13 +252,14 @@ be seen in Figure \ref{fig:3dModel}.
 	%directions and finding the
 	%Calibration matrix.\\
 
-	Because we now have the two required coordinates, we can set up an equation of the
+	Using the two required coordinates we set up an equation of the
 	line of possible points in 3D.  
 
-	 \[ \textbf{l} = \textbf{c} + (\textbf{d}-\textbf{c})t, t \in \mathbb{R} \]
+	 \[ l = \textbf{c} + (\textbf{m}-\textbf{c})t, t \in \mathbb{R} \]
 
-	for example if $t=100$ then the point in the real world lies at 100 times the
-		distance from the camera center to its retina.
+	for example if $t=100$ then the point in the real world lies at 100 times
+		the distance from the camera center to its retina.
+	In Figure \ref{fig:1cameraModel.eps} t is about 4.
 
 	Now we know which possible points in 3D a 2D point of the skyline presents,
 	we can use this to find the corresponding wall.

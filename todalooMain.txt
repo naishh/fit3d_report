@@ -15,11 +15,12 @@ preliminaries fit3d
 	frans' commentaar erbij
 	align 2d model 
 
-		2d model in align plaatje hangen
+
+		camera calibr
 		fitten, camera calibratie etc in prelim?
 		feedback frans van de stukken die ik heb geschreven
-		plaatje van camera
-		a4paper veranderen
+
+		2d model in align plaatje hangen
 		refs checken
 		afraffelen en snel naar:
 

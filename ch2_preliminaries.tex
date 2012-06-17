@@ -98,8 +98,8 @@ dimensional.  For more complicated shapes, the
 It uses a feature that votes for a particular position, orientation and/or scaling of a certain predefined shape.  The shapes are predefined in a look-up table.\\
 
 [Draftnote: topcis below are not finished at the time of writing]
-%\subsection{Coordination systems}
-\paragraph{Coordination systems}
+\subsection{Coordination systems}
+TODO
 %todo use costins work and refer 
 %todo use FIT3D toolbox paper
 %todo plaatje camera
@@ -115,59 +115,53 @@ It uses a feature that votes for a particular position, orientation and/or scali
 %  %TODO IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!
 %\subsection{Getting the camera centers and viewing directions}
 
+\subsection{Camera calibration}
+Camera calibration is done to determine
+the relationship between what appears on the image (or camera retina) and where
+ it is located in the 3D world.
+ This involves calculating the Intrinsic and extrinsic parameters.
+
+\subparagraph{Intrinsic parameters}
+The intrinsic parameters contain information about the internal parameters
+of the camera.  These are focal length, pixel aspect ratio, and principal point.
+%todo explain principal point
+
+These parameters come together in a calibration matrix K.  The Floriande
+dataset (originated from the Fit3D toolbox \cite{Fit3d}) comes with a
+calibration matrix K.  For
+the \emph{Anne} dataset we calculated K with the Bouguet toolbox
+\cite{bouguet}.
+This method involves making images of a chessboard in
+different positions and orientations and is explained next
+[DRAFTnote: not finished at the
+time of writing].
+
+\subsubsection{Determine the intrinsic camera parametrs with the Bouguet toolbox}
+\label{sec:bouguet}
+Todo
+%  TODO
+%  \TODO{TODO see ref 15 and FIT3D toolbox p4}
+%  
+%  	%\paragraph{Getting the calibration matrix}
+%  	%TODO inspiration
+%  	% isaacs paper 
+%  	% google 
+%  	% matlab help bouget 
+%  	%
 
 
-
-
-
-
-	\paragraph{Camera calibration}
-	% "relationship between what appears on the image (or retinal) plane and where
-	% it is located in the 3D world."
-	To project the line segments to the 3D model we need to know where the
-	camera was positioned when it took the photo. Furthermore we need to know
-	in what way this camera manipulated the image (zoom factors, lens distortion
-	etc.).  In other words, we need find the extrinsic and intrinsic parameters,
-	this process is referred to as Camera Calibration.
-
-	\subparagraph{Extrinsic parameters}
-	%todo praten over coordinaat stelsels
-	%\paragraph{Getting the camera centers and viewing directions}
-	%todo introduce viewing direction
-	The extrinsic parameters present the center of the locations of the camera
-	and the viewing directions. These are unique for every image.
-	%todo explain rotation, translation
-	In some systems these are recorded by measuring the cameras position and
-	orientation at the scene. In other systems this is computed afterwards from the images.  
-	We calculated the values also afterwards and used existing software for
-	this: \emph{Fit3D toolbox} \cite{Fit3d}, details of this process can be
-	found in the preliminaries (\ref{sec:cameracenters}) [DRAFTnote: not
-	finished at the time of writing].\\  
-
-	\subparagraph{Intrinsic parameters}
-	The intrinsic parameters contain information about the internal parameters
-	of the camera.  These are focal length, pixel aspect ratio, and principal point.
-	%todo explain principal point
-
-	These parameters come together in a calibration matrix K.  The Floriande
-	dataset (originated from the Fit3D toolbox \cite{Fit3d}) comes with a
-	calibration matrix K .  For
-	the \emph{Anne} dataset we calculated K by the Bouguet toolbox
-	\cite{bouguet}.
-	This method involves making images of a chessboard in
-	different positions and orientations. For details please refer to the
-	preliminaries (\ref{sec:bouguet}) [DRAFTnote: not finished at the
-	time of writing].
-
-
-
-
-
-
-
-
-
-
+\subparagraph{Extrinsic parameters}
+%todo praten over coordinaat stelsels
+%\paragraph{Getting the camera centers and viewing directions}
+%todo introduce viewing direction
+The extrinsic parameters present the center of the locations of the camera
+and the viewing directions. These are unique for every view.
+%todo explain rotation, translation
+In some systems these are recorded by measuring the cameras position and
+orientation at the scene. In other systems this is computed afterwards from the images.  
+We calculated the values also afterwards and used existing software for
+this: \emph{FIT3D toolbox} \cite{Fit3d}, details of this process is
+explained next.
 
 
 \subsection{FIT3D toolbox \ref{fit3d}}
@@ -243,26 +237,11 @@ used to obtain the 3D model. This is explained in \ref{sec:generate3dModel}.
 % 	in code kijken
 % generate illustrative images
 % 
-% 
-% steps:
-% relatieve cc's
 
 %----------------------------------------------------------------------
 
 
 
-%\subsection{Calibrating the camera with the Bouguet toolbox}
-\paragraph{Calibrating the camera with the Bouguet toolbox}
-%  \label{sec:bouguet}
-%  TODO
-%  \TODO{TODO see ref 15 and FIT3D toolbox p4}
-%  
-%  	%\paragraph{Getting the calibration matrix}
-%  	%TODO inspiration
-%  	% isaacs paper 
-%  	% google 
-%  	% matlab help bouget 
-%  	%
 %  
 %  
 %  \subsection{Homogeneous coordinate}
@@ -270,15 +249,15 @@ used to obtain the 3D model. This is explained in \ref{sec:generate3dModel}.
 %  
 %  
 %\subsection{Planes and walls}
-\paragraph{Planes and walls}
+%\paragraph{Planes and walls}
 %  \label{sec:planeswalls}
 %  \TODO{ How to span plane by wall coords}
 %  
 %\subsection{Axis angle representation}
-\paragraph{Axis angle representation}
+%\paragraph{Axis angle representation}
 %  \label{sec:axisAngle}
 %  \TODO{Axis angle representation, wikipedia}
 %  
 %\subsection{Gaussian blur}
-\paragraph{Gaussian blur}
+%\paragraph{Gaussian smoothing}
 %  %matlab documentation, wikipedia
