@@ -223,26 +223,32 @@ be seen in Figure \ref{fig:3dModel}.
 
 	We know:
 	\begin{itemize}
-		\item \textbf{m} = (x,y), the image point (in the camera coordinate system)
-		\item K, the cameras internal parameters
-		\item P, the projection from camera coordinates to (possible) world
-		coordinates. It contains implicitly the intrinsic camera parameters, the
-		camera center (\textbf{c}) and the camera's heading 
+		\item $\vec{x} = (x,y)$, the image point (in the camera coordinates
+		(xyz))
+		\item $\vec{x}_{h} = (x,y,1)'$, the homogeneous coordinate of the image point.
+		\item $\vec{c}$ and $\vec{h}$, the camera's extrinsic parameters (the
+		camera's center and heading in world coordinates (ijk))
+		\item K, the cameras intrinsic parameters
+		\item P, the projection from camera coordinates (xyz) to world
+		coordinates (ijk). It contains implicitly the intrinsic and
+		extrinsic parameters (the camera's center $\vec{c}$ and heading
+		$\vec{h}$) and is applied to transfer the camera image points $\vec{x}$ (xyz) to world
+		coordinates (ijk).
 	\end{itemize}
 
-	The two coordinates that span the line of possible points in 3D space are:
+	The two coordinates that span the line of possible points in 3D space are
+	calculated as follows:
 	\begin{itemize}
-		\item $\textbf{c}$, the location of the center of the camera, and
+		\item $\vec{c}$, the location of the center of the camera in 
+		world coordinates (ijk)
 		%todo %(camera centers are annotated for every image)
-		\item $\textbf{m} = P K'\textbf{p}$, the image point that lies on the retina of
-		the camera expressed in the world coordinate frame
-		$P$ presents projection from camera coordinates to world coordinates, $K$ is
-		the intrinsic calibration matrix and $\textbf{p}$ is the homogeneous
-		coordinate of the image point.
+		\item $\vec{x}_{ijk} = P K' \vec{x}_{h}$, the image point that lies on the retina of
+		the camera expressed in world coordinates (ijk).\\
 	\end{itemize}
-	This is illustrated in Figure \ref{fig:1cameraModel.eps}.
-	\fig{1cameraModel.eps}{The camera center \textbf{c} and the image point \textbf{m} span the line op possible 3D
-	points in space.}{0.6}
+	This is illustrated in Figure \ref{fig:coordinateSystemsCopy.eps}.
+	\fig{coordinateSystemsCopy.eps}{The blue line spanned by $\vec{c}$ and the image point
+	$\vec{x}$ tranfered to world coordinates represent the possible 3D points in
+	space. $\vec{X}$ is a random possible point on the line.}{1}
 	\clearpage
 
 	%todo image
@@ -255,11 +261,11 @@ be seen in Figure \ref{fig:3dModel}.
 	Using the two required coordinates we set up an equation of the
 	line of possible points in 3D.  
 
-	 \[ l = \textbf{c} + (\textbf{m}-\textbf{c})t, t \in \mathbb{R} \]
+	 \[ l = \textbf{c} + (\textbf{x}_{ijk}-\textbf{c})t, t \in \mathbb{R} \]
 
 	for example if $t=100$ then the point in the real world lies at 100 times
 		the distance from the camera center to its retina.
-	In Figure \ref{fig:1cameraModel.eps} t is about 4.
+	In Figure \ref{fig:1cameraModel.eps} t is about 4 (for point M).
 
 	Now we know which possible points in 3D a 2D point of the skyline presents,
 	we can use this to find the corresponding wall.
@@ -286,8 +292,8 @@ be seen in Figure \ref{fig:3dModel}.
 	%Intersections are then calculated between the lines and the planes of the building walls.\\
 	The 3D building model consists of different walls. A wall is described by
 	two ground coordinates, a height, and a direction.
-	The height is based on an average building height, the direction is the
-	y-direction (see \emph{Gravity aligned walls assumption}).
+	The height is based on an average building height, the direction is always the
+	y-direction (see \emph{Gravity aligned walls assumption}).\\
 	First we transform the walls into (infinite) planes.  This is done for two
 	reasons: first this transformation is required to calculate the intersection
 	properly. Second, because the 3D model is an estimate, the walls maybe just
@@ -295,24 +301,30 @@ be seen in Figure \ref{fig:3dModel}.
 
 
 	\paragraph{Intersect with all walls}
-	Now we have the building divided  into planes we take the endpoints of the
-	lines and project them to all the planes of the building.  Each 2D endpoint
-	has a line of possible 3D points (spanned by the camera center and the point
-	on the retina). This line is intersected with the planes of the building
-	walls.  This transforms every 2D endpoint in a 3D endpoint resulting in 2 x
-	$l$ x $w$ points in 3D, grouped by the line segments, where 2 means
+	Now we have the building walls transformed to planes we take the endpoints of the
+	lines and project them to all the planes of the building.  
+
+	Each 2D endpoint has a line of possible 3D points which we calculated in the
+	previous section. This was the line spanned by the camera center and the
+	image point in world coordinates.
+	This line is intersected with all planes of the building walls. Every 2D
+	endpoint is now associated with multiple intersections resulting in 2 x
+	$l$ x $w$ points in 3D (grouped by the line segments), 2 means
 	\#endpoints of the line, $l$ is the number of lines and $w$ is the number of
 	walls.\\
 
-	We now calculated every possible projection to every plane. How do we
-	determine the most likely wall?  We only calculated the projection to the
-	planes spanned by the walls hence we don't know which line lies on which
-	wall.  If we project $l$ to the plane spanned
+	We now calculated every possible projection to (/intersection with) every plane. How do we
+	determine which plane represents the most likely wall?  
+	We only calculated the projection to the
+	infinite planes spanned by the walls hence we don't know which line lies on
+	the wall and which falls outside the wall. To solve this problem let's
+	zoom in to the situation:
+	If we project $l$ to the plane spanned
 	by a wall $W$ we get a line $l_{proj_W}$ in $\mathbb{R}3$.  If we assume
 	$l$ to come from the contour of wall $W$, then $l_{proj_W}$ should have a large
 	intersection with this wall $W$. 
-	We call this the line-wall overlap value, $lwo$.  A mathematical
-	definition of $lwo$ follows.  Note that the projection of $l$ with the
+	Let's call this the line-wall overlap value, $lwo$.  
+	Note that the projection of $l$ with the
 	other walls should have a small $lwo$ value.\\
 	%todo2. see figure, create two Figure's (2d and 3d) with a single Hough line
 	%(projected)
@@ -320,7 +332,6 @@ be seen in Figure \ref{fig:3dModel}.
 	\paragraph{Largest line-wall overlap assumption:}
 	\emph{A line segment is associated with the wall with the largest projection
 	overlap.}\\
-
 	Having defined the assumptions, the situation and the idea behind the
 	line-wall association, we can now explain the line-wall matching algorithm.\\ 
 

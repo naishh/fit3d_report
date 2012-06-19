@@ -12,14 +12,15 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 ---------------------------------------------------------------------------------
 ik ben momenteel bezig met:
 preliminaries fit3d
+
+	coordinate systems
+	prelim doorlezen
 	frans' commentaar erbij
 	align 2d model 
-
 
 		camera calibr
 		fitten, camera calibratie etc in prelim?
 		feedback frans van de stukken die ik heb geschreven
-
 		2d model in align plaatje hangen
 		refs checken
 		afraffelen en snel naar:

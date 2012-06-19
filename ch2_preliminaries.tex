@@ -98,11 +98,41 @@ dimensional.  For more complicated shapes, the
 It uses a feature that votes for a particular position, orientation and/or scaling of a certain predefined shape.  The shapes are predefined in a look-up table.\\
 
 [Draftnote: topcis below are not finished at the time of writing]
+
 \subsection{Coordination systems}
-TODO
+%todo doorlezen
+In this thesis three different coordinate reference systems are used. 
+The first one is located at the image level and describes the
+location of the pixel in 2D. It is called the Image Coordinate Frame (ICF), in
+Figure \ref{fig:coordinateSystems.eps} (x,y) span this frame.
+The second is the Camera Coordinate
+Frame (CCF) and it involves the projection of the image point (x,y) to the
+retina of the camera in 3D.  The origin of the CCF is equal to the center of the
+camera. If the camera rotates, it rotates around this point. The coordinates are
+expressed in (xyz). \\
+The last system is the World Coordinate Frame (WCF) and it is used to describe the positions of the 3D model of the
+scene and the position of the cameras in the world in (ijk). A overview can be
+seen in Table \ref{tab:coord}.
+
+\fig{coordinateSystems.eps}{Coordinate systems}{1}
+\begin{table}[ht]
+	\caption{Coordinate reference systems with their properties}
+	\label{tab:coord}
+	\begin{tabular}{|l||c|c|c|}
+	\hline
+	Reference system name		&	abreviation	&	dimensions	&	axis\\
+	\hline
+	\hline
+	Image Coordinate Frame	&   ICF			&	2D			& 	x,y\\
+	\hline
+	Camera Coordinate Frame	&   CCF			&	3D			& 	x,y,z\\
+	\hline
+	World Coordinate Frame	&   WCF			&	3D			& 	i,j,k\\
+	\hline
+	\end{tabular}
+\end{table}
 %todo use costins work and refer 
 %todo use FIT3D toolbox paper
-%todo plaatje camera
 
 
 %  The camera can be described in the same coordinate system as the 3D point we are
@@ -116,6 +146,7 @@ TODO
 %\subsection{Getting the camera centers and viewing directions}
 
 \subsection{Camera calibration}
+\label{sec:cameraCalibration}
 Camera calibration is done to determine
 the relationship between what appears on the image (or camera retina) and where
  it is located in the 3D world.
@@ -158,7 +189,7 @@ The extrinsic parameters present the center of the locations of the camera
 and the viewing directions. These are unique for every view.
 %todo explain rotation, translation
 In some systems these are recorded by measuring the cameras position and
-orientation at the scene. In other systems this is computed afterwards from the images.  
+headings at the scene. In other systems this is computed afterwards from the images.  
 We calculated the values also afterwards and used existing software for
 this: \emph{FIT3D toolbox} \cite{Fit3d}, details of this process is
 explained next.
@@ -191,7 +222,7 @@ chronological however they need to have sufficient overlap.
 
 
 %todo explain what a camera coordinate is (homoge px coord)
-\subsubsection{Relating the camera frame coordinates to the world coordinates}
+\subsubsection{Relating the camera coordinates to the world coordinates}
 %Getting the camera's centers and camera's heading (Extrinsic parameters)}
 The different views are used to estimate the relation of the camera frame
 coordinates to the world coordinates, (the extrinsic parameters).  In other
