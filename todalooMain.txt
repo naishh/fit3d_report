@@ -10,29 +10,24 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 ---------------------------------------------------------------------------------
-ik ben momenteel bezig met:
-preliminaries fit3d
-
-	p 29 en 30 ff doorlezen
+	
 	frans' commentaar erbij
+		facade rect
+	references
 	overal research q's?
 	fix refs checken
-		afraffelen en snel naar:
 
 
 
 ---------------------------------------------------------------------------------
-todos staan op 3 plekken!
+todos staan op 2 plekken!
 	in thesis aant
-	in notepad aant thesis
 	in dit bestand
 
 
 ---------------------------------------------------------------------------------
 feedback frans
 	grote punten
-		fit3d preliminaries
-			gebruik ook comments over cc's, extrinsic params etc.
 		skyline remove threshold and write future research hypothesis style
 		conclusion
 		belangrijke zaken van bestaande todos in mijn bestanden

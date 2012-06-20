@@ -186,7 +186,7 @@ be seen in Figure \ref{fig:3dModel}.
 	displayed and evaluated in the Result section (\ref{sec:ResultImprove}).
 
 \subsubsection{Project the skyline to the 3D model}
-\ref{sec:project}
+\label{sec:project}
 
 	% intro
 	The Hough transform of the previous section returned a set of 2D line
@@ -204,8 +204,8 @@ be seen in Figure \ref{fig:3dModel}.
 	camera was positioned and heading when it took the photo (extrinsic
 	parameters). Furthermore we need to know in what way this camera transformed
 	the image (zoom factors, lens distortion etc.) (intrinsic parameters).
-	This process is referred to as Camera Calibration and is explained in (
-	\ref{sec:cameraCalibration})
+	This process is referred to as Camera Calibration and is explained in 
+	(\ref{sec:cameraCalibration})
 	 
 	\paragraph{From image point (2D) to possible points in scene (3D)} 
 
@@ -222,16 +222,16 @@ be seen in Figure \ref{fig:3dModel}.
 	We know:
 	\begin{itemize}
 		\item $\vec{x} = (x,y)$, the image point (in the camera coordinates
-		(xyz))
-		\item $\vec{x}_{h} = (x,y,1)'$, the homogeneous coordinate of the image point.
+		(XYZ))
+		\item $\vec{x}_{h} = (x,y,1)'$, the homogeneous coordinate of the image point
 		\item $\vec{c}$ and $\vec{h}$, the camera's extrinsic parameters (the
 		camera's center and heading in world coordinates (ijk))
-		\item K, the cameras intrinsic parameters
-		\item P, the projection from camera coordinates (xyz) to world
+		\item K, the camera's intrinsic parameters
+		\item P, the projection from camera coordinates (XYZ) to world
 		coordinates (ijk). It contains implicitly the intrinsic and
 		extrinsic parameters (the camera's center $\vec{c}$ and heading
-		$\vec{h}$) and is applied to transfer the camera image points $\vec{x}$ (xyz) to world
-		coordinates (ijk).
+		$\vec{h}$) and is applied to transfer the camera image points $\vec{x}$ (XYZ) to world
+		coordinates (ijk)
 	\end{itemize}
 
 	The two coordinates that span the line of possible points in 3D space are
@@ -241,9 +241,10 @@ be seen in Figure \ref{fig:3dModel}.
 		world coordinates (ijk)
 		%todo %(camera centers are annotated for every image)
 		\item $\vec{x}_{ijk} = P K' \vec{x}_{h}$, the image point that lies on the retina of
-		the camera expressed in world coordinates (ijk).\\
+		the camera expressed in world coordinates (ijk)\\
 	\end{itemize}
 	This is illustrated in Figure \ref{fig:coordinateSystemsCopy.eps}.
+
 	\fig{coordinateSystemsCopy.eps}{The blue line spanned by the camera center $\vec{c}$ and the image point
 	$\vec{x}$ tranfered to world coordinates represent the possible 3D points in
 	space. $\vec{X}$ is a random possible point on the line.}{1}
@@ -263,7 +264,7 @@ be seen in Figure \ref{fig:3dModel}.
 
 	for example if $t=100$ then the point in the real world lies at 100 times
 		the distance from the camera center to its retina.
-	In Figure \ref{fig:1cameraModel.eps} t is about 4 (for point M).
+	In Figure \ref{coordinateSystemsCopy.eps} t is about 4 (for point M).
 
 	Above calculations are done for each line segment endpoint.
 	Now we know which possible points in 3D the skyline parts,

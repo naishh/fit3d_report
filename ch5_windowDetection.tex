@@ -304,9 +304,8 @@ The simple rectification method uses point to point correspondences. This
 requires annotation of the corner points of the facade that are mapped with the
 corners of a rectangle. This mapping is used to calculate a transformation matrix. 
  The downside of this method is that it is not very accurate as it doesn't take
- the width and height ration of the facade into account.
-It only uses four point to point correspondences 
-and does not take the camera lens distortion into account.
+ the width and height ratio of the facade into account.
+It also does not take the camera lens distortion into account.
  Another downside is that it requires (manual) annotation of the corner points.
 A more accurate and fully automatic method is desired.\\
 
@@ -350,8 +349,14 @@ point is labeled to its corresponding Houghline.\\
 The next step is to transform the facade (and therefore the Hough lines) to a
 frontal view. Instead of transforming the facade we rotate and translate the camera. 
 This means the heading (z-axis) of the camera needs to be equivalent to the normal of the facade plane. 
-We calculate the rotation matrix $R$ between the camera's heading an the normal of
-the facade using an axis angle representation \cite{axisangle}.
+We determine the rotation matrix $R$ by calculating the angle between the camera's heading an the normal of
+the facade. This process involves calcuting 1) the orthogonal rotation vector
+$\vec{n}$ and 2) the angle $\theta$, see Figure \ref{fig:axisAnglePresentation.eps}.
+
+\fig{axisAnglePresentation.eps}{$\vec{a}$ is the camera's heading and $\vec{b}$
+is the normal of the facade plane, $\vec{n}$ and $\theta$ are used to generate
+rotation matrix A \cite{axisangle}}{0.15}
+ 
 Next, $R$ is applied to the 3D point cloud resulting in a set of rectified 3D
 points that are grouped to their Hough lines.
 
