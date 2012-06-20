@@ -6,7 +6,7 @@
 \section{Extracting the 3D building}
 %todo plaatje van scene met een 3d model erin
 %todo plaatje 2d model
-\label{generate3dModel}
+\label{sec:generate3dModel}
 % motivation
 \subsection{Introduction}
 In the previous chapter we explained our skyline detection algorithm which
@@ -192,6 +192,8 @@ be seen in Figure \ref{fig:3dModel}.
 	displayed and evaluated in the Result section (\ref{sec:ResultImprove}).
 
 \subsubsection{Project the skyline to the 3D model}
+\ref{sec:project}
+
 	% intro
 	The Hough transform of the previous section returned a set of 2D line
 	segments which likely present parts of the building contour.  
@@ -205,21 +207,23 @@ be seen in Figure \ref{fig:3dModel}.
 
 
 	To project the line segments to the 3D model we need to know where the
-	camera was positioned and heading when it took the photo (extrinsic parameters). Furthermore we need to know
-	in what way this camera transformed the image (zoom factors, lens distortion
-	etc.) (intrinsic parameters).
+	camera was positioned and heading when it took the photo (extrinsic
+	parameters). Furthermore we need to know in what way this camera transformed
+	the image (zoom factors, lens distortion etc.) (intrinsic parameters).
 	This process is referred to as Camera Calibration and is explained in (
 	\ref{sec:cameraCalibration})
 	 
 	\paragraph{From image point (2D) to possible points in scene (3D)} 
-	What can we do with this data after it is calibrated?
+
+	What can we do if we computed the camera calibration parameters?
 	The line segment that was returned by the Hough transform consists of two
 	endpoints $v$ and $w$. These endpoints are in 2D but are recorded in a 3D
-	scene and therefore present a 3D point in space.  The value of the 3rd
-	dimension represents the distance from the 3D point to the camera that took
-	the picture. Unfortunately this value is unknown, however because we
-	calibrated the camera in (\ref{sec:cameraCalibration}), we can reduce the possible
-	points in 3D space to a line.\\
+	scene and therefore present a 3D point in space. We don't know which point
+	this is as for example we don't know the distance from the 3D point to the camera that took
+	the picture. 
+	However, because we calibrated the camera (\ref{sec:cameraCalibration}) we
+	can reduce these possible points in 3D space to a line. Next we explain how
+	we calculate this for one 2D image point (for example a line segment endpoint).\\
 
 	We know:
 	\begin{itemize}
@@ -246,7 +250,7 @@ be seen in Figure \ref{fig:3dModel}.
 		the camera expressed in world coordinates (ijk).\\
 	\end{itemize}
 	This is illustrated in Figure \ref{fig:coordinateSystemsCopy.eps}.
-	\fig{coordinateSystemsCopy.eps}{The blue line spanned by $\vec{c}$ and the image point
+	\fig{coordinateSystemsCopy.eps}{The blue line spanned by the camera center $\vec{c}$ and the image point
 	$\vec{x}$ tranfered to world coordinates represent the possible 3D points in
 	space. $\vec{X}$ is a random possible point on the line.}{1}
 	\clearpage
@@ -267,6 +271,8 @@ be seen in Figure \ref{fig:3dModel}.
 		the distance from the camera center to its retina.
 	In Figure \ref{fig:1cameraModel.eps} t is about 4 (for point M).
 
+	Above calculations are done for each line segment endpoint
+	line is spanned 
 	Now we know which possible points in 3D a 2D point of the skyline presents,
 	we can use this to find the corresponding wall.
 
@@ -284,8 +290,9 @@ be seen in Figure \ref{fig:3dModel}.
 	Unfortunately we don't know which line is associated with which building
 	wall. In this section we determine this association.
 
-	First we project the line segments to all planes of the 3D building.  After
-	this we choose the most likely plane based on the largest line-wall overlap. 
+	First we prepare the 3D model. Next we project the line segments to all planes of the 3D building by
+	taking their endpoints and using the technique of the previous section (\ref{sec:project})
+	Finally we determine the most likely plane based on the largest line-wall overlap. 
 
 	\paragraph{Preparing the 3D model}
 	%The building is first divided into different walls.  Every wall of the building spans a plane. 
@@ -536,13 +543,16 @@ building wall. This is caused by the use of strict parameters in the Hough trans
 the Houghlines, a gap is created and the line segment is cut down at that point.
 This is however not a big problem because the lines are long enough to produce a
 good wall height estimate. Furthermore there are 5 other lines
-(originated from different views) that support the estimate for this wall.\\
+(originated from different views) that support the estimate for this wall.
+
+
 
 
 
 % midpoint heuristic
 \subsection{Conclusion}
 Let's answer our research question.
+%todo check if its still consistent
 \paragraph{Research question}
 Is it possible to use a set of noisy skyline points together with an aerial 2D model to 
 extract an accurate 3D model of the building.\\
@@ -557,8 +567,20 @@ few calibrated 2D images.
 %todo conclusion is no summary... conclude something..
 
 \subsection{Future research}
+\subsubsection{Gravity aligned walls assumption}
+In this project we assumed the walls to align with the gravity.
+This means the camera must be up right: his parameter \emph{roll} must be
+exactly zero when capturing the images. 
+In practical use this is not true. We demonstrate this by plotting the 3D point cloud
+with the 3D model in Figure .
+Although this assumption let us focus on the important issues it would be nice
+to incorporate gravity estimation in future research.
+Costin Ionita wrote a part of his master thesis about gravity estimation in
+\cite{costin}.\\
+
 %todo generate a figure with 2 Hough lines on wall of tree
 %As can be seen in Figure %\ref{fig:}
+\subsubsection{Double wall height influence}
 Sometimes two line segments appear on the same single wall. This means that they have a double
 influence on the average wall height, which is unjustified. 
 A simple solution would be to add a normalization pre-process step, so each view
@@ -570,8 +592,7 @@ Hough transforms \emph{FillGap} parameter.  E.g. for the right wall of the build
 Figure \ref{fig:outputHoughlines3d} the \emph{FillGap} parameter needs to be at
 least as big as the occluding tree.
 
-%---
-
+\subsubsection{Complexity}
 In this thesis little is discussed about the computational costs. Because the 
 computations are done efficiently (e.g. using matrix multiplications
 in MATLAB) and off line, the calculation are done in reasonable time.

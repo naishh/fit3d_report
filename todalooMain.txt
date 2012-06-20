@@ -13,10 +13,8 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 ik ben momenteel bezig met:
 preliminaries fit3d
 
-	coordinate systems
-	prelim doorlezen
-	frans' commentaar erbij
 	align 2d model 
+	frans' commentaar erbij
 
 		camera calibr
 		fitten, camera calibratie etc in prelim?
@@ -26,7 +24,7 @@ preliminaries fit3d
 		afraffelen en snel naar:
 
 	camera coords uitleggen
-	facade rectification in preliminaries 
+	facade rectification in preliminaries ?
 	naar isaac sturen
 
 

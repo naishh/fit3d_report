@@ -1,7 +1,8 @@
 % DRAFT
 \section{Preliminaries on Computer Vision}
 In this chapter we discuss the basic computer vision techniques that are used for
-the skyline detection, 3D building extraction and window detection.
+the skyline detection, and window detection.  Furthermore we discuss 3rd
+party software, the \emph{FIT3D toolbox} \cite{Fit3d} which is used in 3D building extraction and facade rectification.
 
 \subsection{Hough transform}
 \label{sec:prelimHough}
@@ -104,15 +105,15 @@ It uses a feature that votes for a particular position, orientation and/or scali
 In this thesis three different coordinate reference systems are used. 
 The first one is located at the image level and describes the
 location of the pixel in 2D. It is called the Image Coordinate Frame (ICF), in
-Figure \ref{fig:coordinateSystems.eps} (x,y) span this frame.
+Figure \ref{fig:coordinateSystems.eps} ($x_0,y_0$) span this frame.
 The second is the Camera Coordinate
 Frame (CCF) and it involves the projection of the image point (x,y) to the
 retina of the camera in 3D.  The origin of the CCF is equal to the center of the
 camera. If the camera rotates, it rotates around this point. The coordinates are
-expressed in (xyz). \\
+expressed in (XYZ). \\
 The last system is the World Coordinate Frame (WCF) and it is used to describe the positions of the 3D model of the
-scene and the position of the cameras in the world in (ijk). A overview can be
-seen in Table \ref{tab:coord}.
+scene and the position of the cameras in the world in (ijk). An overview of the
+systems can be found in Table \ref{tab:coord}.
 
 \fig{coordinateSystems.eps}{Coordinate systems}{1}
 \begin{table}[ht]
@@ -125,7 +126,7 @@ seen in Table \ref{tab:coord}.
 	\hline
 	Image Coordinate Frame	&   ICF			&	2D			& 	x,y\\
 	\hline
-	Camera Coordinate Frame	&   CCF			&	3D			& 	x,y,z\\
+	Camera Coordinate Frame	&   CCF			&	3D			& 	X,Y,Z\\
 	\hline
 	World Coordinate Frame	&   WCF			&	3D			& 	i,j,k\\
 	\hline
@@ -149,8 +150,8 @@ seen in Table \ref{tab:coord}.
 \label{sec:cameraCalibration}
 Camera calibration is done to determine
 the relationship between what appears on the image (or camera retina) and where
- it is located in the 3D world.
- This involves calculating the Intrinsic and extrinsic parameters.
+ it is located in the 3D world. This involves calculating the camera's intrinsic
+ and extrinsic parameters.
 
 \subparagraph{Intrinsic parameters}
 The intrinsic parameters contain information about the internal parameters
@@ -160,37 +161,25 @@ of the camera.  These are focal length, pixel aspect ratio, and principal point.
 These parameters come together in a calibration matrix K.  The Floriande
 dataset (originated from the Fit3D toolbox \cite{Fit3d}) comes with a
 calibration matrix K.  For
-the \emph{Anne} dataset we calculated K with the Bouguet toolbox
+the other datasets we calculated K with the Bouguet toolbox
 \cite{bouguet}.
-This method involves making images of a chessboard in
-different positions and orientations and is explained next
-[DRAFTnote: not finished at the
-time of writing].
-
-\subsubsection{Determine the intrinsic camera parametrs with the Bouguet toolbox}
-\label{sec:bouguet}
-Todo
-%  TODO
-%  \TODO{TODO see ref 15 and FIT3D toolbox p4}
-%  
-%  	%\paragraph{Getting the calibration matrix}
-%  	%TODO inspiration
-%  	% isaacs paper 
-%  	% google 
-%  	% matlab help bouget 
-%  	%
-
+This method involves taking images of a chessboard in different positions and
+orientations. An algorithm detects the grid on the chessboard and monitors its
+transformations under the different images.  If enough images are given (at
+least 10) and the images contain enough variety in chessboard pose, the Bouguet
+toolbox can calculate the intrinsic parameters quitte accurate.
+More details about this method can be found in \cite{bouguet}.
 
 \subparagraph{Extrinsic parameters}
 %todo praten over coordinaat stelsels
 %\paragraph{Getting the camera centers and viewing directions}
 %todo introduce viewing direction
 The extrinsic parameters present the center of the locations of the camera
-and the viewing directions. These are unique for every view.
+and the camera's headings. These are unique for every view.
 %todo explain rotation, translation
 In some systems these are recorded by measuring the cameras position and
-headings at the scene. In other systems this is computed afterwards from the images.  
-We calculated the values also afterwards and used existing software for
+headings at the scene. In other systems this is computed afterwards (from the
+images).  We calculated the values also afterwards and used existing software for
 this: \emph{FIT3D toolbox} \cite{Fit3d}, details of this process is
 explained next.
 
@@ -198,12 +187,12 @@ explained next.
 \subsection{FIT3D toolbox \ref{fit3d}}
 \label{sec:prelimFIT3D}
 %todo give fit3d a proper intro
-The FIT3D toolbox \ref{fit3d} is used for several aims in this thesis.
+The \emph{FIT3D toolbox} \ref{fit3d} is used for several aims in this thesis.
 It is used in the window detection module to rectify the facades.
-and the skyline detection used FIT3D to extract a 3D model.
+and the skyline detection used \emph{FIT3D} to extract a 3D model.
 
 In order to extract this 3D model a series of frames (originating from different
-views) is used to estimate the relation of the camera frame coordinates to the
+views) is used to estimate the relation of the camera coordinates to the
 world coordinates, Next, the result is used to extract a point cloud of matching
 features. Finally this point cloud is converted to planes which correspond with the walls of the building.
 
@@ -213,11 +202,12 @@ Detailed knowledge about the methods can be found in \ref{fit3d}.
 %3D model reconstruction
 %	2d model reconstruction
 \subsubsection{Multiple views}
-FIT3D uses multiple views to gather information about the 3D structure of the
+\emph{FIT3D} uses multiple views to gather information about the 3D structure of the
 building. The toolbox comes with a prepared dataset of 7 consecutive images (steady (zoom, lightning,
-etc.) parameters) of a scene.  FIT3D doesn't require the input images to be
+etc.) parameters) of a scene.  \emph{FIT3D} doesn't require the input images to be
 chronological however they need to have sufficient overlap. 
-\fig{fit3dImgSequence.eps}{Example series of 7 consecutive frames, (dataset: FIT3D toolbox\cite{FIT3D})}{0.3}
+\fig{fit3dImgSequence.eps}{Example series of 7 consecutive frames, (dataset:
+\emph{FIT3D toolbox}\cite{FIT3D})}{0.3}
 %/media/Storage/scriptie/fit3d/generate3dModel/3dcFiles
 
 
@@ -257,7 +247,7 @@ The result is an accurate 3D point cloud of the building, see Figure
 \ref{fig:fit3dImgSequence.eps}.
 Next a RANSAC based plane fitter is used to accurately fit planes through
 the 3D points, see Figure \ref{fig:fit3d_planes.eps}.\\
-\fig{fit3d_planes.eps}{Fitted planes}{0.4}
+\fig{fit3d_planes.eps}{Fitted planes}{0.45}
 
 In this thesis the plane fitting step is skipped and a new method is
 used to obtain the 3D model. This is explained in \ref{sec:generate3dModel}.

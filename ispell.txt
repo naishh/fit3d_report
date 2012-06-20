@@ -2,6 +2,7 @@ alle ?? nagaan in pdf
 
 replace:
 
+finaly -> finally
 As we -> because we
 therefor spatie -> therefore 
 isn't  -> is not
