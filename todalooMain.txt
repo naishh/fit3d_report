@@ -13,19 +13,11 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 ik ben momenteel bezig met:
 preliminaries fit3d
 
-	align 2d model 
+	p 29 en 30 ff doorlezen
 	frans' commentaar erbij
-
-		camera calibr
-		fitten, camera calibratie etc in prelim?
-		feedback frans van de stukken die ik heb geschreven
-		2d model in align plaatje hangen
-		refs checken
+	overal research q's?
+	fix refs checken
 		afraffelen en snel naar:
-
-	camera coords uitleggen
-	facade rectification in preliminaries ?
-	naar isaac sturen
 
 
 

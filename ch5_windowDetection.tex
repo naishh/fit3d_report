@@ -349,36 +349,37 @@ point is labeled to its corresponding Houghline.\\
 
 The next step is to transform the facade (and therefore the Hough lines) to a
 frontal view. Instead of transforming the facade we rotate and translate the camera. 
-This means the viewing direction (z-axis) of the camera needs
-to be equivalent to the normal of the facade plane. Let's denote the
-unit vector spanning the original viewing direction as $z$ and the
-unit vector spanning the desired viewing direction/normal of the facade $z'$.
-We calculated a rotation matrix from the axis-angle representation.\\
+This means the heading (z-axis) of the camera needs to be equivalent to the normal of the facade plane. 
+We calculate the rotation matrix $R$ between the camera's heading an the normal of
+the facade using an axis angle representation \cite{axisangle}.
+Next, $R$ is applied to the 3D point cloud resulting in a set of rectified 3D
+points that are grouped to their Hough lines.
 
-This presentation uses a unit vector $u$ indicating the direction of a directed axis, and an
-angle describing the magnitude of the rotation around this axis, see
-\ref{sec:axisAngle}.
-This axis is orthogonal to $z$ and $z'$ and can therefore be
-calculated by $u = cross(z,z')$ where cross defines the cross product of
-two vectors.
-The magnitude of the rotation $\alpha$ is equivalent to the angle $z$ between $z'$ given $u$. 
-E.g. if the images are taken from a(n almost) frontal view (the facade is almost rectified) $\alpha$ is low.
-$\alpha$ and $u$ are used to create a rotation matrix $R$ which is applied to the 3D point cloud.
-The result is a set of rectified 3D points that are grouped to their Hough lines.
+%This presentation uses a unit vector $u$ indicating the direction of a directed axis, and an
+%angle describing the magnitude of the rotation around this axis.
+%This axis is orthogonal to $z$ and $z'$ and can therefore be
+%calculated by $u = cross(z,z')$ where cross defines the cross product of
+%two vectors.
+%The magnitude of the rotation $\alpha$ is equivalent to the angle $z$ between $z'$ given $u$. 
+%E.g. if the images are taken from a(n almost) frontal view (the facade is almost rectified) $\alpha$ is low.
+%$\alpha$ and $u$ are used to create a rotation matrix $R$ which is applied to the 3D point cloud.
+
+%The result is a set of rectified 3D points that are grouped to their Hough lines.
 
 \subsubsection{Results} % facade rectification
 We show the result of two datasets, Anne1 and Dirk.
 Note that we also rectified the image pixels itself, this is only for
 the purpose of displaying the projected Hough lines in context.
 
+\newpage
 \fig{w_spil6ImOri.eps}{Dataset: Anne1, Original, (unrectified) image}{0.45}
 %\fig{w_Spil1TransCrop1_ImOri.eps}{Dataset: Anne1, Rectified image}{0.45}
-\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Dataset: Anne1, Projected Hough lines on rectified image}{0.35}
+\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Dataset: Anne1, (Projected) Hough lines on rectified image}{0.35}
 \clearpage
 
 \newpage
 \fig{w_Dirk4_ImOri_Unrectified.eps}{Dataset: Dirk, Original, (unrectified) image, }{0.45}
-\fig{w_Dirk4Trans_ImHoughResult.eps}{Dataset: Dirk, Projected Hough lines on rectified image}{0.45}
+\fig{w_Dirk4Trans_ImHoughResult.eps}{Dataset: Dirk, (Projected) Hough lines on rectified image}{0.45}
 
 
 
