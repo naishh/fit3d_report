@@ -298,41 +298,42 @@ the certainty of the sub window.\\
 \subsubsection{Introduction}
 In order to apply our second method of window detection (\ref{sec:method2}),
 we need the windows on the facade to be orthogonal and aligned.
-Therefore we rectify the facade, which can be achieved in a manual or in an automatic way.\\
+Therefore we rectify the facade, this can be achieved in a manual or in an automatic way.\\
 
-The simple rectification method uses point to point correspondences. This 
+The manual rectification method uses point to point correspondences. This 
 requires annotation of the corner points of the facade that are mapped with the
 corners of a rectangle. This mapping is used to calculate a transformation matrix. 
  The downside of this method is that it is not very accurate as it doesn't take
  the width and height ratio of the facade into account.
 It also does not take the camera lens distortion into account.
  Another downside is that it requires (manual) annotation of the corner points.
-A more accurate and fully automatic method is desired.\\
+As we want our rectification method to be accurate and fully automatic this
+method is not suitable.\\
 
-The second method involves the extraction of a 3D plane of the facade. This 
-method is more complex but gives more accurate results. It involves a
-comprehensive process and a large amount of research is done in this area. 
-Given the related work, and our focus on the annotational part of facade
-interpretation, we used existing software to apply the window rectification.
-I. Estebans \emph{FIT3D toolbox} \cite{Fit3d} comes with an add-on which extracts a 3D model from a
-series of frames.  The details of this process are explained in \ref{sec:prelimFit3d}.
+The second method involves the extraction of a 3D plane of the facade.  This
+method is more complex but gives more accurate results.  Extracting a 3D plane
+from a series of images is a comprehensive process and a large amount of
+research is done in this area.  As we want to focus on the annotational part of
+facade interpretation, we used existing software to assist our rectification.\\
 
-Using this add-on of the \emph{FIT3D toolbox} \cite{Fit3d} we calculated the motion between a
-series of frames in order to extract a point cloud of matching features. This
-point cloud is used to extract a plane for every wall.
+I. Estebans \emph{FIT3D toolbox} \cite{FIT3D} comes with an add-on which
+extracts a 3D model from a series of frames.  This add-on involves a process tha
+calculates the motion between a series of frames in order to extract a point
+cloud of matching features. This point cloud is used to extract a plane for
+every unique wall.  More details of this process are explained in
+(\ref{sec:prelimFIT3D}).
 
 % todo heel chapter facade rectification in preliminaries?
 
-\subsubsection{Efficient Projecting} 
-Now we have extracted the 3D plane of the facade, the next challenge is to use this
-in order to rectify the facade.\\
-
+\subsubsection{3D plane based rectification} 
+The next challenge is to use the extracted 3D plane in order to rectify the facade.
 It would be straight forward to rectify the full image. However this is
 computational very expensive as each pixel needs to be projected. To keep the
 computational cost to a minimum we project only the necessary data. Since we
 are using Hough lines we project only the coordinates of the endpoints of the found Hough lines. 
-This is allowed because the projective transformation we apply preserves the
-straightness of the lines. Note that this means we apply the edge detection and
+This is allowed because the projective transformation is we apply is a affine
+transformation which preserves the
+straightness of the lines \cite{linearalgebra}. Note that this means we apply the edge detection and
 Houghline extraction on the unrectified image.\\
 
 If $h$ is the number of Hough lines, the number of projections is $2h$.

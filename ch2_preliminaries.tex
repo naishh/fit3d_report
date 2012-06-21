@@ -3,7 +3,7 @@
 \label{sec:ch2}
 In this chapter we discuss the basic computer vision techniques that are used for
 the skyline detection, and window detection.  Furthermore we discuss 3rd
-party software, the \emph{FIT3D toolbox} \cite{Fit3d} which is used in 3D building extraction and facade rectification.
+party software, the \emph{FIT3D toolbox} \cite{FIT3D} which is used in 3D building extraction and facade rectification.
 
 \subsection{Hough transform}
 \label{sec:prelimHough}
@@ -158,7 +158,7 @@ of the camera.  These are focal length, pixel aspect ratio, and principal point.
 %todo explain principal point
 
 These parameters come together in a calibration matrix K.  The Floriande
-dataset (originated from the Fit3D toolbox \cite{Fit3d}) comes with a
+dataset (originated from the Fit3D toolbox \cite{FIT3D}) comes with a
 calibration matrix K.  For
 the other datasets we calculated K with the Bouguet toolbox
 \cite{bouguet}.
@@ -179,14 +179,14 @@ and the camera's headings. These are unique for every view.
 In some systems these are recorded by measuring the cameras position and
 headings at the scene. In other systems this is computed afterwards (from the
 images).  We calculated the values also afterwards and used existing software for
-this: \emph{FIT3D toolbox} \cite{Fit3d}, details of this process is
+this: \emph{FIT3D toolbox} \cite{FIT3D}, details of this process is
 explained next.
 
 
-\subsection{FIT3D toolbox \ref{fit3d}}
+\subsection{FIT3D toolbox \ref{FIT3D}}
 \label{sec:prelimFIT3D}
-%todo give fit3d a proper intro
-The \emph{FIT3D toolbox} \ref{fit3d} is used for several aims in this thesis.
+%todo give FIT3D a proper intro
+The \emph{FIT3D toolbox} \ref{FIT3D} is used for several aims in this thesis.
 It is used in the window detection module to rectify the facades.
 and the skyline detection used \emph{FIT3D} to extract a 3D model.
 
@@ -196,7 +196,7 @@ world coordinates, Next, the result is used to extract a point cloud of matching
 features. Finally this point cloud is converted to planes which correspond with the walls of the building.
 
 Because the toolbox plays an assisting role we explain the steps briefly.
-Detailed knowledge about the methods can be found in \ref{fit3d}.
+Detailed knowledge about the methods can be found in \ref{FIT3D}.
 
 %3D model reconstruction
 %	2d model reconstruction
@@ -205,9 +205,9 @@ Detailed knowledge about the methods can be found in \ref{fit3d}.
 building. The toolbox comes with a prepared dataset of 7 consecutive images (steady (zoom, lightning,
 etc.) parameters) of a scene.  \emph{FIT3D} doesn't require the input images to be
 chronological however they need to have sufficient overlap. 
-\fig{fit3dImgSequence.eps}{Example series of 7 consecutive frames, (dataset:
+\fig{FIT3DImgSequence.eps}{Example series of 7 consecutive frames, (dataset:
 \emph{FIT3D toolbox}\cite{FIT3D})}{0.3}
-%/media/Storage/scriptie/fit3d/generate3dModel/3dcFiles
+%/media/Storage/scriptie/FIT3D/generate3dModel/3dcFiles
 
 
 %todo explain what a camera coordinate is (homoge px coord)
@@ -243,10 +243,10 @@ The next step is to use this projection matrix $P$ to obtain a set of 3D points.
 These correspond to the matching SIFT features of the different views.  This
 is achieved using a \emph{linear triangulation} method. \\
 The result is an accurate 3D point cloud of the building, see Figure
-\ref{fig:fit3dImgSequence.eps}.
+\ref{fig:FIT3DImgSequence.eps}.
 Next a RANSAC based plane fitter is used to accurately fit planes through
-the 3D points, see Figure \ref{fig:fit3d_planes.eps}.\\
-\fig{fit3d_planes.eps}{Fitted planes}{0.45}
+the 3D points, see Figure \ref{fig:FIT3D_planes.eps}.\\
+\fig{FIT3D_planes.eps}{Fitted planes}{0.45}
 
 In this thesis the plane fitting step is skipped and a new method is
 used to obtain the 3D model. This is explained in \ref{sec:generate3dModel}.
