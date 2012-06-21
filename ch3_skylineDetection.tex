@@ -261,16 +261,11 @@ dataset \cite{FIT3D} can be seen in Figure \ref{fig:outputSkylineIm3-3.eps}.
 We show the effect of different thresholds of the edge detector on the
 \emph{Anne} dataset (Figure \ref{fig:outputSkylineSpil-Im1-thresh070.eps})
 and the 
-\emph{Bram} dataset (Figure \ref{fig:outputskylineSpil}). 
+\emph{Bram} dataset (Figure \ref{fig:outputSkylineSpil-Im13-thresh030.eps}). 
+\newpage
 \fig{outputSkylineIm3-3.eps}{The output of the skyline detector. The skyline elements are marked red.}{0.45}
-
-\clearpage
-\fig{outputSkylineSpil-Im1-thresh070.eps}{The output of the skyline detector with a too high threshold (0.70)}{0.3}
-\clearpage
-\figsSkyline{outputskylineSpil}{outputSkylineSpil-Im13-thresh030.eps}{outputSkylineSpil-Im13-thresh070.eps}{The
-skyline detector on two different thresholds}{Because of the hanging streetlight, a
-large part of the building is not detected. Threshold=0.3}{The desired part of
-the building is detected. Threshold=0.7}
+%\fig{outputSkylineSpil-Im1-thresh070.eps}{The output of the skyline detector with a too high threshold (0.70)}{0.3}
+\fig{outputSkylineSpil-Im13-thresh030.eps}{A scene which violates the top sharp edge assumtion. The hanging streetlight causes the detection of a sharp edge above the building. This results in a damaged skyline.}{0.3}
 \clearpage
 
 \subsection{Discussion}  % (What do my results mean to me and why)
@@ -278,23 +273,15 @@ Consider Figure \ref{fig:outputSkylineIm3-3.eps}, the largest part of the
 building edge is detected. This is a good result, given the algorithm
 operates without any user interaction.\\
 
-Some parts of the skyline are located on a streetlight or a tree. This is
-because the system assumes that the first sharp edge (seen from top to bottom)
-is always the skyline. Other sharp edged objects that appear above the
-building, for example an aircraft, will also produce outliers. This is a
-disadvantage of the column based approach.\\
-
-As every object above the building can produce an outlier, a solution is
-desirable. One solution of this problem is to increase the threshold, this is shown in Figure \ref{fig:outputskylineSpil}.
-In this way even sharp edges above the building contour won't be part of the
-skyline. However, this comes with a risk: a too large threshold can discard the
-skyline itself. To show this we used the increased threshold of the \emph{Bram} dataset
-and applied it to the \emph{Anne} dataset, Figure
-\ref{fig:outputSkylineSpil-Im1-thresh070.eps}.\\
-
-We decided to keep the threshold low and, as this outlier removal process is the
-part where we can add some artificial intelligence, we developed a separate
-module for the outlier detection.
+We assumed that the first sharp edge (seen from top to bottom) in the image 
+represents the skyline. We showed in Figure \ref{outputSkylineSpil-Im13-thresh030.eps}
+that the first sharp edge is not always the skyline.
+This holdso for more scenes: e.g. Amsterdam is full of
+hanging streetlights.  Furthermore, other sharp edged objects that appear above
+the building, e.g. an tree or aircraft, will also produce a scene that is not valid according the top sharp
+edge assumption.  Therefore it would be nice to relax or discard the first sharp edge assumption.
+This implies that we have to extend the column based approach. This is described in Future research
+(\ref{sec:skylinefut}).
 
 \subsection{Conclusion}
 Let's answer our research question.
@@ -303,7 +290,7 @@ Can we build a skyline algorithm that operates without any user interaction, is
 simple, is fast, and yet accurate enough to provide a solid skyline that can be
 used to estimate wall heights?\\
 
-Beside some scene dependent parameters like the threshold of the skyline the
+Beside some scene dependent parameters (like the threshold of the skyline) the
 system works without any user interaction. No manual refinement step is needed
 because the algorithm is robust and accurate enough to provide a base for the
 next module in the system. Furthermore the algorithm is simple and has a low
@@ -314,6 +301,7 @@ and it can be optimized individually without any knowledge of the other modules
 of the project.  Some ideas for future research are shared next.
 
 \subsection{Future research}
+\label{sec:skylinefut}
 \subsubsection{Automatic thresholding}
 As the threshold is manual and scene dependent, a method for automatic
 thresholding is desired. There are many studies on this topic, most of the
@@ -321,10 +309,39 @@ methods are based on the statistical analysis of the image. Detailed literature
 research needs to be done and an implementation must be made to provides a value
 for the threshold. If this is done the system would be 100\% automatic.
 
-\subsubsection{Advanced skyline detection}
-Although the outlier removal procedure is done in a separate module, it would be
-interesting to develop a skyline detector which is more robust to
-outliers. 
+\subsubsection{Hypothesis based skyline detection}
+%todo
+%-----
+situtaion 
+the first top sharp edge 
+in Figure \ref{outputSkylineSpil-Im13-thresh030.eps}
+is not the skyline but a hanging streetlamb.
+If we take a look at the edge image in Figure
+%todo edge image!
+we observe that the skyline is the second
+%todo realy?
+sharp edge.
+Let's relax the first top sharp assumption to an assumption where the skyline is
+part of the first $n$ sharp edges (seen from top) with for example $n=3$.
+Now the scene doesn't violate the assumption.
+The column based approach is now used to generate $n$ hypotheses and we can build
+an algorithm on top of that to classify the right sharp edge as skyline.
+
+The hypothesis classifier could be based on color or height variation.
+
+One could extract the color distribution of the color in a certain area above
+A and under U the skyline. 
+A and U should 1) have a significant difference (as it is building and sky) 
+and 2) should not vary much from close skyline points.
+
+For example the first sharp edge at the streetlamp has about the same color distribution
+above and under the skyline and differs from its close skyline points.
+Therefore it will not be classified as a valid skyline.
+
+height variation.
+
+
+
 If we take a look at the related work we observe that most work is based on
 detecting parts that are classified as sky and parts that are classified as
 ground. The idea of detecting the sky and ground could be replaced by detecting

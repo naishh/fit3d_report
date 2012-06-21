@@ -10,7 +10,6 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 ---------------------------------------------------------------------------------
-	overal research q's?
 
 ---------------------------------------------------------------------------------
 todos staan op 2 plekken!
@@ -39,6 +38,7 @@ algemeene todo's
 	remove and solve DRAFTNote
 	update fig counter after fig 10 to fig 11 (nu 2x fig 10!)
 	table result window detection goede opmaak
+	overal research q's?
 
 
 ---------------------------------------------------------------------------------
