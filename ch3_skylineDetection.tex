@@ -249,23 +249,29 @@ Name 	& Resolution 	& Source	& Location\\
 \hline
 Floriande & 1728x1152px  & FIT3D \cite{FIT3D}  	& Unknown\\
 \hline
-Bram	 & 3072x2304px  & Author					& Amsterdam, 'Postjesweg'\\
+Bram	 & 3072x2304px  & Author					& Amsterdam, 'Postjesweg' west side\\
 \hline
-Anne	& 3072x2304px  & Author					& Amsterdam, 'Van Spilbergenstraat'\\
+Folkert  & 3072x2304px  & Author					& Amsterdam, 'Postjesweg' east side\\
+%\hline
+%Anne	& 3072x2304px  & Author					& Amsterdam, 'Van Spilbergenstraat'\\
 \hline
 \end{tabular}
 \end{table}
 
-The output of the skyline detector on the \emph{Floriande}
-dataset \cite{FIT3D} can be seen in Figure \ref{fig:outputSkylineIm3-3.eps}.
-We show the effect of different thresholds of the edge detector on the
-\emph{Anne} dataset (Figure \ref{fig:outputSkylineSpil-Im1-thresh070.eps})
-and the 
-\emph{Bram} dataset (Figure \ref{fig:outputSkylineSpil-Im13-thresh030.eps}). 
+% The output of the skyline detector on the \emph{Floriande}
+% dataset \cite{FIT3D} can be seen in Figure \ref{fig:outputSkylineIm3-3.eps}.
+% %todo weg:
+% We show the effect of different thresholds of the edge detector on the
+% \emph{Anne} dataset (Figure \ref{fig:outputSkylineSpil-Im1-thresh070.eps})
+% and the 
+% \emph{Bram} dataset (Figure \ref{fig:outputSkylineSpil-Im13-thresh030.eps}). 
 \newpage
-\fig{outputSkylineIm3-3.eps}{The output of the skyline detector. The skyline elements are marked red.}{0.45}
+\fig{outputSkylineIm3-3.eps}{The output of the skyline detector on the \emph{Floriande} dataset. The skyline elements are marked red.}{0.45}
+\fig{outputSkylineSpil-Im29.eps}{The output of the skyline detector on the \emph{Bram} dataset. The skyline elements are marked red.}{0.3}
+
+
 %\fig{outputSkylineSpil-Im1-thresh070.eps}{The output of the skyline detector with a too high threshold (0.70)}{0.3}
-\fig{outputSkylineSpil-Im13-thresh030.eps}{A scene which violates the top sharp edge assumtion. The hanging streetlight causes the detection of a sharp edge above the building. This results in a damaged skyline.}{0.3}
+\fig{outputSkylineSpil-Im13-thresh030.eps}{The output of the skyline detector on the \emph{Folkert} dataset: a scene which violates the top sharp edge assumtion. The hanging streetlight causes the detection of a sharp edge above the building. This results in a damaged skyline.}{0.3}
 \clearpage
 
 \subsection{Discussion}  % (What do my results mean to me and why)
@@ -340,6 +346,9 @@ Therefore it will not be classified as a valid skyline.
 
 height variation.
 
+\fig{folkert_edgeHypothesis.eps}{Three top sharp edges of the \emph{Folkert}
+dataset are highlited. For the highlited position the skyline happens to be the
+3rd top sharp edge.}{0.4}
 
 
 If we take a look at the related work we observe that most work is based on
