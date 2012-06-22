@@ -10,6 +10,8 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 ---------------------------------------------------------------------------------
+p33 fdrans feedback
+ben nu bezig met linker onder
 
 ---------------------------------------------------------------------------------
 todos staan op 2 plekken!
@@ -20,10 +22,8 @@ todos staan op 2 plekken!
 ---------------------------------------------------------------------------------
 feedback frans
 	grote punten
-		skyline remove threshold check text everywhere 
-		X write future research hypothesis style
-
-		conclusion
+		intro
+		wrapup conclusions
 		belangrijke zaken van bestaande todos in mijn bestanden
 
 ---------------------------------------------------------------------------------
@@ -35,8 +35,6 @@ algemeene todo's
 		thesis opdragen in Anne, is dat raar? 
 		afkijken bart en folkert
 	check if research q is in every chapter ( window detection?)
-	anne moet nog ch. improve 3d model nakijken
-	openstreetmap ref in bibtex
 	remove and solve DRAFTNote
 	update fig counter after fig 10 to fig 11 (nu 2x fig 10!)
 	table result window detection goede opmaak
