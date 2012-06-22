@@ -20,7 +20,7 @@ party software, the \emph{FIT3D toolbox} \cite{FIT3D} which is used in 3D buildi
 	to a point $(b,m)$ in parameter space.
 	With this representation it is impossible to describe a vertical line as 
 	the slope $m$ is infinite.
-	Therefore it is better to use a different pair of parameters, denoted $r$ and $\theta$ .  These are the Polar Coordinates.
+	Therefore it is better to use a different set of parameters, denoted $r$ and $\theta$ .  These are the Polar Coordinates.
 
 	The parameter $r$ represents the distance between the origin and the line  and $\theta$ is the angle of the vector orthogonal to the line.
 	Using this parameterization, the equation of the line can be written as
@@ -29,8 +29,9 @@ party software, the \emph{FIT3D toolbox} \cite{FIT3D} which is used in 3D buildi
 
 	\[r = x \cos \theta+y\sin \theta \]
 	
-	This means that a straight line in $(x,y)$ space appears as a sinusoidal
-	curve in the Hough parameter $(r,\theta)$ space.  Let's see an example, the
+	This means that a point in $(x,y)$ space appears as a sinusoidal
+	curve in the Hough parameter $(r,\theta)$ space.  Furthermore a line in
+	$(x,y)$ space appears as a point in $(r,\theta)$ space. Let's see an example, the
 	following image is transformed into the space $(r,\theta)$.
 	
 	%todo introduce the accumulator array,
@@ -44,10 +45,10 @@ party software, the \emph{FIT3D toolbox} \cite{FIT3D} which is used in 3D buildi
 	 a curve is generated in $(r,\theta)$ space in Figure 
 \ref{fig:HoughTransform_peaks1.eps}.
 	 On eight positions (white dots) the number of intersecting sinusoidal
-	 curves is high, these position correspond to the eight separate straight
+	 curves is high. These position correspond to the eight separate straight
 	 line segments in Figure \ref{fig:HoughTransform_edge.eps} .
 	
-	This makes the problem of detecting straight lines in finding peaks in the 
+	This simplifies the problem of detecting straight lines in finding peaks in the 
 	Hough parameter $(r,\theta)$ space.
 
 \subsubsection{Implementation}
@@ -83,13 +84,14 @@ because the user hardly ever holds the camera exactly orthogonal.
 \subsubsection{Matlab parameters}
 We used a standard Matlab implementation of the Hough transform for straight lines.  This implementation comes with some interesting parameters:\\
 
-	The \emph{minimum length} parameter specifies the minimum length that a line must have to be valid. This is especially interesting if we want to detect a large straight skyline or if we want to discard lines that are to small to form for example a window.\\
+	The \emph{MinimumLength} parameter specifies the minimum length that a line must have to be valid. This is especially interesting if we want to detect a large straight skyline or if we want to discard lines that are to small to form for example a window.\\
 
 	Furthermore it contains the parameter \emph{FillGap} that specifies the distance
 	between two line segments associated with the same $(r, \theta)$ pair.
 	When this inter line segment distance is less then the \emph{FillGap} parameter, it merges the line segments into a single line segment. In our application this parameter is of particular interest when we want to merge lines that are interrupted by for example an occluding tree or street lamp.\\
 
 
+% not needed:
 % \subsubsection{Other shapes}
 % The Hough transform is not bound to finding straight lines. In fact it could be
 % applied to any space which can be represented by a set of parameters.  For
