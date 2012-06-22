@@ -3,12 +3,12 @@
 \section{Skyline detection}
 \label{sec:skylinedetection}
  \subsection{Introduction}
-If we take a regular image on which both sky and earth are present, there
+If we take a regular image on which both sky and environment are present, there
 is often a clear separation between them. This separation is called the
 skyline. %oehhhhhhh  dat is echt masterlijk ouwe
 The detection of this skyline has proven to be a very successful computer vision
-application in a wide range of domains ranging from object detection, 
-guiding micro air vehicles, car localization, etc. 
+application in a wide range of domains ranging from object detection\cite{Dust}, 
+guiding micro air vehicles\cite{Guidedflight}, car localization, etc. 
 
 In this research skyline detection is applied on different views of a scene to
 estimate heights of facades of a 3D model. This is a novel application for
@@ -22,20 +22,6 @@ and, finally, conclusions are given.
 \subsection{Related work}
 Castano et al. \cite{Dust} present a clear introduction of different skyline
 detection techniques. 
-
-\paragraph{Detection of dust devils and clouds on Mars}
-In \cite{Dust}, mars Exploration Rovers are used to detect clouds and dust devils on Mars.
-Their approach is to first identify the sky and then determine if there are
-clouds in the region segmented as sky. The sky is detected by an innovative
-algorithm that consists of three steps. First they place seeds in a sliding
-window whenever the homogeneity of the window is high. Then they grow this seeds
-in the direction of edges which are estimated using a Sobel edge detector.
-Finally each pixel located above the grew seeds is classified as sky.\\
-
-This seed growing method looks like the a very sophisticated one, as it is
-accurate and autonomous. However, in our research we have a stable scene with
-sharp edges at the building contour so this method would be an implementation
-overkill. 
 
 
 \paragraph{Horizon detection for Unmanned Air Vehicles}
@@ -68,6 +54,23 @@ they prefer speed over accuracy. To increase accuracy, the detector is part
 of an interactive system where an operator refines the skyline. For our
 application the skyline detector must operate without any user interaction.
 This brings us to our research question.
+
+
+\paragraph{Detection of dust devils and clouds on Mars}
+In \cite{Dust}, mars Exploration Rovers are used to detect clouds and dust devils on Mars.
+Their approach is to first segment the sky from the ground and then determine if there are clouds in this region. The sky is detected by an innovative
+algorithm that is similar to the one of Cozman et al. \cite{Rover}. 
+This time the variation in intensity is used to discriminate the sky from the ground.
+The algorithm uses a sliding window that slides from top to bottom. If looks for
+an location where the intensity variation is high. This location is classified as a
+skyline point. The sky is segmented by taking the area above these skyline
+points. Next, this segmented sky is used for the detection of clouds and dust
+devils.\\
+
+This method like a very sophisticated one, as it is accurate and autonomous.
+However, in our research we have a stable scene with sharp edges at the building
+contour so this method would be an implementation overkill. \\
+
 
 \subsection{Method}
 \paragraph{Research question}
@@ -282,12 +285,12 @@ operates without any user interaction.\\
 We assumed that the first sharp edge (seen from top to bottom) in the image 
 represents the skyline. We showed in Figure \ref{fig:outputSkylineSpil-Im13-thresh030.eps}
 that the first sharp edge is not always the skyline.
-This holdso for more scenes: e.g. Amsterdam is full of
-hanging streetlights.  Furthermore, other sharp edged objects that appear above
-the building, e.g. an tree or aircraft, will also produce a scene that is not valid according the top sharp
-edge assumption.  Therefore it would be nice to relax or discard the first sharp edge assumption.
-This implies that we have to extend the column based approach. This is described in Future research
-(\ref{sec:skylinefut}).
+This holds for more scenes: e.g. Amsterdam contains a large amount of
+hanging street lights.  Furthermore, other sharp edged objects that appear above
+the building, e.g. tree's or even an aircraft, will also produce a scene that
+violates the top sharp edge assumption.  Therefore it would be nice to relax the or discard the first sharp edge assumption.
+This implies that we have to extend the column based approach which is done
+theoretically and described in Future research (\ref{sec:skylinefut}).
 
 \subsection{Conclusion}
 Let's answer our research question.
@@ -303,24 +306,23 @@ complexity.
 
 It is interesting to point out that the skyline detector is a stand alone method
 and it can be optimized individually without any knowledge of the other modules
-of the project.  Some ideas for future research are shared next.
+of this project.  Some ideas for future research are shared next.
 
 \subsection{Future research}
 \label{sec:skylinefut}
 \subsubsection{Automatic thresholding}
-As the threshold is manual and scene dependent, a method for automatic
-thresholding is desired. There are many studies on this topic, most of the
+As the threshold that decides wheter an edge is strong enough to represent the
+skyline is manual and scene dependent. Therefore a method for automatic
+thresholding is desired. There exist many studies on this topic, most of the
 methods are based on the statistical analysis of the image. Detailed literature
 research needs to be done and an implementation must be made to provides a value
-for the threshold. If this is done the system would be 100\% automatic.
+for the threshold. If this is done the system will operate 100\% automatic.
 
 \subsubsection{Hypothesis based skyline detection}
 \fig{folkert_edgeHypothesis.eps}{Three top sharp edges of the \emph{Folkert}
 dataset are highlited. For the highlited position the skyline happens to be the
 3rd top sharp edge.}{0.4}
 
-%todo
-%-----
 The first top sharp edge in Figure \ref{fig:outputSkylineSpil-Im13-thresh030.eps}
 is on a large area a hanging street light instead of the skyline.
 If we take a look at the edge image in Figure
@@ -379,7 +381,6 @@ detector using hypothesis based on color}{0.35}
 \clearpage
 
 \paragraph{Height variation based skyline classification}
-%todo
 Let's zoom in to an image of the \emph{Florande} dataset, see Figure \ref{fig:outputSkylineIm3-3-zoom.eps}.
 We observe that many outlying skyline points are located at the tree.  The algorithm based on the
 first $n$ sharp edges wouldn't be robust because the tree produces a too large
