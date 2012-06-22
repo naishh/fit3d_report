@@ -52,7 +52,7 @@ best separates the two distributions is determined to be the skyline.\\
 
 This work is not applicable for detecting a building contour as the straight
 line assumption doesn't work. But it needs to be mentioned that some ideas for
-section \ref{extractinglinesegments} are inspired by this method.
+section \ref{fig:extractinglinesegments} are inspired by this method.
 
 \paragraph{Planetary Rover localization}
 Cozman et al. \cite{Rover} use skyline detection in planetary rovers to estimate 
@@ -280,7 +280,7 @@ building edge is detected. This is a good result, given the algorithm
 operates without any user interaction.\\
 
 We assumed that the first sharp edge (seen from top to bottom) in the image 
-represents the skyline. We showed in Figure \ref{outputSkylineSpil-Im13-thresh030.eps}
+represents the skyline. We showed in Figure \ref{fig:outputSkylineSpil-Im13-thresh030.eps}
 that the first sharp edge is not always the skyline.
 This holdso for more scenes: e.g. Amsterdam is full of
 hanging streetlights.  Furthermore, other sharp edged objects that appear above
@@ -291,10 +291,9 @@ This implies that we have to extend the column based approach. This is described
 
 \subsection{Conclusion}
 Let's answer our research question.
-\paragraph{Research question}
-Can we build a skyline algorithm that operates without any user interaction, is
+\emph{Can we build a skyline algorithm that operates without any user interaction, is
 simple, is fast, and yet accurate enough to provide a solid skyline that can be
-used to estimate wall heights?\\
+used to estimate wall heights?}\\
 
 Beside some scene dependent parameters (like the threshold of the skyline) the
 system works without any user interaction. No manual refinement step is needed
@@ -322,76 +321,94 @@ dataset are highlited. For the highlited position the skyline happens to be the
 
 %todo
 %-----
-The first top sharp edge in Figure \ref{outputSkylineSpil-Im13-thresh030.eps}
-is on a large area a hanging streetlamb instead of the skyline.
-If we take a look at the edge image in Figure \ref{folkert_edgeHypothesis.eps}
-we observe that the skyline in this area is the second or third
+The first top sharp edge in Figure \ref{fig:outputSkylineSpil-Im13-thresh030.eps}
+is on a large area a hanging street light instead of the skyline.
+If we take a look at the edge image in Figure
+\ref{fig:folkert_edgeHypothesis.eps} we observe that the skyline in this area is the second or third
 sharp edge.
 Let's relax the first top sharp assumption to an assumption where the skyline is
 part of the first $n$ sharp edges (seen from top) with for example $n=3$.
-The scene in Figure \ref{outputSkylineSpil-Im13-thresh030.eps} now agrees with
+The scene in Figure \ref{fig:outputSkylineSpil-Im13-thresh030.eps} now agrees with
 this assumption.\\
 The next challenge is to do detect the skyline properly on the entire image.
-The column based approach could be used to generate $n$ hypotheses and we can build
-an algorithm on top of that to classify which edge presents the skyline.
+The existing column based approach could be used to generate $n$ hypotheses and we can build
+an algorithm on top of that to classify which hypothesis is right (i.e. which edge
+presents the skyline).
 
-The hypothesis classifier could be based on color or height variation.
+The hypothesis classifier must gather additional information. We could
+discriminate the hypthesis for example by texture, colordistributions or height
+variation. We discuss the last two.
 
 \paragraph{Color based skyline classification}
 The buildings color differs from the sky color. Furthermore,
 as a function of the horizontal location (x-axis), the color in both sky and
-building only changes slightly.\\
+building only changes slowly.\\
+
 One could extract the color distribution of the color in a certain area above
-and under the skyline, let's call these A and U. 
+and under the skyline, let's call these A and U. \\
 A and U should 1) have a significant difference (local) and 2) they should not vary much from 
-the color distributions of other skyline ponits (global).
-The global color distribution could be calculated by taking the mean of the color
-distributions at previously detected skyline points in the same scene.
-Both conditions (local and global) could have a weight 
-which would be a parameter of the system.\\
+other positively classified skyline points (global).\\
+
+The global color distribution could be calculated by taking the mean of the
+color distributions at previously detected skyline points.  Both conditions
+(local and global) could have a weight which would be a parameter of the
+system.\\
 
 Let's test this conceptual algorithm on the scene in Figure
-\ref{outputSkylineSpil-Im13-thresh030.eps}.
-We initialize the algorithm at an interesting location which is highlited in the
-figure.  The first (top) highlited sharp edge doesn't have a large local difference in color distribution
-above and under the skyline. And because no global color distribution is stored yet
-the algorithm takes the next edge. For this edge the same holds.
-The third edge has a large local color difference therefore we classify it as
-a skyline point. We store his colordistribution as the global color
-distribution. Next the algorithm takes for example one x location to the right.
-It will again agree on the third edge on the same terms with the additional evidence that the
-first and second edge differ to much from the global stored color distribution. 
+\ref{fig:outputSkylineSpil-Im13-thresh030.eps}.  We initialize the algorithm at
+an interesting location which is highlited in the figure.\\
+The first (top) highlited sharp edge doesn't have a large local difference in color distribution
+above and under the skyline. The color above and under the position are mostly
+white. Because the first condition fails and the second condition can't be
+checked as no global color distribution is stored yet, the algorithm continues
+with the next edge.\\
+For this edge the same holds.
+The third edge, however, succeeds because it has a large local color difference.
+Therefore the algorithm classify it as a skyline point.
+Furthermore it stores his color distribution to compair following skyline points.
+Next the algorithm takes for example one x
+location to the right.  It will again agree on the third edge on the same terms.
+This time it rejected the outliers (first and second edge) with additional
+because their color distributions differ to much from the color
+distribution of the previously detected skyline point.\\
+
+The expected output of the skyline detector using hypothesis based on color is
+displayed in Figure \ref{fig:outputSkylineSpil-Im13-thresh070.eps}). 
+\fig{outputSkylineSpil-Im13-thresh070.eps}{The expected output of the skyline
+detector using hypothesis based on color}{0.35}
+\clearpage
 
 \paragraph{Height variation based skyline classification}
-height variation.
+%todo
+Let's zoom in to an image of the \emph{Florande} dataset, see Figure \ref{fig:outputSkylineIm3-3-zoom.eps}.
+We observe that many outlying skyline points are located at the tree.  The algorithm based on the
+first $n$ sharp edges wouldn't be robust because the tree produces a too large
+amount of edges. Therefore an alternative classification is desired.\\
+
+The skyline points on the tree have a large height variation in common.
+This could be used to isolate this area from the skyline.
+
+Once areas that have a large variation of height are discarded we could connect
+the positive classified skyline parts to fill the gap, see Figure
+\ref{fig:outputSkylineIm3-3-zoom-con.eps}.\\
+
+Note that we used height variation instead of height difference for a reason.  A
+large height difference with a neighboring skyline point is allowed because the
+building contour may contains large steps in height (e.g. at the left side of
+Figure \ref{fig:outputSkylineIm3-3-zoom.eps} the skyline suddenly drops in
+height).\\
+
+We showed some examples of simple classifiers. Note that there is no limitation
+to the approach of the classifier because it can be developed individually using
+the existing column based method as its hypothesis generator.
+
+\newpage
 \fig{outputSkylineIm3-3-zoom.eps}{Zoomed image of the \emph{Floriande} dataset.
 The height variation is large on the tree area.}{1}
-%todo
-
-
-The expected output of the hypothesis based skyline detector is showed in Figure \ref{fig:outputSkylineSpil-Im13-thresh070.eps}). 
-
-\fig{outputSkylineSpil-Im13-thresh070.eps}{The expected output of the hypothesis based skyline detector}{0.35}
-
-
-
-
-
-
-%todo
-If we take a look at the related work we observe that most work is based on
-detecting parts that are classified as sky and parts that are classified as
-ground. The idea of detecting the sky and ground could be replaced by detecting
-the sky and the building. We could use color to discriminate the building from
-the sky. Different color models could be used (HSV, normalized RGB, etc.).
-Because the buildings exists of repeating bricks, texture would also be a good
-discriminator. We could apply the existing column based approach by using the
-highest pixel (for every column) that is classified as a building pixel.\\
-
-The results could be refined by applying detailed edge detection in the region of
-the estimated skyline. In this way the outliers (e.g. the streetlight and the
-tree) could be detected, no secondary outlier removal procedure is needed and
-the skyline detector would be very robust.
+\fig{outputSkylineIm3-3-zoom-con.eps}{The green lines connects the positively
+classified skyline parts at isolated areas where the height variation is too
+high}{1}
+\clearpage
 
 
 

@@ -20,7 +20,9 @@ todos staan op 2 plekken!
 ---------------------------------------------------------------------------------
 feedback frans
 	grote punten
-		skyline remove threshold and write future research hypothesis style
+		skyline remove threshold check text everywhere 
+		X write future research hypothesis style
+
 		conclusion
 		belangrijke zaken van bestaande todos in mijn bestanden
 
