@@ -13,6 +13,8 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 p33 fdrans feedback
 ben nu bezig met linker onder
 
+zwart wit plaatjes invertern
+
 ---------------------------------------------------------------------------------
 todos staan op 2 plekken!
 	in thesis aant
@@ -24,6 +26,7 @@ feedback frans
 	grote punten
 		intro
 		wrapup conclusions
+		verschillende verdiepingen bij de window classification uitlegggen
 		belangrijke zaken van bestaande todos in mijn bestanden
 
 ---------------------------------------------------------------------------------

@@ -272,6 +272,7 @@ be seen in Figure \ref{fig:3dModel}.
 
 
 \subsubsection{Associating line segments with building walls}
+\label{sec:linewallass}
 %todo I miss an important issue here, namely that I assume every wall to appear
 %in equal size but this is not the fact, e.g. a projection of the same line on a
 %different wall, that stands further away from the cc will appear bigger
@@ -457,47 +458,60 @@ segment is classified as the most likely wall for that line segment.
 	\paragraph{Line-wall overlap normalization}
 	Finally the line-wall overlap is normalized by the line segments length:\\
 	\begin{equation}
-		lwo' =  \frac{lwo}{|l|} lwo
+		lwo' =  \frac{lwo}{|l|}
 	\end{equation}
-	Where $lwo'$ is the optimized line-wall overlap, $lwo$ is the length of
-	the trimmed line segment, and ($|l|$) is the total length of the line.\\
+	Where $lwo'$ is the normalized line-wall overlap, $lwo$ is the length of
+	the trimmed line segment, and $|l|$ is the total length of the line.\\
 	The intuition behind this is that line segments that are likely to
 	present a wall not only have a large overlap but also have a small part
 	that has no overlap, the missing overlap should have a negative effect. By
 	calculating the relative overlap $\frac{lwo}{|l|}$, both amounts of overlap and -missing
 	overlap are taken into account.\\
-	This value is multiplied by its overlap length $lwo$ to ensure that large
-	lines outperform noisy small line segments that happen to have a large
-	relative overlap.
 
-	The maximum of the normalized line-wall overlap is used to associate a
-	line segment with its most likely wall.
-	To summarize, the overlap type is defined by calculating the numbers of in
+	Normalizing the line-wall overlap on the line length implies that the length
+	of the line does not have influence anymore.  This can be seen as a
+	disadvantage because small (noisy) line segments with 100\% overlap will
+	outperform large robust lines with little overlap.  This problem is solved
+	by discarding all line segments smaller than a \emph{MinimumLength} value.
+	This is done in an early stage at the Hough transform module. \\
+
+	Next the normalized line-wall overlap is used to search for the correct
+	line-wall association. This is achieved by associating a line segment with
+	the wall that has the largest line-wall overlap.\\
+
+	To summarize, the overlap type is determined by calculating the numbers of in
 	polygon points and evaluating two dot products. Next the line segment is cut off
-	depending on the overlap type and the line is normalized. \\
-	
-	Now we have determined the normalized line-wall overlap, we use this to
-	search for the correct line-wall association. This is achieved by
-	associating a line segment with the wall that has the largest line-wall
-	overlap.\\
+	depending on the overlap type and the line is normalized. 
+	The wall where the line segment scores the maximum $lwo'$ value is
+	associated with this line segment's most likely wall.  \\
+
 
 \subsubsection{Improving the 3D model by wall height estimation}
 	In the previous section we associated the line segments with their most
 	likely wall. In this section this information is used to estimate the
 	heights of the walls of the 3D model. \\
-	Now all line segments are associated with a certain wall, we re-project the
-	line segment from the different views on their associated wall. The
-	re-projection is done by intersecting both endpoints of the line segment to
-	the plane that is spanned by the associated wall.\\
-	Next the y-value of the 3D intersection points are collected and averaged. 
-	We do this for every wall separately, returning the average height of the line segments.
-	These averages are then used as the new heights of the walls of the
-	building.  Note that this is only permitted in presence of the \emph{flat roof assumption}.\\
+
+	Every different view of the building produced a collection of lines that are
+	associated with a certain wall. For example if we consider 4 views and for
+	wall $W$ the views have respectively 2,4,4,1 lines that are associated with
+	$W$, we have a total of 11 line segments for wall $W$.\\
+
+	Next we re-project the line segment from the different views on their
+	associated walls.  The re-projection is done as explained in
+	(\ref{linewallass}) by intersecting both endpoints
+	of the line segment to the plane that is spanned by the associated wall.\\
+
+	Next the average height of the projected line segments is calculated for
+	each wall. This is done by taking collecting and averaging the y-value of
+	the 3D intersection points of the corresponding wall.  These averages are
+	then used as the new heights of the walls of the building.  Note that this
+	is only permitted in presence of the \emph{flat roof assumption}.\\
+
 	The new individual heights are applied to the 3D model by adjusting the
-	location of the existing upper corner points of the walls. We copy the
-	bottom left and right corner points and add the estimated height from the
-	previous section to its y-value. The y-value is the direction of the
-	gravity which is permitted by the \emph{Gravity aligned walls assumption}.
+	height of the existing upper corner points of the walls. We copy the bottom
+	left and right corner points and add the estimated height from the previous
+	section to its y-value. The y-value is the direction of the gravity which is
+	obtained through the \emph{Gravity aligned walls assumption}.
 
 \newpage
 \subsection{Results}
@@ -506,34 +520,33 @@ segment is classified as the most likely wall for that line segment.
 skyline detector match the building walls}{0.4}
 \fig{outputHoughlines3d}{Houghlines projected on the most likely wall}{0.5}
 \clearpage
+\fig{floriande_back.eps}{The walls of the building differ in height}{0.3}
 \fig{outputMutateBuilding}{Improved 3D model}{0.6}
-Figure \ref{fig:outputHoughlines2d} shows the top 3 longest Houghlines. The
-endpoints are denoted with a black and blue cross. All three line segments lie on the
+
+Figure \ref{fig:outputHoughlines2d} shows the top 3 longest Houghlines of a
+single view. The endpoints are denoted with a black and blue cross. All three line segments lie on the
 building contour.  The left line segment covers only a part of the building wall. The
 middle line segment covers the full wall contour. The left and middle line segment are connected. The
-right line segment covers the wall until the tree occludes.\\
+right line segment covers the wall until the occluding tree.\\
 
-Figure \ref{fig:outputHoughlines3d} 
- displays the line segments projected onto their associated walls.
-Note that the line segments are originated from different views. 
+Figure \ref{fig:outputHoughlines3d} displays the line segments (collected from
+Figure \ref{fig:outputHoughlines2d} and 6 other views) projected onto their associated walls.
+For a clear illustration we selected just three walls and plotted their associated
+lines.  For each view a different red cross is drawn at the average middle. The
+red crosses illustrate the calculated average height.\\
 %FIT3D plaatje sequence
  
-For a clear view we have only selected the lines that were associated with three
-specific walls of the building of Figure \ref{fig:outputHoughlines2d}.  
-For each different view we draw a red cross that represents the average middle
-point for that view for each wall, some crosses overlap.\\
-
-Figure \ref{fig:outputMutateBuilding} 
-displays the updated 3D model. The
-corner points of the walls are adjusted according the calculated wall heights.
-The green plane displays the modified wall. The left and middle wall are extended
+Figure \ref{fig:outputMutateBuilding} displays the updated 3D model. The corner
+points of the walls are adjusted according the calculated wall heights.  The
+green plane displays the modified wall. The left and middle wall are extended
 whereas the right wall is shortened.\\
 
 
 \subsection{Discussion}
 %todo positief lullen over resultaat
 As can be seen in Figure \ref{fig:outputHoughlines2d}, 
-the top three Houghlines correspond the the three most prominent building walls
+the top three Houghlines correspond to the three most prominent building walls.
+
 What also can be seen is that the left line segment doesn't cover the whole
 building wall. This is caused by the use of strict parameters in the Hough transform
 (like a small line thickness parameter).  If some ascending skyline pixels fall just outside
@@ -542,6 +555,14 @@ This is however not a big problem because the lines are long enough to produce a
 good wall height estimate. Furthermore there are 5 other lines
 (originated from different views) that support the estimate for this wall.
 
+The different red crosses in Figure \ref{fig:outputHoughlines3d} which illustrate the average height per view 
+agree in height. This means the camera calibration, edge detection and Houghline
+extraction where accurately processed. \\
+
+Although the building appears to have similar building heights the middle part
+of the building has a lower height, see Figure \ref{floriande_back.eps}.
+This is supported by the updated 3D model in Figure
+\ref{fig:outputMutateBuilding}.
 
 
 
@@ -552,13 +573,15 @@ Let's answer our research question.
 Is it possible to use a set of (noisy) skyline points together with an aerial
 2D model and a 3D pointcloud obtained by \emph{FIT3D toolbox\cite{FIT3D}} to generate a 3D model of the building?
 
-Yes this is possible, we showed that a Houghline transform is a useful method to detect
-skyline outliers and find prominent structure in the contour of a building with a flat
-roof. We introduced a method to pair up line segments with their associated
+Yes this is possible, we showed that a Houghline transform is a useful method to
+discard skyline outliers and find prominent structure in the contour of a
+building with a flat roof. We introduced a method to extract a 2D model of a
+building from \emph{Openstreetmap\cite{Openstreetmap}} and aligned it to the
+scene using the \emph{FIT3D toolbox\cite{FIT3D}} Next, we extracted the skyline
+and transformed this to Houghlines which we paired up with their associated
 walls. This was used to produce new wall heights which were propagated to the 3D
 model.  Existing and novel AI computer vision techniques were powerfully
-combined resulting in an significant improvement of a 3D model based on only a
-few calibrated 2D images. 
+combined resulting in an reasonable 3D model based on only a few 2D images. 
 %todo conclusion is no summary... conclude something..
 
 \subsection{Future research}

@@ -448,7 +448,7 @@ alignment of the windows.  We exploit this properties to build a robust window
 detector as follows:
 First we rectify the image as described in the previous section.  Then the alignment of the windows
 is determined. This is based on a histogram of the Hough lines. We use this
-alignment to divide the image in window or not window regions.  Finally these
+alignment to divide the image in window and not window regions.  Finally these
 regions are classified and combined which gives us the windows.
 We present a regular and alternative window alignment method
 followed by two different kind of window classifications. 
@@ -476,6 +476,9 @@ vertical line that aligns multiple windows. In Figure
 we show the alignment lines as two groups, horizontal (red) and
 vertical (green) alignment lines.  The combination of both groups give a grid of
 blocks that we classify as window or non-window areas.\\
+
+\fig{w_Spil1TransCrop1_ImHibaap.eps}{Dataset: Anne1, Regular window alignment (parallel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Hough lines, for the column division the horizontal Hough lines are counted (at each $y$ position), for the row division the vertical Hough lines are counted (at each $x$ position) }{0.45}
+
 
 % MOTIVATION
 How do we determine this alignment lines? We make use of the fact that among a
@@ -579,7 +582,6 @@ be mistaken by a window frame part.
 
 \newpage
 \paragraph{Results}
-\fig{w_Spil1TransCrop1_ImHibaap.eps}{Dataset: Anne1, Regular window alignment (parallel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Hough lines, for the column division the horizontal Hough lines are counted (at each $y$ position), for the row division the vertical Hough lines are counted (at each $x$ position) }{0.45}
 
 \fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Regular window alignment: Based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
 \fig{w_Spil1TransImproved_Xh.eps}{Dataset: Anne2, Alternative window alignment (orthogonal projection): Based on the shape of the smoothed histogram function. 
