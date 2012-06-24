@@ -10,10 +10,7 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 ---------------------------------------------------------------------------------
-p33 fdrans feedback
-ben nu bezig met linker onder
-
-zwart wit plaatjes invertern
+roof types doorlezen
 
 ---------------------------------------------------------------------------------
 todos staan op 2 plekken!
@@ -22,12 +19,17 @@ todos staan op 2 plekken!
 
 
 ---------------------------------------------------------------------------------
-feedback frans
 	grote punten
 		intro
 		wrapup conclusions
 		verschillende verdiepingen bij de window classification uitlegggen
 		belangrijke zaken van bestaande todos in mijn bestanden
+		fdrans feedback
+		isaac fb
+		anne spelling 
+		acknowledgements
+		alles doornemen
+
 
 ---------------------------------------------------------------------------------
 algemeene todo's
@@ -39,7 +41,6 @@ algemeene todo's
 		afkijken bart en folkert
 	check if research q is in every chapter ( window detection?)
 	remove and solve DRAFTNote
-	update fig counter after fig 10 to fig 11 (nu 2x fig 10!)
 	table result window detection goede opmaak
 	overal research q's?
 
@@ -114,17 +115,9 @@ tijdens moe:
 matlab 
 	plaatje camera retina, C and Kp
 		skyline met lijn door center camera, plaatje en gebouwrand
-	backproject results (FANCYYY)
-	plaatjes	
-		plot signchange locations of
-			convex and concave function of dirk dataset
-		ransac plane fitter, kruisjes en plane
 		binary classification image white or black
 			 - values that fall out of cluster are displayed striped
 		k-means bars
 			(-bar and barh in fig mergen)
-
-	code kloppen
-		certainty based classification on anne2 dataset
 
 

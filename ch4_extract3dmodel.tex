@@ -13,8 +13,8 @@ In the previous chapter we explained our skyline detection algorithm which
 extracted the skyline of a scene. The output is a set of 2D points which was  
 collected for a sequence of images.
 The aim of this chapter is to use this set of points together with an
- aerial 2D model of the building and the 3D pointcloud obtained by the FIT3D
- toolbox\cite{FIT3D} (\ref{sec:prelimFIT3D}) to generate a 3D model of the
+ aerial 2D model of the building and the 3D pointcloud obtained by the \emph{FIT3D
+ toolbox\cite{FIT3D}} (\ref{sec:prelimFIT3D}) to generate a 3D model of the
  building.
 
 
@@ -660,28 +660,43 @@ could lie a lot lower, therefore something else needs to be developed to find th
 heights. It would be useful to develop a method that can detect which roof type we
 are dealing with, what the wall heights are, and finally generate an entire 3D
 model.\\
-Some ideas about this are now proposed:\\
-\begin{itemize}
-	\item Use an object detector to detect doors, windows and dormers so the 
-	number of floors, the location of the wall-roof separation and the exclusion of
-	some roof types (e.g. a dormer is never located on a flat roof) could be determined.\\
-	\item Use the Hough transform to search for horizontal lines to detect the
-	wall-roof separation, and use the the ground plane and the top roof line to
-	guide the search.  Some building have a gutter, because of this the number
-	of horizontal lines on the wall-roof separation will be larger which could
-	be of great use.\\
-	\item Use geographic information (a database of roof types) with gps location
-	to classify the roof type. \\
-	\item The skyline detector detects the building height, if we
-	could use predefined information about the ratio between the wall height and
-	total height of the building, the wall heights could be estimated.\\
-\end{itemize}
-Assuming we determined the roof type,the building height and wall heights, the 3D model could 
-easily be generated. For the \emph{Gable} roof for example this will involve
-connecting two surfaces from the upper side of the walls with the high roof line (returned by the
-skyline detector). For the other roof types, the building height and wall
-height together with a template structure of the roof could be used to generate the 3D
-model.
+A idea about this is now proposed:\\
+
+The 3D model of a building with a non-flat rooftype will consist of a cuboid 
+with a custom roof on top of it.  First we would generate the custom roof 
+using the shape of the skyline.  Next we would determine the height of the
+cuboid. Finally we connect both parts and have a full 3D model.
+
+The skyline detector discussed in chapter 3 could be used to extract the roof
+contour. Next we would extract a basic 3D model (discussed in chapter 4) which
+is used to transform the roof contour to a frontal view of the roof.  Houghline
+extraction could be used to extract straight lines which resamble the base of
+the primitive planes of the roof.  For example the Gable roof will return two
+straight lines connected in the middle. Ones each line is transformed to a
+plane, a shape is cut out according to the side view of the building countour.
+For example the Hipped roof (Figure \ref{rooftypes}) would implie we have to cut
+out a trapezium shape whereas most other roofs require a rectangular shape.
+
+Note that we use both frontal and side view to determine the roof planes.
+For the Gable roof this means we generate two skew rectangular surfaces which are
+connected in the middle.
+
+Next the height of the cuboid needs to be determined.
+We would do this by detecting the roof-wall separation on the side view of the
+building.  We could use the Hough transform to search for horizontal
+lines. 
+
+To discard outliers we would only search between the ground plane and the top of
+the roof.  The top of the roof is determined by the highest skyline point that
+is present in both frontal and side view. The ground plane could be estimated
+usning Costins \ref{costin} method.
+
+The roof color often differs from the wall color which produce strong edges. Also
+some building contain a gutter connected to the roof. The gutter will also
+produce a long strong edge.  These strong edges can be used to find the cubic height
+and the lower bound location of the roof.
+Finally we connect the roof and the cuboid to obtain a full 3D model.
+\\
 
 
 %\section{My old method of line-wall association}
