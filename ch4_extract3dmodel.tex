@@ -633,64 +633,58 @@ height estimation and the computational costs.
 
 
 \subsubsection{Alternative roofs}
-%todo vet goed dat ik dus mijn algo different wall heights aan kan, promoten!
-
-%-----done:
-We assumed a flat roof, this doesn't mean that our method is unusable if
+We assumed a flat roof, this doesn't mean that our methods are unusable if
 we discard this assumption.
-E.g. without adaptations the method could be used to determine the (maximum)
-building height which is a useful application.\\
-
+E.g. without adaptations the existing methods could be used to determine the (maximum)
+building height. 
 If we discard the flat roof assumption the building is allowed to have any
 shape. In this situation it should also be possible to extract a
 full 3D model.  We will now consider other roof types and discuss what
 adaptations the system should require to handle these.  In Figure
 \ref{fig:typesOfRoofs}, 6 different roof shapes are displayed.\\
-%-----
 
 \fig{typesOfRoofs}{Different types of roofs}{0.4}
 Consider the \emph{Gable Roof}, it is a roof consisting of two planes
 which are not parallel with the facade of the building. This makes the problem
-of extracting the 3D model more complex, but not infeasible. \\
+of extracting the 3D model more complex, but not impossible. \\
 Because we assume that the roof images are taken from the ground, the skyline
 detector will always detect the top of the building. In case of a flat roof
 this is also the top of the building walls. In case of an
 alternative roof, this will be just the top of the building. The building walls however
 could lie a lot lower, therefore something else needs to be developed to find the wall
-heights. It would be useful to develop a method that can detect which roof type we
-are dealing with, what the wall heights are, and finally generate an entire 3D
-model.\\
+heights. It would be useful to develop a method that can detect the shape of the roof 
+estimate the wall heights and finally generate an entire 3D model.\\
 A idea about this is now proposed:\\
 
 The 3D model of a building with a non-flat rooftype will consist of a cuboid 
 with a custom roof on top of it.  First we would generate the custom roof 
 using the shape of the skyline.  Next we would determine the height of the
-cuboid. Finally we connect both parts and have a full 3D model.
+cuboid. Finally we connect both parts and have a full 3D model.\\
 
-The skyline detector discussed in chapter 3 could be used to extract the roof
-contour. Next we would extract a basic 3D model (discussed in chapter 4) which
-is used to transform the roof contour to a frontal view of the roof.  Houghline
+The skyline detector discussed in chapter 3 could be used to extract the contour
+of the roof. Next we would extract a basic 3D model (discussed in chapter 4) which
+is used to transform the roof contour to a frontal view.  Houghline
 extraction could be used to extract straight lines which resamble the base of
 the primitive planes of the roof.  For example the Gable roof will return two
-straight lines connected in the middle. Ones each line is transformed to a
-plane, a shape is cut out according to the side view of the building countour.
+straight lines connected in the middle. Next we extend the lines to planes.
+We would extract a point cloud of the side wall using the \emph{FIT3D toolbox\cite{FIT3D}} 
+to determine the alignment of the planes.\\
+
+Next, a shape is cut out of the plane according to the side view of the building countour.
 For example the Hipped roof (Figure \ref{rooftypes}) would implie we have to cut
 out a trapezium shape whereas most other roofs require a rectangular shape.
-
-Note that we use both frontal and side view to determine the roof planes.
-For the Gable roof this means we generate two skew rectangular surfaces which are
-connected in the middle.
+Note the power of combining the frontal and side view to determine the roof planes.
+Let us consider the Gable roof, we extract two lines and extend them to skew
+rectangular surfaces which are connected in the middle.\\
 
 Next the height of the cuboid needs to be determined.
-We would do this by detecting the roof-wall separation on the side view of the
-building.  We could use the Hough transform to search for horizontal
-lines. 
-
+This could be done by detecting the roof-wall separation on the side view of the
+building.  This can be done by detecting horizontal lines using the Hough
+transform.
 To discard outliers we would only search between the ground plane and the top of
-the roof.  The top of the roof is determined by the highest skyline point that
+the roof.  The location of the top of the roof could be determined by the highest skyline point that
 is present in both frontal and side view. The ground plane could be estimated
-usning Costins \ref{costin} method.
-
+using Costins \ref{costin} method.
 The roof color often differs from the wall color which produce strong edges. Also
 some building contain a gutter connected to the roof. The gutter will also
 produce a long strong edge.  These strong edges can be used to find the cubic height
