@@ -9,10 +9,10 @@
 In this chapter we deal with an important aspect of semantic urban scene interpretation: window detection. 
 From the introduction we learned that window detection can play an important role in
 a variety of domains: semi automatic 3D reconstruction/modelling of city models, documenting
-historical buildings, analysis of old building deformation augmented
+historical buildings, analysis of old building deformation, augmented
 reality, building recognition, etc.\\
 
-This chapter is about our developed methods of window detection and it is organized
+This chapter deals with our developed methods of window detection and it is organized
 as follows:\\
   We start with related work and put our work in context.  Next we describe our first
   window detection approach that is invariant to viewing direction.  After this
@@ -21,11 +21,11 @@ as follows:\\
   and discuss our results. 
 
 \TODO{in state of art een lijn creeren, opbouwen, in context plaatsen, theoretisch afwimplene}
-\subsection{State of art window detection} % related work
+\subsection{Window detection: state of art} % related work
 A large amount of research is done on semantical interpretation of urban scenes. 
 First we briefly discuss the research that is done on window detection using
 approaches that differ from our approach.  After this, we discuss state of art
-window detection that has a big overlap with our approach in detail.\\
+window detection that lays at the basis of our approach in detail.\\
 
 \subsubsection{Alternative approaches on window detection}
 Muller et al. \cite{Muller_procedural} detect regularity and symmetry in the building. The
@@ -34,7 +34,7 @@ rows) direction.
 They use shape grammars to divide the building wall in tiles, windows, doors etc.
 The results are used to derive a 3d model of high 3d visual quality.
 \figsSmall{label_window_nice_geometry}{p_window_nice_geometry1.eps}{p_window_nice_geometry2.eps}{Results of Muller et al.}{original texture}{reconstruction}
-Although they achieved some interesting results their method has some
+Although they achieved some interesting results, their method has some
 disadvantages.  As their method is fully based on detecting symmetry, they have
 to assume repeating and aligned windows: this constrains the variety of scenes
 the system can handle.
@@ -69,9 +69,9 @@ size invariant is desirable.\\
 
 \TODO{research question}
 
-To investigate this, we developed two methods on which one method does not
+To investigate this, we developed two methods of which one method does not
 require repeating windows nor aligned windows.  One of the main targets of our research
-is a low requirements on the input data.  First our system doesn't need 
+is to have small requirements on the input data.  First our system doesn't need 
 a large annotated dataset. Furthermore we took the images with a mobile phone
 and decided to extract the windows from the image space only, this makes us
 independent of additional expensive data like heat or laser range images.
@@ -139,8 +139,8 @@ is very robust.  Therefore we have decided to use this method as a basis and imp
 the alignment algorithm. Furthermore we have build a different window classification method.  
 
 Our improvement on the alignment procedure is as follows.
-In the previous work \cite{Recky_kmeans} and \cite{Lee_extraction} they use
-a single projection profile for each direction.  We improved this 
+In the previous work \cite{Recky_kmeans} and \cite{Lee_extraction} 
+a single projection profile for each direction is used.  We improved this 
 process by fusing two (more advanced) projection profiles for each direction.
 E.g. for the determination of the horizontal division of the windows we fuse both
 horizontal and vertical projection profiles.\\
@@ -199,11 +199,14 @@ The results of the edge detection and the Hough transform of two images can be s
 
 \subsubsection{Connected corners extraction}
 \fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
-result the clean connected corner}{0.4} As windows contain complex structures
-the amount of horizontal and vertical Hough lines is large at these locations.
-A horizontal and a vertical line are often connected in a corner of a window.  In
-this approach we pair up these horizontal and vertical lines to determine
-\emph{connected corners} that indicate a window.
+result the clean connected corner}{0.4} 
+A window often consists of several subwindows enclosed in rectangular window
+frames.  As the color of the window frames differ from the glas, the amount of
+horizontal and vertical edges is large at these locations.  As the
+horizontal and vertical edges come from rectangular window frames they often
+share a corner of the window.  We developed an approach where we pair up these
+horizontal and vertical lines to determine \emph{connected corners} that
+indicate a window.\\
 
 Often a connected corner contains a small gap or an extension which we tolerate,
 these cases are illustrated in Figure \ref{fig:cCornerTypes} in the top row.
@@ -226,8 +229,8 @@ In Figure \ref{fig:cCornerTypes}(I)  the horizontal line is extended.  Figure
 
 
 \subsubsection{Window area extraction}
-To retrieve the actual windows, each connected corner is mirrored along its
-diagonal. The connected corner now contains four sides which form a 
+To retrieve the actual windows, each connected corner is mirrored along its 
+diagonal through the endpoints. The connected corner now contains four sides which form a 
 quadrangle window area.
 All quadrangles are filled and displayed in Figure
 \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps}, this result is discussed in section
@@ -275,13 +278,15 @@ connect more parts of the window. E.g. to form U shaped connected corners or
 even complete rectangular shapes. The latter is difficult because the edges are
 often incomplete due to for example occlusion.\\
 
-Furthermore the next step in this study would be to group the connected corners
-to windows and sub windows.  The big window that contains sub windows could be
+Furthermore the next step in this study would be an analysis of the substructure
+of the windows.  The big window that contains sub windows could be
 found by calculating the convex hull of the red areas in Figure
 \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps}.  The sub windows could be found
-using a clustering algorithm that groups the connected corners to a window. For
-this method it would be useful to assume the window size as this correlates
-directly to the inter-cluster distance.  
+by grouping connected corners that resamble the same subwindow.\\
+
+This could be done by clustering the connected corners at their location.
+It would be useful to assume the number of subwindows as this can be used to
+determine the maximum inter-cluster distance.  
 We could also incorporate not only the center of the connected corner as a
 parameter of the cluster space but also the length and position of the
 connected corners' horizontal and vertical line parts.  The inter cluster
@@ -316,7 +321,7 @@ from a series of images is a comprehensive process and a large amount of
 research is done in this area.  As we want to focus on the annotational part of
 facade interpretation, we used existing software to assist our rectification.\\
 
-I. Estebans \emph{FIT3D toolbox} \cite{FIT3D} comes with an add-on which
+I. Esteban's \emph{FIT3D toolbox} \cite{FIT3D} comes with an add-on which
 extracts a 3D model from a series of frames.  This add-on involves a process tha
 calculates the motion between a series of frames in order to extract a point
 cloud of matching features. This point cloud is used to extract a plane for
@@ -392,11 +397,11 @@ the purpose of displaying the projected Hough lines in context.
 
 \TODO{Met iemand overleggen wat betere volgorde is}
 \subsection{Datasets}
-To avoid over fitting we used multiple datasets that have a large propertie
-variety. Furthermore every dataset has a challenge/handicap.
+To avoid over fitting we used multiple datasets that contain different urban
+scenes.  Furthermore every dataset has a challenge/handicap.
 We used three datasets that are recorded in the suburban area
-'de Baarsjes' of Amsterdam.  All images have a original resolution of 3072x2304
-px and are downscaled (using trilinear interpolation) to 1280x1024 px.
+'de Baarsjes' of Amsterdam.  All images have an original resolution of 3072x2304
+pixels and are downscaled (using cubic interpolation) to 1280x1024 pixels.
 
 \subsubsection{Anne1}
 The challenge of this dataset is that it suffers from rectification errors.
@@ -407,7 +412,7 @@ drainpipe) on the left of the image.
 Furthermore the yaw value of the camera (horizontal viewing angle) was (relative
 to the other datasets) high, making parts of the windows occluded.  The height
 of the windows on the right side of the image is 698 px, at the left side this
-is 320 px: a resolution of more then 2 times smaller making it hard to detect
+is 320 px: a resolution of more then 2 times smaller which makes it hard to detect
 the left windows. Trilinear interpolation is used to minimize this loss.
 To reduce the number of handicaps (and to focus on the rectification and
 occlusion error) we cut off the bottom of the image which included cars, unaligned doors and windows.
@@ -416,9 +421,9 @@ occlusion error) we cut off the bottom of the image which included cars, unalign
 
 \subsubsection{Anne2}
 This dataset contains images of the same scene as Anne1.
-It has zero rectification error: the windows are perfect aligned, although the
-resolution on the left is as in the Anne1 dataset two times smaller.
-The challenge of this dataset are the occlusion artefacts and the 
+It has zero rectification error: the windows are perfectly aligned, although the
+resolution on the left is as in the Anne1 dataset, two times smaller.
+The challenges of this dataset are the occlusion artefacts and the 
 bottom area of the image (cars, unaligned doors and windows).
 \fig{w_Spil1TransImproved_ImOri.eps}{Dataset: Anne2}{0.6}
 \clearpage
@@ -426,7 +431,7 @@ bottom area of the image (cars, unaligned doors and windows).
 \subsubsection{Dirk}
 The Dirk dataset represents an everyday scene as it contains light spots on the facade,
 bicycles and an occluding tree.  It contains zero rectification error but the
-windows are partially aligned.  The windows are very closely located (making it
+windows are partially aligned.  The windows are very close to each other (making it
 hard to detect non-window areas between them), furthermore they differ in shape, size
 and in type.  The yaw of the camera is relatively low, implicating little or no
 occlusion artefacts.
@@ -440,13 +445,12 @@ occlusion artefacts.
 \subsection{Method II: Histogram based approach} 
 \label{sec:method2}
 \subsubsection{Introduction}
-From the previous section we saw that from a series of images, a 3D model of a
+In the previous section we saw that from a series of images, a 3D model of a
 building can be extracted. Furthermore we saw that using this 3D model the
 scene could be converted to a frontal view of a building, where a building wall
 appears orthogonal.  This frontal view enables us to assume orthogonality and
-alignment of the windows.  We exploit this properties to build a robust window
-detector as follows:
-First we rectify the image as described in the previous section.  Then the alignment of the windows
+alignment of the windows.  We exploit these properties to build a robust window
+detector as follows: first we rectify the image as described in the previous section.  Then the alignment of the windows
 is determined. This is based on a histogram of the Hough lines. We use this
 alignment to divide the image in window and not window regions.  Finally these
 regions are classified and combined which gives us the windows.
@@ -481,14 +485,13 @@ blocks that we classify as window or non-window areas.\\
 
 
 % MOTIVATION
-How do we determine this alignment lines? We make use of the fact that among a
+How do we determine these alignment lines? We make use of the fact that among a
 horizontal alignment line a lot of horizontal Hough lines are present, see
 Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}. For the vertical alignment lines
-the number of vertical Hough lines is high, see green lines in Figure
-\ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}.\\
+the number of vertical Hough lines is high, see the green lines.
 
 We begin by extracting the pixel coordinates of Hough transformed line
-segments. We store them in two groups, horizontal and vertical.% (crosses in Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}). 
+segments. We store them in two groups: horizontal and vertical.% (crosses in Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}). 
 We discard the dimension that is least informative by projecting the coordinates to
 the axis that is orthogonal to its group. 
 This means that for each horizontal Houghline the coordinates on the line are projected to the X
@@ -497,7 +500,7 @@ axis. We have now transformed the data in two groups of 1 dimensional
 coordinates which represent the projected position of the Hough lines.\\
 
 Next we calculate two histograms H(orizontal) and V(ertical), containing respectively
-$w$ and $h$ bins where $w$ x $h$ is the dimension of the image.  The histograms
+$w$ and $h$ bins, where $w$ x $h$ is the dimension of the image.  The histograms
 are presented as small yellow bars in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.
 
 The peaks are located at the positions where an increased number of Hough lines
@@ -508,12 +511,12 @@ It is easy to see that the number of peaks is far more then the desired number o
 Therefore we smooth the values using a moving average filter.
 The result, red lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}
 , is a smooth \emph{projection profile} which contains the right number of peaks. The peaks
-are located at the average positions of the window edges. Next step is to
-calculate the peak areas and after this the peak positions. 
+are located at the average positions of the window edges. \\
 
+Next step is to calculate the peak areas and after this the peak positions. 
 Before we find the peak positions we extract the peak \emph{areas} by thresholding the
 function. To make the threshold invariant to the values, we set the threshold to 0.5 $\cdot$ max Peak. 
-(This value works for most datasets but is a parameter that can be changed).
+This value works for most datasets but is a parameter that can be changed.
 %The two thresholds are presented as black dotted lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.\\
 Next we create a binary list of peaks P, P returns 1 for positions that are contained in
 a peak, i.e. are above the threshold, and 0 otherwise.
