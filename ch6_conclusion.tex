@@ -1,14 +1,28 @@
 %todo
 \section{Conclusion}
 % dit gaat samenvattende conclusie van ch5 en ch6 worden!! 
-
 %conclusie is geen abstract!
-In the introduction we emphasized the ease with which humans semantically
-interpret a scene.  We also denoted that for a computer system this task is far
-from trivial. Having completed this research we can conclude that this holds even
-more.\\
+In this thesis we annotated urban scenes using skyline detection and window
+detection.\\
 
-In this research quite some useful semantics of an urban scene was derived: a
+We proposed a skyline detection algorithm that is simple has a low complexity
+and works without any user interaction.  Under the assumption that the skyline is the upper edge, the method works well.  A set of upper edges should be seen
+as potential hypothesis which are evaluated using additional features like color
+and height variation.\\
+
+Furthermore we proposed two window detection methods that both detect at least
+99\% of the windows.  We can conclude that for uncalibrated scenes the connected
+corner approach performed best as it is robust to variation in window type and
+viewing angle.  For calibrated scenes we can conclude that 
+interpreting the amount of Hough lines is a strong approach
+towards determination of the window alignment. 
+We concluded proposed several alignment methods and can conclude that they
+perfrom best if we combine them.
+Furthermore we developed two classification method. One uses the derivative of
+the houghlines Histogram function, this method outperformed our other method
+which was more basic.\\
+
+In this project we retrieved important semantics of an urban scene: a
 full 3D construction of the building and the extraction of his windows.
 Although this is very little in comparison to what humans perceive, we made a
 valuable start towards human-like interpretation of urban scenes.\\
@@ -16,5 +30,7 @@ valuable start towards human-like interpretation of urban scenes.\\
 The applications grow in the number of correct derived semantics. With just the
 extracted 3D model and the extracted windows we can now recognize buildings,
 build 3D city models, monitor building deformation and add augmented reality
-to scenes.  Imagine what would be possible if we add more semantics like
-house numbers, doors, trees, cars or even (your stolen?) bicycle...
+to scenes.  Even more application would rise if we add more semantics like
+house numbers, doors, trees, cars or even (your stolen?) bicycle. The skyline is
+the limit.
+

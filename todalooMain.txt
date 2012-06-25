@@ -19,15 +19,8 @@ todos staan op 2 plekken!
 
 ---------------------------------------------------------------------------------
 	grote punten
-		intro
-		wrapup conclusions
-			in volgorde zetn  
-			structuur etc
-			fb frans
-			dan lijmen en 1 geheel van maken
-			hierna ff skyline detectie conclusie nakijken (nu ik toch in de flow zit :))
-		isaac fb
 		fdrans feedback
+		isaac fb
 
 		(evt morgen:)
 			anne spelling restant
@@ -37,8 +30,7 @@ todos staan op 2 plekken!
 
 		verschillende verdiepingen bij de window classification uitlegggen
 		belangrijke zaken van bestaande todos in mijn bestanden
-
-
+		refs in intro
 
 
 

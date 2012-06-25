@@ -860,10 +860,10 @@ If we take a look at Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}
 we see that $X_h$ (the amount of horizontal Hough lines) has two shapes that
 repeat:  At the location where a window is present $X_h$ is concave whereas at
 non-window areas $X_h$ is convex. 
-This is because the window contains framed sub windows that create 
-many edges. The number of edges increase is large at the centre of the window 
-At positions that lie between the windows (the non-window areas) the number of
-edges is low. 
+This is because a window contains framed sub windows that create 
+a large amount of edges. The number of edges is large at the centre of the
+window.  Wheres the numer of edges at positions that lie between the windows
+(the non-window areas) is small.
 The concave and convex shape of $X_h$ also supports that these values 
 increase towards the window center and decrease towards
 non-window area centers. This artefact is used for our 
@@ -1042,32 +1042,37 @@ correct detected windows.
 % not summarize!
 % what can be derived from the results+?
 \TODO{We showed that projecting the image to a frontal view is a good preprocessing step of a robust window detector.}
-\TODO{Furthermore our algorithms work in real time. \\}
 
-
-We proposed 
+We proposed two novel methods of window detection. The first method is used for
+scenes where no calibrated input data is available. Despite of the lack of this
+data it performed realy well as it detected 99\% of the windows. However the 
+labeling of the windows could be more decent.  This is achieved in our second
+method which uses a calibrated scene.  It is based on Histograms
+of Houghlines and came with a 100\% detection rate of the windows.  
+We now discuss the method independent conclusions.  
 
 \subsubsection{Connected corner approach} % cCorner
 As can be concluded from our results, the connected corner method is suitable
 for, and robust to, scenes with a variation in window sizes and types. This
 	makes the connected corner approach suitable for a wide range of window
-	scenes where no or few prior information about the windows is known.
+	scenes where no or few prior information about the windows is known.\\
 
-	Furthermore, the system has small requirements on the input data.
-	It is independent of calibrated input data and 3d information
-	about the building and no image rectification is required. 
+Furthermore, the system has small requirements on the input data.
+It is independent of calibrated input data and 3d information
+about the building and no image rectification is required. \\
 
-\subsubsection{Window alignment}
 
+\subsubsection{Method II: histogram based approach}
+\paragraph{Histogram based window alignment}
 % histograms alignment is gooood
-We can conclude that developing histogram functions of the amount of Hough lines
-is a strong approach towards determination of the window alignment as the
-results in this work and in previous work a very promising.
+We conclude that interpreting the amount of Hough lines is a strong approach
+towards determination of the window alignment: the
+results in this work and in previous work are very promising.\\
 
 % alternative method is better
 We proposed two window detection methods and can conclude that the alternative
 approach performs better because it is based on a horizontal window division and
-because it uses a higher level interpretation of the histogram function.
+because it interpretes the derivative of the histogram function.\\
 
 	\paragraph{Occlusion}
 	We showed that window alignment becomes a challenging task if the windows are partially
@@ -1100,7 +1105,7 @@ because it uses a higher level interpretation of the histogram function.
 	\TODO{diagram maken window alignment -> peak merging -> etc}
 
 
-\subsubsection{Window classification} %window classification method 1
+\paragraph{Window classification} %window classification method 1
 	We discussed two different window classification methods. 
 	\paragraph{Certainty based window classification} %window classification method 1
 	The certainty based window classification works quite good on
@@ -1109,24 +1114,25 @@ because it uses a higher level interpretation of the histogram function.
 	errors in the window alignment will propagate to the classification.  This
 	makes this classification method inappropriate for a system where one cannot
 	fully rely on the window alignment.  \\
+	This conclusion amplified the need for a robust classification method that is
+	less dependent to window alignment errors. 
 
-%---- ondrestanad in begin zetten?
-	This conclusion amplified the need for a robust classification method (that is
-	independent, (or at least less sensitive)) to window alignment errors.
+	\paragraph{Histogram based window classification} 
+	The certainty based window classification only took the number of
+	Houghlines in an certain block into account.
+	In this approach we used 
+	the fact that the number of edges, caused by framed subwindows, increases
+	towards the centre of the window.
+	We interpreted the Histogram function on a derivative level:
+	and searches for a strong increase or decrease in the number of
+	Houghlines. \\
+	The method appear to be very robust because it classified 100\% of the windows correct.
+	This is mainly because the increase and decrease pattern is very consistent: it
+	holded for all window and non-window areas in all datasets.
+	It is also robust because the increase and decrease we detect is a relative 
+	measure. In contrast to methods that use absolute measures, this method is robust to a variation
+	of window types and lightning conditions.\\
 
-	% zie fb frans
-	\paragraph{Histogram based window classification} %\subsubsection{Method II: Histogram based approach} 
-	It is a typically artificial intelligent approach, to look for a high
-	interpretation of the data.  We can conclude that the results become very robust
-	if one takes a high level interpretation of the Histogram function. \\
-	Furthermore we can conclude that:
-
-	\begin{itemize}
-		\item Redundant lines found by the window alignment module cause no
-	problems as long as they are located at a boundary of a window or in a window.
-		\item The grouping module contained a small weakness, a fix is provided in the next
-		section.
-		\item The improved window classification outperformed the basic window
-		classification.
-	\end{itemize}
+	We can conclude that this method, based on the shape of the histogram
+	function, outperformed the certainty based window classification.
 
