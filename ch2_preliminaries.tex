@@ -101,16 +101,15 @@ We used a standard Matlab implementation of the Hough transform for straight lin
 % \emph{Generalized Hough transform} is used.
 % It uses a feature that votes for a particular position, orientation and/or scaling of a certain predefined shape.  The shapes are predefined in a look-up table.\\
 
-\subsection{Coordination systems}
+\subsection{Coordinate systems}
 %todo doorlezen
 In this thesis three different coordinate reference systems are used. 
 The first one is located at the image level and describes the
 location of the pixel in 2D. It is called the Image Coordinate Frame (ICF), in
-Figure \ref{fig:coordinateSystems.eps} ($x_0,y_0$) span this frame.
-The second is the Camera Coordinate
-Frame (CCF) and it involves the projection of the image point (x,y) to the
-retina of the camera in 3D.  The origin of the CCF is equal to the center of the
-camera. If the camera rotates, it rotates around this point. The coordinates are
+Figure \ref{fig:coordinateSystems.eps} the ICF is spanned by ($x_0,y_0$).
+The second is the Camera Coordinate Frame (CCF), the system is aligned with the
+camera: the origin is fixed at the the camera center (center of projection) and the CCF is rotated with
+a rotation vector that is equal to the camera's viewing direction.  The coordinates are
 expressed in (XYZ). \\
 The last system is the World Coordinate Frame (WCF) and it is used to describe the positions of the 3D model of the
 scene and the position of the cameras in the world in (ijk). An overview of the
@@ -150,7 +149,7 @@ systems can be found in Table \ref{tab:coord}.
 \subsection{Camera calibration}
 \label{sec:cameraCalibration}
 Camera calibration is done to determine
-the relationship between what appears on the image (or camera retina) and where
+the relationship between what appears on the image (or camera sensor) and where
  it is located in the 3D world. This involves calculating the camera's intrinsic
  and extrinsic parameters.
 
@@ -164,7 +163,7 @@ dataset (originated from the Fit3D toolbox \cite{FIT3D}) comes with a
 calibration matrix K.  For
 the other datasets we calculated K with the Bouguet toolbox
 \cite{bouguet}.
-This method involves taking images of a chessboard in different positions and
+This method involves taking images of a checkerboard in different positions and
 orientations. An algorithm detects the grid on the chessboard and monitors its
 transformations under the different images.  If enough images are given (at
 least 10) and the images contain enough variety in chessboard pose, the Bouguet
@@ -176,10 +175,10 @@ More details about this method can be found in \cite{bouguet}.
 %\paragraph{Getting the camera centers and viewing directions}
 %todo introduce viewing direction
 The extrinsic parameters present the center of the locations of the camera
-and the camera's headings. These are unique for every view.
+and the camera's rotations. These are unique for every view.
 %todo explain rotation, translation
-In some systems these are recorded by measuring the cameras position and
-headings at the scene. In other systems this is computed afterwards (from the
+In some systems these are recorded by measuring the cameras location and
+rotation at the scene. In other systems this is computed afterwards (from the
 images).  We calculated the values also afterwards and used existing software for
 this: \emph{FIT3D toolbox} \cite{FIT3D}, details of this process is
 explained next.
@@ -214,39 +213,40 @@ chronological however they need to have sufficient overlap.
 
 %todo explain what a camera coordinate is (homoge px coord)
 \subsubsection{Relating the camera coordinates to the world coordinates}
-%Getting the camera's centers and camera's heading (Extrinsic parameters)}
+%Getting the camera's centers and camera's rotation (Extrinsic parameters)}
 The different views are used to estimate the relation of the camera frame
 coordinates to the world coordinates, (the extrinsic parameters).  In other
-words the different positions of the camera centers and camera's heading are
+words the different positions of the camera centers (from the origin of the WCF
+to the camera center) and the camera's rotation are
 estimated.  This is done by calculating the relative motion between the
 different views.\\
 
 The frame to frame motion is calculated by extracting about 25k SIFT features of
 each frame.  Next, SIFT descriptors are used to describe and match the features
 within the consecutive frames.  Not all features will overlap or match in the
-frames therefor RANSAC is used to robustly remove the outliers.  After this an
-\emph{8-point algorithm} together with a voting mechanism is used to extract the
+frames therefore RANSAC\cite{kovesi} is used to robustly remove the outliers.  After this an
+\emph{8-point algorithm\cite{hartley}} together with a voting mechanism is used to extract the
 relative camera motion.\\
 
 The frames are matched one by one which returns an estimation of the camera
-motion. Because this estimation is not accurate enough, a 3-frame match is done 
-This result is more accurate but comes with a certain
+motion. Because this estimation is not accurate enough, a 3-frame match is
+applied next.  This result is more accurate but comes with a certain
 amount of re-projection error which is minimized using a numerical
-iterative method called \emph{bundle adjustment}.  \\
+iterative method called \emph{bundle adjustment\cite{bundle}}.  \\
 
 From every frame the camera motion is stored relative to the first frame.
-The motion is stored as a rotation and translation in homogeneous
-form (3x4) $[R|t]$. This is gathered for every frame in a (7x3x4) projection matrix $P$.
+The motion is stored as a rotation and translation 
+form (3x4) $[R|t]$. This is gathered for all 7 frames in a (7x3x4) projection matrix $P$.
 $P$ can be used to translate camera coordinates of a specific view 
  to 3D world coordinates and vice versa.
 
 \subsubsection{3D point cloud extraction}
 The next step is to use this projection matrix $P$ to obtain a set of 3D points.
-These correspond to the matching SIFT features of the different views.  This
-is achieved using a \emph{linear triangulation} method. \\
-The result is an accurate 3D point cloud of the building, see Figure
+which correspond to the matching SIFT features of the different views.  
+The set of 3D points is extracted using a \emph{linear triangulation\cite{hartley}} method. \\
+The 3D point cloud of the building is illustrated in Figure
 \ref{fig:FIT3DImgSequence.eps}.
-Next a RANSAC based plane fitter is used to accurately fit planes through
+After obtaining the point cloud, a RANSAC based plane fitter \cite{kovesi} is used to accurately fit planes through
 the 3D points, see Figure \ref{fig:FIT3D_planes.eps}.\\
 \fig{FIT3D_planes.eps}{Fitted planes}{0.45}
 

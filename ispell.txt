@@ -14,6 +14,7 @@ Lets -> Let us
 Let's -> Let us
 Matlab -> MATLAB
 gab -> gap
+width the -> with the
 
 remove enters, but keep it incase i want te reverse
 .\\ -> .%\\

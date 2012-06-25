@@ -10,6 +10,8 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 ---------------------------------------------------------------------------------
+	P utileggen
+	center @ wcf
 
 ---------------------------------------------------------------------------------
 todos staan op 2 plekken!
@@ -19,12 +21,13 @@ todos staan op 2 plekken!
 
 ---------------------------------------------------------------------------------
 	grote punten
-		fdrans feedback
 		isaac fb
+		acknowledgements
+			als af dan afkijken bart en folkert
 
 		(evt morgen:)
-			acknowledgements
-				als af dan afkijken bart en folkert
+			spelling
+			opmaak
 			alles doornemen
 
 		verschillende verdiepingen bij de window classification uitlegggen p 68
@@ -33,7 +36,6 @@ todos staan op 2 plekken!
 			p 73
 			
 		belangrijke zaken van bestaande todos in mijn bestanden
-		refs in intro
 
 
 
