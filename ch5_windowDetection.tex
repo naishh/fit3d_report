@@ -263,14 +263,6 @@ areas, this is about 3 \%.
 Sometimes a window is not detected, for example the window on the right top
 isn't detected, this is because its smaller then the minimum window width.\\
 
-\subsubsection{Conclusion}
-As can be concluded from the results, the connected corner method is suitable
-for, and robust to, scenes with a variation in window sizes and types. This
-	makes the connected corner approach suitable for a wide range of window
-	scenes where no or few prior information about the windows is known.
-	Furthermore, because no image rectification is required, the system has low input
-	requirements. It is independent of calibrated input data and 3d information
-	about the building.
 
 \subsubsection{Future research} %\subsubsection{Method I: Connected corner approach} 
 We only developed L-shaped connected corners. In future research we could
@@ -528,7 +520,7 @@ I.e. if P = 0011000011100, then two peaks are present. The first peak covers pos
 the second peak covers $(9,10,11)$.\\
 
 Having segmented the peak areas, the next step is to extract the peak positions. 
-Each peak area has only one peak, and since we used an average smoothing filter, the shape of 
+Each peak area has only one peak and since we used an average smoothing filter, the shape of 
 the peaks are often concave. Therefore we extract the peaks by locating the max of each peak area. 
 These locations are used to draw the window alignment lines, they can be seen
 as dotted red lines and dotted green lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.
@@ -662,52 +654,19 @@ cases alternative window alignment method is outperformed by the regular window
 alignment . For example, in Figure
 \ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}, the left
 side of the second window column is not detected.
-This is because this window type has no horizontal divisions. Only the top and
+This is because this window type has no horizontal subdivisions. Only the top and
 bottom of the window frame produce an edge, therefore the derivative of the
 amount of Hough lines will return a small peak on this position (which is too
 small to survive the threshold).  
 The threshold is a priori hard to survive because it has a high value as it is
 determined by taking a fraction of the maximum peak which is located at the
-windows that do have horizontal divisions (for example the most left or most
+windows that do have horizontal subdivisions (for example the most left or most
 right window column)). 
 
 
 \TODO{result1 drain pipe result niet erg ivm vlg stap}
 
-\paragraph{Conclusion}
-We can conclude that developing histogram functions of the amount of Hough lines
-is a strong approach towards determination of the window alignment as the
-results in this work and in previous work a very promising.
 
-We proposed two window detection methods and can conclude that the alternative
-approach performs better because it is based on a horizontal window division and
-because it uses a higher level interpretation of the histogram function.
-
-We showed that window alignment becomes a challenging task if the windows are partially
-occluded.  One of the main solutions we proposed is to use multiple window
-detection approaches.  To have a 100\% detection rate one need to be certain
-that if one approach fails at least one other approach must succeed.  We
-proposed the strong combination of two methods where the first method filled the
-gab of the second method and the other way around.
-
-We can conclude that a method that fills the gab of the occluded alignment locations
-must rely on Hough lines that lie in the orthogonal direction of the occlusion.
-In our case the occluded vertical window parts are supported by a method that
-detects horizontal window parts.
-
-\subparagraph{Conclusion:Relative thresholding}
-Furthermore we discussed the implication of the use of different window types.
-Applying a threshold that is relative to a maximum peak doesn't work well on
-this window types that differ (in for example horizontal divisions) as window
-alignment lines are missing (Figure
-\ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}).  This means that if we want to
-stick with the relative thresholding method, we have to assume a certain
-equality of the window types. 
-
-
-
-\TODO{make diagram: edge- hough -window alignment - window classification - window grouping}
-\TODO{diagram maken window alignment -> peak merging -> etc}
 
 \paragraph{Future research}
 \subparagraph{Future research:Determine window alignment of different window types}
@@ -892,15 +851,6 @@ is to increase the number of cluster centers to $n$+1,
 where $n$ is the number of window types (the 1 is for the non-window area).
 
 
-\paragraph{Conclusion}
-We can conclude that this certainty based classification works quite good on
-this dataset.  However, it requires a very well alignment of the windows which
-is a disadvantage.  As it is based on the number of found Hough lines, the
-errors in the window alignment will propagate to the classification.  This
-makes this classification method inappropriate for a system where one cannot
-fully rely on the window alignment.  \\
-This conclusion amplifies the need for a robust classification method (that is
-independent, (or at least less sensitive)) to window alignment errors.
 
 
 \subsubsection{Improved window classification (based on shape of the histogram function)}
@@ -909,16 +859,19 @@ independent, (or at least less sensitive)) to window alignment errors.
 If we take a look at Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}
 we see that $X_h$ (the amount of horizontal Hough lines) has two shapes that
 repeat:  At the location where a window is present $X_h$ is concave whereas at
-non-window areas $X_h$ is convex. This is because lots of
-horizontal lines are found at certain window positions (the window centers) and few
-are found at positions that are far away from these certain positions, which are the
-centers of non-window areas (that lie between windows).  The shape type of $X_h$ is
-used as a cue for our second window classifier.\\
+non-window areas $X_h$ is convex. 
+This is because the window contains framed sub windows that create 
+many edges. The number of edges increase is large at the centre of the window 
+At positions that lie between the windows (the non-window areas) the number of
+edges is low. 
+The concave and convex shape of $X_h$ also supports that these values 
+increase towards the window center and decrease towards
+non-window area centers. This artefact is used for our 
+our second window classifier.\\
 
 This shape type of $X_h$ is detected as follows:
-As in \textbf{improved window alignment}, the first step is to examine the
-derivative of $X_h$, blue line in Figure
-\ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}.  We investigate the positions
+We took a similar approach as in improved window alignment (). First we examine the derivative of $X_h$, blue line in Figure
+\ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}.  Next we investigate the positions
 where $D=X_{h}'$ changes from sign, these are the peaks or valleys of $X_h$.
 $X_h$ is concave at the sign changes from positive to negative (+,-) and $X_h$
 is convex if the sign changes (-,+).\\
@@ -932,8 +885,8 @@ classify the blockrows and blockcolumns as window areas and non-window areas.
 The windows are determined as the previous classifier by combining the
 (positively classified) blockrows and blockcolumns.\\
 
-For the sake of representation, only blockcolumns are presented. The method for
-the blockrows is the same: the projection profiles are projected to the
+For the purpose of clear illustration, only blockcolumns are drawn. The method for
+the blockrows is almost the same: the projection profiles are projected to the
 Y-axis.
 
 \newpage
@@ -950,6 +903,8 @@ convex shapes at non-window locations}{0.7}
 Although the scene contains a lot occlusion artefacts and suffers resolution
 loss, especially on the left side of the image, the results for the Anne2
 dataset, a 100\% detection and a 100\% true positive rate are very well.
+%todo
+
 This is mainly due the high interpretation level of the Histogram function.  We
 used the fact that the histogram function has a very consistent pattern, at
 every window area its shape is convex and every non-window its shape is concave.
@@ -1042,20 +997,6 @@ this in \emph{Future research on window classification
 (\ref{sec:futureResearchWindowClassification})}.
 
 
-\paragraph{Conclusion} %\subsubsection{Method II: Histogram based approach} 
-It is a typically artificial intelligent approach, to look for a high
-interpretation of the data.  We can conclude that the results become very robust
-if one takes a high level interpretation of the Histogram function. \\
-Furthermore we can conclude that:
-
-\begin{itemize}
-	\item Redundant lines found by the window alignment module cause no
-problems as long as they are located at a boundary of a window or in a window.
-	\item The grouping module contained a small weakness, a fix is provided in the next
-	section.
-	\item The improved window classification outperformed the basic window
-	classification.
-\end{itemize}
 
 \paragraph{Future research} % improved classification
 \TODO{put a opbouwende line in future work}
@@ -1104,4 +1045,88 @@ correct detected windows.
 \TODO{Furthermore our algorithms work in real time. \\}
 
 
+We proposed 
+
+\subsubsection{Connected corner approach} % cCorner
+As can be concluded from our results, the connected corner method is suitable
+for, and robust to, scenes with a variation in window sizes and types. This
+	makes the connected corner approach suitable for a wide range of window
+	scenes where no or few prior information about the windows is known.
+
+	Furthermore, the system has small requirements on the input data.
+	It is independent of calibrated input data and 3d information
+	about the building and no image rectification is required. 
+
+\subsubsection{Window alignment}
+
+% histograms alignment is gooood
+We can conclude that developing histogram functions of the amount of Hough lines
+is a strong approach towards determination of the window alignment as the
+results in this work and in previous work a very promising.
+
+% alternative method is better
+We proposed two window detection methods and can conclude that the alternative
+approach performs better because it is based on a horizontal window division and
+because it uses a higher level interpretation of the histogram function.
+
+	\paragraph{Occlusion}
+	We showed that window alignment becomes a challenging task if the windows are partially
+	occluded (due to for example a non frontal viewing angle).  One of the main solutions 
+	we proposed is to use multiple window
+	detection approaches.  To have a 100\% detection rate one need to be certain
+	that if one approach fails at least one other approach must succeed.  We
+	proposed the strong combination of two methods where the first method filled the
+	gab of the second method and the other way around.
+	For example we took care of the window parts that suffer vertical occlusion by a method that
+	detects horizontal window parts.  We can conclude that a method that fills the
+	gab of the occluded alignment locations must generaly rely on Hough lines that
+	lie in the orthogonal direction of the occlusion.
+
+	\paragraph{Relative thresholding fails at differing window types}
+	Furthermore we discussed the implication of the use of different window types in
+	the same scene.  We can conclude that applying a threshold that is relative to a
+	maximum peak doesn't work well on window types that differ.  (in for example
+	horizontal subdivisions).  This is caused by the relative high maximum peak
+	which is determined by the window with many subwindows which produce a large
+	amount of edges.  The window types with few subdivision don't survive this
+	threshold and missing alignment lines is the result (Figure
+	\ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}).  This means that if we want to
+	stick with the relative thresholding method, we have to assume a certain
+	equality of the window types. Otherwise an alternative thresholding method
+	should be developed (e.g. a threshold that is altered depending on the window
+	type).
+
+	\TODO{make diagram: edge- hough -window alignment - window classification - window grouping}
+	\TODO{diagram maken window alignment -> peak merging -> etc}
+
+
+\subsubsection{Window classification} %window classification method 1
+	We discussed two different window classification methods. 
+	\paragraph{Certainty based window classification} %window classification method 1
+	The certainty based window classification works quite good on
+	the dataset we used.  However, it requires a very well alignment of the windows which
+	is a disadvantage.  As it is based on the number and length of the found Hough lines, the
+	errors in the window alignment will propagate to the classification.  This
+	makes this classification method inappropriate for a system where one cannot
+	fully rely on the window alignment.  \\
+
+%---- ondrestanad in begin zetten?
+	This conclusion amplified the need for a robust classification method (that is
+	independent, (or at least less sensitive)) to window alignment errors.
+
+	% zie fb frans
+	\paragraph{Histogram based window classification} %\subsubsection{Method II: Histogram based approach} 
+	It is a typically artificial intelligent approach, to look for a high
+	interpretation of the data.  We can conclude that the results become very robust
+	if one takes a high level interpretation of the Histogram function. \\
+	Furthermore we can conclude that:
+
+	\begin{itemize}
+		\item Redundant lines found by the window alignment module cause no
+	problems as long as they are located at a boundary of a window or in a window.
+		\item The grouping module contained a small weakness, a fix is provided in the next
+		section.
+		\item The improved window classification outperformed the basic window
+		classification.
+	\end{itemize}
 

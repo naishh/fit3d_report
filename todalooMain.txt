@@ -21,27 +21,34 @@ todos staan op 2 plekken!
 	grote punten
 		intro
 		wrapup conclusions
+			in volgorde zetn  
+			structuur etc
+			fb frans
+			dan lijmen en 1 geheel van maken
+			hierna ff skyline detectie conclusie nakijken (nu ik toch in de flow zit :))
+		isaac fb
+		fdrans feedback
+
+		(evt morgen:)
+			anne spelling restant
+			acknowledgements
+				als af dan afkijken bart en folkert
+			alles doornemen
+
 		verschillende verdiepingen bij de window classification uitlegggen
 		belangrijke zaken van bestaande todos in mijn bestanden
-		fdrans feedback
-		isaac fb
-		anne spelling 
-		acknowledgements
-		alles doornemen
+
+
+
+
 
 
 ---------------------------------------------------------------------------------
 algemeene todo's
 	conclusion window detection is ]dubbel oid
-	preliminaries
-	voorblad multiple
-	voorwoord (anne, stefanie, bram, ispell, supervisors, leo,  bedanken)
-		thesis opdragen in Anne, is dat raar? 
-		afkijken bart en folkert
 	check if research q is in every chapter ( window detection?)
 	remove and solve DRAFTNote
 	table result window detection goede opmaak
-	overal research q's?
 
 
 ---------------------------------------------------------------------------------
@@ -57,15 +64,6 @@ introduction
 	Organization of thesis 
 
 
-preliminaries
-	% how I calc the wall normal
-
-
-ch 4 improve 3d model
-	plaatje outputHoughlines3d 
-		opnieuw genereren vanuit matlab zodat het mooier is
-
-
 ch 5 WINDOW DETECTION
 
 	PRIMAIRE todos:
@@ -75,10 +73,6 @@ ch 5 WINDOW DETECTION
 		nice application: estimate floors levels
 
 	SECUNDAIRE todos:
-		skyline: see below todo frans
-		update references, are all there?
-		list of figures maken
-
 		l-shape ref, pag 24 frans fb
 		classificatie methode met probs en met derivitave met elkaar vergelijken
 		iets zeggen over complexiteit
@@ -98,6 +92,7 @@ aan het eind:
 
 ---------------------------------------------------------------------------------
 tijdens moe:
+	staafdiagram naar black and white converten
 	generate matlab images zie hieronder
 	edge images inverten
 	IMAGES FROM PDFS
