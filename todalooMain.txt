@@ -28,7 +28,11 @@ todos staan op 2 plekken!
 				als af dan afkijken bart en folkert
 			alles doornemen
 
-		verschillende verdiepingen bij de window classification uitlegggen
+		verschillende verdiepingen bij de window classification uitlegggen p 68
+			ook p71 2e comment aanpassen
+		overgeslagen comments Frans
+			p 73
+			
 		belangrijke zaken van bestaande todos in mijn bestanden
 		refs in intro
 

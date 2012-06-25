@@ -13,6 +13,7 @@ as it is -> because
 Lets -> Let us
 Let's -> Let us
 Matlab -> MATLAB
+gab -> gap
 
 remove enters, but keep it incase i want te reverse
 .\\ -> .%\\

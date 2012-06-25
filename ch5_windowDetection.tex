@@ -560,7 +560,7 @@ located closely.  To apply a proper grouping of the peaks the challenge is to
 distinguish these two cases.\\
 
 First we decrease the total number of found window alignment locations by increasing the individual thresholds (from 0.3*max
-peak to 0.5*max peak). Note that this has a positive side effect that the peaks that are found are more certain.
+peak to 0.3*max peak). Note that this has a positive side effect that the peaks that are found are more certain.
 After this we group the peaks as follows: \\
 First we calculate the average of the maximum window frame part and the minimum window
 distance and call this the maximum peak group distance $G$.
@@ -687,7 +687,8 @@ Areas that transcend from a window area cluster to a non-window area cluster
 (or vice versa) are determined as the window alignment locations.
 For both methods the challenge is again to detect the window alignment with
 unknown window types but keep the number of false positives (e.g. a drain pipe)
-zero.
+zero. It is also possible to discard the false positives by an additional (e.g.
+local refinement) method.
 
 \subparagraph{Future research:Peak grouping}
 We fused the result of the horizontal and vertical Hough lines and discarded
@@ -894,7 +895,7 @@ Y-axis.
 \TODO{make a diagram, histogram - alignment lines -> window classification etc.}
 \TODO{discuss drain pipe, dat het goed is dat het resultaat mooi is ondanks drainpipe}
 
-\subparagraph{Results:Dirk dataset}
+\subparagraph{Results:Anne dataset}
 \fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Anne2, Improved window
 classification method: The red line shows concave shapes at window locations and
 convex shapes at non-window locations}{0.7}
@@ -902,17 +903,14 @@ convex shapes at non-window locations}{0.7}
 
 Although the scene contains a lot occlusion artefacts and suffers resolution
 loss, especially on the left side of the image, the results for the Anne2
-dataset, a 100\% detection and a 100\% true positive rate are very well.
-%todo
-
-This is mainly due the high interpretation level of the Histogram function.  We
-used the fact that the histogram function has a very consistent pattern, at
-every window area its shape is convex and every non-window its shape is concave.
+dataset, a 100\% detection rate and a 100\% true positive rate. This means that 
+all windows are detected and that all areas that are classified as windows are
+indeed window areas.\\
 \clearpage
 
 
 \newpage
-\subparagraph{Results:Anne2 dataset}
+\subparagraph{Results:Dirk dataset}
 
 \fig{w_Dirk4Trans_ImOri.eps}{Dataset: Dirk, Rectified image of a realistic scene which is realistic as it contains light spots, bicycles. Note that the windows are partially aligned and the differ in size and type}{0.55}
 \fig{w_Dirk4Trans_ImHibaap_WAlinesMerged.eps}{Dataset: Dirk, Improved window
@@ -920,6 +918,17 @@ classification method: The red line shows concave shapes at window locations and
 convex shapes at non-window locations}{0.45}
 \fig{w_Dirk4Trans_ImClassRect.eps}{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}{0.45}
 \TODO{IMPROVED result on Anne1 dataset, investigate which combinations of dataset and methods i miss}
+
+The results on the Dirk dataset are also prommissing given we are dealing with a
+scene which violates the aligned window assumption and also contains different
+window types.
+All windows that are present are detected (100 \% Detection rate). 88 \% of the
+detected windows are actually window areas. 12 \% from the classified windows
+are not window areas: these are the doors at the lowest row.
+9 \% of the areas that are classified as non-window areas should be window
+areas, this is caused by the unaligned parts of the windows in the first and
+last column.
+
 
 \begin{table}[t]
 \caption{Improved window classification results on Anne2 and Dirk dataset}
@@ -969,8 +978,6 @@ en links dirk dataset}
 
 \TODO{compaire to other classification methods}
 \TODO{(perform both classifications on both datasets (2x3 img), visual concatenate images vertically)}
-
-
 
 
 %\subparagraph{Interpretation of the results of the Dirk dataset}
@@ -1081,7 +1088,7 @@ because it interpretes the derivative of the histogram function.\\
 	detection approaches.  To have a 100\% detection rate one need to be certain
 	that if one approach fails at least one other approach must succeed.  We
 	proposed the strong combination of two methods where the first method filled the
-	gab of the second method and the other way around.
+	gap of the second method and the other way around.
 	For example we took care of the window parts that suffer vertical occlusion by a method that
 	detects horizontal window parts.  We can conclude that a method that fills the
 	gab of the occluded alignment locations must generaly rely on Hough lines that
