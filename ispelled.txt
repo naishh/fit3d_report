@@ -5,9 +5,8 @@
 	%\listoftodos
 	%\include{ch_comments}
 
-	\include{ch0_bram}
 	\include{ch0_acknowledgements}
-	\include{ch0_abstract} 
+	X\include{ch0_abstract} 
 	\include{ch1_intro}
 	\include{ch2_preliminaries}
 	\include{ch3_skylineDetection}
