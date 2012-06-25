@@ -536,7 +536,7 @@ In this method we examine the projection profile of the \emph{horizontal} Hough 
 projected on the X axis, $X_h$, Figure \ref{fig:w_Spil1TransImproved_Xh.eps}.
 On the positions of the desired vertical alignment lines there appears to be a 
 big decrease or increase of $X_h$ at the window frame. This is because on these
-positions a window containing (a large amount of horizontal lines) starts or end.
+positions a window (containing a large amount of horizontal lines) starts or end.
 
 We detect these big decreases or increases by creating a new pseudo peak profile
 $D$ that takes the absolute of the derivative of $X_h$, Figure \ref{fig:w_Spil1TransImproved_Xh.eps}.
@@ -548,7 +548,7 @@ We have presented two window alignment methods, next we fuse the methods to
 gain a robust window alignment.
 The target is to have as few as possible false positives while detecting all alignment locations.\\
 
-If a window alignment position is found by both methods, often the peaks are
+If a window alignment position is found by both methods, the peaks are often
 located very close to each other, see Figure
 \ref{fig:w_Spil1TransImproved_Xvh.eps}.  If this is the case we want to fuse the results by grouping the peaks.
 Most of the times the peaks indicate the same window alignment but have
@@ -569,7 +569,7 @@ $G$, we discard the peak with the least evidence (lowest peak). The result,
 a set of unique peaks, can be seen in Figure \ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}.\\
 
 The advanced peak grouping is only required for the vertical alignment
-of the windows: The horizontal inter window distance is often big enough to not
+of the windows: the horizontal inter window distance is often big enough to not
 be mistaken by a window frame part.
 
 \TODO{peak merging result misses for 1 dataset?}
@@ -578,14 +578,14 @@ be mistaken by a window frame part.
 \newpage
 \paragraph{Results}
 
-\fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Regular window alignment: Based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
+\fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
 \fig{w_Spil1TransImproved_Xh.eps}{Dataset: Anne2, Alternative window alignment (orthogonal projection): Based on the shape of the smoothed histogram function. 
 For the column division, the number of \emph{horizontal} Hough lines is counted (Note that this is the orthogonal opposite of the regular window alignment method). 
 Peaks (that represent a big decrease or increase of the histogram function) are used for the alignment.}{0.7}
-\fig{w_Spil1TransImproved_Xvh.eps}{Dataset: Anne2, Regular+Alternative window alignment combined}{0.7}
+\fig{w_Spil1TransImproved_Xvh.eps}{Dataset: Anne2, Regular and alternative window alignment combined}{0.7}
 
-\fig{w_Dirk4Trans_ImHibaap_Xvh.eps}{Dataset: Dirk, Regular+Alternative window alignment combined}{0.45}
-\fig{w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}{Dataset: Dirk, Regular+Alternative window alignment combined, zoomed}{0.45}
+\fig{w_Dirk4Trans_ImHibaap_Xvh.eps}{Dataset: Dirk, Regular and alternative window alignment combined}{0.45}
+\fig{w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}{Dataset: Dirk, Regular and alternative window alignment combined, close-up}{0.45}
 \clearpage
 
 \paragraph{Discussion}
@@ -593,25 +593,25 @@ The results are promising, as for both datasets 100 \% of the alignment lines
 are positioned either at the boundary of a window area or inside a window area.
 
 \subparagraph{Discussion:Many alignment lines}
-In Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.eps}, too many alignment lines
+In Figure \ref{fig:w_Dirk4Trans_ImHibaap_Xvh.eps}, too many alignment lines are
 detected and not every alignment line is placed correctly.  This is mainly
 because the windows are partially aligned: the two front doors contain many
-vertical edges that are not aligned with the upper windows therefore a double alignment
+vertical edges that are not aligned with the upper windows, therefore a double alignment
 is found (doors and windows).  Another cause of this artefact is that the
 bicycles on the left (see Figure \ref{fig:w_Dirk4Trans_ImHoughResult.eps}) cause
 a large amount of found Hough lines which implies a (false) alignment line.
-Although the causes are clear, we don't have to worry about this additional
-window alignment lines that lie inside a window area as adjacent window areas
-are grouped by the classification module.\\
-Fortunately no alignment lines are found at non-window areas.
+Although the causes are clear, these additional
+window alignment lines cause that lie inside a window area cause no problem
+because adjacent window areas are grouped by the classification module.\\
+Fortunatelly no alignment lines are found at non-window areas.
 
 
 \subparagraph{Discussion:Fusing the methods}
 If we evaluate the independent window detection results on the Anne2 dataset we see (Figure
 \ref{fig:w_Spil1TransImproved_Xh.eps}, \ref{fig:w_Spil1TransImproved_Xv.eps})
 that in both datasets neither the regular window alignment method nor the
-improved window alignment detect 100\% of the window alignment lines.  The
-effect of fusing the methods is high as, after fusing, 100\% of the window
+improved window alignment method detect 100\% of the window alignment lines.  The
+effect of fusing the methods is high as after fusing, 100\% of the window
 alignment is found on both datasets: each window alignment line is detected by
 at least one method.  This is basically explained by the fact that both methods
 are based on a different Houghline direction.  We now discuss the interesting
@@ -622,36 +622,36 @@ Figure \ref{fig:w_Spil1TransImproved_Xv.eps} we see that for the first 4 window
 columns the right side of the window is not detected.  This is because the
 original (unrectified) image (Figure \ref{fig:w_spil6ImOri.eps}) is not a
 frontal image.  This makes building wall extensions (middle of Figure
-\ref{fig:w_spil6ImOri.eps}) or drainpipes occlude parts of the window.  In this
-case the windows are countersunked into the wall making the building wall itself
+\ref{fig:w_spil6ImOri.eps}) or drainpipes occlude parts of the windows.  In this
+case the windows are countersunked into the wall, making the building wall itself
 occluding the right window frame (Figure \ref{fig:w_Spil1TransImproved_Xv.eps}).
 The color of the reflection of the window is very similar to the bricks and
-because the window and wall are not separated by the window frame, the edge
+because the windows and walls are not separated by the window frame, the edge
 detector doesn't find a strong edge.  This means that on all positions where the
 window frame is missing, no vertical Hough lines will be detected and (as the
 regular window alignment is based on the amount of vertical Hough lines) no window
-alignment will be found.  This artefact can be studied in the edge image Figure
-\ref{fig:w_Spil1TransCrop1_ImEdge.eps}: few or no edges are present, and at the
-low height of the peaks in Figure \ref{fig:w_Spil1TransImproved_Xv.eps} at these
-positions.\\
+alignment will be found.  This artefact can be studied in 1) the edge image Figure
+\ref{fig:w_Spil1TransCrop1_ImEdge.eps} (few or no edges are present), and 2) at the
+low height of the peaks at these positions (Figure
+\ref{fig:w_Spil1TransImproved_Xv.eps}).\\
 
-However, the alternative window alignment does find a window alignment on this
+However, the alternative window alignment does find a window alignment on these
 positions. This is because the method is based on the opposite Houghline
-direction : for the vertical window alignment the horizontal Houghline direction
+direction: for the vertical window alignment the horizontal Houghline direction
 is taken into account.  This occlusion artefact has no effect on the horizontal
-Hough lines which makes the alternative window alignment method a strong
+Hough lines, which makes the alternative window alignment method a strong
 alternative for the alignment of (partially) occluded windows.\\
 
 In general, the alternative window alignment performs better then the regular
 window alignment method.  This is because this method takes the  horizontal
 window frame parts into account which is a priori stronger as there are more
-horizontal window parts then vertical window parts present.  E.g. Figure
+horizontal window parts then vertical window parts present.  E.g. in Figure
 \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps} every window has (as it has two
 vertical sub windows) 3 horizontal window frame parts but only 2 vertical window
-parts).  Furthermore the method is more robust because it relies on a higher
+parts.  Furthermore the method is more robust because it relies on a higher
 level of histogram interpretation (by using the derivative).  However, in a few
-cases alternative window alignment method is outperformed by the regular window
-alignment . For example, in Figure
+cases the alternative window alignment method is outperformed by the regular window
+alignment. For example, in Figure
 \ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}, the left
 side of the second window column is not detected.
 This is because this window type has no horizontal subdivisions. Only the top and
@@ -661,7 +661,7 @@ small to survive the threshold).
 The threshold is a priori hard to survive because it has a high value as it is
 determined by taking a fraction of the maximum peak which is located at the
 windows that do have horizontal subdivisions (for example the most left or most
-right window column)). 
+right window column). 
 
 
 \TODO{result1 drain pipe result niet erg ivm vlg stap}
@@ -1050,7 +1050,7 @@ correct detected windows.
 % what can be derived from the results+?
 \TODO{We showed that projecting the image to a frontal view is a good preprocessing step of a robust window detector.}
 
-We proposed two novel methods of window detection. The first method is used for
+We discussed two novel methods of window detection. The first method is used for
 scenes where no calibrated input data is available. Despite of the lack of this
 data it performed realy well as it detected 99\% of the windows. However the 
 labeling of the windows could be more decent.  This is achieved in our second
