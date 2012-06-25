@@ -1,3 +1,6 @@
+X means ispelled!
+last date 26 june
+
 \documentclass[article, titlepage]{article}
 \include{commandsPre}
 \include{header}
@@ -7,13 +10,13 @@
 
 	\include{ch0_acknowledgements}
 	X\include{ch0_abstract} 
-	\include{ch1_intro}
-	\include{ch2_preliminaries}
-	\include{ch3_skylineDetection}
-	\include{ch4_extract3dmodel}
-	\include{ch5_windowDetection}
-	\include{ch6_conclusion}
-	\include{chA_appendices}
+	X\include{ch1_intro}
+	X\include{ch2_preliminaries}
+	X\include{ch3_skylineDetection}
+	X\include{ch4_extract3dmodel}
+	X\include{ch5_windowDetection}
+	X\include{ch6_conclusion}
+	X\include{chA_appendices}
 
 	\bibliographystyle{plain}
 	\bibliography{references}

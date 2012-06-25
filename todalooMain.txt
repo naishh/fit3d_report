@@ -34,6 +34,16 @@ todos staan op 2 plekken!
 			
 		belangrijke zaken van bestaande todos in mijn bestanden
 
+---------------------------------------------------------------------------------
+aan het eind:
+	zoeken op vraagtekens
+	alle alineas een enter eronder, of iig overal consistent
+	alineas gelinked?
+	level of detail
+	read again on other subjects in mind see how te wr thesis
+	motivate my assumption and choices 
+	zoeken op 'but' en kijken of er however bij kan
+	comma regel stefanie (gebruik ik niet te lange zinnen)
 
 
 
@@ -70,17 +80,6 @@ ch 5 WINDOW DETECTION
 		classificatie methode met probs en met derivitave met elkaar vergelijken
 		iets zeggen over complexiteit
 
----------------------------------------------------------------------------------
-aan het eind:
-	ispell
-	zoeken op vraagtekens
-	alle alineas een enter eronder, of iig overal consistent
-	alineas gelinked?
-	level of detail
-	read again on other subjects in mind see how te wr thesis
-	motivate my assumption and choices 
-	zoeken op 'but' en kijken of er however bij kan
-	comma regel stefanie (gebruik ik niet te lange zinnen)
 
 
 ---------------------------------------------------------------------------------

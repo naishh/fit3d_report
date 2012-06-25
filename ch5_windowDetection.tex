@@ -32,7 +32,7 @@ Muller et al. \cite{Muller_procedural} detect regularity and symmetry in the bui
 symmetry is detected in the vertical (floors) and horizontal (window
 rows) direction.
 They use shape grammars to divide the building wall in tiles, windows, doors etc.
-The results are used to derive a 3d model of high 3d visual quality.
+The results are used to derive a 3D model of high 3D visual quality.
 \figsSmall{label_window_nice_geometry}{p_window_nice_geometry1.eps}{p_window_nice_geometry2.eps}{Results of Muller et al.}{original texture}{reconstruction}
 Although they achieved some interesting results, their method has some
 disadvantages.  As their method is fully based on detecting symmetry, they have
@@ -85,14 +85,14 @@ similar to our approach.\\
 \subsubsection{Similar approaches}
 Pu and Vosselman \cite{Pu_refiningbuilding} combine laser range images with
 ground images to reconstruct facade details.  They solve inconsistency between
-laser and image data and improve the alignment of a 3d model with a matching
-algorithm.  In one of the matching strategies they compare the edges of a 3d
+laser and image data and improve the alignment of a 3D model with a matching
+algorithm.  In one of the matching strategies they compare the edges of a 3D
 model to extracted Hough lines of both ground and laser range images.  They
 match the lines by comparing the angle, location and length differences. These
 criteria are also used in our approach.\\
 
 They also detect windows and use them to provide a significant better alignment
-of the 3d model.  As windows have a high reflection, they form hole like shapes
+of the 3D model.  As windows have a high reflection, they form hole like shapes
 in the laser range images.  These holes are directly used to extract the
 windows. Unfortunately due to bad laser range data, the results where far from
 accurate.\\
@@ -108,7 +108,7 @@ next).  In order to make clear orthogonal projections they rectify the facade.
 To determine the alignment of the windows the edges are projected into their orthogonal direction. 
 For example the horizontal edges are projected in the vertical direction to 
 establish the vertical division of the windows.\\
-\fig{p_projection_profiles.eps}{Projection profiles of Lee and Nevatias work}{0.4}
+\fig{p_projection_profiles.eps}{Projection profiles of Lee and Nevatia's work}{0.4}
 A function is developed that counts the amount of projected edges on each
 location. This is the \emph{Projection profile}, see Figure
 \ref{fig:p_projection_profiles.eps}.
@@ -200,8 +200,8 @@ The results of the edge detection and the Hough transform of two images can be s
 \subsubsection{Connected corners extraction}
 \fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
 result the clean connected corner}{0.4} 
-A window often consists of several subwindows enclosed in rectangular window
-frames.  As the color of the window frames differ from the glas, the amount of
+A window often consists of several sub windows enclosed in rectangular window
+frames.  As the color of the window frames differ from the glass, the amount of
 horizontal and vertical edges is large at these locations.  As the
 horizontal and vertical edges come from rectangular window frames they often
 share a corner of the window.  We developed an approach where we pair up these
@@ -274,10 +274,10 @@ Furthermore the next step in this study would be an analysis of the substructure
 of the windows.  The big window that contains sub windows could be
 found by calculating the convex hull of the red areas in Figure
 \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps}.  The sub windows could be found
-by grouping connected corners that resamble the same subwindow.\\
+by grouping connected corners that correspond to the same sub window.\\
 
 This could be done by clustering the connected corners at their location.
-It would be useful to assume the number of subwindows as this can be used to
+It would be useful to assume the number of sub windows as this can be used to
 determine the maximum inter-cluster distance.  
 We could also incorporate not only the center of the connected corner as a
 parameter of the cluster space but also the length and position of the
@@ -314,8 +314,8 @@ research is done in this area.  As we want to focus on the annotational part of
 facade interpretation, we used existing software to assist our rectification.\\
 
 I. Esteban's \emph{FIT3D toolbox} \cite{FIT3D} comes with an add-on which
-extracts a 3D model from a series of frames.  This add-on involves a process tha
-calculates the motion between a series of frames in order to extract a point
+extracts a 3D model from a series of frames.  This add-on involves a process
+that calculates the motion between a series of frames in order to extract a point
 cloud of matching features. This point cloud is used to extract a plane for
 every unique wall.  More details of this process are explained in
 (\ref{sec:prelimFIT3D}).
@@ -348,7 +348,7 @@ The next step is to transform the facade (and therefore the Hough lines) to a
 frontal view. Instead of transforming the facade we rotate and translate the camera. 
 This means the heading (z-axis) of the camera needs to be equivalent to the normal of the facade plane. 
 We determine the rotation matrix $R$ by calculating the angle between the camera's heading an the normal of
-the facade. This process involves calcuting 1) the orthogonal rotation vector
+the facade. This process involves calculating 1) the orthogonal rotation vector
 $\vec{n}$ and 2) the angle $\theta$, see Figure \ref{fig:axisAnglePresentation.eps}.
 
 \fig{axisAnglePresentation.eps}{$\vec{a}$ is the camera's heading and $\vec{b}$
@@ -403,8 +403,8 @@ The rectification error can be seen as the skew window alignment (and skew
 drainpipe) on the left of the image. 
 Furthermore the yaw value of the camera (horizontal viewing angle) was (relative
 to the other datasets) high, making parts of the windows occluded.  The height
-of the windows on the right side of the image is 698 px, at the left side this
-is 320 px: a resolution of more then 2 times smaller which makes it hard to detect
+of the windows on the right side of the image is 698 pixels, at the left side this
+is 320 pixels: a resolution of more then 2 times smaller which makes it hard to detect
 the left windows. Trilinear interpolation is used to minimize this loss.
 To reduce the number of handicaps (and to focus on the rectification and
 occlusion error) we cut off the bottom of the image which included cars, unaligned doors and windows.
@@ -603,7 +603,7 @@ a large amount of found Hough lines which implies a (false) alignment line.
 Although the causes are clear, these additional
 window alignment lines cause that lie inside a window area cause no problem
 because adjacent window areas are grouped by the classification module.\\
-Fortunatelly no alignment lines are found at non-window areas.
+Fortunately no alignment lines are found at non-window areas.
 
 
 \subparagraph{Discussion:Fusing the methods}
@@ -862,8 +862,8 @@ we see that $X_h$ (the amount of horizontal Hough lines) has two shapes that
 repeat:  At the location where a window is present $X_h$ is concave whereas at
 non-window areas $X_h$ is convex. 
 This is because a window contains framed sub windows that create 
-a large amount of edges. The number of edges is large at the centre of the
-window.  Wheres the numer of edges at positions that lie between the windows
+a large amount of edges. The number of edges is large at the center of the
+window.  Wheres the number of edges at positions that lie between the windows
 (the non-window areas) is small.
 The concave and convex shape of $X_h$ also supports that these values 
 increase towards the window center and decrease towards
@@ -919,7 +919,7 @@ convex shapes at non-window locations}{0.45}
 \fig{w_Dirk4Trans_ImClassRect.eps}{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}{0.45}
 \TODO{IMPROVED result on Anne1 dataset, investigate which combinations of dataset and methods i miss}
 
-The results on the Dirk dataset are also prommissing given we are dealing with a
+The results on the Dirk dataset are also promising given we are dealing with a
 scene which violates the aligned window assumption and also contains different
 window types.
 All windows that are present are detected (100 \% Detection rate). 88 \% of the
@@ -1052,7 +1052,7 @@ correct detected windows.
 
 We discussed two novel methods of window detection. The first method is used for
 scenes where no calibrated input data is available. Despite of the lack of this
-data it performed realy well as it detected 99\% of the windows. However the 
+data it performed really well as it detected 99\% of the windows. However the 
 labeling of the windows could be more decent.  This is achieved in our second
 method which uses a calibrated scene.  It is based on Histograms
 of Houghlines and came with a 100\% detection rate of the windows.  
@@ -1065,7 +1065,7 @@ for, and robust to, scenes with a variation in window sizes and types. This
 	scenes where no or few prior information about the windows is known.\\
 
 Furthermore, the system has small requirements on the input data.
-It is independent of calibrated input data and 3d information
+It is independent of calibrated input data and 3D information
 about the building and no image rectification is required. \\
 
 
@@ -1079,7 +1079,7 @@ results in this work and in previous work are very promising.\\
 % alternative method is better
 We proposed two window detection methods and can conclude that the alternative
 approach performs better because it is based on a horizontal window division and
-because it interpretes the derivative of the histogram function.\\
+because it interprets the derivative of the histogram function.\\
 
 	\paragraph{Occlusion}
 	We showed that window alignment becomes a challenging task if the windows are partially
@@ -1091,7 +1091,7 @@ because it interpretes the derivative of the histogram function.\\
 	gap of the second method and the other way around.
 	For example we took care of the window parts that suffer vertical occlusion by a method that
 	detects horizontal window parts.  We can conclude that a method that fills the
-	gab of the occluded alignment locations must generaly rely on Hough lines that
+	gap of the occluded alignment locations must generally rely on Hough lines that
 	lie in the orthogonal direction of the occlusion.
 
 	\paragraph{Relative thresholding fails at differing window types}
@@ -1099,7 +1099,7 @@ because it interpretes the derivative of the histogram function.\\
 	the same scene.  We can conclude that applying a threshold that is relative to a
 	maximum peak doesn't work well on window types that differ.  (in for example
 	horizontal subdivisions).  This is caused by the relative high maximum peak
-	which is determined by the window with many subwindows which produce a large
+	which is determined by the window with many sub windows which produce a large
 	amount of edges.  The window types with few subdivision don't survive this
 	threshold and missing alignment lines is the result (Figure
 	\ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}).  This means that if we want to
@@ -1128,14 +1128,14 @@ because it interpretes the derivative of the histogram function.\\
 	The certainty based window classification only took the number of
 	Houghlines in an certain block into account.
 	In this approach we used 
-	the fact that the number of edges, caused by framed subwindows, increases
-	towards the centre of the window.
+	the fact that the number of edges, caused by framed sub windows, increases
+	towards the center of the window.
 	We interpreted the Histogram function on a derivative level:
 	and searches for a strong increase or decrease in the number of
 	Houghlines. \\
 	The method appear to be very robust because it classified 100\% of the windows correct.
 	This is mainly because the increase and decrease pattern is very consistent: it
-	holded for all window and non-window areas in all datasets.
+	holds for all window and non-window areas in all datasets.
 	It is also robust because the increase and decrease we detect is a relative 
 	measure. In contrast to methods that use absolute measures, this method is robust to a variation
 	of window types and lightning conditions.\\

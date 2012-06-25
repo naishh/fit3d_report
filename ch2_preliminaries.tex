@@ -81,8 +81,8 @@ a photograph of a building taken by a user, $\theta = [-10..0..10]$.Although
 only $\theta = 0$ presents an exact horizontal line we broaden the interval
 because the user hardly ever holds the camera exactly orthogonal.
 	
-\subsubsection{Matlab parameters}
-We used a standard Matlab implementation of the Hough transform for straight lines.  This implementation comes with some interesting parameters:\\
+\subsubsection{MATLAB\cite{matlab} parameters}
+We used a standard MATLAB\cite{matlab} implementation of the Hough transform for straight lines.  This implementation comes with some interesting parameters:\\
 
 	The \emph{MinimumLength} parameter specifies the minimum length that a line must have to be valid. This is especially interesting if we want to detect a large straight skyline or if we want to discard lines that are to small to form for example a window.\\
 
@@ -121,7 +121,7 @@ systems can be found in Table \ref{tab:coord}.
 	\label{tab:coord}
 	\begin{tabular}{|l||c|c|c|}
 	\hline
-	Reference system name		&	abreviation	&	dimensions	&	axis\\
+	Reference system name		&	abbreviation	&	dimensions	&	axis\\
 	\hline
 	\hline
 	Image Coordinate Frame	&   ICF			&	2D			& 	x,y\\
@@ -132,19 +132,6 @@ systems can be found in Table \ref{tab:coord}.
 	\hline
 	\end{tabular}
 \end{table}
-%todo use costins work and refer 
-%todo use FIT3D toolbox paper
-
-
-%  The camera can be described in the same coordinate system as the 3D point we are
-%  looking for, we call this the world coordinate system. 
-%  The camera center is a value in $\mathbb{R}$3 that represents the camera's position in the world
-%  coordinate system. If the camera rotates, it rotates around this point.
-%  \TODO{ elaborate}
-%  
-%  
-%  %TODO IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!
-%\subsection{Getting the camera centers and viewing directions}
 
 \subsection{Camera calibration}
 \label{sec:cameraCalibration}
@@ -167,7 +154,7 @@ This method involves taking images of a checkerboard in different positions and
 orientations. An algorithm detects the grid on the chessboard and monitors its
 transformations under the different images.  If enough images are given (at
 least 10) and the images contain enough variety in chessboard pose, the Bouguet
-toolbox can calculate the intrinsic parameters quitte accurate.
+toolbox can calculate the intrinsic parameters quite accurate.
 More details about this method can be found in \cite{bouguet}.
 
 \subparagraph{Extrinsic parameters}

@@ -2,20 +2,6 @@ alle ?? nagaan in pdf
 
 replace:
 
-finaly -> finally
-As we -> because we
-therefor spatie -> therefore 
-isn't  -> is not
-doesn't-> does not
-isn't -> is not
-as it is -> because
-3d -> 3D
-Lets -> Let us
-Let's -> Let us
-Matlab -> MATLAB
-gab -> gap
-width the -> with the
-
 remove enters, but keep it incase i want te reverse
 .\\ -> .%\\
 
