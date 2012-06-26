@@ -28,15 +28,16 @@ approaches that differ from our approach.  After this, we discuss state of art
 window detection that lays at the basis of our approach in detail.\\
 
 \subsubsection{Alternative approaches on window detection}
-Muller et al. \cite{Muller_procedural} detect regularity and symmetry in the building. The
-symmetry is detected in the vertical (floors) and horizontal (window
-rows) direction.
+Muller et al. \cite{Muller_procedural} detect regularity and symmetry in
+buildings. The
+symmetry is detected in the vertical direction (floors) and horizontal direction (window
+rows).
 They use shape grammars to divide the building wall in tiles, windows, doors etc.
 The results are used to derive a 3D model of high 3D visual quality.
 \figsSmall{label_window_nice_geometry}{p_window_nice_geometry1.eps}{p_window_nice_geometry2.eps}{Results of Muller et al.}{original texture}{reconstruction}
 Although they achieved some interesting results, their method has some
 disadvantages.  As their method is fully based on detecting symmetry, they have
-to assume repeating and aligned windows: this constrains the variety of scenes
+to assume repeating and aligned windows. This constrains the variety of scenes
 the system can handle.
 Furthermore they match template window objects which they predefine. This 
 constraints the variety of window types that could be matched.  At last 
@@ -48,21 +49,22 @@ detects heat leakage on building walls as an indicator for doors or windows.
 Windows are detected with L-shaped features as a set of \emph{steerable filters}.
 The windows are grouped using \emph{perceptual organization rules}:
 they search and group intersecting L-shapes to close a window shape. A shape is
-determined closed if it can separate an inside region from the outside, i.e.
-determine if it is a window.  \\
+determined closed if it can separate an inside region from the outside. If the
+shape is closed it is classifies as a window.\\
 
 Ali et al. \cite{Ali_facades} describe the windows with \emph{Haar} like
 features, the features are combined using a cascading classifier. The cascading
 classifier (which acts like a decision tree) is learned using the \emph{Ada
-boost} algorithm.  They also use window detection to determine the region of
-the facade.\\
-
-Although this method is used a lot in computer vision, it is not the most
-promising approach to window detection because it has to be supervised.  This means
+boost} algorithm.  They also applied window detection to determine the region of
+the facade.
+Although this method is used a lot in the computer vision domain \cite{haarlike}, it is not the most
+promising approach to window detection because it is supervised.  This means
 that it requires a large dataset in which every window must be accurately
-annotated.  As the cascader uses a fixed swiping window it is sensitive to
-scale: all window sizes must be equal and a size range must be given to the system.
-Furthermore the system is always over fitted to the learning data
+annotated.  
+
+Furthermore, because the cascader uses a fixed swiping window it is sensitive to
+scale: all windows in the scene must be of about the same size and a size range must be given to the system.
+Furthermore the system is always overfitted to the learning data
 , making it hard to generalize (detect windows that are
 not included in the dataset).  A more general descriptor of the window that is
 size invariant is desirable.\\
@@ -72,14 +74,15 @@ size invariant is desirable.\\
 To investigate this, we developed two methods of which one method does not
 require repeating windows nor aligned windows.  One of the main targets of our research
 is to have small requirements on the input data.  First our system doesn't need 
-a large annotated dataset. Furthermore we took the images with a mobile phone
-and decided to extract the windows from the image space only, this makes us
-independent of additional expensive data like heat or laser range images.
-It doesn't mean the previous work on window detection using laser or heat
+a large annotated dataset. Furthermore we extract the windows from the image
+space only which makes us independent of additional expensive data like heat or laser range images.
+
+This doesn't mean the previous work on window detection using laser or heat
 images isn't of good use.  Instead we learned a lot from the previous research
 as they have to match the laser or heat data to the real image space.  This
 matching process involves a description (semantical annotation) of the facade.
-Let's explain a method of that kind and discuss other approaches that are more
+
+Let us explain a method of that kind and discuss approaches that are more
 similar to our approach.\\
 
 \subsubsection{Similar approaches}
@@ -105,13 +108,14 @@ window detection technique that is independent of laser range data.\\
 Recky et al. \cite{Recky_kmeans} developed a window detector that is build on
 the primary work of Lee and Nevatia \cite{Lee_extraction} (which is discussed
 next).  In order to make clear orthogonal projections they rectify the facade. 
-To determine the alignment of the windows the edges are projected into their orthogonal direction. 
+To determine the alignment of the windows, the edges are projected into their orthogonal direction. 
 For example the horizontal edges are projected in the vertical direction to 
 establish the vertical division of the windows.\\
 \fig{p_projection_profiles.eps}{Projection profiles of Lee and Nevatia's work}{0.4}
 A function is developed that counts the amount of projected edges on each
-location. This is the \emph{Projection profile}, see Figure
+location, this is called the \emph{Projection profile}, see Figure
 \ref{fig:p_projection_profiles.eps}.
+
 A threshold is applied on the projection profile to indicate the window
 boundaries that are used for the window alignment.\\
 
@@ -123,9 +127,8 @@ Furthermore the classification based on color is sensitive to change in
 illumination conditions.\\
 
 
-As in the work of Recky et al. \cite{Recky_kmeans}, Lee et al.
-\cite{Lee_extraction}
-perform orthogonal edge projection to find the window alignment.  As different
+Similar to the work of Recky et al. \cite{Recky_kmeans}, Lee et al.
+\cite{Lee_extraction} perform orthogonal edge projection to find the window alignment.  As different
 shapes of windows can exist in the same column/row, they only use the window alignment as
 a hypothesis.  Then, using this hypothesis, they perform a refinement for each
 window independently. 
@@ -146,11 +149,11 @@ E.g. for the determination of the horizontal division of the windows we fuse bot
 horizontal and vertical projection profiles.\\
 
 Furthermore we have build two alternative window classification procedures which are 
-based on a higher level of shape interpretation of these projection profiles.
+based on the shape interpretation of these projection profiles.
 As the classification is based on the projection profiles (edge information) we
 don't require expensive color transformations and we only apply (rectification)
 transformations on line segment endpoints. This makes our algorithm invariant to
-change in illumination and perform in real-time.  
+change in illumination and we expect it to perform in real-time.  
 	
 
 
@@ -164,29 +167,33 @@ change in illumination and perform in real-time.
 
 \subsection{Method I: Connected corner approach} 
 \subsubsection{Situation and assumptions}
-A window consists of a complex structure involving a lot of connected horizontal
-and vertical lines, we use this property to detect the windows. 
-We introduce the concept \emph{connected corner}, this is a corner that is 
-connected to a horizontal and vertical line.  
-The search for these connected corners is based on edge information.
+A window often consists of a complex structure that optionally contain several sub windows enclosed in rectangular window
+frames.  As the color of the window frames differ from the glass, the amount of
+horizontal and vertical edges is large at these locations.  
+Some horizontal and vertical edges come from the same window frame, therefore they often
+share a corner of the window.  We developed an approach where we pair up these
+horizontal and vertical lines to determine \emph{connected corners}.
 The connected corners give a good indication of the position of the windows. 
 In this approach the viewing direction is not required to be frontal.
 The windows could be arbitrarily located and they don't need
 to be aligned to each other neither to the X and Y axis of the image.
 As such the windows are detected individually.
 
+First we detect the edges and transform them to straight lines.
+
 \subsubsection{Edge detection and Houghline extraction}
 Edge detection is done using the Canny edge detector motivated earlier in
 section (\ref{sec:edgeDet}).
 From the edge images two groups of Hough lines are extracted. 
-The groups fall in the two window directions horizontal and vertical.
+The groups fall in the two window directions: horizontal and vertical.
 This is done by controlling the allowed angles, $\theta$ bin ranges, in the Hough transform.
+
 The horizontal group has a range of $\theta = [-30..0..30)$ degrees, where $\theta = 0$ presents a horizontal line. 
 The vertical group has a range of $\theta = [80..90..100)$ degrees. 
 
-We use these ranges because 1) the user hardly ever holds the camera exactly
-orthogonal.  2) we work with unrectified facades, meaning we deal with
-perspective distortion.  To be more concrete, if the user takes a photo (Figure
+We use ranges because 1) the user hardly ever holds the camera exactly
+upright and 2) we work with unrectified facades: the window sides do
+not apear orthogonal due te perspective distortion.  To be more concrete, if the user takes a photo (Figure
 \ref{fig:cameraPitch.eps}) with a certain Yaw \= 0, the horizontal lines become
 skew.  The range of the vertical group is smaller then the horizontal group as
 the user often takes photos with a low pitch value and a high yaw.
@@ -200,14 +207,7 @@ The results of the edge detection and the Hough transform of two images can be s
 \subsubsection{Connected corners extraction}
 \fig{cCornerTypes}{First row: different type of connected corner candidates. Second row: the
 result the clean connected corner}{0.4} 
-A window often consists of several sub windows enclosed in rectangular window
-frames.  As the color of the window frames differ from the glass, the amount of
-horizontal and vertical edges is large at these locations.  As the
-horizontal and vertical edges come from rectangular window frames they often
-share a corner of the window.  We developed an approach where we pair up these
-horizontal and vertical lines to determine \emph{connected corners} that
-indicate a window.\\
-
+How do we detect the connected corners?
 Often a connected corner contains a small gap or an extension which we tolerate,
 these cases are illustrated in Figure \ref{fig:cCornerTypes} in the top row.
 A horizontal gap, a vertical and horizontal gap and a vertical elongation. The
@@ -1053,20 +1053,22 @@ correct detected windows.
 We discussed two novel methods of window detection. The first method is used for
 scenes where no calibrated input data is available. Despite of the lack of this
 data it performed really well as it detected 99\% of the windows. However the 
-labeling of the windows could be more decent.  This is achieved in our second
-method which uses a calibrated scene.  It is based on Histograms
-of Houghlines and came with a 100\% detection rate of the windows.  
+assignment of the window areas could be more accurate.  
+
+Our second method which uses a calibrated scene.  It is based on Histograms
+of Houghlines and scored a 100\% detection rate of the windows.  
+
 We now discuss the method independent conclusions.  
 
-\subsubsection{Connected corner approach} % cCorner
+\subsubsection{Method I:Connected corner approach} % cCorner
 As can be concluded from our results, the connected corner method is suitable
 for, and robust to, scenes with a variation in window sizes and types. This
 	makes the connected corner approach suitable for a wide range of window
-	scenes where no or few prior information about the windows is known.\\
+	scenes where no or few prior information about the windows is known.
 
-Furthermore, the system has small requirements on the input data.
-It is independent of calibrated input data and 3D information
-about the building and no image rectification is required. \\
+The system has small requirements on the input data because it does not require
+camera calibration nor image rectification.  Furthermore no information
+regarding the building is required.
 
 
 \subsubsection{Method II: histogram based approach}
@@ -1078,16 +1080,18 @@ results in this work and in previous work are very promising.\\
 
 % alternative method is better
 We proposed two window detection methods and can conclude that the alternative
-approach performs better because it is based on a horizontal window division and
-because it interprets the derivative of the histogram function.\\
+approach performs better because it is based on a horizontal window division
+which is more robust to occlusion. Furthermore the alternative approach uses a
+higher order (the derivative) interpretation of the histogram function.\\
 
 	\paragraph{Occlusion}
 	We showed that window alignment becomes a challenging task if the windows are partially
 	occluded (due to for example a non frontal viewing angle).  One of the main solutions 
 	we proposed is to use multiple window
-	detection approaches.  To have a 100\% detection rate one need to be certain
-	that if one approach fails at least one other approach must succeed.  We
-	proposed the strong combination of two methods where the first method filled the
+	alignment approaches.  To have a 100\% detection rate one needs to be certain
+	that if one approach fails at least one other approach must succeed.  
+	
+	We proposed the strong combination of two methods where the first method filled the
 	gap of the second method and the other way around.
 	For example we took care of the window parts that suffer vertical occlusion by a method that
 	detects horizontal window parts.  We can conclude that a method that fills the
@@ -1096,17 +1100,19 @@ because it interprets the derivative of the histogram function.\\
 
 	\paragraph{Relative thresholding fails at differing window types}
 	Furthermore we discussed the implication of the use of different window types in
-	the same scene.  We can conclude that applying a threshold that is relative to a
-	maximum peak doesn't work well on window types that differ.  (in for example
-	horizontal subdivisions).  This is caused by the relative high maximum peak
-	which is determined by the window with many sub windows which produce a large
-	amount of edges.  The window types with few subdivision don't survive this
-	threshold and missing alignment lines is the result (Figure
-	\ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}).  This means that if we want to
-	stick with the relative thresholding method, we have to assume a certain
-	equality of the window types. Otherwise an alternative thresholding method
-	should be developed (e.g. a threshold that is altered depending on the window
-	type).
+	the same scene.  We conclude that applying a threshold that is relative to a
+	maximum peak doesn't work well on window types that differ (in for example
+	number of sub windows).  This is caused by the relative high maximum peak
+	which is determined by the window with the largest amount of sub windows
+	(the sub windows produce a large amount of edges).  The window types with
+	a small amount of sub windows sub don't survive this
+	threshold which results in missing alignment lines (Figure
+	\ref{fig:w_Dirk4Trans_ImHibaap_Xvh_zoom.eps}).  
+	
+	This means that if we want to stick with the relative thresholding method,
+	we have to assume a certain equality of the window types. Otherwise an
+	alternative thresholding method should be developed (e.g. a threshold that
+	is altered depending on the window type).
 
 	\TODO{make diagram: edge- hough -window alignment - window classification - window grouping}
 	\TODO{diagram maken window alignment -> peak merging -> etc}
@@ -1125,20 +1131,20 @@ because it interprets the derivative of the histogram function.\\
 	less dependent to window alignment errors. 
 
 	\paragraph{Histogram based window classification} 
-	The certainty based window classification only took the number of
-	Houghlines in an certain block into account.
-	In this approach we used 
+	Whereas the certainty based window classification only took the number of
+	Houghlines into account, this approach used 
 	the fact that the number of edges, caused by framed sub windows, increases
 	towards the center of the window.
 	We interpreted the Histogram function on a derivative level:
 	and searches for a strong increase or decrease in the number of
 	Houghlines. \\
-	The method appear to be very robust because it classified 100\% of the windows correct.
+	The method appears to be very robust as it classified 100\% of the windows correct.
 	This is mainly because the increase and decrease pattern is very consistent: it
 	holds for all window and non-window areas in all datasets.
-	It is also robust because the increase and decrease we detect is a relative 
-	measure. In contrast to methods that use absolute measures, this method is robust to a variation
-	of window types and lightning conditions.\\
+	It is also robust because the amount of increase and decrease is a relative 
+	measure. In contrast to methods that use absolute measures, this approach is
+	robust to a variation of window types. Furthermore we expect it to be robust
+	to change in illumination conditions as it uses relative measures.\\
 
 	We can conclude that this method, based on the shape of the histogram
 	function, outperformed the certainty based window classification.

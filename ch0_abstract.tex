@@ -5,11 +5,13 @@ A 3D model was extracted by combining the \emph{FIT3D toolbox\cite{FIT3D}} with 
 The skyline detector extracts straight line segments from the upper edge of an
 image.  These are used to determine the wall heights of an extended 2D model extracted from
 \emph{Openstreetmap\cite{Openstreetmap}}. 
-Next, windows are extracted by two different methods.  The first method
-searches for connected horizontal and vertical edges which come from the window
-frame.  The second method works on rectified facades and consist of 1) the
+Next, windows are detected by two different methods:the first method
+is invariant to viewing direction and detects the windows by searching for
+connected horizontal and vertical edges.
+
+ The second method is applied on rectified facades and consist of 1) the
 determination of the alignment of the windows and 2) the classification of the
 windows.  The alignment and classification are based on the interpretation of
-the Histogram function of a Hough transform of the edge image.  Both methods
+a Histogram function that contains Hough lines extracted from edges.  Both methods
 detect at least 99\% of the windows.
 \end{abstract}
