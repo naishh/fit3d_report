@@ -12,6 +12,7 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 ---------------------------------------------------------------------------------
 ch1 
 	L and H patterns uitleggen en opzoeken
+	uitleggen wat ik doe met walls die achter elkaar liggen
 
 ---------------------------------------------------------------------------------
 todos staan op 2 plekken!
@@ -25,7 +26,6 @@ todos staan op 2 plekken!
 			als af dan afkijken bart en folkert
 
 		(evt morgen:)
-			spelling
 			opmaak
 			alles doornemen
 
