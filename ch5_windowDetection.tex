@@ -328,7 +328,7 @@ It would be straight forward to rectify the full image. However this is
 computational very expensive as each pixel needs to be projected. To keep the
 computational cost to a minimum we project only the necessary data. Since we
 are using Hough lines we project only the coordinates of the endpoints of the found Hough lines. 
-This is allowed because the projective transformation is we apply is a affine
+This is allowed because the projective transformation is we apply is an affine
 transformation which preserves the
 straightness of the lines \cite{linearalgebra}. Note that this means we apply the edge detection and
 Houghline extraction on the unrectified image.\\
@@ -734,7 +734,7 @@ alignment. The next challenge is to classify the blocks as window and
 non-window areas: the window classification, we developed two different methods for this.
 
 Instead of classifying each block independently, we classify full rows and
-columns of blocks as window or non-window areas.  This approach results in a accurate
+columns of blocks as window or non-window areas.  This approach results in an accurate
 classification as it combines a full blockrow and blockcolumn as evidence for a singular
 window. 
 
@@ -1027,7 +1027,7 @@ grouping module now groups adjacent positively classified window areas.  Some
 window in Figure areas are false negatively classified, see the left side of
 Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps}.  This is caused by a small area
 between the windows that is classified as a non-window area. This could be
-solved by by adding a minimum size constraint of a area to be threaded as a
+solved by by adding a minimum size constraint of an area to be threaded as a
 non-window area.  In this way small negatively classified areas cannot interrupt
 the adjacent windows.
 

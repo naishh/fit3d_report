@@ -1,7 +1,7 @@
 \section{Introduction}
 When we humans look at an urban scene we immediately can tell which part
 represents a building, a tree, a door, a window or a parked car.
-Even if the scene suffers from high occlusion (a tree occluding the largest part
+Even if the scene suffers from high occlusion (e.g. a tree occluding the largest part
 of a building) or extreme perspective distortion (a building seen from the
 corners of your eye) we perform this task with a very high accuracy.
 For a computer system however, this task is far from trivial.\\
@@ -12,22 +12,21 @@ and how can we apply this on a computer system?\\
 
 The most important reason of our excellent visual perception is that we combine 
 a series of depth cues \cite{psy} (which enables us to experience depth) with top down
-processing (which enables us to classify objects).\\
-
+processing (which enables us to classify objects).
 One of the most important depth cue is stereopsis.  We use two eyes and look at
 the same scene from slightly different angles.  This makes it possible to
 triangulate the distance to an object with a high degree of accuracy
 \cite{psy} \cite{hartley}. \\ 
 
-Objects are classified using a widely supported theory in psychology: top down processing \cite{anderson}
-If we want to perceive a window, we tap into the neurons that are activated according to
+Objects are classified using a widely supported theory in psychology: top down
+processing \cite{anderson}. If we want to perceive a window, we tap into the neurons that are activated according to
 our (generalized) description of a window.  I.e. because windows are often
 rectangular shaped and the color stands out we tap into the neurons that
 perceive straight parallel lines, orthogonal corners and intense color changes.
 These visual processes are extremely informative if we want to build a computer system
 that acts accordingly.  \\
 
-This thesis is about our work of an automatic system that adds semantics to a
+This thesis is about our work of an automatic system that adds semantics to an
 urban scene inspired on the human brain.  We use stereopsis to generate a 3D
 model of the building. This model is improved by detecting the building contour
 using edge features.  The 3D model is used to rectify a facade which makes
@@ -94,7 +93,7 @@ that use semantical interpretation of urban scenes.  \\
 	structure explicit.  For a more accurate disambiguation, other types of
 	contextual information are desired.  The semantical interpretation of the
 	facade can provide this need.  In this context, window detection can be used
-	as a strong discriminator.
+	as a strong discriminator.\\
 
 We can conclude that semantic interpretation plays an important role in the
 interpretation of urban scenes and is applied in a wide range of domains.  
@@ -103,15 +102,16 @@ interpretation of urban scenes and is applied in a wide range of domains.
 \subsection{Thesis outline}
 The outline of this thesis is as follows:\\ 
 
-We start with explaining basic computer vision techniques and the 3rd party
-software \emph{FIT3D toolbox} in Chapter 2.  These techniques are the driving
+We start with explaining basic computer vision techniques and the \emph{FIT3D toolbox} in Chapter 2.  
+These techniques are the driving
 force behind the algorithms used in both skyline detection and window detection.  
 In Chapter 3 we explain a novel application of skyline detection: the detection
-of building contours in urban scenes. Next we use this result in Chapter 4 to
-extract a 3D model of a building.
-In Chapter 5 we start a new topic: window detection. We propose a window
+of building contours in urban scenes. Next, we use this result to
+extract a 3D model of a building in Chapter 4.
+
+In Chapter 5 we start a new topic: window detection. First we propose a window
 detection method that operates on an unrectified facade. The second method uses
-a rectified facade. We discuss and compare two window alignment methods and two
+a rectified facade. We discuss and compare two window alignment and
 classification methods.  We conclude in Chapter 6 and we finish with additional
 results in the Appendices.\\
 

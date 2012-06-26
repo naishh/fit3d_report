@@ -1,9 +1,10 @@
 \begin{abstract}
 % afkijken van conclusion
-We build an automatic system that adds semantics to a urban scene.  
-A 3D model was extracted by combining the \emph{FIT3D toolbox\cite{FIT3D}} combined with a skyline detection algorithm.
-The skyline detector extracts straight line segments from the upper edges of an
-image.  These are used to set the heights of the walls of the 3D model.
+We build an automatic system that adds semantics to an urban scene.  
+A 3D model was extracted by combining the \emph{FIT3D toolbox\cite{FIT3D}} with a skyline detection algorithm.
+The skyline detector extracts straight line segments from the upper edge of an
+image.  These are used to determine the wall heights of an extended 2D model extracted from
+\emph{Openstreetmap\cite{Openstreetmap}}. 
 Next, windows are extracted by two different methods.  The first method
 searches for connected horizontal and vertical edges which come from the window
 frame.  The second method works on rectified facades and consist of 1) the

@@ -3,7 +3,7 @@
 \label{sec:ch2}
 In this chapter we discuss the basic computer vision techniques that are used for
 the skyline detection, and window detection.  Furthermore we discuss 3rd
-party software, the \emph{FIT3D toolbox} \cite{FIT3D} which is used in 3D building extraction and facade rectification.
+party software, the \emph{FIT3D toolbox} \cite{FIT3D} which is used for 3D building extraction and facade rectification.
 
 \subsection{Hough transform}
 \label{sec:prelimHough}
@@ -31,20 +31,22 @@ party software, the \emph{FIT3D toolbox} \cite{FIT3D} which is used in 3D buildi
 	
 	This means that a point in $(x,y)$ space appears as a sinusoidal
 	curve in the Hough parameter $(r,\theta)$ space.  Furthermore a line in
-	$(x,y)$ space appears as a point in $(r,\theta)$ space. Let's see an example, the
-	following image is transformed into the space $(r,\theta)$.
+	$(x,y)$ space appears as a point in $(r,\theta)$ space.\\
+	Let's see an example, the image of Figure \ref{fig:HoughTransform_edge.eps} 
+	is transformed into the space $(r,\theta)$.
 	
 	%todo introduce the accumulator array,
 	%todo transform gif to eps 
 	\fig{HoughTransform_edge.eps}{An input image, consisting of eight straight lines, for the Hough transform}{0.5}
 	\figsHor{HoughTransform_peaks}{HoughTransform_peaks1.eps}{HoughTransform_peaks2.eps}{Hough transform} {$(r, \theta)$ values}{$(r, \theta)$ accumulator array (quantized)}
+	\clearpage
 
 	 
 	 As you can see for every edge point 
 	 in Figure \ref{fig:HoughTransform_edge.eps} 
 	 a curve is generated in $(r,\theta)$ space in Figure 
 \ref{fig:HoughTransform_peaks1.eps}.
-	 On eight positions (white dots) the number of intersecting sinusoidal
+	 On eight positions (dots) the number of intersecting sinusoidal
 	 curves is high. These position correspond to the eight separate straight
 	 line segments in Figure \ref{fig:HoughTransform_edge.eps} .
 	
@@ -53,18 +55,14 @@ party software, the \emph{FIT3D toolbox} \cite{FIT3D} which is used in 3D buildi
 
 \subsubsection{Implementation}
 	The input of a Hough transform is a binary image. In our research it is the output of 
-	the skyline detector (\ref{sec:skylinedetection}). In the case of window
-	detection (\ref{sec:windowDetection}) it is the output of an edge image.\\
+	the skyline detector (Chapter \ref{sec:skylinedetection}). In the case of window
+	detection (Chapter \ref{sec:windowDetection}) it is the output of an edge image.\\
 
-	The Hough transform develops an accumulator array of a quantized parameter space $(r, \theta)$.
-
-	It loops through the binary image and for each positive value 
+	The Hough transform develops an accumulator array of a quantized parameter space $(r, \theta)$.  It loops through the binary image and for each positive value 
 	it generates all possible lines, quantized $(r, \theta)$ pairs, that intersect with this point.
 	For each candidate it increases a vote in the accumulator array.
 	Lines $(r, \theta)$ that receive a large amount of votes
-	i.e. the dots in Figure \ref{fig:HoughTransform_peaks1.eps} are the found straight lines in the $(x,y)$ space.
-
-	These positions are found by looking for local maxima in the accumulator array.
+	i.e. the dots in Figure \ref{fig:HoughTransform_peaks1.eps} are the found straight lines in the $(x,y)$ space.  These positions are found by looking for local maxima in the accumulator array.
 
 \subsubsection{$\theta$ constrained Hough transform}
 The accumulator array consist of two dimensions $r$ and $\theta$.
@@ -76,13 +74,11 @@ Sometimes we want to find lines that have a certain angle.
 For example the skyline of a building will appear about horizontal. If we
 want to detect windows we would like to detect edges in the horizontal and vertical directions.
 This can easily achieved by adjusting the $\theta$ range.
-For example if one would detect lines in the horizontal direction of
-a photograph of a building taken by a user, $\theta = [-10..0..10]$.Although
-only $\theta = 0$ presents an exact horizontal line we broaden the interval
-because the user hardly ever holds the camera exactly orthogonal.
+For example if one would detect lines in the horizontal direction, $\theta = [-10..0..10]$. Intervals are used because in practise the lines
+often differ slightly from an exact horizontal line where $\theta = 0$.
 	
 \subsubsection{MATLAB\cite{matlab} parameters}
-We used a standard MATLAB\cite{matlab} implementation of the Hough transform for straight lines.  This implementation comes with some interesting parameters:\\
+We used a standard MATLAB\cite{matlab} implementation of the Hough transform.  This implementation comes with some interesting parameters:\\
 
 	The \emph{MinimumLength} parameter specifies the minimum length that a line must have to be valid. This is especially interesting if we want to detect a large straight skyline or if we want to discard lines that are to small to form for example a window.\\
 
@@ -171,7 +167,7 @@ this: \emph{FIT3D toolbox} \cite{FIT3D}, details of this process is
 explained next.
 
 
-\subsection{FIT3D toolbox \ref{FIT3D}}
+\subsection{FIT3D toolbox \cite{FIT3D}}
 \label{sec:prelimFIT3D}
 %todo give FIT3D a proper intro
 The \emph{FIT3D toolbox} \ref{FIT3D} is used for several aims in this thesis.
