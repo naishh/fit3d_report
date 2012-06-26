@@ -194,9 +194,9 @@ The vertical group has a range of $\theta = [80..90..100)$ degrees.
 We use ranges because 1) the user hardly ever holds the camera exactly
 upright and 2) we work with unrectified facades: the window sides do
 not apear orthogonal due te perspective distortion.  To be more concrete, if the user takes a photo (Figure
-\ref{fig:cameraPitch.eps}) with a certain Yaw \= 0, the horizontal lines become
+\ref{fig:cameraPitch.eps}) with a certain Yaw not equal to zero, the horizontal lines become
 skew.  The range of the vertical group is smaller then the horizontal group as
-the user often takes photos with a low pitch value and a high yaw.
+the user often takes photos which vary in yaw but contain a low pitch.
 \fig{cameraPitch.eps}{Pitch roll and yaw of the camera}{0.5}
 
 The results of the edge detection and the Hough transform of two images can be seen in Figure \ref{fig:w_Dirk6_ImEdge.eps} and
@@ -209,9 +209,11 @@ The results of the edge detection and the Hough transform of two images can be s
 result the clean connected corner}{0.4} 
 How do we detect the connected corners?
 Often a connected corner contains a small gap or an extension which we tolerate,
-these cases are illustrated in Figure \ref{fig:cCornerTypes} in the top row.
-A horizontal gap, a vertical and horizontal gap and a vertical elongation. The
-cleaned up corners are given in the bottom row.  When the horizontal and
+these cases are illustrated in Figure \ref{fig:cCornerTypes} in the top row:
+a horizontal gap, a vertical and horizontal gap and a vertical elongation. The
+modified connected corners are given in the bottom row.  
+
+When the horizontal and
 vertical lines intersect, the gap distance is $D=0$.  When the lines do not
 intersect, the distance $D$ between the intersection point $P_i$ and the endpoint $P_e$ of the
 line is measured $D = ||P_i-P_e||$, this is illustrated as dotted lines in Figure
@@ -261,7 +263,8 @@ connected corner approach on an unrectified scene.  It contains 110 windows of
 which are 109 detected, this is 99\%. Furthermore there are some false positive
 areas, this is about 3 \%.
 Sometimes a window is not detected, for example the window on the right top
-isn't detected, this is because its smaller then the minimum window width.\\
+isn't detected, this is because its smaller then the minimum length of the
+Hough line.\\
 
 
 \subsubsection{Future research} %\subsubsection{Method I: Connected corner approach} 
@@ -270,18 +273,19 @@ connect more parts of the window. E.g. to form U shaped connected corners or
 even complete rectangular shapes. The latter is difficult because the edges are
 often incomplete due to for example occlusion.\\
 
-Furthermore the next step in this study would be an analysis of the substructure
+The next step in this study would be an analysis of the substructure
 of the windows.  The big window that contains sub windows could be
 found by calculating the convex hull of the red areas in Figure
 \ref{fig:w_Dirk6_ImcCorner_windowFilled.eps}.  The sub windows could be found
-by grouping connected corners that correspond to the same sub window.\\
-
+by grouping connected corners that correspond to the same sub window.
 This could be done by clustering the connected corners at their location.
 It would be useful to assume the number of sub windows as this can be used to
 determine the maximum inter-cluster distance.  
-We could also incorporate not only the center of the connected corner as a
-parameter of the cluster space but also the length and position of the
-connected corners' horizontal and vertical line parts.  The inter cluster
+We could extend the parameters of the cluster space with 
+the length and position of the connected corners' horizontal and vertical line
+parts.
+
+The inter cluster
 distance and the number of grouped connected corners could form a good source for
 the certainty of the sub window.\\
 
