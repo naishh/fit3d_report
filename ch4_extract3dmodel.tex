@@ -314,8 +314,8 @@ be seen in Figure \ref{fig:3dModel}.
 	\#endpoints of the line, $l$ is the number of lines and $w$ is the number of
 	walls.\\
 
-	We now calculated every possible projection to (/intersection with) every plane. How do we
-	determine which plane represents the most likely wall?  
+	We now calculated every possible intersection with every plane. How do we
+	determine which plane represents a line segments most likely wall?  
 	Recall that the wall is a subset of the plane.  We only calculated the projection to the
 	planes spanned by the walls hence we don't know which line lies on
 	the wall and which falls outside the wall. To solve this problem let's
@@ -334,6 +334,7 @@ be seen in Figure \ref{fig:3dModel}.
 	\paragraph{Largest line-wall overlap assumption:}
 	\emph{A line segment is associated with the wall with the largest projection
 	overlap.}\\
+
 	Having defined the assumptions, the situation and the idea behind the
 	line-wall association, we can now explain the line-wall matching algorithm.\\ 
 
@@ -411,20 +412,19 @@ segment is classified as the most likely wall for that line segment.
 	The trimmed line has two coordinates: 1) the point that passed
 	the \emph{in polygon} test and 2) the intersection of the line
 	segment with one of the vertical wall sides ($da$ or $cb$ from Figure 10b).\\
-	We assume the walls to be of infinite height, therefore the 
-	partial overlapping line segment always intersects one of the
-	vertical wall sides.\\
-	To determine which of the two vertical wall sides is crossed, we determine
-	on which side the point that doesn't lie in the polygon (v) is on.  This is
-	done by an angle comparison.\\
-	First, two groups of two vectors are defined: $dv$, $dc$ and $cw$, $cd$ (see Figure 10b).
+	How do we determine which vertical wall side is crossed?
+	We use the fact that one of the line segments endpoints lies outside the
+	polygon next to the vertical wall side.
+ 	This point is easily determined by an angle comparison:
+	first, two groups of two vectors are defined: $dv$, $dc$ and $cw$, $cd$ (see Figure 10b).
 	We measure the angles between the vectors and call them $\angle d$, and
-	$\angle c$. 
-	Because one of the line segment endpoints lies outside
-	the wall $\angle d$ or $\angle c$ is obtuse, in this case $\angle d$ is obtuse.
-	(Note that this holds because the walls are orthogonal to the basis
-	which we assumed in the \emph{Gravity aligned walls assumption}\\
-	To be more precise: 
+	$\angle c$.  Because one of the line segment endpoints lies outside
+	the wall, either $\angle d$ or $\angle c$ is obtuse. In this example $\angle
+	d$ is obtuse therefor the left wall side is crossed.
+	Note that this only holds because the walls are orthogonal to the basis
+	which we assumed in the \emph{Gravity aligned walls assumption}.\\
+
+	Now we know that:
 	\begin{itemize}
 	\item If $\angle d$ is obtuse, the left vertical wall side $da$, is
 	crossed. \\
@@ -432,10 +432,11 @@ segment is classified as the most likely wall for that line segment.
 	crossed. \\
 	\end{itemize}
 	The angles are acute or obtuse if the dot product of the vectors involved
-	are respectively positive or negative. The advantage of this method is that
-	it is simple and has low computational costs.\\
+	are respectively positive or negative. 
+	Note the advantage of this method: 
+	it is simple and has low computational costs.
 	
-	\emph{Line-wall overlap calculation}\\
+	\paragraph{Line-wall overlap calculation}
 	The amount of line-wall overlap is calculated by cutting of the
 	point where $l$ intersects the determined vertical wall side ($da$ or
 	$cb$) and measuring its remaining length.\\
@@ -444,17 +445,17 @@ segment is classified as the most likely wall for that line segment.
 	Now let's consider the overlap types where the \emph{in polygon} test
 	returned 0.
 	As you can see in Figure 10a and 10d this resulted in either full or no overlap.
-	Again we analyze the vector angles to determine the remaining overlap-type.
-	If only one of the angles is obtuse with no points in the polygon, like in Figure 10a,
-	the whole line segment lies outside the wall: an overlap value of zero
-	is returned.\\
+	Again, we analyze the vector angles to determine the remaining overlap type.
+	If only one of the angles is obtuse and no points lie in the polygon
+	(Figure 10a), the entire line segment lies outside the wall and $lwo = 0$.\\
 	Otherwise, if both angles $\angle d$ and $\angle c$ are obtuse or acute (Figure 10d),
 	both endpoints lie on a different side of the wall, and they cross the wall somewhere in
 	between. Full overlap is concluded here. \\
+	
 	The amount of overlap is now calculated by measuring the length
 	of the line segment which is cut down by his intersections with $da$ and
-	$cb$. In this case this is the same as line $dc$, but its easy to see that
-	this is not the case when $vw$ is not parallel to $dc$.\\
+	$cb$. In this case this is equal to the length of the line $dc$, however, it
+	is easy to see that this only holds of $vw$ is parallel to $dc$.
 	
 	\paragraph{Line-wall overlap normalization}
 	Finally the line-wall overlap is normalized by the line segments length:\\
@@ -466,15 +467,15 @@ segment is classified as the most likely wall for that line segment.
 	The intuition behind this is that line segments that are likely to
 	present a wall not only have a large overlap but also have a small part
 	that has no overlap, the missing overlap should have a negative effect. By
-	calculating the relative overlap $\frac{lwo}{|l|}$, both amounts of overlap and -missing
+	calculating the relative overlap $\frac{lwo}{|l|}$, both amounts of overlap and missing
 	overlap are taken into account.\\
 
 	Normalizing the line-wall overlap on the line length implies that the length
-	of the line does not have influence anymore.  This can be seen as a
+	of the line does not influence anymore.  This can be seen as a
 	disadvantage because small (noisy) line segments with 100\% overlap will
 	outperform large robust lines with little overlap.  This problem is solved
 	by discarding all line segments smaller than a \emph{MinimumLength} value.
-	This is done in an early stage at the Hough transform module. \\
+	This is done during pre-processing in the Hough transform module. 
 
 	Next the normalized line-wall overlap is used to search for the correct
 	line-wall association. This is achieved by associating a line segment with
@@ -484,58 +485,65 @@ segment is classified as the most likely wall for that line segment.
 	polygon points and evaluating two dot products. Next the line segment is cut off
 	depending on the overlap type and the line is normalized. 
 	The wall where the line segment scores the maximum $lwo'$ value is
-	associated with this line segment's most likely wall.  \\
+	associated with this line segment.
 
 
+\newpage
 \subsubsection{Improving the 3D model by wall height estimation}
 	In the previous section we associated the line segments with their most
 	likely wall. In this section this information is used to estimate the
-	heights of the walls of the 3D model. \\
+	heights of the walls of the 3D model. 
 
 	Every different view of the building produced a collection of lines that are
 	associated with a certain wall. For example if we consider 4 views and for
 	wall $W$ the views have respectively 2,4,4,1 lines that are associated with
-	$W$, we have a total of 11 line segments for wall $W$.\\
+	$W$, we have a total of 11 line segments that correspond with wall $W$.\\
 
 	Next we re-project the line segment from the different views on their
 	associated walls.  The re-projection is done as explained in
-	(\ref{linewallass}) by intersecting both endpoints
-	of the line segment to the plane that is spanned by the associated wall.\\
+	(\ref{sec:linewallass}) by intersecting both endpoints
+	of the line segment to the plane that is spanned by the associated wall.
+
+	\fig{skyline_proj.eps}{The Houghlines collected from different views projected on their corresponding
+	wall}{0.25}
+	\clearpage
 
 	Next the average height of the projected line segments is calculated for
-	each wall. This is done by taking collecting and averaging the y-value of
-	the 3D intersection points of the corresponding wall.  These averages are
-	then used as the new heights of the walls of the building.  Note that this
-	is only permitted in presence of the \emph{flat roof assumption}.\\
+	each wall. This is done by collecting and averaging the y-value of
+	the middle points of the linesegments and this is done for each wall seperately.
+	Next, these averages are
+	used to set the new heights of the planes of the 3D model.  
 
 	The new individual heights are applied to the 3D model by adjusting the
 	height of the existing upper corner points of the walls. We copy the bottom
 	left and right corner points and add the estimated height from the previous
 	section to its y-value. The y-value is the direction of the gravity which is
-	obtained through the \emph{Gravity aligned walls assumption}.
+	obtained through the \emph{Gravity aligned walls assumption}.\\
 
 \newpage
 \subsection{Results}
 \label{sec:ResultImprove}
 \fig{outputHoughlines2d}{Three best ranked lines of the Hough transform on the
-skyline detector match the building walls}{0.4}
-\fig{outputHoughlines3d}{Houghlines projected on the most likely wall}{0.5}
+skyline detector match the three most prominent displayed building walls}{0.4}
+\fig{outputHoughlines3d}{The Houghlines collected from different views re-projected
+on the 3D model according to the line-wall correspondence.}{0.5}
 \clearpage
-\fig{floriande_back.eps}{The walls of the building differ in height}{0.3}
+\fig{floriande_back.eps}{The walls of the building differ in height: the back
+part of the building is higher than the middle part.}{0.32}
 \fig{outputMutateBuilding}{Improved 3D model}{0.6}
+\clearpage
 
 Figure \ref{fig:outputHoughlines2d} shows the top 3 longest Houghlines of a
 single view. The endpoints are denoted with a black and blue cross. All three line segments lie on the
 building contour.  The left line segment covers only a part of the building wall. The
 middle line segment covers the full wall contour. The left and middle line segment are connected. The
-right line segment covers the wall until the occluding tree.\\
+right line segment covers the wall until it occludes the tree.\\
 
 Figure \ref{fig:outputHoughlines3d} displays the line segments (collected from
 Figure \ref{fig:outputHoughlines2d} and 6 other views) projected onto their associated walls.
-For a clear illustration we selected just three walls and plotted their associated
-lines.  For each view a different red cross is drawn at the average middle. The
-red crosses illustrate the calculated average height.\\
-%FIT3D plaatje sequence
+For a clear illustration we selected just three (prominent) walls.
+For each view a different red cross is drawn at each wall. It illustrates the
+average height of the corresponding lines corresponding to that wall.
  
 Figure \ref{fig:outputMutateBuilding} displays the updated 3D model. The corner
 points of the walls are adjusted according the calculated wall heights.  The
@@ -547,24 +555,25 @@ whereas the right wall is shortened.\\
 %todo positief lullen over resultaat
 As can be seen in Figure \ref{fig:outputHoughlines2d}, 
 the top three Houghlines correspond to the three most prominent building walls.
-
-What also can be seen is that the left line segment doesn't cover the whole
-building wall. This is caused by the use of strict parameters in the Hough transform
-(like a small line thickness parameter).  If some ascending skyline pixels fall just outside
-the Houghlines, a gap is created and the line segment is cut down at that point.
-This is however not a big problem because the lines are long enough to produce a
-good wall height estimate. Furthermore there are 5 other lines
-(originated from different views) that support the estimate for this wall.
+What also can be seen is that the left line segment doesn't cover the entire
+building wall. This is caused by the use of
+a small line thickness parameter
+in the Hough transform: if some ascending skyline points fall just outside
+a Houghlines, a gap is created and the line segment is cut down at that point.
+As we use a large minimum length the residual line segment is to small and is
+discarded.  However, this is not a big problem because the lines are long enough to produce a
+good wall height estimate. Furthermore, in this example, there are 5 other lines
+(originated from the different views) that support the height estimate for this
+particular wall.\\
 
 The different red crosses in Figure \ref{fig:outputHoughlines3d} which illustrate the average height per view 
 agree in height. This means the camera calibration, edge detection and Houghline
-extraction where accurately processed. \\
+extraction where accurately processed and our method is consistent. \\
 
-Although the building appears to have similar building heights the middle part
-of the building has a lower height, see Figure \ref{floriande_back.eps}.
-This is supported by the updated 3D model in Figure
-\ref{fig:outputMutateBuilding}.
-
+Although the building appears to have similar building heights, the middle part
+of the building is smaller then the front and back part of the building, see
+Figure \ref{fig:outputHoughlines2d} and \ref{fig:floriande_back.eps}.
+This agrees with the updated 3D model in Figure \ref{fig:outputMutateBuilding}.
 
 
 
