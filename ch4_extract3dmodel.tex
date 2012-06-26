@@ -1,11 +1,7 @@
-% todo 
-% be more clear about the projection, its the first time the reader sees it 
 
 
 
 \section{Extracting the 3D building}
-%todo plaatje van scene met een 3D model erin
-%todo plaatje 2d model
 \label{sec:generate3dModel}
 % motivation
 \subsection{Introduction}
@@ -19,7 +15,6 @@ The aim of this Chapter is to use this set of points together with an
 
 
 \paragraph{Research question}
-%todo uitgebreider over FIT3D linken 
 Is it possible to use a set of (noisy) skyline points together with an aerial
 2D model and a 3D point cloud obtained by the \emph{FIT3D toolbox\cite{FIT3D}} to
 generate a 3D model of the building?\\
@@ -104,18 +99,6 @@ model (Figure \ref{fig:pc_topview2DModel.eps}).
 %http://docs.oracle.com/javase/1.4.2/docs/api/java/awt/geom/AffineTransform.html
 
 
-%todo convention matrix bold?
-%------------------------------------------------------------------------
-%todo example image of 3D model overlay
-% of osgviewer screendpumps pakken en het erinplakken
-% of building.osg in osgviewer plakken
-% of in matlab de boel tegelijk plotten
-
-
-%discuss disadvantage (skew Y assumption)
-% see images in 
-%  /media/Storage/scriptie/FIT3D/results/anglebug
-% formula of 3 coords of wall with an Y coord 
 
 
 
@@ -179,7 +162,7 @@ be seen in Figure \ref{fig:3dModel}.
 	contain a large amount of skyline pixels.\\
 	Because the algorithm detects straight lines containing only skyline pixels
 	it returns only the straight parts of the skyline.
-	As these straight skyline parts are likely to come frome the building
+	As these straight skyline parts are likely to come from the building
 	contour, we found exactly what we where looking for.
 	Results of the Hough transform on the output of the skyline detector are
 	displayed and evaluated in the Result section (\ref{sec:ResultImprove}).
@@ -510,7 +493,7 @@ segment is classified as the most likely wall for that line segment.
 
 	Next the average height of the projected line segments is calculated for
 	each wall. This is done by collecting and averaging the y-value of
-	the middle points of the linesegments and this is done for each wall seperately.
+	the middle points of the line segments and this is done for each wall separately.
 	Next, these averages are
 	used to set the new heights of the planes of the 3D model.  
 
@@ -575,8 +558,6 @@ of the building is smaller then the front and back part of the building, see
 Figure \ref{fig:outputHoughlines2d} and \ref{fig:floriande_back.eps}.
 This agrees with the updated 3D model in Figure \ref{fig:outputMutateBuilding}.
 
-
-
 \subsection{Conclusion}
 Let's answer our research question.
 \paragraph{Research question}
@@ -600,16 +581,18 @@ In this project we assumed the walls to align with the gravity.
 This means the camera must be up right: his parameter \emph{roll} must be
 exactly zero when capturing the images. 
 In practical use this is not true. We demonstrate this by plotting the 3D point cloud
-with the 3D model in Figure .
-Although this assumption let us focus on the important issues it would be nice
+with the 3D model in Figure \ref{fig:verticalWallBug.eps}.
+Although this assumption lets us focus on the important issues, it would be nice
 to incorporate gravity estimation in future research.
 Costin Ionita wrote a part of his master thesis about gravity estimation in
 \cite{costin}.\\
+\fig{verticalWallBug.eps}{The poincloud plotted in two views of the 3D model.
+This illustrates that the walls are in practise not aligned to the y-axis.}{0.5}
 
 %todo generate a figure with 2 Hough lines on wall of tree
 %As can be seen in Figure %\ref{fig:}
 \subsubsection{Double wall height influence}
-Sometimes two line segments appear on the same single wall. This means that they have a double
+Sometimes two line segments extracted from one view appear to correspond to the same single wall. This means that they have a double
 influence on the average wall height, which is unjustified. 
 A simple solution would be to add a normalization pre-process step, so each view
 has only one wall height vote per wall. A more decent solution would be to
@@ -627,19 +610,19 @@ in MATLAB\cite{matlab}) and off line, the calculation are done in reasonable tim
 However, if we want to make the application real time, the next speedup would be useful.\\
 To determine the best line-wall association the line segments are now projected to
 every wall and for every wall the amount of line-wall overlap is calculated. This
-is computational very expensive and looks a bit like an overkill.\\
+is computational very expensive and looks a bit like an overkill.
 
 It would be a significant speedup to reduce the set of walls to only the walls
 that contain the middle point of the line segments. To be more concrete the
-middle point needs to be calculated by averaging the line segments endpoints,
-this middle point is used in the \emph{in polygon} test for every wall.  Next the
+middle point of the line needs to be exposed to an \emph{in polygon} test for every wall.  Next the
 line-wall association algorithm only treats the walls that pass this test.
 
 The downside of this method is that it makes the system less accurate because it
-will resulting in more false negatives. A line segment that overlaps the wall with only 1/3 could be an
-important candidate for the height estimation but because the speedup method it is discarded.
-What can be concluded is that there is a trade of in the accurateness of the
-height estimation and the computational costs.
+will resulting in more false negatives. A line segment that overlaps the wall
+with only 1/3 could be an important candidate for the height estimation, however
+the speedup method would discard it.  What can be concluded is that there is a
+trade of in the accurateness of the height estimation and the computational
+costs.
 
 
 \subsubsection{Alternative roofs}
@@ -654,53 +637,59 @@ adaptations the system should require to handle these.  In Figure
 \ref{fig:typesOfRoofs}, 6 different roof shapes are displayed.\\
 
 \fig{typesOfRoofs}{Different types of roofs}{0.4}
-Consider the \emph{Gable Roof}, it is a roof consisting of two planes
-which are not parallel with the facade of the building. This makes the problem
-of extracting the 3D model more complex, but not impossible. \\
+Consider the \emph{Gable Roof}, it is a roof consisting of two skew planes
+This makes the extraction of the 3D model more complex, but not impossible. \\
 Because we assume that the roof images are taken from the ground, the skyline
 detector will always detect the top of the building. In case of a flat roof
 this is also the top of the building walls. In case of an
-alternative roof, this will be just the top of the building. The building walls however
-could lie a lot lower, therefore something else needs to be developed to find the wall
-heights. It would be useful to develop a method that can detect the shape of the roof 
-estimate the wall heights and finally generate an entire 3D model.\\
-A idea about this is now proposed:\\
+alternative roof, this will be just the top of the roof. The building walls
+however, could lie a lot lower. Therefore something else needs to be developed to find the wall
+heights. It would be useful to develop a method that extracts the roof
+and the walls separately. An idea about this is now proposed:\\
 
 The 3D model of a building with a non-flat roof type will consist of a cuboid 
 with a custom roof on top of it.  First we would generate the custom roof 
 using the shape of the skyline.  Next we would determine the height of the
-cuboid. Finally we connect both parts and have a full 3D model.\\
+cuboid. Finally, we connect both parts and have a full 3D model.\\
 
 The skyline detector discussed in Chapter 3 could be used to extract the contour
 of the roof. Next we would extract a basic 3D model (discussed in Chapter 4) which
 is used to transform the roof contour to a frontal view.  Houghline
-extraction could be used to extract straight lines which correspond to the base of
-the primitive planes of the roof.  For example the Gable roof will return two
-straight lines connected in the middle. Next we extend the lines to planes.
-We would extract a point cloud of the side wall using the \emph{FIT3D toolbox\cite{FIT3D}} 
+extraction could be used to extract straight lines which correspond to the
+(frontal viewed) base of the primitive planes of the roof.  For example the Gable roof will return two
+skew lines connected in the middle. Next we extend these lines to primitives,
+e.g. planes.  We would extract a point cloud of the side wall using the \emph{FIT3D toolbox\cite{FIT3D}} 
 to determine the alignment of the planes.\\
 
 Next, a shape is cut out of the plane according to the side view of the building contour.
-For example the Hipped roof (Figure \ref{rooftypes}) would imply we have to cut
-out a trapezium shape whereas most other roofs require a rectangular shape.
-Note the power of combining the frontal and side view to determine the roof planes.
-Let us consider the Gable roof, we extract two lines and extend them to skew
-rectangular surfaces which are connected in the middle.\\
+For example the Hipped roof (Figure \ref{fig:typesOfRoofs}) would imply that we have to cut
+out a trapezium shape whereas most other roofs require to cut out a rectangular shape.
+Note the power of combining the frontal and side view to determine the roof
+planes.\\
 
-Next the height of the cuboid needs to be determined.
+Let us apply this method to the Gable roof: First we rotate the scene to a
+frontal view, the skyline detector will extract two skew lines. Next we extend them to 
+rectangular surfaces which are connected in the middle and are aligned with the
+point cloud.\\
+
+We have determined the roof, next the height of the cuboid needs to be determined.
 This could be done by detecting the roof-wall separation on the side view of the
-building.  This can be done by detecting horizontal lines using the Hough
-transform.
-To discard outliers we would only search between the ground plane and the top of
-the roof.  The location of the top of the roof could be determined by the highest skyline point that
+building.  
+
+The roof color often differs from the wall color which produce strong edges. 
+Also some building contain a gutter connected to the roof. The gutter will also
+produce a long strong edge.  
+These strong edges can be detected using the Hough transform. Next this can be
+used to set the height of the cuboid and the lower bound location of the roof.
+Finally we connect the roof and the cuboid to obtain a full 3D model shaped like
+Figure \ref{fig:gableRoofWood.eps}.
+\fig{gableRoofWood.eps}{The parts of the 3D model for the Gable roof}{1}
+
+To discard roof-wall outliers we would only search for the between the ground plane and the top of
+the roof.  The location of the top of the roof could be obtained by the highest skyline point that
 is present in both frontal and side view. The ground plane could be estimated
-using Costins \ref{costin} method.
-The roof color often differs from the wall color which produce strong edges. Also
-some building contain a gutter connected to the roof. The gutter will also
-produce a long strong edge.  These strong edges can be used to find the cubic height
-and the lower bound location of the roof.
-Finally we connect the roof and the cuboid to obtain a full 3D model.
-\\
+using Ionita's \cite{costin} method.
+\clearpage
 
 
 %\section{My old method of line-wall association}
