@@ -10,21 +10,15 @@ Hoe bereik ik dit, door simpelweg te DOEN, lukt dit niet:
 
 
 ---------------------------------------------------------------------------------
+	opmaak
+	alles doornemen
+
 	verschillende verdiepingen bij de window classification uitlegggen p 68
 		ook p71 2e comment aanpassen
-	L and H patterns uitleggen en opzoeken
-	uitleggen wat ik doe met walls die achter elkaar liggen
-	staafdiagrammen erin
 
 	overgeslagen comments Frans
 		p 73
 
-	acknowledgements
-		als af dan afkijken bart en folkert
-
-	(evt morgen:)
-		opmaak
-		alles doornemen
 
 		
 	belangrijke zaken van bestaande todos in mijn bestanden
