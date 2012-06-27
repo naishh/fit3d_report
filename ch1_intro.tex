@@ -11,31 +11,38 @@ Why are we humans so good in this task? What can we learn from ourselves
 and how can we apply this on a computer system?\\
 
 The most important reason of our excellent visual perception is that we combine 
-a series of depth cues \cite{psy} (which enables us to experience depth) with top down
-processing (which enables us to classify objects).
-One of the most important depth cue is stereopsis.  We use two eyes and look at
+a series of depth cues \cite{psy} (which enables us to experience depth) with
+feature-matching (which enables us to classify objects).
+One of the most important depth cue is binocular disparity.  We use two eyes and look at
 the same scene from slightly different angles.  This makes it possible to
-triangulate the distance to an object with a high degree of accuracy
-\cite{psy} \cite{hartley}. \\ 
+triangulate the distance to an object with a high degree of accuracy \cite{psy} \cite{hartley}.
+Figure \ref{fig:bindisp.eps} illustrates this.\\ 
+\fig{bindisp.eps}{Depth cues, Source: \cite{psy}}{0.15}
 
-Objects are classified using a widely supported theory in psychology: top down
-processing \cite{anderson}. If we want to perceive a window, we tap into the neurons that are activated according to
-our (generalized) description of a window.  I.e. because windows are often
-rectangular shaped and the color stands out we tap into the neurons that
-perceive straight parallel lines, orthogonal corners and intense color changes.
+\newpage
+Furthermore we classify objects, according to a widely supported theory in
+psychology, using feature-matching \cite{anderson} \cite{psy}. 
+We do this by matching discriminative features of
+an object to feature sets stored in our memory. In this theory 
+a retinal image is passed on to a set of feature demons, which proces for example
+horizontal/vertical lines or right angles in the image.  In a next level 
+of processing, decision demons are activated if a combination of these features is detected.
+An example of the perception of a letter R is illustrated in Figure
+\ref{fig:demons.eps}.\\
+
+\fig{demons.eps}{Matching observed features to feature sets already stored in
+memory}{0.16}.
+
 These visual processes are extremely informative if we want to build a computer system
-that acts accordingly.  \\
+that acts accordingly.  This thesis is about our work of a system that adds semantics to an
+urban scene inspired on the human brain.  \\
 
-This thesis is about our work of an automatic system that adds semantics to an
-urban scene inspired on the human brain.  We use stereopsis to generate a 3D
-model of the building. This model is improved by detecting the building contour
-using edge features.  The 3D model is used to rectify a facade which makes
-windows appear orthogonal.  Next we detect horizontal and vertical edges that
-come from window frames.  Furthermore we use density of edges to classify
-windows.\\
-
+We use stereopsis to generate a 3D model of the building.  And feature-matching,
+similar to the discussed model, is applied to detect skylines and windows where
+we use descriptors based on edge features like straight lines and right angles.
 Before we explain our methods let us first share the variety of applications 
 that use semantical interpretation of urban scenes.  \\
+\clearpage
 
 \subsection{Application examples}
 \paragraph{3D City models} 
