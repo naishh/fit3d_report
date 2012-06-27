@@ -340,24 +340,9 @@ segment is classified as the most likely wall for that line segment.
 	%todo future research parallel walls take the closest one 
 	
 		
-	\fignocaption{overlaytypes}{}{0.4}
-	\clearpage
+	\newpage
 
-% captions of the Figure
-%		1) no overlap (see fig 10a)\\
-%		2) partial overlap (fig 10b)\\
-%		3) full overlap ($l_{proj_w}$ is included in $w$)(fig 10c)\\
-%		4) full overlap ($l_{proj_w}$ overextends $w$) (fig 10d)\\
-
-	The type of overlap is defined by exposing the endpoints of the line
-	segments to an \emph{in polygon} test, where the polygon represents a 
-	wall of the building (e.g. $abcd$ in Figure 10).
-	%todo REF MATLAB\cite{matlab}?
-	%we use the MATLAB\cite{matlab} build in polygon as in section (%todo)
-
-	Table \ref{tab:lwatypes} represents the types of overlap with the corresponding number of points
-	that pass the \emph{in polygon} test and their possible line-wall overlap
-	value.\\ 
+	\fignocaption{overlaytypes}{}{0.37}
 
 	\begin{table}[ht]
 		\caption{Types of overlap with corresponding number of points in polygon}
@@ -378,6 +363,24 @@ segment is classified as the most likely wall for that line segment.
 		\hline
 		\end{tabular}
 	\end{table}
+	\clearpage
+
+% captions of the Figure
+%		1) no overlap (see fig 10a)\\
+%		2) partial overlap (fig 10b)\\
+%		3) full overlap ($l_{proj_w}$ is included in $w$)(fig 10c)\\
+%		4) full overlap ($l_{proj_w}$ overextends $w$) (fig 10d)\\
+
+	The type of overlap is defined by exposing the endpoints of the line
+	segments to an \emph{in polygon} test, where the polygon represents a 
+	wall of the building (e.g. $abcd$ in Figure 10).
+	%todo REF MATLAB\cite{matlab}?
+	%we use the MATLAB\cite{matlab} build in polygon as in section (%todo)
+
+	Table \ref{tab:lwatypes} represents the types of overlap with the corresponding number of points
+	that pass the \emph{in polygon} test and their possible line-wall overlap
+	value.\\ 
+
 
 	\paragraph{No overlap}
 	If the point in polygon test returns 0, the line-wall overlap calculation
@@ -471,7 +474,6 @@ segment is classified as the most likely wall for that line segment.
 	associated with this line segment.
 
 
-\newpage
 \subsubsection{Improving the 3D model by wall height estimation}
 	In the previous section we associated the line segments with their most
 	likely wall. In this section this information is used to estimate the
@@ -510,6 +512,7 @@ segment is classified as the most likely wall for that line segment.
 skyline detector match the three most prominent displayed building walls}{0.4}
 \fig{outputHoughlines3d}{The Houghlines collected from different views re-projected
 on the 3D model according to the line-wall correspondence.}{0.5}
+
 \clearpage
 \fig{floriande_back.eps}{The walls of the building differ in height: the back
 part of the building is higher than the middle part.}{0.32}
@@ -558,6 +561,7 @@ of the building is smaller then the front and back part of the building, see
 Figure \ref{fig:outputHoughlines2d} and \ref{fig:floriande_back.eps}.
 This agrees with the updated 3D model in Figure \ref{fig:outputMutateBuilding}.
 
+\newpage
 \subsection{Conclusion}
 Let's answer our research question.
 \paragraph{Research question}
@@ -672,18 +676,21 @@ frontal view, the skyline detector will extract two skew lines. Next we extend t
 rectangular surfaces which are connected in the middle and are aligned with the
 point cloud.\\
 
+\newpage
 We have determined the roof, next the height of the cuboid needs to be determined.
 This could be done by detecting the roof-wall separation on the side view of the
 building.  
 
 The roof color often differs from the wall color which produce strong edges. 
 Also some building contain a gutter connected to the roof. The gutter will also
-produce a long strong edge.  
+produce a long strong edge.  \\
+
 These strong edges can be detected using the Hough transform. Next this can be
 used to set the height of the cuboid and the lower bound location of the roof.
 Finally we connect the roof and the cuboid to obtain a full 3D model shaped like
-Figure \ref{fig:gableRoofWood.eps}.
-\fig{gableRoofWood.eps}{The parts of the 3D model for the Gable roof}{1}
+Figure \ref{fig:gableRoofWood.eps}.\\
+
+\fig{gableRoofWood.eps}{The parts of the 3D model for the Gable roof}{0.6}
 
 To discard roof-wall outliers we would only search for the between the ground plane and the top of
 the roof.  The location of the top of the roof could be obtained by the highest skyline point that

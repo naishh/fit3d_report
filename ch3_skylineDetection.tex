@@ -52,7 +52,7 @@ best separates the two distributions is determined to be the skyline.\\
 
 This work is not applicable for detecting a building contour as the straight
 line assumption doesn't apply. But it needs to be mentioned that some ideas for
-section \ref{fig:extractinglinesegments} are inspired by this method.
+section \ref{sec:inspired} are inspired by this method.
 
 \paragraph{Planetary Rover localization}
 Cozman et al. \cite{Rover} use skyline detection in planetary rovers to estimate 
@@ -353,7 +353,9 @@ The hypothesis classifier must gather additional information. We could
 discriminate the hypothesis for example by texture, color distributions or height
 variation. We discuss the last two.
 
+\newpage
 \paragraph{Color based skyline classification}
+\label{sec:inspired}
 The buildings color differs from the sky color. Furthermore,
 as a function of the horizontal location (x-axis), the color in both sky and
 building only changes slowly.\\
@@ -390,7 +392,6 @@ The expected output of the skyline detector using hypothesis based on color is
 displayed in Figure \ref{fig:outputSkylineSpil-Im13-thresh070.eps}). 
 \fig{outputSkylineSpil-Im13-thresh070.eps}{The expected output of the skyline
 detector using hypothesis based on color}{0.35}
-\clearpage
 
 \paragraph{Height variation based skyline classification}
 Let's zoom in to an image of the \emph{Floriande} dataset, see Figure \ref{fig:outputSkylineIm3-3-zoom.eps}.
@@ -414,6 +415,7 @@ height).\\
 We showed some examples of simple classifiers. Note that there is no limitation
 to the approach of the classifier because it can be developed individually using
 the existing column based method as its hypothesis generator.
+\clearpage
 
 \newpage
 \fig{outputSkylineIm3-3-zoom.eps}{Zoomed image of the \emph{Floriande} dataset.

@@ -251,7 +251,6 @@ All quadrangles are filled and displayed in Figure
 
 %of the image, see Figure \ref{fig:w_Spil1TransCrop1_ImOri.eps}.
 
-\newpage
 \fig{w_Dirk6_ImEdge.eps}{Edge detection}{0.45}
 \fig{w_Dirk6_ImHoughResult.eps}{Result of $\theta$ constrained Hough transform}{0.45}
 \fig{w_Dirk6_ImcCorner_cCorner.eps}{Found connected corners}{0.45}
@@ -306,10 +305,10 @@ As we want our rectification method to be accurate and fully automatic this
 method is not suitable.\\
 
 The second method involves the extraction of a 3D plane of the facade.  This
-method is more complex but gives more accurate results.  Extracting a 3D plane
+method is complex but gives more accurate results.  Extracting a 3D plane
 from a series of images is a comprehensive process and a large amount of
 research is done in this area.  As we want to focus on the annotational part of
-facade interpretation, we used existing software to assist our rectification.\\
+facade interpretation, we used existing software to apply the rectification.\\
 
 I. Esteban's \emph{FIT3D toolbox} \cite{FIT3D} comes with an add-on which
 extracts a 3D model from a series of frames.  This add-on involves a process
@@ -326,19 +325,19 @@ It would be straight forward to rectify the full image. However this is
 computational very expensive as each pixel needs to be projected. To keep the
 computational cost to a minimum we project only the necessary data. Since we
 are using Hough lines we project only the coordinates of the endpoints of the found Hough lines. 
-This is allowed because the projective transformation is we apply is an affine
-transformation which preserves the
+This is allowed because the projective transformation we apply preserves the
 straightness of the lines \cite{linearalgebra}. Note that this means we apply the edge detection and
 Houghline extraction on the unrectified image.\\
 
+This effective way of projecting saves computational costs.
 If $h$ is the number of Hough lines, the number of projections is $2h$.
 When we rectify the full image the number of projection is $w$ x $h$, where $w$,$h$ are the width and height of
 the image. To give an indication, for the \emph{Anne1} dataset 
 this means we apply 600 projections in stead of 1572864: a factor of almost 3k faster.\\
 
-The Houghline endpoints are projected to the 3D plane we extracted in the same
-way as we explained in chapter \ref{sec:skylinedetection}. We have send
-rays from the camera center trough the Hough line endpoints and calculated the
+The Houghline endpoints are projected to the 3D plane that was extracted in the same
+way as we explained in Chapter \ref{sec:skylinedetection}. We calculate lines 
+from the camera center trough the Hough line endpoints and calculated the
 intersection with the 3D plane.  The result is a 3D point cloud where each
 point is labeled to its corresponding Houghline.\\
 
@@ -346,8 +345,8 @@ The next step is to transform the facade (and therefore the Hough lines) to a
 frontal view. Instead of transforming the facade we rotate and translate the camera. 
 This means the heading (z-axis) of the camera needs to be equivalent to the normal of the facade plane. 
 We determine the rotation matrix $R$ by calculating the angle between the camera's heading an the normal of
-the facade. This process involves calculating 1) the orthogonal rotation vector
-$\vec{n}$ and 2) the angle $\theta$, see Figure \ref{fig:axisAnglePresentation.eps}.
+the facade. This process involves calculating 1) an orthogonal rotation vector
+$\vec{n}$ and 2) an angle $\theta$, see Figure \ref{fig:axisAnglePresentation.eps}.
 
 \fig{axisAnglePresentation.eps}{$\vec{a}$ is the camera's heading and $\vec{b}$
 is the normal of the facade plane, $\vec{n}$ and $\theta$ are used to generate
@@ -370,12 +369,12 @@ points that are grouped to their Hough lines.
 \subsubsection{Results} % facade rectification
 We show the result of two datasets, Anne1 and Dirk.
 Note that we also rectified the image pixels itself, this is only for
-the purpose of displaying the projected Hough lines in context.
+the purpose of displaying the projected Hough lines in their context.
 
 \newpage
 \fig{w_spil6ImOri.eps}{Dataset: Anne1, Original, (unrectified) image}{0.45}
 %\fig{w_Spil1TransCrop1_ImOri.eps}{Dataset: Anne1, Rectified image}{0.45}
-\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Dataset: Anne1, (Projected) Hough lines on rectified image}{0.35}
+\fig{w_Spil1TransCrop1_ImHoughResult.eps}{Dataset: Anne1, (Projected) Hough lines on rectified image}{0.45}
 \clearpage
 
 \newpage
@@ -705,23 +704,38 @@ detect these values.
 To get more accurate result or to handle scenes with poor window alignment a
 refinement procedure could be applied.  As mentioned in the related work, Lee et
 all \cite{Lee_extraction} applied window refinement.  Although this comes with
-accurate results, the iterative refinement is a computational expensive
-procedure.  It would be nice to have a dynamic system that is aware of this
+accurate results, this approach to iterative refinement comes with a
+computational expensive procedure.  \\
+
+It would be nice to have a dynamic system that is aware of this
 accuracy and computational time trade of. A system that only refines the results
 when the recourses are available.  For example if a car is driving and uses
 window detection for building recognition the refinement is disabled.  But if
-the car is lowering speed the refinement procedure could be activated.
+the car is lowering speed, the refinement procedure could be activated.
 Resulting in accurate building recognition which opens the door for augmented
 reality.\\
 
 Both window refinement and window alignment steps could use some additional
 evidence which could be provided by feature based methods.  For example a
 \emph{multi scale Harris corner detector} could help an accurate alignment or
-refinement of the windows.
+refinement of the windows.\\
 
+A computational cheaper method would be to apply a 2-stage window alignment
+procedure. This means we have to extend our algorithm.  Let us explain this with
+an example. 
 
+The first stage detects the global refinement using the alignment
+methods discussed in this thesis. For example for the horizontal window
+division, we extract only the global division (e.g. the building levels).  Next, 
+the second stage determines an accurate window alignment for each floor
+independently.  In this way the other floors don't influence the result which will
+result in more accurate alignments.  The next step window classification will be
+according to the approach we discussed.\\
 
-
+Note that above concept will also open the door for scenes where the windows are
+aligned within a certain area but are unaligned with respect to other areas.
+E.g. a building that contains doors on the ground floor, windows on the first
+floor and different types of windows on the second floor.
 
 
 
@@ -763,8 +777,10 @@ block rows representing the normalized vertical Houghline pixel count of
 If we examine the distribution of $R$ and $C$, we see two clusters appear: one with
 high values (the blockrows/blockcolumns that contain windows) and one with low
 values (non-window blockrows/blockcolumns). For a specific example we displayed the values of $R$ in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectBarh.eps}.
-Its easy to see that the high values, blockrow 4,5,7,8,10 and 11, correspond to the
-six window blockrows in Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps}.
+Note that the high values, row (4,5), (7,8), (10,11) apear in pairs and
+correspond to the three rows of windows in Figure
+\ref{fig:w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps} and
+\ref{fig:w_Spil1TransCrop1_ImClassRectRot.eps}.
 
 How do we determine which value is classified as high?  A straight forward
 approach would be to apply a threshold, for example 0.5 would work fine.
@@ -782,11 +798,11 @@ non-window areas.
 The next step is to determine the actual windows $W$.
 A block $w\in W$ that is crossed by $R_j$ and $C_k$ is classified as a
 window iff \emph{$k$-means} classified both $R_j$ and $C_k$ as window areas. These are displayed in 
- Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps} as green rectangles.
+ Figure \ref{fig:w_Spil1TransCrop1_ImClassRectRot.eps} as green rectangles.
 
 The last step is to group a set of windows that belong to each other. This is done by 
 grouping adjacent positively classified blocks. These are displayed as red
-rectangles in Figure \ref{fig:w_Spil1TransCrop1_ImClassRect.eps}.
+rectangles in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectRot.eps}.
 
 As the figure gives a binary representation of the windows it is not possible
 to see how certain a block is classification.
@@ -852,6 +868,7 @@ where $n$ is the number of window types (the 1 is for the non-window area).
 
 
 
+\newpage
 \subsubsection{Improved window classification (based on shape of the histogram function)}
 \TODO{introduce a little bit}
 \TODO{say that anne2 dataset is more rectified }
@@ -911,11 +928,7 @@ indeed window areas.\\
 \subparagraph{Results:Dirk dataset}
 
 \fig{w_Dirk4Trans_ImOri.eps}{Dataset: Dirk, Rectified image of a realistic scene which is realistic as it contains light spots, bicycles. Note that the windows are partially aligned and the differ in size and type}{0.55}
-\fig{w_Dirk4Trans_ImHibaap_WAlinesMerged.eps}{Dataset: Dirk, Improved window
-classification method: The red line shows concave shapes at window locations and
-convex shapes at non-window locations}{0.45}
-\fig{w_Dirk4Trans_ImClassRect.eps}{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}{0.45}
-\TODO{IMPROVED result on Anne1 dataset, investigate which combinations of dataset and methods i miss}
+
 
 The results on the Dirk dataset are also promising given we are dealing with a
 scene which violates the aligned window assumption and also contains different
@@ -927,6 +940,14 @@ are not window areas: these are the doors at the lowest row.
 areas, this is caused by the unaligned parts of the windows in the first and
 last column.
 
+\newpage
+\fig{w_Dirk4Trans_ImHibaap_WAlinesMerged.eps}{Dataset: Dirk, Improved window
+classification method: The red line shows concave shapes at window locations and
+convex shapes at non-window locations}{0.40}
+\fig{w_Dirk4Trans_ImClassRect.eps}{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}{0.40}
+\clearpage
+\TODO{IMPROVED result on Anne1 dataset, investigate which combinations of dataset and methods i miss}
+
 
 \begin{table}[t]
 \caption{Improved window classification results on Anne2 and Dirk dataset}
@@ -934,9 +955,13 @@ last column.
 \hline
 Type										& Anne2 dataset (Fig \ref{fig:w_Spil1TransImproved_windowsGrouped.eps})	& Dirk dataset (Fig \ref{fig:w_Dirk4Trans_ImClassRect.eps})\\
 \hline
+\hline
 Detection rate								& 100 \% 	& 100 \%	 \\
+\hline
 True positive rate							& 100 \%	&  87 \%	 \\
+\hline
 False positive rate							&   0 \%	&  11 \%	 \\
+\hline
 False negative rate							&   0 \%    &   9 \%     \\
 \hline
 \end{tabular}
@@ -950,11 +975,11 @@ Type										& Anne2 dataset (Fig \ref{fig:w_Spil1TransImproved_windowsGrouped.
 \hline
 \hline
 Grouped correct			& 100 \%  & 90\%  \\
+\hline
 Grouped incorrect		&  0 \%  & 10\%  \\
 \hline
 \end{tabular}
 \end{table}
-\clearpage
 
 
 
@@ -976,8 +1001,6 @@ en links dirk dataset}
 
 \TODO{compaire to other classification methods}
 \TODO{(perform both classifications on both datasets (2x3 img), visual concatenate images vertically)}
-
-
 %\subparagraph{Interpretation of the results of the Dirk dataset}
 \TODO{especially the horizontal division of the lowest row of windows is amazing, refer to}
 
@@ -1000,6 +1023,7 @@ we could not use a large \emph{maximum peak distance} value because the windows
 in the image (especially the first and last columns) are very close.  More on
 this in \emph{Future research on window classification
 (\ref{sec:futureResearchWindowClassification})}.
+\clearpage
 
 
 
