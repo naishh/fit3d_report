@@ -14,11 +14,15 @@ reality, building recognition, etc.\\
 
 This chapter deals with our developed methods of window detection and it is organized
 as follows:\\
-  We start with related work and put our work in context.  Next we describe our first
+  We start with our research question. After this we discuss related work and put our work in context.  Next we describe our first
   window detection approach that is invariant to viewing direction.  After this
   we present a facade rectification method. Next the rectification result is used for our
   second method that assumes orthogonal and aligned windows.  Finally we show
   and discuss our results. 
+
+\paragraph{Research question}
+Is it possible to use edge features to supply an accurate detection of windows in
+urban scenes?
 
 \TODO{in state of art een lijn creeren, opbouwen, in context plaatsen, theoretisch afwimplene}
 \subsection{Window detection: state of art} % related work
@@ -400,7 +404,7 @@ The rectification error can be seen as the skew window alignment (and skew
 drainpipe) on the left of the image. 
 Furthermore the yaw value of the camera (horizontal viewing angle) was (relative
 to the other datasets) high, making parts of the windows occluded.  The height
-of the windows on the right side of the image is 698 pixels, at the left side this
+of the facade on the right side of the image is 698 pixels, at the left side this
 is 320 pixels: a resolution of more then 2 times smaller which makes it hard to detect
 the left windows. Trilinear interpolation is used to minimize this loss.
 To reduce the number of handicaps (and to focus on the rectification and
@@ -475,12 +479,12 @@ blocks that we classify as window or non-window areas.\\
 
 % MOTIVATION
 How do we determine these alignment lines? We make use of the fact that among a
-horizontal alignment line a lot of horizontal Hough lines are present, see
+horizontal alignment line a large amount of horizontal Hough lines is present, see
 Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}. For the vertical alignment lines
-the number of vertical Hough lines is high, see the green lines.
+the number of vertical Hough lines is high, see the green lines.\\
 
 We begin by extracting the pixel coordinates of Hough transformed line
-segments. We store them in two groups: horizontal and vertical.% (crosses in Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}). 
+segments. We store them in two groups: horizontal and vertical. % (crosses in Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}). 
 We discard the dimension that is least informative by projecting the coordinates to
 the axis that is orthogonal to its group. 
 This means that for each horizontal Houghline the coordinates on the line are projected to the X
@@ -497,17 +501,21 @@ start or end.  These are the interesting positions as they are highly correlated
 to the alignment lines of the windows. 
 
 It is easy to see that the number of peaks is far more then the desired number of alignment lines.
-Therefore we smooth the values using a moving average filter.
+Therefore we smooth the values using a moving average filter.\\
+
 The result, red lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}
 , is a smooth \emph{projection profile} which contains the right number of peaks. The peaks
 are located at the average positions of the window edges. \\
 
-Next step is to calculate the peak areas and after this the peak positions. 
+Next step is to calculate the peak areas and after this, the peak positions. 
 Before we find the peak positions we extract the peak \emph{areas} by thresholding the
-function. To make the threshold invariant to the values, we set the threshold to 0.5 $\cdot$ max Peak. 
-This value works for most datasets but is a parameter that can be changed.
+function. To prevent an overfitted threshold value,  a relative threshold is
+used. We set the threshold to 0.5 $\cdot$ max Peak. 
+This value works for most datasets but is a parameter that can be changed.\\
 %The two thresholds are presented as black dotted lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.\\
-Next we create a binary list of peaks P, P returns 1 for positions that are contained in
+
+Next we create a binary list of peaks P. 
+P returns 1 for positions that are contained in
 a peak, i.e. are above the threshold, and 0 otherwise.
 We detect the peak areas by searching for the positions where P = 1
 (where the function passes the threshold line). 
@@ -523,6 +531,7 @@ These locations are used to draw the window alignment lines, they can be seen
 as dotted red lines and dotted green lines in Figure \ref{fig:w_Spil1TransCrop1_ImHibaap.eps}.
 
 \paragraph{Alternative window alignment}
+\label{alternative}
 As you can see in Figure \ref{fig:w_Spil1TransImproved_Xv.eps}
 a few window alignment lines are not found and a few lines are found at wrong locations.
 The right side of the window frame of the first 4 columns of windows is not found.
@@ -533,7 +542,8 @@ In this method we examine the projection profile of the \emph{horizontal} Hough 
 projected on the X axis, $X_h$, Figure \ref{fig:w_Spil1TransImproved_Xh.eps}.
 On the positions of the desired vertical alignment lines there appears to be a 
 big decrease or increase of $X_h$ at the window frame. This is because on these
-positions a window (containing a large amount of horizontal lines) starts or end.
+positions a window (containing a large amount of horizontal lines) starts or
+end.\\
 
 We detect these big decreases or increases by creating a new pseudo peak profile
 $D$ that takes the absolute of the derivative of $X_h$, Figure \ref{fig:w_Spil1TransImproved_Xh.eps}.
@@ -543,21 +553,22 @@ Next we extract the locations of the peaks as the previous method.
 \paragraph{Fusing the window alignment methods}
 We have presented two window alignment methods, next we fuse the methods to
 gain a robust window alignment.
-The target is to have as few as possible false positives while detecting all alignment locations.\\
+The aim is to have as few as possible false positives while detecting all alignment locations.\\
 
-If a window alignment position is found by both methods, the peaks are often
+We fuse the methods by plotting the two sets of alignment lines in the same image.
+If the same window alignment position is found by both methods, the peaks are often
 located very close to each other, see Figure
 \ref{fig:w_Spil1TransImproved_Xvh.eps}.  If this is the case we want to fuse the results by grouping the peaks.
 Most of the times the peaks indicate the same window alignment but have
 some disparity.  This is often the case when horizontal lines stop at the \emph{inside}
 of a window frame while the vertical edges are located at the \emph{outer} side of the
 window frame (this is supported by the fact that the disparity is often the size of the window frame part).  
-Yet, in other cases close peaks indicate different windows that are just happen to be
+However, in other cases, close peaks indicate different windows that are just happen to be
 located closely.  To apply a proper grouping of the peaks the challenge is to
 distinguish these two cases.\\
 
-First we decrease the total number of found window alignment locations by increasing the individual thresholds (from 0.3*max
-peak to 0.3*max peak). Note that this has a positive side effect that the peaks that are found are more certain.
+First we decrease the total number of found window alignment locations by increasing the individual thresholds (from 0.5*max
+peak to 0.7*max peak). Note that this has a positive side effect that the peaks that are found are more certain.
 After this we group the peaks as follows: \\
 First we calculate the average of the maximum window frame part and the minimum window
 distance and call this the maximum peak group distance $G$.
@@ -612,7 +623,7 @@ effect of fusing the methods is high as after fusing, 100\% of the window
 alignment is found on both datasets: each window alignment line is detected by
 at least one method.  This is basically explained by the fact that both methods
 are based on a different Houghline direction.  We now discuss the interesting
-cases, where only one method succeeds in detecting the window alignment.\\
+cases, where only one of the methods succeeds in detecting the window alignment.\\
 
 \label{lab:occlusion} If we take a look at the regular window alignment in
 Figure \ref{fig:w_Spil1TransImproved_Xv.eps} we see that for the first 4 window
@@ -677,11 +688,13 @@ If there is just a few variation the maximum peak is very representative for a
 window so the threshold could be for example 0.7*max peak. However if there is a
 large variation is found (which means multiple window types are present), the
 threshold should be lowered to 0.3*max peak to detect the hard window types
-(with few horizontal divisions).
+(with few horizontal divisions).\\
+
 Another method would be to cluster the amount of Hough lines in $n$+1 values
 where $n$ is the number of window types (the 1 is for the non-window area).
 Areas that transcend from a window area cluster to a non-window area cluster
-(or vice versa) are determined as the window alignment locations.
+(or vice versa) are determined as the window alignment locations.\\
+
 For both methods the challenge is again to detect the window alignment with
 unknown window types but keep the number of false positives (e.g. a drain pipe)
 zero. It is also possible to discard the false positives by an additional (e.g.
@@ -698,10 +711,10 @@ multiple close peaks, e.g. if 4 peaks are close, then peak 1 could indicate the
 same window as peak 2 but indicate a different window then peak 4. The location
 of the close peaks: inside, at the border, or outside the window could add
 important evidence, some methods of the window classification could be used to
-detect these values.
+discriminate these cases.
 
 \subparagraph{Future research:Window alignment refinement}
-To get more accurate result or to handle scenes with poor window alignment a
+To get more accurate result or to handle scenes with poor window alignment, a
 refinement procedure could be applied.  As mentioned in the related work, Lee et
 all \cite{Lee_extraction} applied window refinement.  Although this comes with
 accurate results, this approach to iterative refinement comes with a
@@ -743,7 +756,7 @@ floor and different types of windows on the second floor.
 \subsubsection{Basic window classification (based on line amount)}
 The image is now divided in a new grid of blocks based on these
 alignment. The next challenge is to classify the blocks as window and
-non-window areas: the window classification, we developed two different methods for this.
+non-window areas: the window classification. We developed two different methods for this.
 
 Instead of classifying each block independently, we classify full rows and
 columns of blocks as window or non-window areas.  This approach results in an accurate
@@ -753,12 +766,13 @@ window.
 The method exploits the fact that the windows are assumed to be
 aligned.
 A blockrow that contains windows will have a high amount of vertical
-Hough lines, Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}
+Hough lines caused by the windowframe, Figure \ref{fig:w_Spil1TransCrop1_ImHoughResult.eps}
 (green). For the blockcolumns the number of horizontal Hough lines
  (red) is high at window areas.  We use this property to classify 
  the blockrows/blockcolumns. 
 
-For each blockrow the overlap of all vertical Hough lines are summed up.
+For each blockrow the pixels of all vertical Hough lines that overlap with that
+blockrow are summed up. We refer to this sum as the Hough line overlap.
 (Remark that with this method we take both the length of the Hough lines and
 amount of Hough lines implicitly into account.)
 
@@ -768,7 +782,7 @@ is normalized by the size of the blockrow.
 
 Leaving us with $||R||$ (number of blockrows) scalar values that give a rank of a blockrow begin a window area or not.
 This is also done for each blockcolumn (using the normalized horizontal amount of
-Hough lines pixels) which leaves us with $C$.
+Hough lines pixels) which is stored in $C$.
 
 \TODO{DIT PLAATJE eruit en mooie staafdiagrammen erin}
 \fig{w_Spil1TransCrop1_ImClassRectBarh.eps}{Classification values for window
@@ -785,15 +799,18 @@ correspond to the three rows of windows in Figure
 How do we determine which value is classified as high?  A straight forward
 approach would be to apply a threshold, for example 0.5 would work fine.
 However, as the variation of the values depend on (unknown) properties like the
-number of windows, window types etc., the threshold maybe classify insufficient
-in another scene.  Hence working with the threshold wouldn't be robust. 
+ratio of window and non-window areas, the amount of subwindows a window
+contains, etc., this method is not robust for other scenes.\\
 
-Instead we use the fact that a blockrow is either filled with windows or not, hence
-there should always be two clusters.  We use \emph{$k$-means} clustering (with
+As the threshold method is classified useless we developed an other method.
+We use the fact that a blockrow is either filled with windows or not, hence
+there should always apear two clusters.  
+
+Hence, we use \emph{$k$-means} clustering (with
 $k=2$) as the classification procedure.
 \TODO{ref}
 This results in a set of Rows and Columns that are classified as window an
-non-window areas.
+non-window areas.\\
 
 The next step is to determine the actual windows $W$.
 A block $w\in W$ that is crossed by $R_j$ and $C_k$ is classified as a
@@ -805,8 +822,8 @@ grouping adjacent positively classified blocks. These are displayed as red
 rectangles in Figure \ref{fig:w_Spil1TransCrop1_ImClassRectRot.eps}.
 
 As the figure gives a binary representation of the windows it is not possible
-to see how certain a block is classification.
-To get insight about this we developed a measure of certainty function.
+to see how certain a block is classified.
+To get insight about this, we developed a measure of certainty function.
 
 \[P(R_i) = \frac{R_i}{max(R)}\]
 \[P(C_i) = \frac{C_i}{max(C)}\]
@@ -855,10 +872,11 @@ Figures \ref{fig:w_Dirk4Trans_ImClassRectI_kmeansTilt_barsH.eps},
 \ref{fig:w_Dirk4Trans_ImClassRectI_kmeansTilt_barsV.eps},
 \ref{fig:w_Dirk4Trans_ImClassRectI_kmeansTilt_prob.eps} and
 \ref{fig:w_Dirk4Trans_ImClassRectI_kmeansTilt_windows.eps}.
-This result can be explained as follows. The Dirk dataset has window types in the
-middle of that contain a horizontal subdivision while the others don't.
-The windows in the middle will cause k-means to drag the cluster center to a
-value that is too high making windows classified as non-window areas.
+and can be explained as follows. The Dirk dataset contains window types in the
+middle of that contain sub windows that are seperated by a horizontal
+subdivision. The other windows don't share this property therefore 
+jhe windows in the middle will cause k-means to drag the cluster center to a
+value that is too high. This results in windows areas that are  classified as non-window areas.
 
 \paragraph{Future research}
 A solution to the bad luck on the initialization of the cluster centers 
@@ -886,9 +904,10 @@ non-window area centers. This artefact is used for our
 our second window classifier.\\
 
 This shape type of $X_h$ is detected as follows:
-We took a similar approach as in improved window alignment (). First we examine the derivative of $X_h$, blue line in Figure
-\ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}.  Next we investigate the positions
-where $D=X_{h}'$ changes from sign, these are the peaks or valleys of $X_h$.
+We took a similar approach as in the alternative window alignment
+(\ref{alternative}). First we examine the derivative of $X_h$, see the blue line in Figure
+\ref{fig:w_Spil1TransImproved_WAlinesMerged.eps}.  Next, we investigate the positions
+where $X_{h}'$ changes from sign, these are the peaks and valleys of $X_h$.
 $X_h$ is concave at the sign changes from positive to negative (+,-) and $X_h$
 is convex if the sign changes (-,+).\\
 
@@ -910,7 +929,7 @@ Y-axis.
 \TODO{make a diagram, histogram - alignment lines -> window classification etc.}
 \TODO{discuss drain pipe, dat het goed is dat het resultaat mooi is ondanks drainpipe}
 
-\subparagraph{Results:Anne dataset}
+\subparagraph{Results:Anne2 dataset}
 \fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Anne2, Improved window
 classification method: The red line shows concave shapes at window locations and
 convex shapes at non-window locations}{0.7}
@@ -1010,48 +1029,46 @@ module would handle the redundant window alignment lines.
 This can be seen in Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps} where the 
 classification took advantage of the fact that all alignment lines are located at a boundary of a window or in a window. 
 The peak fusing module discarded many close alignment lines and the residual redundant alignment lines create
-small green adjacent sub windows which where grouped to clear red big windows.\\
-
-This grouping result is promising as 90\% of the grouping went well.
-This is a quite good result given the scene contains a large variety in window
+small green adjacent sub windows which where grouped to clear red big windows.
+This grouping result is promising as 90\% of the grouping went well. It is a quite good result given the scene contains a large variety in window
 shape, window size and window type.  This result is mostly due an almost perfect window alignment and classification 
 (as the grouping only groups adjacent positively classified sub windows).
 The first two window rows in Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps}
 however are classified as two groups but this should be one.
 Normally the peak merging step would handle this problem, but with this dataset
 we could not use a large \emph{maximum peak distance} value because the windows
-in the image (especially the first and last columns) are very close.  More on
-this in \emph{Future research on window classification
-(\ref{sec:futureResearchWindowClassification})}.
+in the image (especially the first and last columns) are very close.  This
+brings is to Future research.
 \clearpage
 
 
 
 \paragraph{Future research} % improved classification
+\subparagraph{Future work:Grouping error minimization}
+Although the grouping module gave promising results, it can be optimized.  The
+grouping module now groups adjacent positively classified window areas.  Some
+window in Figure areas are false negatively classified, see the left side of
+Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps}.  This is caused by a small area
+between the windows that is classified as a non-window area. This could be
+solved by adding a minimum size constraint for non-window areas.
+In this way small negatively classified areas cannot interrupt
+the adjacent windows.
+
 \TODO{put a opbouwende line in future work}
 \label{sec:futureResearchWindowClassification}
 \subparagraph{Future work:Extensive evaluation methods}
 As the classification worked very well it would be interesting to find out on which
 point it will fail?  This could be investigated by using low quality images (which are taken for
-example with a cell phone), furthermore we could downscale the images and/or add
+example with a cell phone), furthermore we could downscale the images and add
 Gaussian noise to the data.\\
 \TODO{speak about video, or sequence of images, detection + tracking etc}
 
 The results of the classification module depend heavily on the result of the
-window alignment. It would be nice feature research to make an independent
+window alignment. It would be nice future research to make an independent
 evaluation of the classification modules.  This could be done with a random
-window alignment generator. Some evaluation should be developed and it would
+window alignment generator. Some evaluation method should be developed and it would
 help if the windows are annotated.
 
-\subparagraph{Future work:Grouping error minimization}
-Although the grouping module gave promising results it can be optimized.  The
-grouping module now groups adjacent positively classified window areas.  Some
-window in Figure areas are false negatively classified, see the left side of
-Figure \ref{fig:w_Dirk4Trans_ImClassRect.eps}.  This is caused by a small area
-between the windows that is classified as a non-window area. This could be
-solved by by adding a minimum size constraint of an area to be threaded as a
-non-window area.  In this way small negatively classified areas cannot interrupt
-the adjacent windows.
 
 \subparagraph{Performance measure for extreme viewing angles}
 It would be nice to investigate the effect of the occlusion and to examine the
@@ -1071,11 +1088,14 @@ correct detected windows.
 % not summarize!
 % what can be derived from the results+?
 \TODO{We showed that projecting the image to a frontal view is a good preprocessing step of a robust window detector.}
+\paragraph{Research question}
+Is it possible to use edge features to supply an accurate detection of windows in
+urban scenes?\\
 
-We discussed two novel methods of window detection. The first method is used for
-scenes where no calibrated input data is available. Despite of the lack of this
-data it performed really well as it detected 99\% of the windows. However the 
-assignment of the window areas could be more accurate.  
+We discussed two novel window detection methods based on edge detection. The
+first method is used for scenes where no calibrated input data is available.
+Despite of the lack of this data it performed really well as it detected 99\% of
+the windows. However the assignment of the window areas could be more accurate.  
 
 Our second method which uses a calibrated scene.  It is based on Histograms
 of Houghlines and scored a 100\% detection rate of the windows.  
