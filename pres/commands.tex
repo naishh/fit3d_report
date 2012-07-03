@@ -1,0 +1,28 @@
+% PACKAGES
+\usepackage{epsfig}
+\usepackage{graphicx, subfigure}
+\usepackage{float}
+
+\usepackage{amsmath} % for the argmin
+\usepackage{amsfonts}
+\usepackage{url}
+
+% COMMANDS
+
+\newcommand{\fig}[2]{
+	\begin{figure}[!ht]
+	\centering
+	%\includegraphics[=#3]{../img/#1}
+	\includegraphics[width=#2]{../img/#1}
+	%\caption{#2}
+	\label{fig:#1}
+	\end{figure}
+}
+\newcommand{\fignocaption}[3]{
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[scale=#3]{img/#1}
+	\label{fig:#1}
+	\end{figure}
+}
+

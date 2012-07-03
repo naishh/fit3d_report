@@ -1,0 +1,171 @@
+\include{commands}
+%todo beamer package includen
+%todo documentclass?
+
+\section{Welcome}
+%todo opmaak
+
+{\LARGE \sc{Semantic annotation of urban scenes:}\\Skyline and window detection}
+
+Speaker: Tjerk Kostelijk
+Supervisors:
+Isaac Esteban
+Prof. dr ir Frans C. A. Groen
+
+%Committee:
+%Prof. dr ir Frans C. A. Groen
+%dr. P.H. Rodenburg
+%dr. Arnoud Visser
+
+July 6th, 2012
+
+\section{Experiment}
+% blank dia
+%notes:
+%this is for a little warming up
+%and to answer the question why I did my research
+
+
+\section{Experiment}
+%todo 1 sec
+\fig{floriande_back.eps}{420px}
+
+
+\section{Did you see?}
+%todo Yes en No op bord schrijven
+\begin{itemize}
+	\item building
+	\item tree
+	\item bicycle
+	%todo spellcheck
+	\item street lamb
+	\item red car
+	\item blue car
+	\item brand of the car?
+	% blank dia
+\end{itemize}
+
+
+\section{Experiment}
+% blank dia
+\section{Experiment}
+\fig{floriande_back.eps}{420px}
+
+
+\section{Q}
+\item Why are we so good at object/depth recognition?
+\item How can we apply vision to a computer system?
+	\begin{itemize}
+		\item {\textit{Computer Vision}}
+		% this is the domain which interest me the most and on which I did my research
+	\end{itemize}
+%These are two questions that keeps us AI people bussy
+% I will answer the first one shortley and the rest of the presentation is about
+% the second question
+
+
+\section{Outline}
+%todo print toc
+% -human perception
+% -skyline detection
+% -3d building reconstruction
+% -window detection
+ 
+%todo think of transition
+
+\section{Human perception}
+% lets talk about how you perceived the scene of the building
+\item depth cue, binocular disparity
+% vingertest
+% everybody raise your index finger, 
+% now close your left eye and switch to see your finger hopping
+% do the same with your finger further away
+% the displacement is smaller
+
+%We use two eyes and look at the sam scene from slightly diffeent angles
+%We perceive two different images, if an object appears close the differenc
+%displacement difference between the images is high
+%this makes it possible to triangulate the distance to an abject with a high
+%degree of accuracy
+
+\begin{itemize}
+\item Classify objects: feature detection
+	\begin{itemize}
+		\item straight lines
+		\item right angles 
+	\end{itemize}
+	%todo image of H and L 
+\end{itemize}
+
+
+\section{Where is my research about?}
+\item{Annotation of urban scenes}
+	\begin{itemize}
+		\item Skyline detection
+			\fig{outputSkylineSpil-Im29.eps}{width=200px}
+		\item 3D building reconstruction
+			% todo plaatje floriande -> 3d model
+			\fig{3dModel}{width=200px}
+		\item Window detection
+	\end{itemize}
+
+\section{Application examples of annotation of urban scenes}
+%What can we do with this annotation of urban scenes?}
+\begin{itemize}
+	\item 3D city models
+	%todo image
+	%todo paper downloaden met dat 3d city model plaatje, auters: muller en wonka
+	\item Driving simulation
+	\item Augmented reality
+	%todo image
+	\item Building recognition
+	\item Analysis building deformation
+	\begin{itemize}
+		% todo foto van de detectie dingen van noord-zuidlijn
+		\item 	'noord-zuidlijn'
+	\end{itemize}
+\end{itemize}
+
+
+\section{Skyline detection application example}
+\begin{itemize}
+	\item Horizon detection for Unmanned Air Vehicles
+	%notes:used to stabilize the vehicle
+	% todo vet plaatje op google vinden van een uav
+	\fig{p_uav_skyline_all.eps}{width=420px}
+\end{itemize}
+
+\section{Skyline in urban scenes}% the method
+%we use it to detect the contour of the building
+\begin{itemize}
+	\item Canny edge detection 
+	\item Result: Binary image (edge or no edge)
+	% evt computerprogrammatjuuuu
+		%edge represents a high change in color 
+	%\item Pre-precessing: Gaussian smoothing
+	\item top sharp edge assumption\\
+	\emph{"The first sharp edge (seen from top to bottom) in the image represents the skyline."}
+\end{itemize}
+
+
+\section{Skyline detection algorithm}% the method
+\begin{itemize}
+	\item The image is sliced in #w pixelcolumns
+	\item Each column present #h binary edge values (edge or no edge)
+	\item y-location of the first edge value is stored 
+\end{itemize}
+
+
+
+\subsection{Skyline detection Result}% the method
+\fig{e_floriande_canny_050.eps}
+
+\subsection{Future research}
+\title{Hypothesis based skyline detection}
+\emph{"The first sharp edge (seen from top to bottom) in the image represents the skyline."}
+\item Example of a scene where this assumption is violated
+\fig{folkert_edgeHypothesis.eps}
+\item 
+
+
+
