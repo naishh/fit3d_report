@@ -1,363 +1,587 @@
-\include{commands}
-%todo beamer package includen
-%todo documentclass?
-
-\title{Welcome}
 %todo opmaak
+\documentclass{beamer}
+\usetheme[compress]{Dresden}
+\setbeamertemplate{navigation symbols}{} 
+\include{commands}
+
 
 {\LARGE \sc{Semantic annotation of urban scenes:}\\Skyline and window detection}
+\title{\LARGE \sc{Semantic annotation of urban scenes:}\\Skyline and window detection}
+\subtitle{Speaker: Tjerk Kostelijk}
+\author{Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
+\date{\today}
 
-Speaker: Tjerk Kostelijk
-Supervisors:
-Isaac Esteban
-Prof. dr ir Frans C. A. Groen
 
 %Committee:
 %Prof. dr ir Frans C. A. Groen
 %dr. P.H. Rodenburg
 %dr. Arnoud Visser
 
-July 6th, 2012
+
+\frame{\titlepage}
+
+%\section[Outline]{}
+%\frame{\tableofcontents}
+
+% outline
+\AtBeginSection[]
+{
+ \begin{frame}
+  \frametitle{Outline}
+  \small
+  \tableofcontents[currentsection,hideothersubsections]
+  \normalsize
+ \end{frame}
+}
 
 
 \section{Introduction}
-\title{Experiment}
-% blank dia
-%notes:
-%this is for a little warming up
-%and to answer the question why I did my research
+	%todo subsections
 
-
-\title{Experiment}
-%todo 1 sec
-\fig{floriande_back.eps}{420px}
-
-
-\title{Did you see?}
-%todo Yes en No op bord schrijven
-\begin{itemize}
-	\item building
-	\item tree
-	\item bicycle
-	%todo spellcheck
-	\item street lamb
-	\item red car
-	\item blue car
-	\item brand of the car?
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Experiment}
 	% blank dia
-\end{itemize}
+	%notes:
+	%this is for a little warming up
+	%and to answer the question why I did my research
+}
 
 
-\title{Experiment}
-% blank dia
-\title{Experiment}
-\fig{floriande_back.eps}{420px}
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Experiment}
+	%todo 1 sec
+	\fig{floriande_back.eps}{420px}
+}
 
 
-\title{Q}
-\item Why are we so good at object/depth recognition?
-\item How can we apply vision to a computer system?
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Did you see?}
+	%todo Yes en No op bord schrijven
 	\begin{itemize}
-		\item {\textit{Computer Vision}}
-		% this is the domain which interest me the most and on which I did my research
+		\item  <+-| alert@+> building
+		\item  <+-| alert@+> tree
+		\item  <+-| alert@+> bicycle
+		%todo spellcheck
+		\item  <+-| alert@+> street lamb
+		\item  <+-| alert@+> red car
+		\item  <+-| alert@+> blue car
+		\item  <+-| alert@+> brand of the car?
+		% blank dia
 	\end{itemize}
-%These are two questions that keeps us AI people bussy
-% I will answer the first one shortley and the rest of the presentation is about
-% the second question
+}
 
 
-\title{Outline}
-%todo print toc
-% -human perception
-% -skyline detection
-% -3d building reconstruction
-% -window detection
- 
-%todo think of transition
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Experiment}
+	% blank dia
+}
 
-\title{Human perception}
-% lets talk about how you perceived the scene of the building
-\item depth cue, binocular disparity
-% vingertest
-% everybody raise your index finger, 
-% now close your left eye and switch to see your finger hopping
-% do the same with your finger further away
-% the displacement is smaller
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Experiment}
+	\fig{floriande_back.eps}{420px}
+}
 
-%We use two eyes and look at the sam scene from slightly diffeent angles
-%We perceive two different images, if an object appears close the differenc
-%displacement difference between the images is high
-%this makes it possible to triangulate the distance to an abject with a high
-%degree of accuracy
 
-\begin{itemize}
-\item Classify objects: feature detection
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Q}
+	\item  <+-| alert@+> Why are we so good at object/depth recognition?
+	\item  <+-| alert@+> How can we apply vision to a computer system?
+		\begin{itemize}
+			\item  <+-| alert@+> {\textit{Computer Vision}}
+			% this is the domain which interest me the most and on which I did my research
+		\end{itemize}
+	%These are two questions that keeps us AI people bussy
+	% I will answer the first one shortley and the rest of the presentation is about
+	% the second question
+}
+
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Outline}
+	%todo print toc
+	% -human perception
+	% -skyline detection
+	% -3d building reconstruction
+	% -window detection
+	 
+	%todo think of transition
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Human perception}
+	% lets talk about how you perceived the scene of the building
+	\item  <+-| alert@+> depth cue, binocular disparity
+	% vingertest
+	% everybody raise your index finger, 
+	% now close your left eye and switch to see your finger hopping
+	% do the same with your finger further away
+	% the displacement is smaller
+
+	%We use two eyes and look at the sam scene from slightly diffeent angles
+	%We perceive two different images, if an object appears close the differenc
+	%displacement difference between the images is high
+	%this makes it possible to triangulate the distance to an abject with a high
+	%degree of accuracy
+
 	\begin{itemize}
-		\item straight lines
-		\item right angles 
-	\end{itemize}
-	%todo image of H and L 
-\end{itemize}
-
-
-\title{Where is my research about?}
-\item{Annotation of urban scenes}
-	\begin{itemize}
-		\item Skyline detection
-			\fig{outputSkylineSpil-Im29.eps}{width=200px}
-		\item 3D building reconstruction
-			% todo plaatje floriande -> 3d model
-			\fig{3dModel}{width=200px}
-		\item Window detection
+	\item  <+-| alert@+> Classify objects: feature detection
+		\begin{itemize}
+			\item  <+-| alert@+> straight lines
+			\item  <+-| alert@+> right angles 
+		\end{itemize}
+		%todo image of H and L 
 	\end{itemize}
 
-%todo insert TOC at every section
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Where is my research about?}
+	\item  <+-| alert@+>{Annotation of urban scenes}
+		\begin{itemize}
+			\item  <+-| alert@+> Skyline detection
+				\fig{outputSkylineSpil-Im29.eps}{width=200px}
+			\item  <+-| alert@+> 3D building reconstruction
+				% todo plaatje floriande -> 3d model
+				\fig{3dModel}{width=200px}
+			\item  <+-| alert@+> Window detection
+		\end{itemize}
+
+	%todo insert TOC at every section
 \section{Skylinedetection}
-\title{Application examples of annotation of urban scenes}
-%What can we do with this annotation of urban scenes?}
-\begin{itemize}
-	\item 3D city models
-	%todo image
-	%todo paper downloaden met dat 3d city model plaatje, auters: muller en wonka
-	\item Driving simulation
-	\item Augmented reality
-	%todo image
-	\item Building recognition
-	\item Analysis building deformation
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Application examples of annotation of urban scenes}
+	%What can we do with this annotation of urban scenes?}
 	\begin{itemize}
-		% todo foto van de detectie dingen van noord-zuidlijn
-		\item 	'noord-zuidlijn'
+		\item  <+-| alert@+> 3D city models
+		%todo image
+		%todo paper downloaden met dat 3d city model plaatje, auters: muller en wonka
+		\item  <+-| alert@+> Driving simulation
+		\item  <+-| alert@+> Augmented reality
+		%todo image
+		\item  <+-| alert@+> Building recognition
+		\item  <+-| alert@+> Analysis building deformation
+		\begin{itemize}
+			% todo foto van de detectie dingen van noord-zuidlijn
+			\item  <+-| alert@+> 	'noord-zuidlijn'
+		\end{itemize}
 	\end{itemize}
-\end{itemize}
 
 
-\title{Skyline detection application example}
-\begin{itemize}
-	\item Horizon detection for Unmanned Air Vehicles
-	%notes:used to stabilize the vehicle
-	% todo vet plaatje op google vinden van een uav
-	\fig{p_uav_skyline_all.eps}{width=420px}
-\end{itemize}
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Skyline detection application example}
+	\begin{itemize}
+		\item  <+-| alert@+> Horizon detection for Unmanned Air Vehicles
+		%notes:used to stabilize the vehicle
+		% todo vet plaatje op google vinden van een uav
+		\fig{p_uav_skyline_all.eps}{width=420px}
+	\end{itemize}
 
-\title{Skyline in urban scenes}% the method
-%we use it to detect the contour of the building
-\begin{itemize}
-	\item Canny edge detection 
-	\item Result: Binary image (edge or no edge)
-	% evt computerprogrammatjuuuu
-		%edge represents a high change in color 
-	%\item Pre-precessing: Gaussian smoothing
-	\item top sharp edge assumption\\
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Skyline in urban scenes}% the method
+	%we use it to detect the contour of the building
+	\begin{itemize}
+		\item  <+-| alert@+> Canny edge detection 
+		\item  <+-| alert@+> Result: Binary image (edge or no edge)
+		% evt computerprogrammatjuuuu
+			%edge represents a high change in color 
+		%\item  <+-| alert@+> Pre-precessing: Gaussian smoothing
+		\item  <+-| alert@+> top sharp edge assumption\\
+		\emph{"The first sharp edge (seen from top to bottom) in the image represents the skyline."}
+	\end{itemize}
+
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Skyline detection algorithm}% the method
+	\begin{itemize}
+		\item  <+-| alert@+> The image is sliced in #w pixelcolumns
+		\item  <+-| alert@+> Each column present #h binary edge values (edge or no edge)
+		\item  <+-| alert@+> y-location of the first edge value is stored 
+	\end{itemize}
+
+
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Skyline detection Result}% the method
+	\fig{e_floriande_canny_050.eps}
+
+	\subsection{Future research}
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Hypothesis based skyline detection, assumption}
 	\emph{"The first sharp edge (seen from top to bottom) in the image represents the skyline."}
-\end{itemize}
+	\item  <+-| alert@+> Example of a scene where this assumption is violated
+	\fig{outputSkylineSpil-Im13-thresh030.eps}
 
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Hypothesis based skyline detection, assumption}
+	\item  <+-| alert@+> Change of assumption
+	\emph{"The skyline is part of the first $n$ sharp edges (seen from top) (e.g.
+	$n=3$)}
+	\fig{folkert_edgeHypothesis.eps}
 
-\title{Skyline detection algorithm}% the method
-\begin{itemize}
-	\item The image is sliced in #w pixelcolumns
-	\item Each column present #h binary edge values (edge or no edge)
-	\item y-location of the first edge value is stored 
-\end{itemize}
-
-
-
-\title{Skyline detection Result}% the method
-\fig{e_floriande_canny_050.eps}
-
-\subsection{Future research}
-\title{Hypothesis based skyline detection, assumption}
-\emph{"The first sharp edge (seen from top to bottom) in the image represents the skyline."}
-\item Example of a scene where this assumption is violated
-\fig{outputSkylineSpil-Im13-thresh030.eps}
-
-\title{Hypothesis based skyline detection, assumption}
-\item Change of assumption
-\emph{"The skyline is part of the first $n$ sharp edges (seen from top) (e.g.
-$n=3$)}
-\fig{folkert_edgeHypothesis.eps}
-
-\title{Hypothesis based skyline detection, algorithm}
-\begin{itemize}
-\item Use exsisting column based approach
-\item Generate $n$ hypothesis
-\item classify hypothesis with additional info
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Hypothesis based skyline detection, algorithm}
 	\begin{itemize}
-	\item texture 
-	\item color
-	\item height variation 
+	\item  <+-| alert@+> Use exsisting column based approach
+	\item  <+-| alert@+> Generate $n$ hypothesis
+	\item  <+-| alert@+> classify hypothesis with additional info
+		\begin{itemize}
+		\item  <+-| alert@+> texture 
+		\item  <+-| alert@+> color
+		\item  <+-| alert@+> height variation 
+		\end{itemize}
 	\end{itemize}
-\end{itemize}
 
-\title{Expected result on hypothesis classification based on color}
-\fig{outputSkylineSpil-Im13-thresh070.eps}
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Expected result on hypothesis classification based on color}
+	\fig{outputSkylineSpil-Im13-thresh070.eps}
 
-\title{Expected result on hypothesis classification based on heigth variation}
-\fig{outputSkylineIm3-3-zoom.eps}
-\fig{outputSkylineIm3-3-zoom-con.eps}
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Expected result on hypothesis classification based on heigth variation}
+	\fig{outputSkylineIm3-3-zoom.eps}
+	\fig{outputSkylineIm3-3-zoom-con.eps}
 
-%todo close up skyline above sky below bricks
-%todo close up skyline above sky below sky (lamp) 
+	%todo close up skyline above sky below bricks
+	%todo close up skyline above sky below sky (lamp) 
 
 
-%notes
-%The existing column based approach could be used to generate $n$ hypotheses and we can build
-%an algorithm on top of that to classify which hypothesis is right (i.e. which edge
-%presents the skyline).
-%
-%The hypothesis classifier must gather additional information. We could
-%discriminate the hypothesis for example by texture, color distributions or height
-%variation. We discuss the last two.
+	%notes
+	%The existing column based approach could be used to generate $n$ hypotheses and we can build
+	%an algorithm on top of that to classify which hypothesis is right (i.e. which edge
+	%presents the skyline).
+	%
+	%The hypothesis classifier must gather additional information. We could
+	%discriminate the hypothesis for example by texture, color distributions or height
+	%variation. We discuss the last two.
 
 
 \section{Extracting the 3D model}
-\title{Overview}
-%notes a skyline detection application
-\begin{itemize}
-\item Create (top view) 2D model of the scene using \emph{Openstreetmap}
-\fig{openstreetmap}
-\item Align 2D model with the scene using \emph{FIT3D toolbox}
-\item Transform the 2D model to a 3D model by extending the walls
-\end{itemize}
-
-\title{Extract 2D model}
-\fig{openstreetmap}
-% whiteboard draw 2d model
-%-----------------------------------------------------
-
-\title{Align 2D model}
-\begin{itemize}
-\item \emph{FIT3D toolbox}
-% out of the scope, is explained in my thesis
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Overview}
+	%notes a skyline detection application
 	\begin{itemize}
-	\item Input: sequence of images that contain different views of the building
-	\item Output: a 3D point cloud of the building
+	\item  <+-| alert@+> Create (top view) 2D model of the scene using \emph{Openstreetmap}
+	\fig{openstreetmap}
+	\item  <+-| alert@+> Align 2D model with the scene using \emph{FIT3D toolbox}
+	\item  <+-| alert@+> Transform the 2D model to a 3D model by extending the walls
 	\end{itemize}
-\figsHor{outputSkylineIm3-3.eps}{pc_3d.eps} %{ 3D point cloud of the walls of the building}{0.5}
-\end{itemize}
 
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Extract 2D model}
+	\fig{openstreetmap}
+	% whiteboard draw 2d model
+	%-----------------------------------------------------
 
-\title{Align 2D model}
-\fig{pc_topview.eps} %{The projected 3D point cloud of the walls of the
-
-
-\title{Align 2D model}
-\fig{pc_topview_linefit.eps} %{M2, The fitted line segments define (a top view of
-%---------------- notes ------------------------------
-% explain point to point correspondence 
-%-----------------------------------------------------
-
-
-\title{Align 2D model}
-\fig{pc_topview2DModel.eps} %{The 2D model M1 aligned with the fitted line
-
-\title{Results}
-\fig{3dModel} %{The basic 3D model, generated by extending the 
-
-\title{Wall height estimation}
-% todo use this as a motivation for skyline detection
-\begin{itemize}
-%---------------- notes ------------------------------
-% because 3D model based on aerial images (openstreetmap)
-% -> Wall heights of 3D model are not accurate
-% explain point to point correspondence 
-% although it looks like a nice 3D model the wall heights..
-%-----------------------------------------------------
-%
-\item Wall heights of 3D model are not accurate
-\figsHor{3dModel}{floriande_back.eps} %{The walls of the building differ in height: the back
-\item Improve the 3D model by wall height estimation
-\end{itemize}
-
-\title{Assumptions}
-%---------------- notes ------------------------------
-% Because we want to estimate the height of the building walls of the 3D
-% model, we need to know how high the walls in the 2D images are. 
-%---------------- notes ------------------------------
-\emph{Straight lines in the skyline are likely to come from the building contour}
-\emph{Flat roof assumption -> building contour is equal to upper side of building walls}
-
-\title{Extracting line segments}
-% a widely used method for extracting line segments is the Hough transform
-\item Output of skyline detector
-%todo insert binary skyline image
-\item Hough transform
-%---------------- notes ------------------------------
-% the technique behind this method is discussed in detail in my thesis
-% unfortunatelly, for now we don't have enough time to dive in to this topic
-%---------------- notes ------------------------------
-
-%\item Basic idea: Lines -> points in Hough space
-%\item Straight line segment that spans $y=mx+b$ represents $(m,b)$ point in Hough parameter space
-
-%---------------- notes ------------------------------
-% Because the algorithm detects straight lines containing only skyline pixels
-% it returns only the straight parts of the skyline.
-%---------------- notes ------------------------------
-\fig{outputHoughlines2d} %{Three best ranked lines of the Hough transform on the skyline detector match the three most prominent displayed building walls}{0.4}
-
-
-\title{Project to the 3D model}
-\begin{itemize}
-\item Estimate wall heights 
-\item project line segments to specific walls of 3D model
-\fig{coordinateSystemsCopy.eps} %{The blue line spanned by the camera center
-%---------------- notes ------------------------------
-% From image point (2D) to possible points in scene (3D)} 
-%---------------- notes ------------------------------
-\item
-\end{itemize}
-
-
-\title{Results 1/3}
-%\fignocaption{overlaytypes}{}{0.37}
-\fig{skyline_proj.eps} %{The Houghlines collected from different views projected on their corresponding
-
-
-\title{Results 2/3}
-\fig{outputHoughlines3d} %{The Houghlines collected from different views re-projected on the 3D model according to the line-wall correspondence.}{0.5}
-
-
-\title{Results 3/3}
-\fig{outputMutateBuilding}{Improved 3D model}{0.6}
-
-\title{Future research}
-%todo als tijd over
-
-%\fig{typesOfRoofs}{Different types of roofs}{0.4}
-%\fig{gableRoofWood.eps}{The parts of the 3D model for the Gable roof}{0.6}
-
-\title{Overview}
-%todo highlight window detection
-
-\title{Outline Window detection}
-\begin{itemize}
-\item Method I: Connected corner approach 
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Align 2D model}
 	\begin{itemize}
-	\item invariant to viewing direction
+	\item  <+-| alert@+> \emph{FIT3D toolbox}
+	% out of the scope, is explained in my thesis
+		\begin{itemize}
+		\item  <+-| alert@+> Input: sequence of images that contain different views of the building
+		\item  <+-| alert@+> Output: a 3D point cloud of the building
+		\end{itemize}
+	\figsHor{outputSkylineIm3-3.eps}{pc_3d.eps} %{ 3D point cloud of the walls of the building}{0.5}
 	\end{itemize}
-\item Facade rectification 
-\item Method II: Histogram based approach
+
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Align 2D model}
+	\fig{pc_topview.eps} %{The projected 3D point cloud of the walls of the
+
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Align 2D model}
+	\fig{pc_topview_linefit.eps} %{M2, The fitted line segments define (a top view of
+	%---------------- notes ------------------------------
+	% explain point to point correspondence 
+	%-----------------------------------------------------
+
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Align 2D model}
+	\fig{pc_topview2DModel.eps} %{The 2D model M1 aligned with the fitted line
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Results}
+	\fig{3dModel} %{The basic 3D model, generated by extending the 
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Wall height estimation}
+	% todo use this as a motivation for skyline detection
 	\begin{itemize}
-	\item rectified facades 
-	\item uses Histograms of Houghlines
+	%---------------- notes ------------------------------
+	% because 3D model based on aerial images (openstreetmap)
+	% -> Wall heights of 3D model are not accurate
+	% explain point to point correspondence 
+	% although it looks like a nice 3D model the wall heights..
+	%-----------------------------------------------------
+	%
+	\item  <+-| alert@+> Wall heights of 3D model are not accurate
+	\figsHor{3dModel}{floriande_back.eps} %{The walls of the building differ in height: the back
+	\item  <+-| alert@+> Improve the 3D model by wall height estimation
 	\end{itemize}
-\end{itemize}
-% this wil come clear when I explain it 
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Assumptions}
+	%---------------- notes ------------------------------
+	% Because we want to estimate the height of the building walls of the 3D
+	% model, we need to know how high the walls in the 2D images are. 
+	%---------------- notes ------------------------------
+	\emph{Straight lines in the skyline are likely to come from the building contour}
+	\emph{Flat roof assumption -> building contour is equal to upper side of building walls}
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Extracting line segments}
+	% a widely used method for extracting line segments is the Hough transform
+	\item  <+-| alert@+> Output of skyline detector
+	%todo insert binary skyline image
+	\item  <+-| alert@+> Hough transform
+	%---------------- notes ------------------------------
+	% the technique behind this method is discussed in detail in my thesis
+	% unfortunatelly, for now we don't have enough time to dive in to this topic
+	%---------------- notes ------------------------------
+
+	%\item  <+-| alert@+> Basic idea: Lines -> points in Hough space
+	%\item  <+-| alert@+> Straight line segment that spans $y=mx+b$ represents $(m,b)$ point in Hough parameter space
+
+	%---------------- notes ------------------------------
+	% Because the algorithm detects straight lines containing only skyline pixels
+	% it returns only the straight parts of the skyline.
+	%---------------- notes ------------------------------
+	\fig{outputHoughlines2d} %{Three best ranked lines of the Hough transform on the skyline detector match the three most prominent displayed building walls}{0.4}
 
 
-%---------------- notes ------------------------------
-recall that this thesis was about annotation of urban scenes
-we annotated the 3D structure of the scene
-next topic is window detection
-%---------------- notes ------------------------------
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Project to the 3D model}
+	\begin{itemize}
+	\item  <+-| alert@+> Estimate wall heights 
+	\item  <+-| alert@+> project line segments to specific walls of 3D model
+	\fig{coordinateSystemsCopy.eps} %{The blue line spanned by the camera center
+	%---------------- notes ------------------------------
+	% From image point (2D) to possible points in scene (3D)} 
+	%---------------- notes ------------------------------
+	\item  <+-| alert@+>
+	\end{itemize}
+
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Results 1/3}
+	%\fignocaption{overlaytypes}{}{0.37}
+	\fig{skyline_proj.eps} %{The Houghlines collected from different views projected on their corresponding
+
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Results 2/3}
+	\fig{outputHoughlines3d} %{The Houghlines collected from different views re-projected on the 3D model according to the line-wall correspondence.}{0.5}
+
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Results 3/3}
+	\fig{outputMutateBuilding}{Improved 3D model}{0.6}
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Future research}
+	%todo als tijd over
+
+	%\fig{typesOfRoofs}{Different types of roofs}{0.4}
+	%\fig{gableRoofWood.eps}{The parts of the 3D model for the Gable roof}{0.6}
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Overview}
+	%todo highlight window detection
+
+
+
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Outline Window detection}
+	%---------------- notes ------------------------------
+	%recall that this thesis was about annotation of urban scenes
+	%we annotated the 3D structure of the scene
+	%next topic is window detection
+	%---------------- notes ------------------------------
+	\begin{itemize}
+	\item  <+-| alert@+> Method I: Connected corner approach 
+		\begin{itemize}
+		\item  <+-| alert@+> invariant to viewing direction
+		\end{itemize}
+	\item  <+-| alert@+> Facade rectification 
+	\item  <+-| alert@+> Method II: Histogram based approach
+		\begin{itemize}
+		\item  <+-| alert@+> rectified facades 
+		\item  <+-| alert@+> uses Histograms of Houghlines
+		\end{itemize}
+	\end{itemize}
+	% this will become clear when I explain it 
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Method I: Connected corner approach}
+
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Method I: Connected corner approach} 
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Situation}
+	\begin{itemize}
+	%---------------- notes ------------------------------
+	%notes Window contains subwindows enclosed in rectangular window frames 
+	%As the color of the window frames differ from the glass, the amount of
+	%horizontal and vertical edges is large at these locations.  
+	%Some horizontal and vertical edges come from the same window frame, therefore they often
+	%---------------- notes ------------------------------
+	\item  <+-| alert@+> Window frames 
+	\item  <+-| alert@+> Difference color window frame, color glass
+	\item  <+-| alert@+> Produce edges in horizontal and vertical direction
+	\end{itemize}
+
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{The idea}
+	\item  <+-| alert@+> Connected corner}
+	\item  <+-| alert@+> \emph{"horizontal and vertical edges that come from same (sub)window frame share
+	a corner"}
+
+
+%-------------------------------------------------------------------
+\frame
+{
+	\frametitle{Edge detection and Houghline extraction}
+	%---------------- notes ------------------------------
+	%edge detection -> straight lines 
+	%---------------- notes ------------------------------
+
+	\subsubsection{Connected corners extraction}
+
+	\subsubsection{Window area extraction}
+
+	\subsubsection{Results}
+
+	\subsubsection{Future research} %\subsubsection{Method I: Connected corner approach} 
+
+	\subsection{Facade rectification}
+
+	\subsubsection{Introduction}
+
+	\subsubsection{3D plane based rectification} 
+
+	\subsubsection{Results} % facade rectification
+
+	\subsection{Datasets}
+
+	\subsubsection{Anne1}
+
+	\subsubsection{Anne2}
+
+	\subsubsection{Dirk}
+
+	\subsection{Method II: Histogram based approach} 
+
+	\subsubsection{Introduction}
+
+	\subsubsection{Extracting the window alignment}
+
+	\subsubsection{Basic window classification (based on line amount)}
+
+	\subsubsection{Improved window classification (based on shape of the histogram function)}
+
+	%\subsubsection{Comparison of basic and improved window classification}
+
+	\subsection{Conclusion}
+
+	\subsubsection{Method I:Connected corner approach} % cCorner
+
+	\subsubsection{Method II: histogram based approach}
+
+
+
+
 
 
 
 
 
 \section{Interactive demo}
-osgviewer demo of 3d point cloud and images
-demo of matlab progje
+	osgviewer demo of 3d point cloud and images
+	demo of matlab progje
 
 
 
