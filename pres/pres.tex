@@ -2,7 +2,7 @@
 %todo beamer package includen
 %todo documentclass?
 
-\section{Welcome}
+\title{Welcome}
 %todo opmaak
 
 {\LARGE \sc{Semantic annotation of urban scenes:}\\Skyline and window detection}
@@ -19,19 +19,21 @@ Prof. dr ir Frans C. A. Groen
 
 July 6th, 2012
 
-\section{Experiment}
+
+\section{Introduction}
+\title{Experiment}
 % blank dia
 %notes:
 %this is for a little warming up
 %and to answer the question why I did my research
 
 
-\section{Experiment}
+\title{Experiment}
 %todo 1 sec
 \fig{floriande_back.eps}{420px}
 
 
-\section{Did you see?}
+\title{Did you see?}
 %todo Yes en No op bord schrijven
 \begin{itemize}
 	\item building
@@ -46,13 +48,13 @@ July 6th, 2012
 \end{itemize}
 
 
-\section{Experiment}
+\title{Experiment}
 % blank dia
-\section{Experiment}
+\title{Experiment}
 \fig{floriande_back.eps}{420px}
 
 
-\section{Q}
+\title{Q}
 \item Why are we so good at object/depth recognition?
 \item How can we apply vision to a computer system?
 	\begin{itemize}
@@ -64,7 +66,7 @@ July 6th, 2012
 % the second question
 
 
-\section{Outline}
+\title{Outline}
 %todo print toc
 % -human perception
 % -skyline detection
@@ -73,7 +75,7 @@ July 6th, 2012
  
 %todo think of transition
 
-\section{Human perception}
+\title{Human perception}
 % lets talk about how you perceived the scene of the building
 \item depth cue, binocular disparity
 % vingertest
@@ -98,7 +100,7 @@ July 6th, 2012
 \end{itemize}
 
 
-\section{Where is my research about?}
+\title{Where is my research about?}
 \item{Annotation of urban scenes}
 	\begin{itemize}
 		\item Skyline detection
@@ -109,7 +111,9 @@ July 6th, 2012
 		\item Window detection
 	\end{itemize}
 
-\section{Application examples of annotation of urban scenes}
+%todo insert TOC at every section
+\section{Skylinedetection}
+\title{Application examples of annotation of urban scenes}
 %What can we do with this annotation of urban scenes?}
 \begin{itemize}
 	\item 3D city models
@@ -127,7 +131,7 @@ July 6th, 2012
 \end{itemize}
 
 
-\section{Skyline detection application example}
+\title{Skyline detection application example}
 \begin{itemize}
 	\item Horizon detection for Unmanned Air Vehicles
 	%notes:used to stabilize the vehicle
@@ -135,7 +139,7 @@ July 6th, 2012
 	\fig{p_uav_skyline_all.eps}{width=420px}
 \end{itemize}
 
-\section{Skyline in urban scenes}% the method
+\title{Skyline in urban scenes}% the method
 %we use it to detect the contour of the building
 \begin{itemize}
 	\item Canny edge detection 
@@ -148,7 +152,7 @@ July 6th, 2012
 \end{itemize}
 
 
-\section{Skyline detection algorithm}% the method
+\title{Skyline detection algorithm}% the method
 \begin{itemize}
 	\item The image is sliced in #w pixelcolumns
 	\item Each column present #h binary edge values (edge or no edge)
@@ -157,15 +161,65 @@ July 6th, 2012
 
 
 
-\subsection{Skyline detection Result}% the method
+\title{Skyline detection Result}% the method
 \fig{e_floriande_canny_050.eps}
 
 \subsection{Future research}
-\title{Hypothesis based skyline detection}
+\title{Hypothesis based skyline detection, assumption}
 \emph{"The first sharp edge (seen from top to bottom) in the image represents the skyline."}
 \item Example of a scene where this assumption is violated
+\fig{outputSkylineSpil-Im13-thresh030.eps}
+
+\title{Hypothesis based skyline detection, assumption}
+\item Change of assumption
+\emph{"The skyline is part of the first $n$ sharp edges (seen from top) (e.g.
+$n=3$)}
 \fig{folkert_edgeHypothesis.eps}
-\item 
+
+\title{Hypothesis based skyline detection, algorithm}
+\begin{itemize}
+\item Use exsisting column based approach
+\item Generate $n$ hypothesis
+\item classify hypothesis with additional info
+	\begin{itemize}
+	\item texture 
+	\item color
+	\item height variation 
+	\end{itemize}
+\end{itemize}
+
+\title{Expected result on hypothesis classification based on color}
+\fig{outputSkylineSpil-Im13-thresh070.eps}
+
+\title{Expected result on hypothesis classification based on heigth variation}
+\fig{outputSkylineIm3-3-zoom.eps}
+\fig{outputSkylineIm3-3-zoom-con.eps}
+
+%todo close up skyline above sky below bricks
+%todo close up skyline above sky below sky (lamp) 
+
+
+%notes
+%The existing column based approach could be used to generate $n$ hypotheses and we can build
+%an algorithm on top of that to classify which hypothesis is right (i.e. which edge
+%presents the skyline).
+%
+%The hypothesis classifier must gather additional information. We could
+%discriminate the hypothesis for example by texture, color distributions or height
+%variation. We discuss the last two.
+
+
+\section{Extracting the 3D model}
+\title{Overview}
+%notes a skyline detection application
+\begin{itemize}
+\item Create (top view) 2D model of the scene using \emph{Openstreetmap}
+\fig{openstreetmap}
+\item Align 2D model with the scene using \emph{FIT3D toolbox}
+\item Transform the 2D model to a 3D model by extending the walls
+\end{itemize}
+
+
 
 
 
