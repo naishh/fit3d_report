@@ -9,15 +9,36 @@
 
 % COMMANDS
 
-\newcommand{\fig}[2]{
+\newcommand{\fig}[1]{
 	\begin{figure}[!ht]
 	\centering
 	%\includegraphics[=#3]{../img/#1}
-	\includegraphics[width=#2]{../img/#1}
+	\includegraphics[width=200px]{../img/#1}
 	%\caption{#2}
 	\label{fig:#1}
 	\end{figure}
 }
+\newcommand{\figs}[1]{
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=100px]{../img/#1}
+	%\caption{#2}
+	\label{fig:#1}
+	\end{figure}
+}
+
+\newcommand{\figsHor}[2]{
+	\begin{figure}[!ht]
+	\centering
+	\subfigure[]{
+		\includegraphics[width=5cm]{../img/#1}
+	}
+	\subfigure[]{
+		\includegraphics[width=5cm]{../img/#2}
+	}
+	\end{figure}
+}
+
 \newcommand{\fignocaption}[3]{
 	\begin{figure}[!ht]
 	\centering
