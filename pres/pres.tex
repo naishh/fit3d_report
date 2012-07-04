@@ -3,13 +3,13 @@
 \usetheme[compress]{Dresden}
 \setbeamertemplate{navigation symbols}{} 
 
-%\include{commands}
+\include{commands}
 
 
-%{\LARGE \sc{Semantic annotation of urban scenes:}\\Skyline and window detection}
 
-% notes: say welcome to my master thesis' defence
-\title{\LARGE \sc{Semantic annotation of urban scenes:}\\Skyline and window detection}
+%% notes: say welcome to my master thesis' defence
+%\title{\LARGE \sc{Semantic annotation of urban scenes:}\\Skyline and window detection}
+\title{\sc{Semantic annotation of urban scenes:}\\Skyline and window detection}
 \subtitle{Speaker: Tjerk Kostelijk}
 \author{Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 \date{\today}
@@ -26,7 +26,6 @@
 
 \frame{\titlepage}
 
-\end{document}
 %\section[Outline]{}
 %\frame{\tableofcontents}
 
@@ -242,7 +241,6 @@
 }
 
 
-\end{document}
 
 %-------------------------------------------------------------------
 \frame
@@ -806,11 +804,174 @@
 \frame
 {
 	\frametitle{Window alignment lines example}
+	\fig{w_Spil1TransImproved_Xv.eps} %{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
 }
 
-% \fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
-% \fig{w_Spil1TransCrop1_ImHibaap.eps}{Dataset: Anne1, Regular window alignment (parallel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Hough lines, for the column division the horizontal Hough lines are counted (at each $y$ position), for the row division the vertical Hough lines are counted (at each $x$ position) }{0.45}
+\frame
+{
+	\frametitle{The idea}
+	\item Amount of Houghlines high at window locations
+	\fig{w_Spil1TransCrop1_ImHoughResult.eps}%{Dataset: Anne1, (Projected) Hough lines on rectified image}{0.45}
+}
 
+\frame
+{
+	\frametitle{The algorithm for vertical alignment (columns)}
+	%----------------------- notes --------------------
+	%----------------------- notes --------------------
+	\begin{itemize}
+	\item aim: get positions of window columns
+	\item isolate $n$ horizontal Hough lines
+	\item extract pixel coordinates of endpoints 
+		\begin{itemize}
+		\item ->set of (2 dimensional) coordinates (x,y)
+		\end{itemize}
+	%----------------------- notes --------------------
+	% where h is the number of horizontal lines
+	%----------------------- notes --------------------
+	\item discard least informative dimension
+		\begin{itemize}
+		\item project to X-axis (by discard Y-value) 
+		\item gives a set of $2n$ x values 
+		\end{itemize}
+	%----------------------- notes --------------------
+	% where each scalar value presents a x coordinate
+	%----------------------- notes --------------------
+	\item Create histogram: count number of values on each x position
+	%----------------------- notes --------------------
+	% where w is the width of the image
+	%----------------------- notes --------------------
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Window alignment lines}
+	\begin{itemize}
+	%----------------------- notes --------------------
+	% Peaks are located at position where an increased number of Houghlines start or end
+	%----------------------- notes --------------------
+	\fig{w_Spil1TransCrop1_ImHoughResult.eps}%
+	\end{itemize}
+}
+\frame
+{
+	%todo mooi ingezoomed plaatje van een peak met threshold line
+	\frametitle{Peak (area) extraction}
+	\begin{itemize}
+	\item smooth histogram function (red line) 
+	\item relative threshold 0.5 * max peak defines peak areas
+	\item locate maximum for each peak area
+	\item draw alignment line on peaks
+	%----------------------- notes --------------------
+	% exploit concave shape of the peak area
+	%----------------------- notes --------------------
+	\fig{w_Spil1TransImproved_Xv.eps} %{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
+	\end{itemize}
+}
+
+
+\frame
+{
+	\frametitle{Reasons for improvement}
+	\begin{itemize}
+	\item window alignment at wrong locations
+	\item right side of window frame of first 4 columns not found
+	\item main reason: perspective distortion creates occlusion effect
+	\fig{w_Spil1TransImproved_Xv.eps} %{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
+	\end{itemize}
+}
+
+\frame
+{
+\fig{w_Dirk4_ImOri_Unrectified.eps} %{Dataset: Dirk, Original, (unrectified) image, }{0.45}
+}
+
+\frame
+{
+	\frametitle{Alternative window alignment}
+	\begin{itemize}
+	\item Previous method: 
+		\begin{itemize}
+		\item line segment endpoints
+		\item vertical lines -> window columns
+		\item histogram peak detection
+		\end{itemize}
+	\item Alternative method: 
+		\begin{itemize}
+		\item entire line segment
+		%------------- notes ----------------
+		% this means longer lines have more influence which is desirable
+		%------------- notes ----------------
+		\item horizontal lines -> window columns
+		\item histogram shape analysis
+		\end{itemize}
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Alternative window alignment}
+	%------------- notes ----------------
+	% this means longer lines have more influence which is desirable
+	%------------- notes ----------------
+	\begin{itemize}
+	\item Idea
+		\begin{itemize}
+		\item a window frame creates horizontal edges
+		\item on vertical alignment positions appears a big increase/decrease
+		of horizontal lines as the window starts/end
+		\end{itemize}
+	\item X_{h} defines number of overlapping horizontal lines on each x
+	position
+	\item peak function \[D = abs( X_{h}')\]
+	%------------- notes ----------------
+	% deravitive because increase/decrease
+	% abs to be big at both 
+	%------------- notes ----------------
+	\end{itemize}
+}
+
+\frame
+{
+\fig{w_Spil1TransImproved_Xh.eps}%{Dataset: Anne2, Alternative window alignment (orthogonal projection): Based on the shape of the smoothed histogram function. 
+}
+
+
+
+
+\frame
+{
+	\frametitle{Fusing the window alignment methods}
+	\begin{itemize}
+	\item plot both methods
+	\item increase threshold (less but more certain alignment lines)
+	\item merge peaks that are close
+	\item plotting both methods
+	\end{itemize}
+}
+
+\frame
+{
+	\fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
+%------------- notes -------------------
+% note that the right side of the windows is now correct detected
+%------------- notes -------------------
+}
+
+\frame
+{
+	\fig{w_Spil1TransImproved_Xvh.eps} %{Dataset: Anne2, Regular and alternative window alignment combined}{0.7}
+}
+
+\frame
+{
+	\fig{w_Dirk4Trans_ImHibaap_Xvh.eps} %{Dataset: Dirk, Regular and alternative window alignment combined}{0.45}
+}
+
+
+
+%todo kmeans plaatje jeeej
 
 \frame
 {
@@ -825,9 +986,8 @@
 	\frametitle{}
 }
 
-% \fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
-% \fig{w_Spil1TransImproved_Xvh.eps}{Dataset: Anne2, Regular and alternative window alignment combined}{0.7}
-% \fig{w_Dirk4Trans_ImHibaap_Xvh.eps}{Dataset: Dirk, Regular and alternative window alignment combined}{0.45}
+% \fig{w_Spil1TransCrop1_ImHibaap.eps}{Dataset: Anne1, Regular window alignment (parallel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Hough lines, for the column division the horizontal Hough lines are counted (at each $y$ position), for the row division the vertical Hough lines are counted (at each $x$ position) }{0.45}
+
 % \fig{w_Spil1TransCrop1_ImClassRectBarh.eps}{Classification values for window
 % \fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Dataset: Anne1, Basic window classification method:Measure of certainty, 
 % \fig{w_Spil1TransCrop1_ImClassRectRot.eps}{Dataset: Anne1, Basic window classification method: The extracted windows, red:the grouping}{0.65}
