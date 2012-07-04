@@ -2,7 +2,8 @@
 \documentclass{beamer}
 \usetheme[compress]{Dresden}
 \setbeamertemplate{navigation symbols}{} 
-\include{commands}
+
+%\include{commands}
 
 
 %{\LARGE \sc{Semantic annotation of urban scenes:}\\Skyline and window detection}
@@ -12,6 +13,8 @@
 \subtitle{Speaker: Tjerk Kostelijk}
 \author{Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 \date{\today}
+
+
 \begin{document}
 
 
@@ -23,10 +26,11 @@
 
 \frame{\titlepage}
 
+\end{document}
 %\section[Outline]{}
 %\frame{\tableofcontents}
 
-% outline
+% highlightoutline
 \AtBeginSection[]
 {
  \begin{frame}
@@ -99,12 +103,14 @@
 \frame
 {
 	\frametitle{Q}
+	\begin{itemize}
 	\item  <+-| alert@+> Why are we so good at object/depth recognition?
 	\item  <+-| alert@+> How can we apply vision to a computer system?
 		\begin{itemize}
 			\item  <+-| alert@+> {\textit{Computer Vision}}
 			% this is the domain which interest me the most and on which I did my research
 		\end{itemize}
+	\end{itemize}
 	%These are two questions that keeps us AI people bussy
 	% I will answer the first one shortley and the rest of the presentation is about
 	% the second question
@@ -129,6 +135,7 @@
 {
 	\frametitle{Human perception}
 	% lets talk about how you perceived the scene of the building
+	\begin{itemize}
 	\item  <+-| alert@+> depth cue, binocular disparity
 	% vingertest
 	% everybody raise your index finger, 
@@ -142,7 +149,6 @@
 	%this makes it possible to triangulate the distance to an abject with a high
 	%degree of accuracy
 
-	\begin{itemize}
 	\item  <+-| alert@+> Classify objects: feature detection
 		\begin{itemize}
 			\item  <+-| alert@+> straight lines
@@ -157,6 +163,7 @@
 \frame
 {
 	\frametitle{Where is my research about?}
+	\begin{itemize}
 	\item  <+-| alert@+>{Annotation of urban scenes}
 		\begin{itemize}
 			\item  <+-| alert@+> Skyline detection
@@ -166,6 +173,7 @@
 				\fig{3dModel}{width=200px}
 			\item  <+-| alert@+> Window detection
 		\end{itemize}
+	\end{itemize}
 
 	%todo insert TOC at every section
 }
@@ -227,13 +235,14 @@
 {
 	\frametitle{Skyline detection algorithm}% the method
 	\begin{itemize}
-		\item  <+-| alert@+> The image is sliced in #w pixelcolumns
-		\item  <+-| alert@+> Each column present #h binary edge values (edge or no edge)
+		\item  <+-| alert@+> The image is sliced in \#w pixelcolumns
+		\item  <+-| alert@+> Each column present \#h binary edge values (edge or no edge)
 		\item  <+-| alert@+> y-location of the first edge value is stored 
 	\end{itemize}
 }
 
 
+\end{document}
 
 %-------------------------------------------------------------------
 \frame
@@ -248,7 +257,9 @@
 {
 	\frametitle{Hypothesis based skyline detection, assumption}
 	\emph{"The first sharp edge (seen from top to bottom) in the image represents the skyline."}
+	\begin{itemize}
 	\item  <+-| alert@+> Example of a scene where this assumption is violated
+	\end{itemize}
 	\fig{outputSkylineSpil-Im13-thresh030.eps}
 }
 
@@ -256,7 +267,9 @@
 \frame
 {
 	\frametitle{Hypothesis based skyline detection, assumption}
+	\begin{itemize}
 	\item  <+-| alert@+> Change of assumption
+	\end{itemize}
 	\emph{"The skyline is part of the first $n$ sharp edges (seen from top) (e.g.
 	$n=3$)}
 	\fig{folkert_edgeHypothesis.eps}
@@ -416,9 +429,11 @@
 {
 	\frametitle{Extracting line segments}
 	% a widely used method for extracting line segments is the Hough transform
+	\begin{itemize}
 	\item  <+-| alert@+> Output of skyline detector
 	%todo insert binary skyline image
 	\item  <+-| alert@+> Hough transform
+	\end{itemize}
 	%---------------- notes ------------------------------
 	% the technique behind this method is discussed in detail in my thesis
 	% unfortunatelly, for now we don't have enough time to dive in to this topic
@@ -548,9 +563,12 @@
 \frame
 {
 	\frametitle{The idea}
-	\item  <+-| alert@+> Connected corner}
-	\item  <+-| alert@+> \emph{"horizontal and vertical edges that come from same (sub)window frame share
+	\begin{itemize}
+	\item  <+-| alert@+> Connected corner
+	\item  <+-| alert@+> \emph{"horizontal and vertical edges that come from the same (sub)window frame share
 	a corner"}
+	\end{itemize}
+	%todo plaatje van 1 raam met 1 connected corner
 }
 
 
@@ -562,17 +580,262 @@
 	%edge detection -> straight lines 
 	%---------------- notes ------------------------------
 	%todo
+	\begin{itemize}
+	\item Canny edge detector
+	\item Two groups of straight lines (Houghlines)
+	\begin{itemize}
+		\item Horizontal, $\theta = [-30..0..30)$ degrees
+		%---------------- notes ------------------------------
+		% theta = 0, horizontal   
+		%---------------- notes ------------------------------
+		\item Vertical, $\theta = [80..90..100)$ degrees
+	\end{itemize}
+	\item Why the use of angle ranges?
+	\begin{itemize}
+		\item Camera not exactly upright
+		% (camera's roll factor)
+		\item Facade view contains an angle, perspective distortion 
+		%(camera's yaw factor)
+	\end{itemize}
+	\end{itemize}
+
 }
 
-%	\subsubsection{Connected corners extraction}
-%
-%	\subsubsection{Window area extraction}
-%
-%	\subsubsection{Results}
-%
-%	\subsubsection{Future research} %\subsubsection{Method I: Connected corner approach} 
-%
-%	\subsection{Facade rectification}
+\frame
+{
+	\frametitle{Original}
+	\fig{w_Dirk6_ImOri.eps} 
+	%--------------- notes --------------------------------
+	% scene contains an everyday scene:
+	% angle in viewing direction
+	% different window types
+	% light spot
+	% occluding tree
+	% bicycles 
+	%--------------- notes --------------------------------
+}
+
+\frame
+{
+	\frametitle{Edge detection}
+	\fig{w_Dirk6_ImEdge.eps}{Edge detection}{0.45}
+}
+
+\frame
+{
+	\frametitle{Result of $\theta$ constrained Hough transform}
+	\fig{w_Dirk6_ImHoughResult.eps}
+}
+
+\frame
+{
+	\frametitle{Connected corner}
+	\begin{itemize}
+	\item Connected corner:a horizontal and vertical edge that share the same
+	corner e.g. L
+	\item Algorithm: If line segments endpoints are close enough a connected corner is formed
+	\item Tolerate gab or extension
+	\fig{cCornerTypes} %{First row: different type of connected corner candidates. Second row: the
+	%--------------- notes --------------------------------
+	% to form and clean up the connected corners..
+	%--------------- notes --------------------------------
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Connected Corners}
+	\fig{w_Dirk6_ImcCorner_cCorner.eps} %{Found connected corners}{0.45}
+	%--------------- notes --------------------------------
+	% most of the connected corners are found to form and clean up the connected corners..
+	%--------------- notes --------------------------------
+
+}
+
+\frame
+{
+	\frametitle{Window area extraction}
+	\begin{itemize}
+	\item Mirror from diagonal through endpoints
+	\item L shape -> Quadrangle window area
+	\end{itemize}
+	%--------------- notes --------------------------------
+	% whiteboard : draw L and rectangle with mirror line
+	% if we overlap these areas we get this result
+	%--------------- notes --------------------------------
+}
+
+\frame
+{
+	\frametitle{Results}
+	\fig{w_Dirk6_ImcCorner_windowFilled.eps} %{Window regions}{0.45}
+}
+
+\frame
+{
+	\frametitle{Conclusion}
+	\begin{itemize}
+	\item The skyline deteciton algorithm 
+		\begin{itemize}
+		\item is simple and has a low complexity
+		\item works wel under the assumption skyline is upper edge
+		\item can provide a set of hypothesis which should be evaluated using andditional features
+		\end{itemize}
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{Future research}
+	\begin{itemize}
+	\item L-shapes, U-shapes
+		%--------------- notes --------------------------------
+		% whiteboard : draw L and rectangle with mirror line
+		% if we overlap these areas we get this result
+		%--------------- notes --------------------------------
+	\item analysis of substructure of windows
+	\begin{itemize}
+		\item define a contained in relations
+		\item cluster connected corner on location and length
+		\begin{itemize}
+			\item maximum intercluster distance correlates with size subwindow
+			\item assume nr of subwindows to estimate size
+		\end{itemize}
+	\end{itemize}
+	\end{itemize}
+}
+
+\subsection{Method II: Histogram based approach} 
+\frame
+{
+	\frametitle{Method II: window detection}
+	\begin{itemize}
+	\item Assumes that the windows are
+	\begin{itemize}
+		\item orthogonal
+		%--------------- notes --------------------------------
+		% orthogonal sides
+		% angle between the horizontal and vertical parts is 90 degrees
+		%--------------- notes --------------------------------
+		\item aligned
+		%--------------- notes --------------------------------
+		% certain pattern in the windows
+		% they are lined up in both horizontal as vertical direction
+		% e.g. a row of windows share the same height
+		%--------------- notes --------------------------------
+	\end{itemize}
+	\end{itemize}
+		%--------------- notes --------------------------------
+		%I exploited these properties to build a robust window detector
+		%--------------- notes --------------------------------
+
+}
+
+\subsection{Facade rectification}
+\frame
+{
+	\frametitle{Aligned but not orthogonal}
+	\fig{w_spil6ImOri.eps} %{Dataset: Anne1, Original, (unrectified) image}{0.45}
+}
+
+\frame
+{
+	\frametitle{Rectified facade}
+	\fig{w_Spil1TransCrop1_ImOri.eps}{Dataset: Anne1, Rectified image}{0.45}
+}
+
+\frame
+{
+	\frametitle{Facade rectification}
+	\begin{itemize}
+		\item 3D model gives plane that corresponds to wall
+		\item wall produces a normal vector $b$
+		\item camera's heading, $\vec{a}$
+		\item rotation matrix R is calculated and applied
+		%--------------- notes --------------------------------
+		%by calculating angle diff of $a$ and $b$
+		%apply on all points
+		%--------------- notes --------------------------------
+		\fig{axisAnglePresentation.eps}%{$\vec{a}$ is the camera's heading and $\vec{b}$
+	\end{itemize}
+}
+
+
+\frame
+{
+	\frametitle{Unrectified facade}
+	\fig{w_spil6ImOri.eps} %{Dataset: Anne1, Original, (unrectified) image}{0.45}
+}
+
+\frame
+{
+	\frametitle{Rectified facade}
+	\fig{w_Spil1TransCrop1_ImOri.eps}{Dataset: Anne1, Rectified image}{0.45}
+}
+
+%--------------- notes --------------------------------
+% we can also apply this on our other dataset
+%--------------- notes --------------------------------
+
+\frame
+{
+\fig{w_Dirk4_ImOri_Unrectified.eps} %{Dataset: Dirk, Original, (unrectified) image, }{0.45}
+}
+
+\frame
+{
+\fig{w_Dirk4Trans_ImOri.eps} %{Dataset: Dirk}{0.55}
+}
+
+
+\frame
+{
+	\frametitle{Extracting the window alignment}
+	\begin{itemize}
+	\item Window alignment line
+	\begin{itemize}
+		\item \emph{"A horizontal or vertical line that aligns multiple windows"}
+	\end{itemize}
+	\item Alignment lines provide grid of blocks
+	\item Window non-window areas
+	\end{itemize}
+	
+}
+
+
+\frame
+{
+	\frametitle{Window alignment lines example}
+}
+
+% \fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
+% \fig{w_Spil1TransCrop1_ImHibaap.eps}{Dataset: Anne1, Regular window alignment (parallel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Hough lines, for the column division the horizontal Hough lines are counted (at each $y$ position), for the row division the vertical Hough lines are counted (at each $x$ position) }{0.45}
+
+
+\frame
+{
+	\frametitle{}
+	\begin{itemize}
+	\item
+	\end{itemize}
+}
+
+\frame
+{
+	\frametitle{}
+}
+
+% \fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
+% \fig{w_Spil1TransImproved_Xvh.eps}{Dataset: Anne2, Regular and alternative window alignment combined}{0.7}
+% \fig{w_Dirk4Trans_ImHibaap_Xvh.eps}{Dataset: Dirk, Regular and alternative window alignment combined}{0.45}
+% \fig{w_Spil1TransCrop1_ImClassRectBarh.eps}{Classification values for window
+% \fig{w_Spil1TransCrop1_ImClassRectGrayscaleProb.eps}{Dataset: Anne1, Basic window classification method:Measure of certainty, 
+% \fig{w_Spil1TransCrop1_ImClassRectRot.eps}{Dataset: Anne1, Basic window classification method: The extracted windows, red:the grouping}{0.65}
+% \fig{w_Spil1TransImproved_WAlinesMerged.eps}{Dataset: Anne2, Improved window
+% \fig{w_Spil1TransImproved_windowsGrouped.eps}{Dataset: Anne2, Improved window classification method: The extracted windows, red:the grouping}{0.7}
+% \fig{w_Dirk4Trans_ImOri.eps}{Dataset: Dirk, Rectified image of a realistic scene which is realistic as it contains light spots, bicycles. Note that the windows are partially aligned and the differ in size and type}{0.55}
+% \fig{w_Dirk4Trans_ImHibaap_WAlinesMerged.eps}{Dataset: Dirk, Improved window
+% \fig{w_Dirk4Trans_ImClassRect.eps}{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}{0.40}
 %
 %	\subsubsection{Introduction}
 %
@@ -619,5 +882,14 @@
 	demo of matlab progje
 
 
-\end{document}
+\subsection{Questions}
+\frame{
+\frametitle{Questions}
+\begin{LARGE}
+\begin{center}
+ Questions?
+\end{center}
+\end{LARGE}
+}
 
+\end{document}
