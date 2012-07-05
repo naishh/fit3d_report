@@ -81,7 +81,7 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 		\item <+-| alert@+> building
 		\item <+-| alert@+> tree
 		\item <+-| alert@+> bicycle
-		\item <+-| alert@+> street lamb
+		\item <+-| alert@+> street light
 		\item <+-| alert@+> blue car
 		\item <+-| alert@+> red car
 		\item <+-| alert@+> brand of the car?
@@ -116,64 +116,69 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 }
 
 %\section[Outline]{}
-\frame{\tableofcontents}
+\frame{
+  \frametitle{Outline}
+	\tableofcontents
+}
 
 \section{Introduction}
 %-------------------------------------------------------------------
-\frame
-{
-	\frametitle{Human perception}
-	% lets talk about how you perceived the scene of the building
-	\begin{itemize}
-	\item <+-| alert@+> Why are we so good at depth recognition/object detection?
-	\item <+-| alert@+> Depth cues
-	\item <+-| alert@+> Binocular disparity
-	% vingertest
-	% everybody raise your index finger, 
-	% now close your left eye and switch to see your finger hopping
-	% do the same with your finger further away
-	% the displacement is smaller
-
-	% --------------------- notes -------------------
-	%We use two eyes and look at the sam scene from slightly diffeent angles
-	%We perceive two different images, if an object appears close the differenc
-	%displacement difference between the images is high
-	%this makes it possible to triangulate the distance to an abject with a high
-	%degree of accuracy
-
-	\item <+-| alert@+> Classify objects: feature detection
-	\end{itemize}
-}
-
-\frame
-{
-	\frametitle{Classify objects by feature detection}
-	\fig{demonsCrop.eps}
-}
-
-\frame
-{
-	\frametitle{Classify objects by feature detection}
-	\fig{demonsCropSelect.eps}
-}
-
-%--------- notes---------------------
-% different types of features are activated
-% horizontal lines
-% vertical lines
-% curves
-%------------------------------------
-\frame
-{
-	\fig{opticalillusions1.eps}
-}
+% \frame
+% {
+% 	\frametitle{Human perception}
+% 	% lets talk about how you perceived the scene of the building
+% 	\begin{itemize}
+% 	\item <+-| alert@+> Why are we so good at depth recognition/object detection?
+% 	\item <+-| alert@+> Depth cues
+% 	\item <+-| alert@+> Binocular disparity
+% 	% vingertest
+% 	% everybody raise your index finger, 
+% 	% now close your left eye and switch to see your finger hopping
+% 	% do the same with your finger further away
+% 	% the displacement is smaller
+% 
+% 	% --------------------- notes -------------------
+% 	%We use two eyes and look at the sam scene from slightly diffeent angles
+% 	%We perceive two different images, if an object appears close the differenc
+% 	%displacement difference between the images is high
+% 	%this makes it possible to triangulate the distance to an abject with a high
+% 	%degree of accuracy
+% 
+% 	\item <+-| alert@+> Classify objects: feature detection
+% 	\end{itemize}
+% }
+% 
+% \frame
+% {
+% 	\frametitle{Classify objects by feature detection}
+% 	\fig{demonsCrop.eps}
+% }
+% 
+% \frame
+% {
+% 	\frametitle{Classify objects by feature detection}
+% 	\fig{demonsCropSelect.eps}
+% }
+% 
+% %--------- notes---------------------
+% % different types of features are activated
+% % horizontal lines
+% % vertical lines
+% % curves
+% %------------------------------------
+% \frame
+% {
+% 	\fig{opticalillusions1.eps}
+% }
 
 %-------------------------------------------------------------------
 \frame
 {
-	\frametitle{Where is my research about?}
+	\frametitle{What is my research about?}
 	\begin{itemize}
-	\item <+-| alert@+> Annotation of urban scenes
+	\item <+-| alert@+> Semantic annotation of urban scenes
+	\item <+-| alert@+> Describe the scene on a higher level
+	\item <+-| alert@+> Based on 2D input images of different views
 		\begin{itemize}
 			\item <+-| alert@+> Skyline detection
 		\end{itemize}
@@ -190,7 +195,9 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 {
 	\frametitle{Where is my research about?}
 	\begin{itemize}
-	\item Annotation of urban scenes
+	\item Semantic annotation of urban scenes
+	\item Describe the scene on a higher level
+	\item Based on 2D input images of different views
 		\begin{itemize}
 			\item Skyline detection
 			\item <+-| alert@+> 3D building reconstruction
@@ -206,7 +213,9 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 {
 	\frametitle{Where is my research about?}
 	\begin{itemize}
-	\item Annotation of urban scenes
+	\item Semantic annotation of urban scenes
+	\item Describe the scene on a higher level
+	\item Based on 2D input images of different views
 		\begin{itemize}
 			\item Skyline detection
 			\item 3D building reconstruction
@@ -217,7 +226,7 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 %-------------------------------------------------------------------
 \frame
 {
-	\frametitle{Application examples of annotation of urban scenes}
+	\frametitle{Application examples of semantic annotation of urban scenes}
 	%What can we do with this annotation of urban scenes?}
 	\begin{itemize}
 	\item <+-| alert@+> 3D city models
@@ -308,8 +317,7 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 	%we use it to detect the contour of the building
 	% ----------------------------------
 	\begin{itemize}
-		\item <+-| alert@+> Edge detection based on intensity change
-		\item <+-| alert@+> Canny edge detection 
+		\item <+-| alert@+> Canny edge detection (based on intensity change)
 		\item <+-| alert@+> Result: binary image (edge or no edge)
 		\fig{e_floriande_canny_050.eps}
 		\fig{e_floriande_canny_050.eps}
@@ -323,6 +331,7 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 {
 	\frametitle{Skyline detection algorithm}% the method
 	\begin{itemize}
+		\item <+-| alert@+> Which edge represents the building contour?
 		\item <+-| alert@+> Top sharp edge assumption\\
 		\emph{"The first sharp edge (seen from top to bottom) in the image represents the skyline."}
 		\item <+-| alert@+> Algorithm:
@@ -334,7 +343,7 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 			% ------------------------------------------
 			\item <+-| alert@+> The image is sliced in \#w pixel columns
 			\item <+-| alert@+> Each column present \#h binary edge values (edge or no edge)
-			\item <+-| alert@+> y-location of the first edge value is stored 
+			\item <+-| alert@+> y-location of the most upper edge value is stored 
 			\end{itemize}
 	\end{itemize}
 }
@@ -478,13 +487,13 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 {
 	\frametitle{Align 2D model}
 	\begin{itemize}
-	\item <+-| alert@+> \emph{FIT3D toolbox}
+	\item <+-| alert@+> Isaac Esteban's \emph{FIT3D toolbox}
 	% out of the scope, is explained in my thesis
 		\begin{itemize}
-		\item <+-| alert@+> Input: sequence of images that contain different views of the building
+		\item <+-| alert@+> Input: sequence of images (different views of the building)
 		\item <+-| alert@+> Output: a 3D point cloud of the building
 		\end{itemize}
-	\fig{FIT3DImgSequence.eps}{width=200px}
+	\figCustom{FIT3DImgSequence.eps}{width=200px}
 	\end{itemize}
 }
 
@@ -552,7 +561,7 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 %-------------------------------------------------------------------
 \frame
 {
-	\frametitle{Assumptions}
+	\frametitle{Skyline detection for wall height estimation}
 	%---------------- notes ------------------------------
 	% Because we want to estimate the height of the building walls of the 3D
 	% model, we need to know how high the walls in the 2D images are. 
@@ -610,12 +619,12 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 }
 
 
-%-------------------------------------------------------------------
-\frame
-{
-	\fig{coordinateSystemsCopy.eps} %{The blue line spanned by the camera center
-	%\fignocaption{overlaytypes}{}{0.37}
-}
+% %-------------------------------------------------------------------
+% \frame
+% {
+% 	\fig{coordinateSystemsCopy.eps} %{The blue line spanned by the camera center
+% 	%\fignocaption{overlaytypes}{}{0.37}
+% }
 
 
 %-------------------------------------------------------------------
@@ -662,7 +671,7 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 
 \frame
 {
-	\frametitle{Outline Window detection}
+	\frametitle{Outline window detection}
 	%---------------- notes ------------------------------
 	%recall that this thesis was about annotation of urban scenes
 	%we annotated the 3D structure of the scene
@@ -753,7 +762,6 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 	%edge detection -> straight lines 
 	%---------------- notes ------------------------------
 	\begin{itemize}
-	\item <+-| alert@+> Canny edge detector
 	\item <+-| alert@+> Two groups of straight lines (Houghlines)
 	\begin{itemize}
 		\item $\theta$-constraint
@@ -807,7 +815,7 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 	\item <+-| alert@+> horizontal and vertical edge share same corner e.g. L
 	\item <+-| alert@+> If $P_i$, $P_e$ are close enough form connected corner
 	\item <+-| alert@+> Tolerate gab or extension
-	\fig{cCornerTypes} %{First row: different type of connected corner candidates. Second row: the
+	\figCustom{cCornerTypes}{width=250px} %{First row: different type of connected corner candidates. Second row: the
 	%--------------- notes --------------------------------
 	% to form and clean up the connected corners..
 	%--------------- notes --------------------------------
@@ -835,7 +843,7 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 	\begin{itemize}
 	\item <+-| alert@+> How to extract the window areas?
 	\item <+-| alert@+> Mirror from diagonal through endpoints
-	\item <+-| alert@+> L-shapes becomes quadrangle window areas
+	\item <+-| alert@+> L-shapes becomes quadrangle shaped window areas
 	\end{itemize}
 	%--------------- notes --------------------------------
 	% whiteboard : draw L and rectangle with mirror line
@@ -915,14 +923,10 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 {
 	\frametitle{Facade rectification}
 	\begin{itemize}
-		\item <+-| alert@+> FIT3D gives
-			\begin{itemize}
-			\item <+-| alert@+> 3D model, plane that corresponds to wall
-			\item <+-| alert@+> camera's heading
-			\end{itemize}
-		\item <+-| alert@+> 3D model gives plane that corresponds to wall
-		\item <+-| alert@+> Wall produces a normal vector:  $b$
-		\item <+-| alert@+> Camera's heading: $a$
+		\item <+-| alert@+> 3D model of building gives plane that corresponds to wall
+		\item <+-| alert@+> plane's normal vector:  $b$
+		\item <+-| alert@+> (FIT3D) Camera's heading: $a$
+		\item <+-| alert@+> if $a || b$, view is frontal
 		\item <+-| alert@+> Rotation matrix R is calculated and applied
 			\begin{itemize}
 			\item <+-| alert@+> orthogonal rotation vector $a$ x $b$
@@ -1033,21 +1037,30 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 	\fig{w_Spil1TransCrop1_ImHibaap.eps} %{Dataset: Anne1, Regular window alignment (parallel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Hough lines, for the column division the horizontal Hough lines are counted (at each $y$ position), for the row division the vertical Hough lines are counted (at each $x$ position) }{0.45}
 }
 
-
 \frame
 {
-	\frametitle{Peak (area) extraction}
-	\begin{itemize}
-	\item <+-| alert@+> Smooth histogram function 
-	\item <+-| alert@+> Relative threshold, 0.5 * max peak, defines peak areas
-	\item <+-| alert@+> Locate maximum for each peak area
-	\item <+-| alert@+> Draw alignment line on peaks
+	\frametitle{Window alignment lines}
 	%----------------------- notes --------------------
-	% exploit concave shape of the peak area
+	% Peaks are located at position where an increased number of Houghlines start or end
 	%----------------------- notes --------------------
-	\fig{w_Spil1TransImproved_XvCrop.eps} %{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
-	\end{itemize}
+	\figCustom{w_Spil1TransCrop1_ImHibaapZoom.eps}{width=200px} %{Dataset: Anne1, Regular window alignment (parallel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Hough lines, for the column division the horizontal Hough lines are counted (at each $y$ position), for the row division the vertical Hough lines are counted (at each $x$ position) }{0.45}
 }
+
+
+% \frame
+% {
+% 	\frametitle{Peak (area) extraction}
+% 	\begin{itemize}
+% 	\item <+-| alert@+> Smooth histogram function 
+% 	\item <+-| alert@+> Relative threshold, 0.5 * max peak, defines peak areas
+% 	\item <+-| alert@+> Locate maximum for each peak area
+% 	\item <+-| alert@+> Draw alignment line on peaks
+% 	%----------------------- notes --------------------
+% 	% exploit concave shape of the peak area
+% 	%----------------------- notes --------------------
+% 	\fig{w_Spil1TransImproved_XvCrop.eps} %{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
+% 	\end{itemize}
+% }
 
 
 \frame
@@ -1094,10 +1107,16 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 	\begin{itemize}
 	\item <+-| alert@+> Idea
 		\begin{itemize}
-		\item <+-| alert@+> a window frame creates horizontal edges
+		\item <+-| alert@+> occlusion doesnt affect horizontal edges 
 		\item <+-| alert@+> on vertical alignment positions appears a big increase/decrease of horizontal lines 
-		\item <+-| alert@+> largest amount horizontal lines located in middle of
-		blockcolumn
+		\item <+-| alert@+> take this increase/decrease into account
+			\begin{itemize}
+			\item <+-| alert@+> instead of amount of Houghlines
+			\end{itemize}
+		\item <+-| alert@+> use entire line
+			\begin{itemize}
+			\item <+-| alert@+> instead of only the endpoints
+			\end{itemize}
 	%------------- notes ----------------
 	% as the window starts/end
 	% name subwindows
@@ -1264,12 +1283,12 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 
 \frame
 {
-	\fig{w_Dirk4Trans_ImClassRectI_kmeansLuck_barsV.eps}
+	\figCustom{w_Dirk4Trans_ImClassRectI_kmeansLuck_barsV.eps}{width=250px}
 }
 
 \frame
 {
-	\fig{w_Dirk4Trans_ImClassRectI_kmeansLuck_barsH.eps}
+	\figCustom{w_Dirk4Trans_ImClassRectI_kmeansLuck_barsH.eps}{width=250px}
 }
 
 \frame
@@ -1296,18 +1315,18 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 	\fig{w_Spil1TransImproved_WAlinesMerged.eps} %{Dataset: Anne2, Improved window
 }
 
-\frame
-{
-	\frametitle{Algorithm}
-	\begin{itemize}
-	\item <+-| alert@+> Detect concave and convex shape of histogram function $Xh$
-	% derivative
-	\item <+-| alert@+> $X_{h}'$ 
-	\item <+-| alert@+> Sign change of derivative indicates peak or valley
-	\item <+-| alert@+> (+,-) $\rightarrow$ concave $\rightarrow$ window area
-	\item <+-| alert@+> (-,+) $\rightarrow$ convex $\rightarrow$ non-window area
-	\end{itemize}
-}
+% \frame
+% {
+% 	\frametitle{Algorithm}
+% 	\begin{itemize}
+% 	\item <+-| alert@+> Detect concave and convex shape of histogram function $Xh$
+% 	% derivative
+% 	\item <+-| alert@+> $X_{h}'$ 
+% 	\item <+-| alert@+> Sign change of derivative indicates peak or valley
+% 	\item <+-| alert@+> (+,-) $\rightarrow$ concave $\rightarrow$ window area
+% 	\item <+-| alert@+> (-,+) $\rightarrow$ convex $\rightarrow$ non-window area
+% 	\end{itemize}
+% }
 
 \frame
 {
@@ -1315,32 +1334,32 @@ Supervisors: \\Isaac Esteban\\Prof. dr ir Frans C. A. Groen}
 	\fig{w_Spil1TransImproved_windowsGrouped.eps} %{Dataset: Anne2, Improved window classification method: The extracted windows, red:the grouping}{0.7}
 }
 
-\frame
-{
-	\frametitle{Test on scene that violates assumption}
-	% ------------ notes ---------------------
-	% when something works you relax the assumptions
-	% ----------------------------------------
-
-	\begin{itemize}
-		\item Windows are \emph{partially} aligned
-			\begin{itemize}
-			\item unaligned doors
-			\item inter row size difference 
-			\end{itemize}
-		\item Windows differ in size and type
-	\end{itemize}
-	\figCustom{w_Dirk4Trans_ImOri.eps}{width=200px} %{Dataset: Dirk, Improved window
-}
-\frame
-{
-	\fig{w_Dirk4Trans_ImHibaap_WAlinesMerged.eps} %{Dataset: Dirk, Improved window
-}
-
-\frame
-{
-	\fig{w_Dirk4Trans_ImClassRect.eps} %{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}{0.40}
-}
+% \frame
+% {
+% 	\frametitle{Test on scene that violates assumption}
+% 	% ------------ notes ---------------------
+% 	% when something works you relax the assumptions
+% 	% ----------------------------------------
+% 
+% 	\begin{itemize}
+% 		\item Windows are \emph{partially} aligned
+% 			\begin{itemize}
+% 			\item unaligned doors
+% 			\item inter row size difference 
+% 			\end{itemize}
+% 		\item Windows differ in size and type
+% 	\end{itemize}
+% 	\figCustom{w_Dirk4Trans_ImOri.eps}{width=200px} %{Dataset: Dirk, Improved window
+% }
+% \frame
+% {
+% 	\fig{w_Dirk4Trans_ImHibaap_WAlinesMerged.eps} %{Dataset: Dirk, Improved window
+% }
+% 
+% \frame
+% {
+% 	\fig{w_Dirk4Trans_ImClassRect.eps} %{Dataset: Dirk, Improved window classification method: The extracted windows, red:the grouping}{0.40}
+% }
 
 \frame
 {
