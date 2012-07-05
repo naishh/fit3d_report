@@ -115,6 +115,9 @@
 	% I will answer the first one shortley and the rest of my talk is about the second question
 }
 
+\section[Outline]{}
+\frame{\tableofcontents}
+
 \section{Introduction}
 %-------------------------------------------------------------------
 \frame
@@ -297,6 +300,11 @@
 %-------------------------------------------------------------------
 \frame
 {
+	\frametitle{Future research}
+}
+
+\frame
+{
 	\frametitle{Hypothesis based skyline detection, assumption}
 	\emph{"The first sharp edge (seen from top to bottom) in the image represents the skyline."}
 	\begin{itemize}
@@ -312,8 +320,7 @@
 	\begin{itemize}
 	\item <+-| alert@+> Change of assumption
 	\end{itemize}
-	\emph{"The skyline is part of the first $n$ sharp edges (seen from top) (e.g.
-	$n=3$)}
+	\emph{"The skyline is part of the first $n$ sharp edges (e.g.  $n=3$)}
 	\fig{folkert_edgeHypothesis.eps}
 }
 
@@ -322,14 +329,14 @@
 {
 	\frametitle{Hypothesis based skyline detection, algorithm}
 	\begin{itemize}
-	\item <+-| alert@+> Use exsisting column based approach
 	\item <+-| alert@+> Generate $n$ hypothesis
-	\item <+-| alert@+> classify hypothesis with additional info
+	\item <+-| alert@+> Classify hypothesis with additional info
 		\begin{itemize}
 		\item <+-| alert@+> texture 
 		\item <+-| alert@+> color
 		\item <+-| alert@+> height variation 
 		\end{itemize}
+	\fig{outputSkylineSpil-Im13-thresh030.eps}
 	\end{itemize}
 }
 
@@ -338,13 +345,18 @@
 {
 	\frametitle{Expected result on hypothesis classification based on color}
 	\fig{outputSkylineSpil-Im13-thresh070.eps}
+	\fig{outputSkylineSpil-Im13-thresh070.eps}
 }
 
 %-------------------------------------------------------------------
 \frame
 {
-	\frametitle{Expected result on hypothesis classification based on heigth variation}
+	\frametitle{Expected result classification based on heigth variation}
 	\fig{outputSkylineIm3-3-zoom.eps}
+}
+\frame
+{
+	\frametitle{Expected result classification based on heigth variation}
 	\fig{outputSkylineIm3-3-zoom-con.eps}
 }
 
@@ -388,8 +400,7 @@
 	%notes a skyline detection application
 	\begin{itemize}
 	\item <+-| alert@+> Create (top view) 2D model of the scene using \emph{Openstreetmap}
-	\fig{openstreetmap}
-	\item <+-| alert@+> Align 2D model with the scene using \emph{FIT3D toolbox}
+	\item <+-| alert@+> Align 2D model with the scene 
 	\item <+-| alert@+> Transform the 2D model to a 3D model by extending the walls
 	\end{itemize}
 }
@@ -415,9 +426,15 @@
 		\item <+-| alert@+> Input: sequence of images that contain different views of the building
 		\item <+-| alert@+> Output: a 3D point cloud of the building
 		\end{itemize}
-	\figsHor{outputSkylineIm3-3.eps}{pc_3d.eps} %{ 3D point cloud of the walls of the building}{0.5}
+	\fig{FIT3DImgSequence.eps}
 	\end{itemize}
 }
+
+\frame
+{
+	\fig{pc_3d.eps} %{ 3D point cloud of the walls of the building}{0.5}
+}
+
 
 
 %-------------------------------------------------------------------
@@ -467,8 +484,8 @@
 	%-----------------------------------------------------
 	%
 	\item <+-| alert@+> Wall heights of 3D model are not accurate
-	\figsHor{3dModel}{floriande_back.eps} %{The walls of the building differ in height: the back
 	\item <+-| alert@+> Improve the 3D model by wall height estimation
+	\figsHor{3dModel}{floriande_back.eps} %{The walls of the building differ in height: the back
 	\end{itemize}
 }
 
@@ -480,8 +497,17 @@
 	% Because we want to estimate the height of the building walls of the 3D
 	% model, we need to know how high the walls in the 2D images are. 
 	%---------------- notes ------------------------------
-	\emph{Straight lines in the skyline are likely to come from the building contour}
-	\emph{Flat roof assumption -> building contour is equal to upper side of building walls}
+	\begin{itemize}
+		\item Straight lines assumption:
+		\begin{itemize}
+		\item \emph{Straight lines in the skyline are likely to come from the building
+		\end{itemize}
+	contour}
+		\item Flat roof assumption:
+		\begin{itemize}
+		\item \emph{building contour is equal to upper side of building walls}
+		\end{itemize}
+	\end{itemize}
 }
 
 %-------------------------------------------------------------------
@@ -517,11 +543,10 @@
 	\begin{itemize}
 	\item <+-| alert@+> Estimate wall heights 
 	\item <+-| alert@+> project line segments to specific walls of 3D model
-	\fig{coordinateSystemsCopy.eps} %{The blue line spanned by the camera center
+	\fig{skyline_proj.eps} %{The Houghlines collected from different views projected on their corresponding
 	%---------------- notes ------------------------------
 	% From image point (2D) to possible points in scene (3D)} 
 	%---------------- notes ------------------------------
-	\item <+-| alert@+> 
 	\end{itemize}
 }
 
@@ -529,16 +554,15 @@
 %-------------------------------------------------------------------
 \frame
 {
-	\frametitle{Results 1/3}
+	\fig{coordinateSystemsCopy.eps} %{The blue line spanned by the camera center
 	%\fignocaption{overlaytypes}{}{0.37}
-	\fig{skyline_proj.eps} %{The Houghlines collected from different views projected on their corresponding
 }
 
 
 %-------------------------------------------------------------------
 \frame
 {
-	\frametitle{Results 2/3}
+	\frametitle{Results}
 	\fig{outputHoughlines3d} %{The Houghlines collected from different views re-projected on the 3D model according to the line-wall correspondence.}{0.5}
 }
 
@@ -546,33 +570,38 @@
 %-------------------------------------------------------------------
 \frame
 {
-	\frametitle{Results 3/3}
+	\frametitle{Results}
 	\fig{outputMutateBuilding}{Improved 3D model}{0.6}
 }
 
 %-------------------------------------------------------------------
+
+%todo als tijd over
 \frame
 {
 	\frametitle{Future research}
-	%todo als tijd over
-
-	%\fig{typesOfRoofs}{Different types of roofs}{0.4}
-	%\fig{gableRoofWood.eps}{The parts of the 3D model for the Gable roof}{0.6}
+	\fig{typesOfRoofs}{Different types of roofs}{0.4}
 }
 
+\frame
+{
+	\frametitle{Future research}
+	\fig{gableRoofWood.eps}{The parts of the 3D model for the Gable roof}{0.6}
+}
 
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
+%-------------------------------------------------------------------
+
+\section{Window detection}
 %-------------------------------------------------------------------
 \frame
 {
-	\frametitle{Overview}
-	%todo highlight window detection
+\figsHor{p_window_nice_geometry1.eps}{p_window_nice_geometry2.eps}
 }
 
-
-\section{Window detection}
-
-
-%-------------------------------------------------------------------
 \frame
 {
 	\frametitle{Outline Window detection}
@@ -582,15 +611,15 @@
 	%next topic is window detection
 	%---------------- notes ------------------------------
 	\begin{itemize}
-	\item <+-| alert@+> Method I: Connected corner approach 
+	\item Method I: Connected corner approach 
 		\begin{itemize}
-		\item <+-| alert@+> invariant to viewing direction
+		\item invariant to viewing direction
 		\end{itemize}
-	\item <+-| alert@+> Facade rectification 
-	\item <+-| alert@+> Method II: Histogram based approach
+	\item Facade rectification 
+	\item Method II: Histogram based approach
 		\begin{itemize}
-		\item <+-| alert@+> rectified facades 
-		\item <+-| alert@+> uses Histograms of Houghlines
+		\item frontal view only
+		\item uses histograms of Houghlines
 		\end{itemize}
 	\end{itemize}
 	% this will become clear when I explain it 
@@ -614,7 +643,10 @@
 	%horizontal and vertical edges is large at these locations.  
 	%Some horizontal and vertical edges come from the same window frame, therefore they often
 	%---------------- notes ------------------------------
-	\item <+-| alert@+> Window frames 
+	\item <+-| alert@+> Window = frame + glass (+ subwindows)
+	%----------------- notes ------------------------
+	% dutch word is kozijn
+	%------------------------------------------------
 	\item <+-| alert@+> Difference color window frame, color glass
 	\item <+-| alert@+> Produce edges in horizontal and vertical direction
 	\end{itemize}
@@ -1230,7 +1262,7 @@
 
 \frame
 {
-	\frametitle{Conclusion:Histogram based window alignment}		
+	\frametitle{Conclusion:histogram based window alignment}		
 
 	\begin{itemize}
 	\item <+-| alert@+> interpreting amount of Houghlines strong approach towards window
@@ -1239,7 +1271,7 @@
 	\item <+-| alert@+> alternative window alignment performs better
 		\begin{itemize}
 		\item <+-| alert@+> strong combination horizontal and vertical Houghlines histograms
-		\item <+-| alert@+> high order shape interpretation (derivative) of Histogram function
+		\item <+-| alert@+> high order shape interpretation (derivative) of histogram function
 		\end{itemize}
 	%todo tabel
 	
@@ -1257,11 +1289,11 @@
 		\item <+-| alert@+> very sensitive to alignment errors
 		\item <+-| alert@+> (errors in alignment propagate to classifications)
 		\end{itemize}
-	\item <+-| alert@+> method II:based on shape of Houghlines Histogram
+	\item <+-| alert@+> method II:based on shape of Houghlines histogram
 		\begin{itemize}
 		\item <+-| alert@+> strong increase/decrease of Houghlines
 		\item <+-| alert@+> very robust, at least 97\% detection rate on all datasets, why?
-		\item <+-| alert@+> higher order interpretation of Histogram function
+		\item <+-| alert@+> higher order interpretation of histogram function
 		\item <+-| alert@+> robust to alignment errors 
 		% ------------ notes ----------------
 		%	as long al the middle points fall in window non-window area
@@ -1289,6 +1321,7 @@
 % we made a valueble start towards human-like interpretation of urban scenes
 %-----------------------------------------
 }
+
 
 %
 %	\subsubsection{Introduction}
