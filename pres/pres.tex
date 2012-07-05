@@ -44,8 +44,6 @@
 }
 
 
-\section{Introduction}
-	%todo subsections
 
 %-------------------------------------------------------------------
 \frame
@@ -62,9 +60,15 @@
 \frame
 {
 	\frametitle{Experiment}
-	%todo 1 sec
-	\fig{floriande_back.eps}{420px}
+	\fig{floriande_back.eps} %{420px}
 }
+%-------------------------------------------------------------------
+
+
+\frame
+{
+}
+
 
 
 %-------------------------------------------------------------------
@@ -73,24 +77,16 @@
 	\frametitle{Did you see?}
 	%todo Yes en No op bord schrijven
 	\begin{itemize}
-		\item  <+-| alert@+> building
-		\item  <+-| alert@+> tree
-		\item  <+-| alert@+> bicycle
+		\item <+-| alert@+> building
+		\item <+-| alert@+> tree
+		\item <+-| alert@+> bicycle
 		%todo spellcheck
-		\item  <+-| alert@+> street lamb
-		\item  <+-| alert@+> red car
-		\item  <+-| alert@+> blue car
-		\item  <+-| alert@+> brand of the car?
+		\item <+-| alert@+> street lamb
+		\item <+-| alert@+> blue car
+		\item <+-| alert@+> red car
+		\item <+-| alert@+> brand of the car?
 		% blank dia
 	\end{itemize}
-}
-
-
-%-------------------------------------------------------------------
-\frame
-{
-	\frametitle{Experiment}
-	% blank dia
 }
 
 %-------------------------------------------------------------------
@@ -106,109 +102,139 @@
 {
 	\frametitle{Q}
 	\begin{itemize}
-	\item  <+-| alert@+> Why are we so good at object/depth recognition?
-	\item  <+-| alert@+> How can we apply vision to a computer system?
+	\item <+-| alert@+> Why are we so good at depth recognition/object detection?
+	\item <+-| alert@+> How can we apply this to a computer system?
 		\begin{itemize}
-			\item  <+-| alert@+> {\textit{Computer Vision}}
+			\item <+-| alert@+> {\textit{Computer Vision}}
 			% this is the domain which interest me the most and on which I did my research
 		\end{itemize}
 	\end{itemize}
-	%These are two questions that keeps us AI people bussy
-	% I will answer the first one shortley and the rest of the presentation is about
-	% the second question
+	%---------------- notes --------------------
+	% These are two questions that keeps us AI people bussy
+	%-------------------------------------------
+	% I will answer the first one shortley and the rest of my talk is about the second question
 }
 
-
-%-------------------------------------------------------------------
-\frame
-{
-	\frametitle{Outline}
-	%todo print toc
-	% -human perception
-	% -skyline detection
-	% -3d building reconstruction
-	% -window detection
-	 
-	%todo think of transition
-}
-
+\section{Introduction}
 %-------------------------------------------------------------------
 \frame
 {
 	\frametitle{Human perception}
 	% lets talk about how you perceived the scene of the building
 	\begin{itemize}
-	\item  <+-| alert@+> depth cue, binocular disparity
+	\item <+-| alert@+> Why are we so good at depth recognition/object detection?
+	\item <+-| alert@+> Depth cues
+	\item <+-| alert@+> Binocular disparity
 	% vingertest
 	% everybody raise your index finger, 
 	% now close your left eye and switch to see your finger hopping
 	% do the same with your finger further away
 	% the displacement is smaller
 
+	% --------------------- notes -------------------
 	%We use two eyes and look at the sam scene from slightly diffeent angles
 	%We perceive two different images, if an object appears close the differenc
 	%displacement difference between the images is high
 	%this makes it possible to triangulate the distance to an abject with a high
 	%degree of accuracy
 
-	\item  <+-| alert@+> Classify objects: feature detection
-		\begin{itemize}
-			\item  <+-| alert@+> straight lines
-			\item  <+-| alert@+> right angles 
-		\end{itemize}
+	\item <+-| alert@+> Classify objects: feature detection
+		% \begin{itemize}
+		% 	\item <+-| alert@+> straight lines
+		% 	\item <+-| alert@+> right angles 
+		% \end{itemize}
 		%todo image of H and L 
 	\end{itemize}
 }
 
+\frame
+{
+	\frametitle{Classify objects by feature detection}
+	\fig{demonsCrop.eps}
+}
+
+\frame
+{
+	\frametitle{Classify objects by feature detection}
+	\fig{demonsCropSelect.eps}
+}
+
+%--------- notes---------------------
+% different types of features are activated
+% horizontal lines
+% vertical lines
+% curves
+%------------------------------------
+\frame
+{
+	\fig{opticalillusions1.eps}
+}
 
 %-------------------------------------------------------------------
 \frame
 {
 	\frametitle{Where is my research about?}
 	\begin{itemize}
-	\item  <+-| alert@+>{Annotation of urban scenes}
+	\item <+-| alert@+> {Annotation of urban scenes}
 		\begin{itemize}
-			\item  <+-| alert@+> Skyline detection
+			\item <+-| alert@+> Skyline detection
 				\fig{outputSkylineSpil-Im29.eps}{width=200px}
-			\item  <+-| alert@+> 3D building reconstruction
+			\item <+-| alert@+> 3D building reconstruction
 				% todo plaatje floriande -> 3d model
 				\fig{3dModel}{width=200px}
-			\item  <+-| alert@+> Window detection
+			\item <+-| alert@+> Window detection
 		\end{itemize}
 	\end{itemize}
 
 	%todo insert TOC at every section
 }
 
-\section{Skylinedetection}
 %-------------------------------------------------------------------
 \frame
 {
 	\frametitle{Application examples of annotation of urban scenes}
 	%What can we do with this annotation of urban scenes?}
 	\begin{itemize}
-		\item  <+-| alert@+> 3D city models
+		\item <+-| alert@+> Augmented reality
 		%todo image
-		%todo paper downloaden met dat 3d city model plaatje, auters: muller en wonka
-		\item  <+-| alert@+> Driving simulation
-		\item  <+-| alert@+> Augmented reality
-		%todo image
-		\item  <+-| alert@+> Building recognition
-		\item  <+-| alert@+> Analysis building deformation
+		\item <+-| alert@+> Building recognition
+		\item <+-| alert@+> Analysis building deformation
 		\begin{itemize}
 			% todo foto van de detectie dingen van noord-zuidlijn
-			\item  <+-| alert@+> 	'noord-zuidlijn'
+			\item <+-| alert@+> 	'noord-zuidlijn'
+		\item <+-| alert@+> Driving simulation
+		\item <+-| alert@+> 3D city models
 		\end{itemize}
 	\end{itemize}
 }
 
+\frame
+{
+	\fig{3dcitymodels0.eps}
+}
 
+\frame
+{
+	\fig{3dcitymodels1.eps}
+}
+
+\frame
+{
+	\fig{3dcitymodels3.eps}
+}
+
+\frame
+{
+	\fig{3dcitymodels4.eps}
+}
+
+\section{Skylinedetection}
 %-------------------------------------------------------------------
 \frame
 {
 	\frametitle{Skyline detection application example}
 	\begin{itemize}
-		\item  <+-| alert@+> Horizon detection for Unmanned Air Vehicles
+		\item <+-| alert@+> Horizon detection for Unmanned Air Vehicles
 		%notes:used to stabilize the vehicle
 		% todo vet plaatje op google vinden van een uav
 		\fig{p_uav_skyline_all.eps}{width=420px}
@@ -218,16 +244,17 @@
 %-------------------------------------------------------------------
 \frame
 {
-	\frametitle{Skyline in urban scenes}% the method
+	\frametitle{Skyline detection in urban scenes}% the method
+	% ----------- notes ----------------
 	%we use it to detect the contour of the building
+	% ----------------------------------
 	\begin{itemize}
-		\item  <+-| alert@+> Canny edge detection 
-		\item  <+-| alert@+> Result: Binary image (edge or no edge)
-		% evt computerprogrammatjuuuu
-			%edge represents a high change in color 
-		%\item  <+-| alert@+> Pre-precessing: Gaussian smoothing
-		\item  <+-| alert@+> top sharp edge assumption\\
-		\emph{"The first sharp edge (seen from top to bottom) in the image represents the skyline."}
+		\item <+-| alert@+> Edges detection based on intensity change
+		\item <+-| alert@+> Canny edge detection 
+		\item <+-| alert@+> Result: Binary image (edge or no edge)
+		\fig{e_floriande_canny_050.eps}
+		\fig{e_floriande_canny_050.eps}
+
 	\end{itemize}
 }
 
@@ -237,9 +264,17 @@
 {
 	\frametitle{Skyline detection algorithm}% the method
 	\begin{itemize}
-		\item  <+-| alert@+> The image is sliced in \#w pixelcolumns
-		\item  <+-| alert@+> Each column present \#h binary edge values (edge or no edge)
-		\item  <+-| alert@+> y-location of the first edge value is stored 
+		\item <+-| alert@+> Top sharp edge assumption\\
+		\emph{"The first sharp edge (seen from top to bottom) in the image represents the skyline."}
+		\item Algorithm:
+		\item <+-| alert@+> Apply gaussian smoothing
+		% ------- notes -----------------------------
+		% assume the buildingwall to be a sharp edge
+		% to remove vague edges and make sharp edges stand out more
+		% ------------------------------------------
+		\item <+-| alert@+> The image is sliced in \#w pixelcolumns
+		\item <+-| alert@+> Each column present \#h binary edge values (edge or no edge)
+		\item <+-| alert@+> y-location of the first edge value is stored 
 	\end{itemize}
 }
 
@@ -248,18 +283,24 @@
 %-------------------------------------------------------------------
 \frame
 {
-	\frametitle{Skyline detection Result}% the method
-	\fig{e_floriande_canny_050.eps}
+	\frametitle{Skyline detection result}% the method
+	\fig{outputSkylineIm3-3.eps} %{The output of the skyline detector on the \emph{Floriande} dataset. The skyline elements are marked red.}{0.45}
 }
 
-\subsection{Future research}
+\frame
+{
+	\frametitle{Skyline detection result}% the method
+	\fig{outputSkylineSpil-Im29.eps} % {The output of the skyline detector on the \emph{Bram} dataset. The skyline elements are marked red.}{0.3}
+}
+
+%\subsection{Future research}
 %-------------------------------------------------------------------
 \frame
 {
 	\frametitle{Hypothesis based skyline detection, assumption}
 	\emph{"The first sharp edge (seen from top to bottom) in the image represents the skyline."}
 	\begin{itemize}
-	\item  <+-| alert@+> Example of a scene where this assumption is violated
+	\item <+-| alert@+> Example of a scene where this assumption is violated
 	\end{itemize}
 	\fig{outputSkylineSpil-Im13-thresh030.eps}
 }
@@ -269,7 +310,7 @@
 {
 	\frametitle{Hypothesis based skyline detection, assumption}
 	\begin{itemize}
-	\item  <+-| alert@+> Change of assumption
+	\item <+-| alert@+> Change of assumption
 	\end{itemize}
 	\emph{"The skyline is part of the first $n$ sharp edges (seen from top) (e.g.
 	$n=3$)}
@@ -281,13 +322,13 @@
 {
 	\frametitle{Hypothesis based skyline detection, algorithm}
 	\begin{itemize}
-	\item  <+-| alert@+> Use exsisting column based approach
-	\item  <+-| alert@+> Generate $n$ hypothesis
-	\item  <+-| alert@+> classify hypothesis with additional info
+	\item <+-| alert@+> Use exsisting column based approach
+	\item <+-| alert@+> Generate $n$ hypothesis
+	\item <+-| alert@+> classify hypothesis with additional info
 		\begin{itemize}
-		\item  <+-| alert@+> texture 
-		\item  <+-| alert@+> color
-		\item  <+-| alert@+> height variation 
+		\item <+-| alert@+> texture 
+		\item <+-| alert@+> color
+		\item <+-| alert@+> height variation 
 		\end{itemize}
 	\end{itemize}
 }
@@ -305,6 +346,24 @@
 	\frametitle{Expected result on hypothesis classification based on heigth variation}
 	\fig{outputSkylineIm3-3-zoom.eps}
 	\fig{outputSkylineIm3-3-zoom-con.eps}
+}
+
+\frame
+{
+	\frametitle{Conclusion}
+	\begin{itemize}
+	\item <+-| alert@+> The skyline deteciton algorithm 
+		\begin{itemize}
+		\item <+-| alert@+> is simple and has a low complexity
+		\item <+-| alert@+> works wel under the assumption skyline is upper edge
+		\item <+-| alert@+> needs future research
+			\begin{itemize}
+			\item <+-| alert@+> can provide a set of hypothesis which should be evaluated using additional features
+			(e.g. color and height variation)
+			\end{itemize}
+		%\item <+-| alert@+>
+		\end{itemize}
+	\end{itemize}
 }
 
 	%todo close up skyline above sky below bricks
@@ -328,10 +387,10 @@
 	\frametitle{Overview}
 	%notes a skyline detection application
 	\begin{itemize}
-	\item  <+-| alert@+> Create (top view) 2D model of the scene using \emph{Openstreetmap}
+	\item <+-| alert@+> Create (top view) 2D model of the scene using \emph{Openstreetmap}
 	\fig{openstreetmap}
-	\item  <+-| alert@+> Align 2D model with the scene using \emph{FIT3D toolbox}
-	\item  <+-| alert@+> Transform the 2D model to a 3D model by extending the walls
+	\item <+-| alert@+> Align 2D model with the scene using \emph{FIT3D toolbox}
+	\item <+-| alert@+> Transform the 2D model to a 3D model by extending the walls
 	\end{itemize}
 }
 
@@ -350,11 +409,11 @@
 {
 	\frametitle{Align 2D model}
 	\begin{itemize}
-	\item  <+-| alert@+> \emph{FIT3D toolbox}
+	\item <+-| alert@+> \emph{FIT3D toolbox}
 	% out of the scope, is explained in my thesis
 		\begin{itemize}
-		\item  <+-| alert@+> Input: sequence of images that contain different views of the building
-		\item  <+-| alert@+> Output: a 3D point cloud of the building
+		\item <+-| alert@+> Input: sequence of images that contain different views of the building
+		\item <+-| alert@+> Output: a 3D point cloud of the building
 		\end{itemize}
 	\figsHor{outputSkylineIm3-3.eps}{pc_3d.eps} %{ 3D point cloud of the walls of the building}{0.5}
 	\end{itemize}
@@ -407,9 +466,9 @@
 	% although it looks like a nice 3D model the wall heights..
 	%-----------------------------------------------------
 	%
-	\item  <+-| alert@+> Wall heights of 3D model are not accurate
+	\item <+-| alert@+> Wall heights of 3D model are not accurate
 	\figsHor{3dModel}{floriande_back.eps} %{The walls of the building differ in height: the back
-	\item  <+-| alert@+> Improve the 3D model by wall height estimation
+	\item <+-| alert@+> Improve the 3D model by wall height estimation
 	\end{itemize}
 }
 
@@ -431,17 +490,17 @@
 	\frametitle{Extracting line segments}
 	% a widely used method for extracting line segments is the Hough transform
 	\begin{itemize}
-	\item  <+-| alert@+> Output of skyline detector
+	\item <+-| alert@+> Output of skyline detector
 	%todo insert binary skyline image
-	\item  <+-| alert@+> Hough transform
+	\item <+-| alert@+> Hough transform
 	\end{itemize}
 	%---------------- notes ------------------------------
 	% the technique behind this method is discussed in detail in my thesis
 	% unfortunatelly, for now we don't have enough time to dive in to this topic
 	%---------------- notes ------------------------------
 
-	%\item  <+-| alert@+> Basic idea: Lines -> points in Hough space
-	%\item  <+-| alert@+> Straight line segment that spans $y=mx+b$ represents $(m,b)$ point in Hough parameter space
+	%\item <+-| alert@+> Basic idea: Lines -> points in Hough space
+	%\item <+-| alert@+> Straight line segment that spans $y=mx+b$ represents $(m,b)$ point in Hough parameter space
 
 	%---------------- notes ------------------------------
 	% Because the algorithm detects straight lines containing only skyline pixels
@@ -456,13 +515,13 @@
 {
 	\frametitle{Project to the 3D model}
 	\begin{itemize}
-	\item  <+-| alert@+> Estimate wall heights 
-	\item  <+-| alert@+> project line segments to specific walls of 3D model
+	\item <+-| alert@+> Estimate wall heights 
+	\item <+-| alert@+> project line segments to specific walls of 3D model
 	\fig{coordinateSystemsCopy.eps} %{The blue line spanned by the camera center
 	%---------------- notes ------------------------------
 	% From image point (2D) to possible points in scene (3D)} 
 	%---------------- notes ------------------------------
-	\item  <+-| alert@+>
+	\item <+-| alert@+> 
 	\end{itemize}
 }
 
@@ -501,6 +560,7 @@
 	%\fig{gableRoofWood.eps}{The parts of the 3D model for the Gable roof}{0.6}
 }
 
+
 %-------------------------------------------------------------------
 \frame
 {
@@ -509,6 +569,7 @@
 }
 
 
+\section{Window detection}
 
 
 %-------------------------------------------------------------------
@@ -521,15 +582,15 @@
 	%next topic is window detection
 	%---------------- notes ------------------------------
 	\begin{itemize}
-	\item  <+-| alert@+> Method I: Connected corner approach 
+	\item <+-| alert@+> Method I: Connected corner approach 
 		\begin{itemize}
-		\item  <+-| alert@+> invariant to viewing direction
+		\item <+-| alert@+> invariant to viewing direction
 		\end{itemize}
-	\item  <+-| alert@+> Facade rectification 
-	\item  <+-| alert@+> Method II: Histogram based approach
+	\item <+-| alert@+> Facade rectification 
+	\item <+-| alert@+> Method II: Histogram based approach
 		\begin{itemize}
-		\item  <+-| alert@+> rectified facades 
-		\item  <+-| alert@+> uses Histograms of Houghlines
+		\item <+-| alert@+> rectified facades 
+		\item <+-| alert@+> uses Histograms of Houghlines
 		\end{itemize}
 	\end{itemize}
 	% this will become clear when I explain it 
@@ -553,9 +614,9 @@
 	%horizontal and vertical edges is large at these locations.  
 	%Some horizontal and vertical edges come from the same window frame, therefore they often
 	%---------------- notes ------------------------------
-	\item  <+-| alert@+> Window frames 
-	\item  <+-| alert@+> Difference color window frame, color glass
-	\item  <+-| alert@+> Produce edges in horizontal and vertical direction
+	\item <+-| alert@+> Window frames 
+	\item <+-| alert@+> Difference color window frame, color glass
+	\item <+-| alert@+> Produce edges in horizontal and vertical direction
 	\end{itemize}
 }
 
@@ -565,8 +626,8 @@
 {
 	\frametitle{The idea}
 	\begin{itemize}
-	\item  <+-| alert@+> Connected corner
-	\item  <+-| alert@+> \emph{"horizontal and vertical edges that come from the same (sub)window frame share
+	\item <+-| alert@+> Connected corner
+	\item <+-| alert@+> \emph{"horizontal and vertical edges that come from the same (sub)window frame share
 	a corner"}
 	\end{itemize}
 	%todo plaatje van 1 raam met 1 connected corner
@@ -582,20 +643,20 @@
 	%---------------- notes ------------------------------
 	%todo
 	\begin{itemize}
-	\item Canny edge detector
-	\item Two groups of straight lines (Houghlines)
+	\item <+-| alert@+> Canny edge detector
+	\item <+-| alert@+> Two groups of straight lines (Houghlines)
 	\begin{itemize}
-		\item Horizontal, $\theta = [-30..0..30)$ degrees
+		\item <+-| alert@+> Horizontal, $\theta = [-30..0..30)$ degrees
 		%---------------- notes ------------------------------
 		% theta = 0, horizontal   
 		%---------------- notes ------------------------------
-		\item Vertical, $\theta = [80..90..100)$ degrees
+		\item <+-| alert@+> Vertical, $\theta = [80..90..100)$ degrees
 	\end{itemize}
-	\item Why the use of angle ranges?
+	\item <+-| alert@+> Why the use of angle ranges?
 	\begin{itemize}
-		\item Camera not exactly upright
+		\item <+-| alert@+> Camera not exactly upright
 		% (camera's roll factor)
-		\item Facade view contains an angle, perspective distortion 
+		\item <+-| alert@+> Facade view contains an angle, perspective distortion 
 		%(camera's yaw factor)
 	\end{itemize}
 	\end{itemize}
@@ -632,10 +693,10 @@
 {
 	\frametitle{Connected corner}
 	\begin{itemize}
-	\item Connected corner:a horizontal and vertical edge that share the same
+	\item <+-| alert@+> Connected corner:a horizontal and vertical edge that share the same
 	corner e.g. L
-	\item Algorithm: If line segments endpoints are close enough a connected corner is formed
-	\item Tolerate gab or extension
+	\item <+-| alert@+> Algorithm: If line segments endpoints are close enough a connected corner is formed
+	\item <+-| alert@+> Tolerate gab or extension
 	\fig{cCornerTypes} %{First row: different type of connected corner candidates. Second row: the
 	%--------------- notes --------------------------------
 	% to form and clean up the connected corners..
@@ -657,8 +718,8 @@
 {
 	\frametitle{Window area extraction}
 	\begin{itemize}
-	\item Mirror from diagonal through endpoints
-	\item L shape -> Quadrangle window area
+	\item <+-| alert@+> Mirror from diagonal through endpoints
+	\item <+-| alert@+> L shape -> Quadrangle window area
 	\end{itemize}
 	%--------------- notes --------------------------------
 	% whiteboard : draw L and rectangle with mirror line
@@ -674,51 +735,42 @@
 
 \frame
 {
-	\frametitle{Conclusion}
-	\begin{itemize}
-	\item The skyline deteciton algorithm 
-		\begin{itemize}
-		\item is simple and has a low complexity
-		\item works wel under the assumption skyline is upper edge
-		\item can provide a set of hypothesis which should be evaluated using andditional features
-		\end{itemize}
-	\end{itemize}
-}
-
-\frame
-{
 	\frametitle{Future research}
 	\begin{itemize}
-	\item L-shapes, U-shapes
+	\item <+-| alert@+> L-shapes, U-shapes
 		%--------------- notes --------------------------------
 		% whiteboard : draw L and rectangle with mirror line
 		% if we overlap these areas we get this result
 		%--------------- notes --------------------------------
-	\item analysis of substructure of windows
+	\item <+-| alert@+> analysis of substructure of windows
 	\begin{itemize}
-		\item define a contained in relations
-		\item cluster connected corner on location and length
+		\item <+-| alert@+> define a contained in relations
+		\item <+-| alert@+> cluster connected corner on location and length
 		\begin{itemize}
-			\item maximum intercluster distance correlates with size subwindow
-			\item assume nr of subwindows to estimate size
+			\item <+-| alert@+> maximum intercluster distance correlates with size subwindow
+			\item <+-| alert@+> assume nr of subwindows to estimate size
 		\end{itemize}
 	\end{itemize}
 	\end{itemize}
 }
 
-\subsection{Method II: Histogram based approach} 
+
+
+
+
+%\subsection{Method II: Histogram based approach} 
 \frame
 {
 	\frametitle{Method II: window detection}
 	\begin{itemize}
-	\item Assumes that the windows are
+	\item <+-| alert@+> Assumes that the windows are
 	\begin{itemize}
-		\item orthogonal
+		\item <+-| alert@+> orthogonal
 		%--------------- notes --------------------------------
 		% orthogonal sides
 		% angle between the horizontal and vertical parts is 90 degrees
 		%--------------- notes --------------------------------
-		\item aligned
+		\item <+-| alert@+> aligned
 		%--------------- notes --------------------------------
 		% certain pattern in the windows
 		% they are lined up in both horizontal as vertical direction
@@ -732,7 +784,7 @@
 
 }
 
-\subsection{Facade rectification}
+%\subsection{Facade rectification}
 \frame
 {
 	\frametitle{Aligned but not orthogonal}
@@ -749,10 +801,10 @@
 {
 	\frametitle{Facade rectification}
 	\begin{itemize}
-		\item 3D model gives plane that corresponds to wall
-		\item wall produces a normal vector $b$
-		\item camera's heading, $\vec{a}$
-		\item rotation matrix R is calculated and applied
+		\item <+-| alert@+> 3D model gives plane that corresponds to wall
+		\item <+-| alert@+> wall produces a normal vector $b$
+		\item <+-| alert@+> camera's heading, $\vec{a}$
+		\item <+-| alert@+> rotation matrix R is calculated and applied
 		%--------------- notes --------------------------------
 		%by calculating angle diff of $a$ and $b$
 		%apply on all points
@@ -793,12 +845,12 @@
 {
 	\frametitle{Extracting the window alignment}
 	\begin{itemize}
-	\item Window alignment line
+	\item <+-| alert@+> Window alignment line
 	\begin{itemize}
-		\item \emph{"A horizontal or vertical line that aligns multiple windows"}
+		\item <+-| alert@+> \emph{"A horizontal or vertical line that aligns multiple windows"}
 	\end{itemize}
-	\item Alignment lines provide grid of blocks
-	\item Window non-window areas
+	\item <+-| alert@+> Alignment lines provide grid of blocks
+	\item <+-| alert@+> Window non-window areas
 	\end{itemize}
 	
 }
@@ -813,7 +865,9 @@
 \frame
 {
 	\frametitle{The idea}
-	\item Amount of Houghlines high at window locations
+	\begin{itemize}
+	\item <+-| alert@+> Amount of Houghlines high at window locations
+	\end{itemize}
 	\fig{w_Spil1TransCrop1_ImHoughResult.eps}%{Dataset: Anne1, (Projected) Hough lines on rectified image}{0.45}
 }
 
@@ -823,24 +877,24 @@
 	%----------------------- notes --------------------
 	%----------------------- notes --------------------
 	\begin{itemize}
-	\item aim: get positions of window columns
-	\item isolate $n$ horizontal Hough lines
-	\item extract pixel coordinates of endpoints 
+	\item <+-| alert@+> aim: get positions of window columns
+	\item <+-| alert@+> isolate $n$ horizontal Hough lines
+	\item <+-| alert@+> extract pixel coordinates of endpoints 
 		\begin{itemize}
-		\item ->set of (2 dimensional) coordinates (x,y)
+		\item <+-| alert@+> ->set of (2 dimensional) coordinates (x,y)
 		\end{itemize}
 	%----------------------- notes --------------------
 	% where h is the number of horizontal lines
 	%----------------------- notes --------------------
-	\item discard least informative dimension
+	\item <+-| alert@+> discard least informative dimension
 		\begin{itemize}
-		\item project to X-axis (by discard Y-value) 
-		\item gives a set of $2n$ x values 
+		\item <+-| alert@+> project to X-axis (by discard Y-value) 
+		\item <+-| alert@+> gives a set of $2n$ x values 
 		\end{itemize}
 	%----------------------- notes --------------------
 	% where each scalar value presents a x coordinate
 	%----------------------- notes --------------------
-	\item Create histogram: count number of values on each x position
+	\item <+-| alert@+> Create histogram: count number of values on each x position
 	%----------------------- notes --------------------
 	% where w is the width of the image
 	%----------------------- notes --------------------
@@ -850,22 +904,20 @@
 \frame
 {
 	\frametitle{Window alignment lines}
-	\begin{itemize}
 	%----------------------- notes --------------------
 	% Peaks are located at position where an increased number of Houghlines start or end
 	%----------------------- notes --------------------
 	\fig{w_Spil1TransCrop1_ImHoughResult.eps}%
-	\end{itemize}
 }
 \frame
 {
 	%todo mooi ingezoomed plaatje van een peak met threshold line
 	\frametitle{Peak (area) extraction}
 	\begin{itemize}
-	\item smooth histogram function (red line) 
-	\item relative threshold 0.5 * max peak defines peak areas
-	\item locate maximum for each peak area
-	\item draw alignment line on peaks
+	\item <+-| alert@+> smooth histogram function (red line) 
+	\item <+-| alert@+> relative threshold 0.5 * max peak defines peak areas
+	\item <+-| alert@+> locate maximum for each peak area
+	\item <+-| alert@+> draw alignment line on peaks
 	%----------------------- notes --------------------
 	% exploit concave shape of the peak area
 	%----------------------- notes --------------------
@@ -878,9 +930,9 @@
 {
 	\frametitle{Reasons for improvement}
 	\begin{itemize}
-	\item window alignment at wrong locations
-	\item right side of window frame of first 4 columns not found
-	\item main reason: perspective distortion creates occlusion effect
+	\item <+-| alert@+> window alignment at wrong locations
+	\item <+-| alert@+> right side of window frame of first 4 columns not found
+	\item <+-| alert@+> main reason: perspective distortion creates occlusion effect
 	\fig{w_Spil1TransImproved_Xv.eps} %{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
 	\end{itemize}
 }
@@ -894,20 +946,20 @@
 {
 	\frametitle{Alternative window alignment}
 	\begin{itemize}
-	\item Previous method: 
+	\item <+-| alert@+> Previous method: 
 		\begin{itemize}
-		\item line segment endpoints
-		\item vertical lines -> window columns
-		\item histogram peak detection
+		\item <+-| alert@+> line segment endpoints
+		\item <+-| alert@+> vertical lines -> window columns
+		\item <+-| alert@+> histogram peak detection
 		\end{itemize}
-	\item Alternative method: 
+	\item <+-| alert@+> Alternative method: 
 		\begin{itemize}
-		\item entire line segment
+		\item <+-| alert@+> entire line segment
 		%------------- notes ----------------
 		% this means longer lines have more influence which is desirable
 		%------------- notes ----------------
-		\item horizontal lines -> window columns
-		\item histogram shape analysis
+		\item <+-| alert@+> horizontal lines -> window columns
+		\item <+-| alert@+> histogram shape analysis
 		\end{itemize}
 	\end{itemize}
 }
@@ -919,15 +971,14 @@
 	% this means longer lines have more influence which is desirable
 	%------------- notes ----------------
 	\begin{itemize}
-	\item Idea
+	\item <+-| alert@+> Idea
 		\begin{itemize}
-		\item a window frame creates horizontal edges
-		\item on vertical alignment positions appears a big increase/decrease
+		\item <+-| alert@+> a window frame creates horizontal edges
+		\item <+-| alert@+> on vertical alignment positions appears a big increase/decrease
 		of horizontal lines as the window starts/end
 		\end{itemize}
-	\item X_{h} defines number of overlapping horizontal lines on each x
-	position
-	\item peak function \[D = abs( X_{h}')\]
+	\item <+-| alert@+> $X_{h}$ defines number of overlapping horizontal lines on each x position
+	\item <+-| alert@+> peak function \[D = abs( X_{h}')\]
 	%------------- notes ----------------
 	% deravitive because increase/decrease
 	% abs to be big at both 
@@ -947,10 +998,10 @@
 {
 	\frametitle{Fusing the window alignment methods}
 	\begin{itemize}
-	\item plot both methods
-	\item increase threshold (less but more certain alignment lines)
-	\item merge peaks that are close
-	\item plotting both methods
+	\item <+-| alert@+> plot both methods
+	\item <+-| alert@+> increase threshold (less but more certain alignment lines)
+	\item <+-| alert@+> merge peaks that are close
+	\item <+-| alert@+> plotting both methods
 	\end{itemize}
 }
 
@@ -988,21 +1039,19 @@
 {
 	\frametitle{Window classification}
 	\begin{itemize}
-	\item alignment lines -> grid of blocks
-	\item classify blocks 
+	\item <+-| alert@+> alignment lines -> grid of blocks
+	\item <+-| alert@+> classify blocks 
 		\begin{itemize}
-		\item window or non-window block
+		\item <+-| alert@+> window or non-window block
 		\end{itemize}
-	\end{itemize}
-	\item Two methods:
-	\item Basic classification 
+	\item <+-| alert@+> Two methods:
+	\item <+-| alert@+> Basic classification 
 		\begin{itemize}
-		\item based on amount of Houghlines
+		\item <+-| alert@+> based on amount of Houghlines
 		\end{itemize}
-	\begin{itemize}
-	\item Improved classification 
+	\item <+-| alert@+> Improved classification 
 		\begin{itemize}
-		\item based on shape of Histogram function
+		\item <+-| alert@+> based on shape of Histogram function
 		%------------ notes ---------------
 		% similar to window alignment method we just discussed 
 		%------------ notes ---------------
@@ -1014,13 +1063,13 @@
 {
 	\frametitle{Basic window classification assumptions}
 	\begin{itemize}
-	\item Assumptions:
+	\item <+-| alert@+> Assumptions:
 		\begin{itemize}
-		\item a window block contains a high amount of Houghlines
-		\item a non-window block contains low amount of Houghlines
-		\item the windows are aligned 
+		\item <+-| alert@+> a window block contains a high amount of Houghlines
+		\item <+-| alert@+> a non-window block contains low amount of Houghlines
+		\item <+-| alert@+> the windows are aligned 
 			\begin{itemize}
-			\item a row or column contains either zero windows or multiple windows 
+			\item <+-| alert@+> a row or column contains either zero windows or multiple windows 
 			\end{itemize}
 		\end{itemize}
 	\end{itemize}
@@ -1034,11 +1083,11 @@
 	% instead of individual block classifaction..
 	% more accurate
 	%------------ notes ---------------
-	\item exploit window alignment: classify full block rows and block columns
-	\item count the nr of Houghlines in each blockrow
-	\item discard blockrow size influence (normalize):
-	\item \[\forall Ri\in \{1..numRows\} : R_i = \frac{HoughlinePxCount}{R_i^{width} \cdot R_i^{height}}\]
-	\item output: ||R|| scalar values that ranks Rows being window area or not
+	\item <+-| alert@+> exploit window alignment: classify full block rows and block columns
+	\item <+-| alert@+> count the nr of Houghlines in each blockrow
+	\item <+-| alert@+> discard blockrow size influence (normalize):
+	\item <+-| alert@+> \[\forall Ri\in \{1..numRows\} : R_i = \frac{HoughlinePxCount}{R_i^{width} \cdot R_i^{height}}\]
+	\item <+-| alert@+> output: ||R|| scalar values that ranks Rows being window area or not
 	\end{itemize}
 	
 
@@ -1067,7 +1116,7 @@
 	\frametitle{From certainty to classification}
 	\begin{itemize}
 	% as we cope with two clusters non window and window areas
-	\item $k$-means classification
+	\item <+-| alert@+> $k$-means classification
 
 	%------------- notes -----------------
 	% how do we determine which value is clasified as high
@@ -1084,14 +1133,14 @@
 {
 	\frametitle{Improved window classification}
 	\begin{itemize}
-	\item amount of Houghlines 
+	\item <+-| alert@+> amount of Houghlines 
 		\begin{itemize}
-		\item increases towards center of window area
-		\item decreases towards center of non-window area
+		\item <+-| alert@+> increases towards center of window area
+		\item <+-| alert@+> decreases towards center of non-window area
 		\end{itemize}
-	\item amount of Houghlines increases towards center of window
-	\item shape concave -> window area
-	\item shape convex -> non-window area
+	\item <+-| alert@+> amount of Houghlines increases towards center of window
+	\item <+-| alert@+> shape concave -> window area
+	\item <+-| alert@+> shape convex -> non-window area
 	\end{itemize}
 }
 \frame
@@ -1102,12 +1151,14 @@
 \frame
 {
 	\frametitle{Algorithm}
-	\item detect concave and convex shape of histogram function $Xh$
+	\begin{itemize}
+	\item <+-| alert@+> detect concave and convex shape of histogram function $Xh$
 	% derivative
-	\item $X_{h}'$ 
-	\item sign change of derivative indicates peak or valley
-	\item (+,-) -> concave -> window area
-	\item (-,+) -> convex -> non-window area
+	\item <+-| alert@+> $X_{h}'$ 
+	\item <+-| alert@+> sign change of derivative indicates peak or valley
+	\item <+-| alert@+> (+,-) -> concave -> window area
+	\item <+-| alert@+> (-,+) -> convex -> non-window area
+	\end{itemize}
 }
 
 \frame
@@ -1130,16 +1181,18 @@
 {
 	\frametitle{Conclusions}
 	\begin{itemize}
-	\item Connected corner
+	\item <+-| alert@+> Connected corner
 		\begin{itemize}
-		\item detection rate 97\%
-		\item suitable for scenes with variation in window size/type
-		\item small requirement on input data
-			\item neither 3D information about building nor rectification is needed
-		\item future research
+		\item <+-| alert@+> detection rate 97\%
+		\item <+-| alert@+> suitable for scenes with variation in window size/type
+		\item <+-| alert@+> small requirement on input data
+			\begin{itemize}
+			\item <+-| alert@+> neither 3D information about building nor rectification is needed
+			\end{itemize}
+		\item <+-| alert@+> future research
 			\begin{itemize}			
-			\item U shapes 
-			\item analysis of subwindow structure
+			\item <+-| alert@+> U shapes 
+			\item <+-| alert@+> analysis of subwindow structure
 			\end{itemize}			
 		\end{itemize}
 	\end{itemize}
@@ -1155,35 +1208,22 @@
 	\fig{w_Dirk6_ImcCorner_windowFilled.eps}{Window regions}{0.45}
 }
 
-\frame
-{
-	\frametitle{Conclusion:Skyline detection}
-	\begin{itemize}
-	\item workt without user interaction
-	\item simple
-	\item low complexity
-	\item under the assumption that upper edge is skyline works really well
-	\item future research
-		\begin{itemize}
-		\item set of upper edge hypothesis evaluated usind additional fuetaures
-		(e.g. color and height variation)
-		\end{itemize}
-	\end{itemize}
-		
-}
+%------------------- notes ----------------------
+% start with individual conclusions
+%------------------------------------------------
 
 \frame
 {
 	\frametitle{Conclusion:Connected corner}
 	\begin{itemize}
-	\item detection rate 97\%
-	\item suitable for scenes with variation in window size/type
-	\item small requirement on input data
-		\item neither 3D information about building nor rectification is needed
-	\item future research
+	\item <+-| alert@+> detection rate 97\%
+	\item <+-| alert@+> suitable for scenes with variation in window size/type
+	\item <+-| alert@+> small requirement on input data
+		\item <+-| alert@+> neither 3D information about building nor rectification is needed
+	\item <+-| alert@+> future research
 		\begin{itemize}			
-		\item U shapes 
-		\item analysis of subwindow structure
+		\item <+-| alert@+> U shapes 
+		\item <+-| alert@+> analysis of subwindow structure
 		\end{itemize}			
 	\end{itemize}
 }
@@ -1193,13 +1233,13 @@
 	\frametitle{Conclusion:Histogram based window alignment}		
 
 	\begin{itemize}
-	\item interpreting amount of Houghlines strong approach towards window
+	\item <+-| alert@+> interpreting amount of Houghlines strong approach towards window
 	detection
-	\item two window detection methods
-	\item alternative window alignment performs better
+	\item <+-| alert@+> two window detection methods
+	\item <+-| alert@+> alternative window alignment performs better
 		\begin{itemize}
-		\item strong combination horizontal and vertical Houghlines histograms
-		\item high order shape interpretation (derivative) of Histogram function
+		\item <+-| alert@+> strong combination horizontal and vertical Houghlines histograms
+		\item <+-| alert@+> high order shape interpretation (derivative) of Histogram function
 		\end{itemize}
 	%todo tabel
 	
@@ -1211,23 +1251,23 @@
 {
 	\frametitle{Conclusion:window classification}		
 	\begin{itemize}
-	\item method I: based on amount of Houghlines
+	\item <+-| alert@+> method I: based on amount of Houghlines
 		\begin{itemize}
-		\item performs quite good on the dataset we used
-		\item very sensitive to alignment errors
-		\item (errors in alignment propagate to classifications)
+		\item <+-| alert@+> performs quite good on the dataset we used
+		\item <+-| alert@+> very sensitive to alignment errors
+		\item <+-| alert@+> (errors in alignment propagate to classifications)
 		\end{itemize}
-	\item method II:based on shape of Houghlines Histogram
+	\item <+-| alert@+> method II:based on shape of Houghlines Histogram
 		\begin{itemize}
-		\item strong increase/decrease of Houghlines
-		\item very robust, at least 97\% detection rate on all datasets, why?
-		\item higher order interpretation of Histogram function
-		\item robust to alignment errors 
+		\item <+-| alert@+> strong increase/decrease of Houghlines
+		\item <+-| alert@+> very robust, at least 97\% detection rate on all datasets, why?
+		\item <+-| alert@+> higher order interpretation of Histogram function
+		\item <+-| alert@+> robust to alignment errors 
 		% ------------ notes ----------------
 		%	as long al the middle points fall in window non-window area
 		% ------------------------------------
-		\item the increase/decrease is relative
-		\item robust to variation in window type and illumination conditions
+		\item <+-| alert@+> the increase/decrease is relative
+		\item <+-| alert@+> robust to variation in window type and illumination conditions
 		\end{itemize}
 	\end{itemize}
 }
@@ -1238,10 +1278,10 @@
 	\frametitle{Conclusion}		
 
 	\begin{itemize}
-	\item We retrieved semantics of urban scenes
+	\item <+-| alert@+> We retrieved semantics of urban scenes
 		\begin{itemize}
-		\item a full 3D reconstruction of a building
-		\item extraction of windows
+		\item <+-| alert@+> a full 3D reconstruction of a building
+		\item <+-| alert@+> extraction of windows
 		\end{itemize}
 	\end{itemize}
 %---------------- notes ------------------
@@ -1291,12 +1331,12 @@
 
 
 
-\section{Interactive demo}
-	osgviewer demo of 3d point cloud and images
-	demo of matlab progje
+%\section{Interactive demo}
+%	osgviewer demo of 3d point cloud and images
+%	demo of matlab progje
 
 
-\subsection{Questions}
+%\subsection{Questions}
 \frame{
 \frametitle{Questions}
 \begin{LARGE}
