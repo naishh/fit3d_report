@@ -178,20 +178,48 @@
 {
 	\frametitle{Where is my research about?}
 	\begin{itemize}
-	\item <+-| alert@+> {Annotation of urban scenes}
+	\item <+-| alert@+> Annotation of urban scenes
 		\begin{itemize}
 			\item <+-| alert@+> Skyline detection
-				\fig{outputSkylineSpil-Im29.eps}{width=200px}
+		\end{itemize}
+	\end{itemize}
+}
+
+\frame
+{
+	\fig{outputSkylineSpil-Im29.eps}%{width=200px}
+}
+
+
+\frame
+{
+	\frametitle{Where is my research about?}
+	\begin{itemize}
+	\item Annotation of urban scenes
+		\begin{itemize}
+			\item Skyline detection
 			\item <+-| alert@+> 3D building reconstruction
-				% todo plaatje floriande -> 3d model
-				\fig{3dModel}{width=200px}
 			\item <+-| alert@+> Window detection
 		\end{itemize}
 	\end{itemize}
-
-	%todo insert TOC at every section
 }
 
+\frame
+{
+	\fig{3dModel}% {width=200px}
+}
+\frame
+{
+	\frametitle{Where is my research about?}
+	\begin{itemize}
+	\item Annotation of urban scenes
+		\begin{itemize}
+			\item Skyline detection
+			\item 3D building reconstruction
+			\item <+-| alert@+> Window detection
+		\end{itemize}
+	\end{itemize}
+}
 %-------------------------------------------------------------------
 \frame
 {
@@ -500,9 +528,9 @@
 	\begin{itemize}
 		\item Straight lines assumption:
 		\begin{itemize}
-		\item \emph{Straight lines in the skyline are likely to come from the building
+		\item \emph{Straight lines in the skyline are likely to come from the
+		building contour}
 		\end{itemize}
-	contour}
 		\item Flat roof assumption:
 		\begin{itemize}
 		\item \emph{building contour is equal to upper side of building walls}
@@ -647,20 +675,42 @@
 	%----------------- notes ------------------------
 	% dutch word is kozijn
 	%------------------------------------------------
-	\item <+-| alert@+> Difference color window frame, color glass
+	\item <+-| alert@+> Color difference, frame, glass
 	\item <+-| alert@+> Produce edges in horizontal and vertical direction
 	\end{itemize}
 }
 
+\frame
+{
+	\frametitle{Original}
+	\fig{w_Dirk6_ImOri.eps} 
+	%--------------- notes --------------------------------
+	% scene contains an everyday scene:
+	% angle in viewing direction
+	% different window types
+	% light spot
+	% occluding tree
+	% bicycles 
+	%--------------- notes --------------------------------
+}
+
+\frame
+{
+	\frametitle{Edge detection}
+	\fig{w_Dirk6_ImEdge.eps}{Edge detection}{0.45}
+}
+
+
+%------------- notes -------------------
+% how do we detect windows from this image
+%---------------------------------------
 
 %-------------------------------------------------------------------
 \frame
 {
 	\frametitle{The idea}
 	\begin{itemize}
-	\item <+-| alert@+> Connected corner
-	\item <+-| alert@+> \emph{"horizontal and vertical edges that come from the same (sub)window frame share
-	a corner"}
+	\item <+-| alert@+> \emph{"horizontal and vertical edges that come from the same (sub)window frame share a corner"}
 	\end{itemize}
 	%todo plaatje van 1 raam met 1 connected corner
 }
@@ -678,6 +728,7 @@
 	\item <+-| alert@+> Canny edge detector
 	\item <+-| alert@+> Two groups of straight lines (Houghlines)
 	\begin{itemize}
+		\item $\theta$-constraint
 		\item <+-| alert@+> Horizontal, $\theta = [-30..0..30)$ degrees
 		%---------------- notes ------------------------------
 		% theta = 0, horizontal   
@@ -738,6 +789,11 @@
 
 \frame
 {
+	\fig{w_Dirk6_ImHoughResult.eps}
+}
+
+\frame
+{
 	\frametitle{Connected Corners}
 	\fig{w_Dirk6_ImcCorner_cCorner.eps} %{Found connected corners}{0.45}
 	%--------------- notes --------------------------------
@@ -750,8 +806,9 @@
 {
 	\frametitle{Window area extraction}
 	\begin{itemize}
+	\item <+-| alert@+> How to extract the window area?
 	\item <+-| alert@+> Mirror from diagonal through endpoints
-	\item <+-| alert@+> L shape -> Quadrangle window area
+	\item <+-| alert@+> L-shapes becomes Quadrangle window areas
 	\end{itemize}
 	%--------------- notes --------------------------------
 	% whiteboard : draw L and rectangle with mirror line
@@ -774,13 +831,17 @@
 		% whiteboard : draw L and rectangle with mirror line
 		% if we overlap these areas we get this result
 		%--------------- notes --------------------------------
-	\item <+-| alert@+> analysis of substructure of windows
+	\item <+-| alert@+> Analysis of substructure of windows
 	\begin{itemize}
-		\item <+-| alert@+> define a contained in relations
-		\item <+-| alert@+> cluster connected corner on location and length
+		%\item <+-| alert@+> Define \emph{contained in} relations
+		\item <+-| alert@+> Cluster connected corner on location and length
+		\item <+-| alert@+> Close connected corners of same size will be grouped
+		\item <+-| alert@+> Maximum intercluster distance correlates with size subwindow
+		\item <+-| alert@+> Assume nr of subwindows to estimate 
 		\begin{itemize}
-			\item <+-| alert@+> maximum intercluster distance correlates with size subwindow
-			\item <+-| alert@+> assume nr of subwindows to estimate size
+			\item max and min size of window
+			\item number of clusters
+			\item max intercluster distance
 		\end{itemize}
 	\end{itemize}
 	\end{itemize}
@@ -825,23 +886,26 @@
 
 \frame
 {
-	\frametitle{Rectified facade}
-	\fig{w_Spil1TransCrop1_ImOri.eps}{Dataset: Anne1, Rectified image}{0.45}
-}
-
-\frame
-{
 	\frametitle{Facade rectification}
 	\begin{itemize}
+		\item <+-| alert@+> FIT3D gives
+			\begin{itemize}
+			\item <+-| alert@+> 3D model, plane that corresponds to wall
+			\item <+-| alert@+> camera's heading
+			\end{itemize}
 		\item <+-| alert@+> 3D model gives plane that corresponds to wall
-		\item <+-| alert@+> wall produces a normal vector $b$
-		\item <+-| alert@+> camera's heading, $\vec{a}$
-		\item <+-| alert@+> rotation matrix R is calculated and applied
+		\item <+-| alert@+> Wall produces a normal vector:  $b$
+		\item <+-| alert@+> Camera's heading: $a$
+		\item <+-| alert@+> Rotation matrix R is calculated and applied
+			\begin{itemize}
+			\item <+-| alert@+> orthogonal rotation vector $a$ x $b$
+			\item <+-| alert@+> angle $\theta$
+			\end{itemize}
 		%--------------- notes --------------------------------
 		%by calculating angle diff of $a$ and $b$
 		%apply on all points
 		%--------------- notes --------------------------------
-		\fig{axisAnglePresentation.eps}%{$\vec{a}$ is the camera's heading and $\vec{b}$
+		\figCustom{axisAnglePresentation.eps}{scale=0.15}%{$\vec{a}$ is the camera's heading and $\vec{b}$
 	\end{itemize}
 }
 
@@ -855,7 +919,7 @@
 \frame
 {
 	\frametitle{Rectified facade}
-	\fig{w_Spil1TransCrop1_ImOri.eps}{Dataset: Anne1, Rectified image}{0.45}
+	\fig{w_Spil1TransCrop1_ImOri.eps} %{Dataset: Anne1, Rectified image}{0.45}
 }
 
 %--------------- notes --------------------------------
@@ -877,12 +941,12 @@
 {
 	\frametitle{Extracting the window alignment}
 	\begin{itemize}
-	\item <+-| alert@+> Window alignment line
+	\item Window alignment line
 	\begin{itemize}
 		\item <+-| alert@+> \emph{"A horizontal or vertical line that aligns multiple windows"}
 	\end{itemize}
 	\item <+-| alert@+> Alignment lines provide grid of blocks
-	\item <+-| alert@+> Window non-window areas
+	\item <+-| alert@+> Window, non-window areas
 	\end{itemize}
 	
 }
@@ -891,7 +955,7 @@
 \frame
 {
 	\frametitle{Window alignment lines example}
-	\fig{w_Spil1TransImproved_Xv.eps} %{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
+\fig{w_Spil1TransCrop1_ImHibaap.eps} %{Dataset: Anne1, Regular window alignment (parallel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Hough lines, for the column division the horizontal Hough lines are counted (at each $y$ position), for the row division the vertical Hough lines are counted (at each $x$ position) }{0.45}
 }
 
 \frame
@@ -909,24 +973,24 @@
 	%----------------------- notes --------------------
 	%----------------------- notes --------------------
 	\begin{itemize}
-	\item <+-| alert@+> aim: get positions of window columns
-	\item <+-| alert@+> isolate $n$ horizontal Hough lines
-	\item <+-| alert@+> extract pixel coordinates of endpoints 
+	\item <+-| alert@+> Isolate \emph{vertical} Hough lines
+	\item <+-| alert@+> Extract pixel coordinates of endpoints 
 		\begin{itemize}
-		\item <+-| alert@+> ->set of (2 dimensional) coordinates (x,y)
+		\item <+-| alert@+> set of (2 dimensional) coordinates (x,y)
 		\end{itemize}
 	%----------------------- notes --------------------
 	% where h is the number of horizontal lines
 	%----------------------- notes --------------------
 	\item <+-| alert@+> discard least informative dimension
 		\begin{itemize}
-		\item <+-| alert@+> project to X-axis (by discard Y-value) 
-		\item <+-| alert@+> gives a set of $2n$ x values 
+		\item <+-| alert@+> the height is irelevant for columndivision
+		\item <+-| alert@+> project to x-axis (by discard y-value) 
+		\item <+-| alert@+> gives a set of (1 dimensional) x-values 
 		\end{itemize}
 	%----------------------- notes --------------------
 	% where each scalar value presents a x coordinate
 	%----------------------- notes --------------------
-	\item <+-| alert@+> Create histogram: count number of values on each x position
+	\item <+-| alert@+> Create histogram: count number of values on each x-position
 	%----------------------- notes --------------------
 	% where w is the width of the image
 	%----------------------- notes --------------------
@@ -939,8 +1003,10 @@
 	%----------------------- notes --------------------
 	% Peaks are located at position where an increased number of Houghlines start or end
 	%----------------------- notes --------------------
-	\fig{w_Spil1TransCrop1_ImHoughResult.eps}%
+	\fig{w_Spil1TransCrop1_ImHibaap.eps} %{Dataset: Anne1, Regular window alignment (parallel projection): Based on a smoothed histogram (red line) that displays the amount of overlapping Hough lines, for the column division the horizontal Hough lines are counted (at each $y$ position), for the row division the vertical Hough lines are counted (at each $x$ position) }{0.45}
 }
+
+
 \frame
 {
 	%todo mooi ingezoomed plaatje van een peak met threshold line
@@ -953,7 +1019,7 @@
 	%----------------------- notes --------------------
 	% exploit concave shape of the peak area
 	%----------------------- notes --------------------
-	\fig{w_Spil1TransImproved_Xv.eps} %{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
+	\fig{w_Spil1TransImproved_XvCrop.eps} %{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
 	\end{itemize}
 }
 
@@ -965,7 +1031,7 @@
 	\item <+-| alert@+> window alignment at wrong locations
 	\item <+-| alert@+> right side of window frame of first 4 columns not found
 	\item <+-| alert@+> main reason: perspective distortion creates occlusion effect
-	\fig{w_Spil1TransImproved_Xv.eps} %{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
+	\fig{w_Spil1TransImproved_XvCrop.eps} %{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
 	\end{itemize}
 }
 
@@ -1039,7 +1105,7 @@
 
 \frame
 {
-	\fig{w_Spil1TransImproved_Xv.eps}{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
+	\fig{w_Spil1TransImproved_Xv.eps} %{Dataset: Anne2, Regular window alignment: based on a histogram that displays amount of overlapping vertical Hough lines at each $x$ position}{0.7}
 %------------- notes -------------------
 % note that the right side of the windows is now correct detected
 %------------- notes -------------------
@@ -1196,7 +1262,7 @@
 \frame
 {
 	\frametitle{Result}
-	\fig{w_Spil1TransImproved_windowsGrouped.eps}{Dataset: Anne2, Improved window classification method: The extracted windows, red:the grouping}{0.7}
+	\fig{w_Spil1TransImproved_windowsGrouped.eps} %{Dataset: Anne2, Improved window classification method: The extracted windows, red:the grouping}{0.7}
 }
 
 \frame
@@ -1232,12 +1298,12 @@
 
 \frame
 {
-	\fig{w_Dirk6_ImcCorner_cCorner.eps}{Found connected corners}{0.45}
+	\fig{w_Dirk6_ImcCorner_cCorner.eps} % {Found connected corners}{0.45}
 }
 
 \frame
 {
-	\fig{w_Dirk6_ImcCorner_windowFilled.eps}{Window regions}{0.45}
+	\fig{w_Dirk6_ImcCorner_windowFilled.eps} %{Window regions}{0.45}
 }
 
 %------------------- notes ----------------------
